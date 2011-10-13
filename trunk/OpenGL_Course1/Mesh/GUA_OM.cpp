@@ -27,15 +27,29 @@ namespace OMT
 		glEnable(GL_DEPTH_TEST);
 		glPointSize(5.0f);
 		glBegin(GL_POINTS);
+		//int i = sp_p_list.size();
 		vector<sp_p>::iterator p_itr = sp_p_list.begin();
 		for (p_itr; p_itr != sp_p_list.end(); ++p_itr)
 		{
 			glColor3f(p_itr->r, p_itr->g, p_itr->b);
 			glVertex3dv(p_itr->pt);
 		}
+		//cout <<sp_p_list.size() ;
+		
+		//for(unsigned int i=0 ; i<sp_p_list.size() ; i++)
+		{
+//			glColor3f(sp_p_list[i].r, sp_p_list[i].g, sp_p_list[i].b);
+//			glVertex3dv(sp_p_list[i].pt);
+		}
+
 		glEnd();
-		glEnable(GL_LIGHTING);
-		glDisable(GL_POLYGON_OFFSET_FILL);
+//		glPopAttrib();
+//		glDisable(GL_DEPTH_TEST);
+//		glPointSize(1.f);
+//
+//
+//		glEnable(GL_LIGHTING);
+//		glDisable(GL_POLYGON_OFFSET_FILL);
 	}
 	void Model::RenderSpecifiedVertex()
 	{

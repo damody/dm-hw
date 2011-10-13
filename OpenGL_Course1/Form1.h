@@ -69,8 +69,8 @@ namespace OpenGL_Course1 {
 	private: HKOGLPanel::HKOGLPanelControl^  hkoglPanelControl1;
 
 	private: System::Windows::Forms::OpenFileDialog^  openMeshFileDialog;
-	private: System::Windows::Forms::GroupBox^  OpenMesh_Group;
-	private: System::Windows::Forms::Button^  OpenMesh_button;
+
+
 	private: System::Windows::Forms::CheckBox^  wireframeBox;
 	private: System::Windows::Forms::RadioButton^  selFBtn;
 
@@ -88,6 +88,11 @@ namespace OpenGL_Course1 {
 
 	private: System::Windows::Forms::RadioButton^  neiVBtn;
 	private: System::Windows::Forms::Label^  outputL;
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::CheckBox^  modelBox;
+	private: System::Windows::Forms::CheckBox^  axisBtn;
+	private: System::Windows::Forms::GroupBox^  groupBox3;
+	private: System::Windows::Forms::Label^  pathLable;
 
 
 
@@ -124,8 +129,6 @@ namespace OpenGL_Course1 {
 			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat1 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->hkoglPanelControl1 = (gcnew HKOGLPanel::HKOGLPanelControl());
 			this->openMeshFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->OpenMesh_Group = (gcnew System::Windows::Forms::GroupBox());
-			this->OpenMesh_button = (gcnew System::Windows::Forms::Button());
 			this->wireframeBox = (gcnew System::Windows::Forms::CheckBox());
 			this->selVBtn = (gcnew System::Windows::Forms::RadioButton());
 			this->selEBtn = (gcnew System::Windows::Forms::RadioButton());
@@ -136,9 +139,14 @@ namespace OpenGL_Course1 {
 			this->neiEBtn = (gcnew System::Windows::Forms::RadioButton());
 			this->neiVBtn = (gcnew System::Windows::Forms::RadioButton());
 			this->outputL = (gcnew System::Windows::Forms::Label());
-			this->OpenMesh_Group->SuspendLayout();
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->modelBox = (gcnew System::Windows::Forms::CheckBox());
+			this->axisBtn = (gcnew System::Windows::Forms::CheckBox());
+			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->pathLable = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
+			this->groupBox3->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// hkoglPanelControl1
@@ -168,32 +176,10 @@ namespace OpenGL_Course1 {
 			this->openMeshFileDialog->FileName = L"text";
 			this->openMeshFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &Form1::openMeshFileDialog_FileOk);
 			// 
-			// OpenMesh_Group
-			// 
-			this->OpenMesh_Group->Controls->Add(this->OpenMesh_button);
-			this->OpenMesh_Group->Dock = System::Windows::Forms::DockStyle::Left;
-			this->OpenMesh_Group->Location = System::Drawing::Point(0, 497);
-			this->OpenMesh_Group->Name = L"OpenMesh_Group";
-			this->OpenMesh_Group->Size = System::Drawing::Size(191, 112);
-			this->OpenMesh_Group->TabIndex = 1;
-			this->OpenMesh_Group->TabStop = false;
-			this->OpenMesh_Group->Text = L"OpenMesh";
-			// 
-			// OpenMesh_button
-			// 
-			this->OpenMesh_button->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->OpenMesh_button->Location = System::Drawing::Point(3, 21);
-			this->OpenMesh_button->Name = L"OpenMesh_button";
-			this->OpenMesh_button->Size = System::Drawing::Size(185, 88);
-			this->OpenMesh_button->TabIndex = 0;
-			this->OpenMesh_button->Text = L"OpenMesh";
-			this->OpenMesh_button->UseVisualStyleBackColor = true;
-			this->OpenMesh_button->Click += gcnew System::EventHandler(this, &Form1::OpenMesh_button_Click);
-			// 
 			// wireframeBox
 			// 
 			this->wireframeBox->AutoSize = true;
-			this->wireframeBox->Location = System::Drawing::Point(206, 512);
+			this->wireframeBox->Location = System::Drawing::Point(6, 41);
 			this->wireframeBox->Name = L"wireframeBox";
 			this->wireframeBox->Size = System::Drawing::Size(74, 16);
 			this->wireframeBox->TabIndex = 2;
@@ -239,7 +225,7 @@ namespace OpenGL_Course1 {
 			this->groupBox1->Controls->Add(this->selEBtn);
 			this->groupBox1->Controls->Add(this->selFBtn);
 			this->groupBox1->Controls->Add(this->selVBtn);
-			this->groupBox1->Location = System::Drawing::Point(297, 512);
+			this->groupBox1->Location = System::Drawing::Point(269, 503);
 			this->groupBox1->Name = L"groupBox1";
 			this->groupBox1->Size = System::Drawing::Size(69, 91);
 			this->groupBox1->TabIndex = 4;
@@ -251,12 +237,12 @@ namespace OpenGL_Course1 {
 			this->groupBox2->Controls->Add(this->neiFBtn);
 			this->groupBox2->Controls->Add(this->neiEBtn);
 			this->groupBox2->Controls->Add(this->neiVBtn);
-			this->groupBox2->Location = System::Drawing::Point(382, 512);
+			this->groupBox2->Location = System::Drawing::Point(344, 503);
 			this->groupBox2->Name = L"groupBox2";
 			this->groupBox2->Size = System::Drawing::Size(69, 91);
 			this->groupBox2->TabIndex = 5;
 			this->groupBox2->TabStop = false;
-			this->groupBox2->Text = L"Neighbor";
+			this->groupBox2->Text = L"One Ring";
 			// 
 			// neiFBtn
 			// 
@@ -300,24 +286,83 @@ namespace OpenGL_Course1 {
 			this->outputL->TabIndex = 6;
 			this->outputL->Text = L"label1";
 			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(12, 503);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(153, 111);
+			this->button1->TabIndex = 7;
+			this->button1->Text = L"Open Mesh";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
+			// 
+			// modelBox
+			// 
+			this->modelBox->AutoSize = true;
+			this->modelBox->Checked = true;
+			this->modelBox->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->modelBox->Location = System::Drawing::Point(6, 19);
+			this->modelBox->Name = L"modelBox";
+			this->modelBox->Size = System::Drawing::Size(54, 16);
+			this->modelBox->TabIndex = 8;
+			this->modelBox->Text = L"Model";
+			this->modelBox->UseVisualStyleBackColor = true;
+			this->modelBox->CheckedChanged += gcnew System::EventHandler(this, &Form1::modelBox_CheckedChanged);
+			// 
+			// axisBtn
+			// 
+			this->axisBtn->AutoSize = true;
+			this->axisBtn->Checked = true;
+			this->axisBtn->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->axisBtn->Location = System::Drawing::Point(6, 63);
+			this->axisBtn->Name = L"axisBtn";
+			this->axisBtn->Size = System::Drawing::Size(45, 16);
+			this->axisBtn->TabIndex = 9;
+			this->axisBtn->Text = L"Axis";
+			this->axisBtn->UseVisualStyleBackColor = true;
+			this->axisBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::axisBtn_CheckedChanged);
+			// 
+			// groupBox3
+			// 
+			this->groupBox3->Controls->Add(this->modelBox);
+			this->groupBox3->Controls->Add(this->axisBtn);
+			this->groupBox3->Controls->Add(this->wireframeBox);
+			this->groupBox3->Location = System::Drawing::Point(171, 503);
+			this->groupBox3->Name = L"groupBox3";
+			this->groupBox3->Size = System::Drawing::Size(92, 91);
+			this->groupBox3->TabIndex = 10;
+			this->groupBox3->TabStop = false;
+			this->groupBox3->Text = L"Show";
+			// 
+			// pathLable
+			// 
+			this->pathLable->AutoSize = true;
+			this->pathLable->Location = System::Drawing::Point(174, 600);
+			this->pathLable->Name = L"pathLable";
+			this->pathLable->Size = System::Drawing::Size(51, 12);
+			this->pathLable->TabIndex = 11;
+			this->pathLable->Text = L"No model";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(791, 609);
+			this->ClientSize = System::Drawing::Size(791, 626);
+			this->Controls->Add(this->pathLable);
+			this->Controls->Add(this->groupBox3);
+			this->Controls->Add(this->button1);
 			this->Controls->Add(this->outputL);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
-			this->Controls->Add(this->wireframeBox);
-			this->Controls->Add(this->OpenMesh_Group);
 			this->Controls->Add(this->hkoglPanelControl1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
-			this->OpenMesh_Group->ResumeLayout(false);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox2->PerformLayout();
+			this->groupBox3->ResumeLayout(false);
+			this->groupBox3->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -334,7 +379,10 @@ namespace OpenGL_Course1 {
 				  
 				 
 				 if(ReadFile(  filename, mesh  ) )
+				 {
 			          std::cout<<filename<<std::endl;
+					  pathLable->Text = openMeshFileDialog->FileName;
+				 }
 
 				hkoglPanelControl1->Invalidate();
 			 }
@@ -359,7 +407,7 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 			 glMatrixMode(GL_MODELVIEW);
 			 glMultMatrixd((double *)xf);
 
-			 if ( mesh != NULL )
+			 if ( mesh != NULL && modelBox->Checked)
 			 {
 				 mesh->Render_Solid();
 			 }
@@ -367,31 +415,47 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 			 {
 				 mesh->Render_Wireframe();			 
 			 }
-			 glDisable(GL_LIGHTING);
-			 glBegin(GL_POINTS);
-			 glColor3f(1.f, 0.f, 0.f);	//X¶b: R
-			 for(float i=0; i<=1.01f ; i+=0.1f)
+			 if( axisBtn->Checked )
 			 {
-				 glVertex3f(i,0.f,0.f);
+				 glPointSize(3.f);
+				 glDisable(GL_LIGHTING);
+				 glBegin(GL_POINTS);
+				 glColor3f(1.f, 0.f, 0.f);	//X¶b: R
+				 for(float i=0; i<=1.01f ; i+=0.1f)
+				 {
+					 glVertex3f(i,0.f,0.f);
+				 }
+				 glColor3f(0.f, 1.f, 0.f);	//Y¶b:G
+				 for(float i=0; i<=1.01f ; i+=0.1f)
+				 {
+					 glVertex3f(0.f,i,0.f);
+				 }
+				 glColor3f(0.f, 0.f, 1.f);	//Z¶b:B
+				 for(float i=0; i<=1.01f ; i+=0.1f)
+				 {
+					 glVertex3f(0.f,0.f,i);
+				 }
+				 glPointSize(1.f);
 			 }
-			 glColor3f(0.f, 1.f, 0.f);	//Y¶b:G
-			 for(float i=0; i<=1.01f ; i+=0.1f)
-			 {
-				 glVertex3f(0.f,i,0.f);
-			 }
-			 glColor3f(0.f, 0.f, 1.f);	//Z¶b:B
-			 for(float i=0; i<=1.01f ; i+=0.1f)
-			 {
-				 glVertex3f(0.f,0.f,i);
-			 }
-
-
-			 //mesh->RenderSpecifiedPoint();
-
 			 glEnd();
 
+			 if(mesh)
+			 {
+				 mesh->RenderSpecifiedPoint();
+			 }
+			 
+			 
 
-			 glPopMatrix();
+			 //mesh->RenderSpecifiedPoint();
+			 //std::vector<OMT::sp_p>::iterator p_itr = mesh->sp_p_list.begin();
+			 //for (p_itr; p_itr != mesh->sp_p_list.end(); ++p_itr)
+			 //{
+			//	 glColor3f(p_itr->r, p_itr->g, p_itr->b);
+			//	 glVertex3dv(p_itr->pt);
+			 //}
+
+			
+			glPopMatrix();
 
 		   }
 		 
@@ -433,12 +497,10 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
 
 				outputL->Text = "objX: "+objX+"\nobjY: "+objY+"\nobjZ: "+(objZ);
-
-
 				glPopMatrix();
 				
-				
-				mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 1.0f, 1.0f);
+				if(mesh)
+					mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 1.0f, 1.0f);
 				this->Refresh();
 				 
 			 }
@@ -506,6 +568,15 @@ private: System::Void hkoglPanelControl1_MouseWheel(System::Object^  sender, Sys
 		 }
 private: System::Void wireframeBox_Click(System::Object^  sender, System::EventArgs^  e) {
 			 hkoglPanelControl1->Refresh();
+		 }
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			openMeshFileDialog->ShowDialog();
+		 }
+private: System::Void modelBox_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 hkoglPanelControl1->Refresh();
+		 }
+private: System::Void axisBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			hkoglPanelControl1->Refresh();
 		 }
 };
 }

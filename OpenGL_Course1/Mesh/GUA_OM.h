@@ -10,6 +10,7 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
+
 //#include "GLCamera.h"
 
 struct Face_InnerAngle
@@ -113,7 +114,7 @@ namespace OMT//OpenMesh Triangle mesh
 		void clear_sp_p();//清空額外畫出的點
 		void clear_sp_v();//清空額外畫出的頂點
 		void clear_sp_f();//清空額外畫出的面
-	private:
+	public:
 		vector< sp_p > sp_p_list;
 		vector< sp_v > sp_v_list;
 		vector< sp_f > sp_f_list;

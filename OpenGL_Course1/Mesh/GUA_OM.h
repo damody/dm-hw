@@ -95,6 +95,13 @@ namespace OMT//OpenMesh Triangle mesh
 		Point pt;
 		float r, g, b;
 	};
+	//指定另外畫出邊的資料結構
+	struct sp_e
+	{
+		EHandle eh;
+		float r, g, b;
+	};
+	
 	/*----------------------------------------------------------------------*/
 
 	/*定義類別*/
@@ -107,19 +114,22 @@ namespace OMT//OpenMesh Triangle mesh
 		void RenderSpecifiedPoint();	//畫出指定位置的點
 		void RenderSpecifiedVertex();	//畫出指定的頂點
 		void RenderSpecifiedFace();		//畫出指定的面
+		void RenderSpecifiedRingEdge();		//畫出指定的邊
 
 		void add_sp_p(Point   _p, float _r, float _g, float _b);//指定額外畫出的點
 		void add_sp_v(VHandle _v, float _r, float _g, float _b);//指定額外畫出的頂點
 		void add_sp_f(FHandle _f, float _r, float _g, float _b);//指定額外畫出的面
+
 		void clear_sp_p();//清空額外畫出的點
 		void clear_sp_v();//清空額外畫出的頂點
 		void clear_sp_f();//清空額外畫出的面
+
 	public:
 		vector< sp_p > sp_p_list;
 		vector< sp_v > sp_v_list;
 		vector< sp_f > sp_f_list;
 
-	};
+	}; 
 }
 /*======================================================================*/
 

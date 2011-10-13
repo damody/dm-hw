@@ -82,11 +82,14 @@ namespace OpenGL_Course1 {
 
 	private: System::Windows::Forms::GroupBox^  groupBox1;
 	private: System::Windows::Forms::GroupBox^  groupBox2;
-	private: System::Windows::Forms::RadioButton^  neiFBtn;
+	private: System::Windows::Forms::RadioButton^  orFBtn;
 
-	private: System::Windows::Forms::RadioButton^  neiEBtn;
+	private: System::Windows::Forms::RadioButton^  orEBtn;
 
-	private: System::Windows::Forms::RadioButton^  neiVBtn;
+
+	private: System::Windows::Forms::RadioButton^  orVBtn;
+
+
 	private: System::Windows::Forms::Label^  outputL;
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::CheckBox^  modelBox;
@@ -135,9 +138,9 @@ namespace OpenGL_Course1 {
 			this->selFBtn = (gcnew System::Windows::Forms::RadioButton());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
-			this->neiFBtn = (gcnew System::Windows::Forms::RadioButton());
-			this->neiEBtn = (gcnew System::Windows::Forms::RadioButton());
-			this->neiVBtn = (gcnew System::Windows::Forms::RadioButton());
+			this->orFBtn = (gcnew System::Windows::Forms::RadioButton());
+			this->orEBtn = (gcnew System::Windows::Forms::RadioButton());
+			this->orVBtn = (gcnew System::Windows::Forms::RadioButton());
 			this->outputL = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->modelBox = (gcnew System::Windows::Forms::CheckBox());
@@ -190,6 +193,7 @@ namespace OpenGL_Course1 {
 			// selVBtn
 			// 
 			this->selVBtn->AutoSize = true;
+			this->selVBtn->Checked = true;
 			this->selVBtn->Location = System::Drawing::Point(6, 19);
 			this->selVBtn->Name = L"selVBtn";
 			this->selVBtn->Size = System::Drawing::Size(54, 16);
@@ -205,7 +209,6 @@ namespace OpenGL_Course1 {
 			this->selEBtn->Name = L"selEBtn";
 			this->selEBtn->Size = System::Drawing::Size(47, 16);
 			this->selEBtn->TabIndex = 1;
-			this->selEBtn->TabStop = true;
 			this->selEBtn->Text = L"Edge";
 			this->selEBtn->UseVisualStyleBackColor = true;
 			// 
@@ -216,7 +219,6 @@ namespace OpenGL_Course1 {
 			this->selFBtn->Name = L"selFBtn";
 			this->selFBtn->Size = System::Drawing::Size(44, 16);
 			this->selFBtn->TabIndex = 2;
-			this->selFBtn->TabStop = true;
 			this->selFBtn->Text = L"Face";
 			this->selFBtn->UseVisualStyleBackColor = true;
 			// 
@@ -234,9 +236,9 @@ namespace OpenGL_Course1 {
 			// 
 			// groupBox2
 			// 
-			this->groupBox2->Controls->Add(this->neiFBtn);
-			this->groupBox2->Controls->Add(this->neiEBtn);
-			this->groupBox2->Controls->Add(this->neiVBtn);
+			this->groupBox2->Controls->Add(this->orFBtn);
+			this->groupBox2->Controls->Add(this->orEBtn);
+			this->groupBox2->Controls->Add(this->orVBtn);
 			this->groupBox2->Location = System::Drawing::Point(344, 503);
 			this->groupBox2->Name = L"groupBox2";
 			this->groupBox2->Size = System::Drawing::Size(69, 91);
@@ -244,38 +246,40 @@ namespace OpenGL_Course1 {
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"One Ring";
 			// 
-			// neiFBtn
+			// orFBtn
 			// 
-			this->neiFBtn->AutoSize = true;
-			this->neiFBtn->Location = System::Drawing::Point(6, 65);
-			this->neiFBtn->Name = L"neiFBtn";
-			this->neiFBtn->Size = System::Drawing::Size(44, 16);
-			this->neiFBtn->TabIndex = 2;
-			this->neiFBtn->TabStop = true;
-			this->neiFBtn->Text = L"Face";
-			this->neiFBtn->UseVisualStyleBackColor = true;
+			this->orFBtn->AutoSize = true;
+			this->orFBtn->Location = System::Drawing::Point(6, 65);
+			this->orFBtn->Name = L"orFBtn";
+			this->orFBtn->Size = System::Drawing::Size(44, 16);
+			this->orFBtn->TabIndex = 2;
+			this->orFBtn->Text = L"Face";
+			this->orFBtn->UseVisualStyleBackColor = true;
+			this->orFBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::orFBtn_CheckedChanged);
 			// 
-			// neiEBtn
+			// orEBtn
 			// 
-			this->neiEBtn->AutoSize = true;
-			this->neiEBtn->Location = System::Drawing::Point(6, 43);
-			this->neiEBtn->Name = L"neiEBtn";
-			this->neiEBtn->Size = System::Drawing::Size(47, 16);
-			this->neiEBtn->TabIndex = 1;
-			this->neiEBtn->TabStop = true;
-			this->neiEBtn->Text = L"Edge";
-			this->neiEBtn->UseVisualStyleBackColor = true;
+			this->orEBtn->AutoSize = true;
+			this->orEBtn->Location = System::Drawing::Point(6, 43);
+			this->orEBtn->Name = L"orEBtn";
+			this->orEBtn->Size = System::Drawing::Size(47, 16);
+			this->orEBtn->TabIndex = 1;
+			this->orEBtn->Text = L"Edge";
+			this->orEBtn->UseVisualStyleBackColor = true;
+			this->orEBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::orEBtn_CheckedChanged);
 			// 
-			// neiVBtn
+			// orVBtn
 			// 
-			this->neiVBtn->AutoSize = true;
-			this->neiVBtn->Location = System::Drawing::Point(6, 21);
-			this->neiVBtn->Name = L"neiVBtn";
-			this->neiVBtn->Size = System::Drawing::Size(54, 16);
-			this->neiVBtn->TabIndex = 0;
-			this->neiVBtn->TabStop = true;
-			this->neiVBtn->Text = L"Vertex";
-			this->neiVBtn->UseVisualStyleBackColor = true;
+			this->orVBtn->AutoSize = true;
+			this->orVBtn->Checked = true;
+			this->orVBtn->Location = System::Drawing::Point(6, 21);
+			this->orVBtn->Name = L"orVBtn";
+			this->orVBtn->Size = System::Drawing::Size(54, 16);
+			this->orVBtn->TabIndex = 0;
+			this->orVBtn->TabStop = true;
+			this->orVBtn->Text = L"Vertex";
+			this->orVBtn->UseVisualStyleBackColor = true;
+			this->orVBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::orVBtn_CheckedChanged);
 			// 
 			// outputL
 			// 
@@ -442,69 +446,113 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 			 if(mesh)
 			 {
 				 mesh->RenderSpecifiedPoint();
+				 mesh->RenderSpecifiedVertex();
+				 mesh->RenderSpecifiedFace();
+				 //mesh->RenderSpecifiedRingEdge();
+				 if(selVBtn && orEBtn->Checked)
+				 {
+					 mesh->RenderSpecifiedRingEdge();
+				 }
 			 }
 			 
-			 
-
-			 //mesh->RenderSpecifiedPoint();
-			 //std::vector<OMT::sp_p>::iterator p_itr = mesh->sp_p_list.begin();
-			 //for (p_itr; p_itr != mesh->sp_p_list.end(); ++p_itr)
-			 //{
-			//	 glColor3f(p_itr->r, p_itr->g, p_itr->b);
-			//	 glVertex3dv(p_itr->pt);
-			 //}
-
-			
 			glPopMatrix();
 
 		   }
 		 
 
 private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) 
-		 {
-			 if (e->Button == System::Windows::Forms::MouseButtons::Left || e->Button == System::Windows::Forms::MouseButtons::Middle)
-			 {
-				 point center;
-				 Mouse_State = Mouse::NONE;
-				 center[0] = 0.0 ;
-				 center[1] = 0.0 ;
-				 center[2] = 0.0 ;				    
-				 camera.mouse(e->X,e->Y, Mouse_State, xf * center, 1.0, xf);
-			 }
-			 if(e->Button == System::Windows::Forms::MouseButtons::Right)
-			 {	//retrieve the model coordinate
-				GLint viewport[4];
-				GLdouble modelview[16];
-				GLdouble projection[16];
-				GLfloat winX, winY, winZ;
-				GLdouble objX, objY, objZ;
-				glPushMatrix();
+{
+	if (e->Button == System::Windows::Forms::MouseButtons::Left || e->Button == System::Windows::Forms::MouseButtons::Middle)
+	{
+		point center;
+		Mouse_State = Mouse::NONE;
+		center[0] = 0.0 ;
+		center[1] = 0.0 ;
+		center[2] = 0.0 ;				    
+		camera.mouse(e->X,e->Y, Mouse_State, xf * center, 1.0, xf);
+	}
+	if(e->Button == System::Windows::Forms::MouseButtons::Right)
+	{	//retrieve the model coordinate
+		if(mesh)
+		{
+			GLint viewport[4];
+			GLdouble modelview[16];
+			GLdouble projection[16];
+			GLfloat winX, winY, winZ;
+			GLdouble objX, objY, objZ;
+			glPushMatrix();
 
-				glMatrixMode(GL_MODELVIEW);	glMultMatrixd((double *)xf);
-				glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+			glMatrixMode(GL_MODELVIEW);	glMultMatrixd((double *)xf);
+			glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
 
-				glMatrixMode(GL_PROJECTION_MATRIX);	glMultMatrixd((double *)xf);
-				glGetDoublev( GL_PROJECTION_MATRIX, projection );
+			glMatrixMode(GL_PROJECTION_MATRIX);	glMultMatrixd((double *)xf);
+			glGetDoublev( GL_PROJECTION_MATRIX, projection );
 
-				glMatrixMode(GL_VIEWPORT); glMultMatrixd((double *)xf);
-				glGetIntegerv( GL_VIEWPORT, viewport );
+			glMatrixMode(GL_VIEWPORT); glMultMatrixd((double *)xf);
+			glGetIntegerv( GL_VIEWPORT, viewport );
 
-				winX = (float)e->X;
-				winY = (float)viewport[3] - (float)e->Y;
+			winX = (float)e->X;
+			winY = (float)viewport[3] - (float)e->Y;
 
-				glReadPixels( int(winX), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+			glReadPixels( int(winX), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
 
-				gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
+			gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
 
-				outputL->Text = "objX: "+objX+"\nobjY: "+objY+"\nobjZ: "+(objZ);
-				glPopMatrix();
-				
-				if(mesh)
-					mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 1.0f, 1.0f);
-				this->Refresh();
-				 
-			 }
-		 }
+			outputL->Text = "objX: "+objX+"\nobjY: "+objY+"\nobjZ: "+(objZ);
+			glPopMatrix();
+
+			mesh->clear_sp_p();
+			mesh->clear_sp_v();
+			mesh->clear_sp_f();
+			//加入目前的滑鼠點
+			mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 0.0f, 1.0f);
+
+			if(selVBtn->Checked)
+			{	//Select Vertex
+				float mDist=99999.f;
+				float dist;
+				OMT::VIter mV;
+				OMT::VHandle mvH;
+				for (OMT::VIter v_it = mesh->vertices_begin() ; v_it != mesh->vertices_end() ; ++v_it)
+				{
+					dist =	(mesh->point( v_it.handle() )[0] - objX) * (mesh->point( v_it.handle() )[0] - objX) +
+							(mesh->point( v_it.handle() )[1] - objY) * (mesh->point( v_it.handle() )[1] - objY) +
+							(mesh->point( v_it.handle() )[2] - objZ) * (mesh->point( v_it.handle() )[2] - objZ);
+					//glVertex3dv(OMT::Point(v_it));
+					if( dist < mDist )
+					{
+						mvH = v_it.handle();
+						mDist = dist;
+					}
+					//std::cerr << mesh->point(v_it.handle())[0] << " "<< mesh->point(v_it.handle())[1] <<" "<< mesh->point(v_it.handle())[2] << " " << dist<<std::endl; 
+				}
+				//std::cerr <<"N: "<< mesh->point(mvH)[0] << " "<< mesh->point(mvH)[1] <<" "<< mesh->point(mvH)[2]<< " dist: "<< mDist <<std::endl; 
+				mesh->add_sp_v(mvH, 1.f,0.f,0.f);
+
+				if(orVBtn->Checked)
+				{	// One Ring Vertex
+					for(OMT::VVIter vv_it = mesh->vv_iter(mvH); vv_it ; ++vv_it )
+					{
+						mesh->add_sp_v( vv_it.handle(), 0.f,1.0f,0.f);
+					}
+				}
+				else if(orEBtn->Checked)
+				{	// One Ring Edge
+					for(OMT::VEIter ve_it = mesh->ve_iter(mvH) ; ve_it ; ++ve_it)
+					{
+
+					}
+				}
+				else
+				{	// One Ring Face
+
+				}
+			}
+
+			this->Refresh();
+		} 
+	}
+}
 private: System::Void hkoglPanelControl1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) 
 		{
 			if (e->Button == System::Windows::Forms::MouseButtons::Left)
@@ -576,6 +624,18 @@ private: System::Void modelBox_CheckedChanged(System::Object^  sender, System::E
 			 hkoglPanelControl1->Refresh();
 		 }
 private: System::Void axisBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			hkoglPanelControl1->Refresh();
+		 }
+private: System::Void orVBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			hkoglPanelControl1->Refresh();
+		 }
+private: System::Void orEBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			hkoglPanelControl1->Refresh();
+		 }
+private: System::Void orFBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			mesh->clear_sp_f();
+			mesh->clear_sp_v();
+			mesh->clear_sp_p();
 			hkoglPanelControl1->Refresh();
 		 }
 };

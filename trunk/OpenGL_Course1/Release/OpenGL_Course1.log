@@ -1,4 +1,4 @@
-﻿Build started 2011/10/13 下午 10:58:36.
+﻿Build started 2011/10/14 上午 03:23:05.
      1>Project "D:\Peefly\Digital Mesh\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\OpenGL_Course1.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -8,11 +8,11 @@
          All outputs are up-to-date.
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\OpenGL_Course1.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"D:\Peefly\Digital Mesh\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Mesh\GUA_OM.cpp /clr:nostdlib 
          GUA_OM.cpp
-     1>Mesh\GUA_OM.cpp(601): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(601): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(601): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(631): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(631): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(631): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(661): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(661): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(86): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
                  D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(133) : see reference to function template instantiation 'void OpenMesh::vector_copy<src_t,dst_t>(const src_t &,dst_t &,OpenMesh::GenProg::Int2Type<i>)' being compiled
                  with
@@ -45,7 +45,7 @@
                  [
                      Mesh=OMP::MyMesh
                  ]
-                 Mesh\GUA_OM.cpp(178) : see reference to function template instantiation 'bool OpenMesh::IO::write_mesh<OMP::MyMesh>(const Mesh &,const std::string &,OpenMesh::IO::Options)' being compiled
+                 Mesh\GUA_OM.cpp(208) : see reference to function template instantiation 'bool OpenMesh::IO::write_mesh<OMP::MyMesh>(const Mesh &,const std::string &,OpenMesh::IO::Options)' being compiled
                  with
                  [
                      Mesh=OMP::MyMesh
@@ -76,4 +76,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:09.42
+Time Elapsed 00:00:09.60

@@ -27,29 +27,15 @@ namespace OMT
 		glEnable(GL_DEPTH_TEST);
 		glPointSize(5.0f);
 		glBegin(GL_POINTS);
-		//int i = sp_p_list.size();
 		vector<sp_p>::iterator p_itr = sp_p_list.begin();
 		for (p_itr; p_itr != sp_p_list.end(); ++p_itr)
 		{
 			glColor3f(p_itr->r, p_itr->g, p_itr->b);
 			glVertex3dv(p_itr->pt);
 		}
-		//cout <<sp_p_list.size() ;
-		
-		//for(unsigned int i=0 ; i<sp_p_list.size() ; i++)
-		{
-//			glColor3f(sp_p_list[i].r, sp_p_list[i].g, sp_p_list[i].b);
-//			glVertex3dv(sp_p_list[i].pt);
-		}
-
 		glEnd();
-//		glPopAttrib();
-//		glDisable(GL_DEPTH_TEST);
-//		glPointSize(1.f);
-//
-//
-//		glEnable(GL_LIGHTING);
-//		glDisable(GL_POLYGON_OFFSET_FILL);
+		glEnable(GL_LIGHTING);
+		glDisable(GL_POLYGON_OFFSET_FILL);
 	}
 	void Model::RenderSpecifiedVertex()
 	{
@@ -62,7 +48,7 @@ namespace OMT
 		for (v_itr; v_itr != sp_v_list.end(); ++v_itr)
 		{
 			glColor3f(v_itr->r, v_itr->g, v_itr->b);
-			glVertex3dv(Mesh.point(v_itr->vh));
+			glVertex3dv(this->point(v_itr->vh));
 		}
 		glEnd();
 		glEnable(GL_LIGHTING);
@@ -83,10 +69,10 @@ namespace OMT
 		for (f_itr = sp_f_list.begin(); f_itr != sp_f_list.end(); ++f_itr)
 		{
 			glColor3f(f_itr->r, f_itr->g, f_itr->b);
-			for (fv_itr=Mesh.fv_iter(f_itr->fh); fv_itr; ++fv_itr)
+			for (fv_itr= fv_iter(f_itr->fh); fv_itr; ++fv_itr)
 			{						
-				glNormal3dv(Mesh.normal(fv_itr.handle()));
-				glVertex3dv(Mesh.point(fv_itr.handle()));
+				glNormal3dv( normal(fv_itr.handle()));
+				glVertex3dv( point(fv_itr.handle()));
 			}
 		}
 		glEnd();		
@@ -95,6 +81,47 @@ namespace OMT
 		glPolygonMode(GL_FRONT,GL_FILL);
 		glEnable(GL_CULL_FACE);
 	}
+	void Model::RenderSpecifiedRingEdge()
+	{
+		if(sp_v_list.size()>0)
+		{
+			glDisable(GL_CULL_FACE);
+			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+			glPushAttrib(GL_LIGHTING_BIT);
+			glEnable(GL_POLYGON_OFFSET_FILL);
+			glPolygonOffset(0.5, 1.0);
+			glLineWidth(3.f);
+			glDisable(GL_LIGHTING);
+			glEnable(GL_DEPTH_TEST);
+
+
+			VHandle v = sp_v_list[0].vh;
+			VEIter ve_itr = ve_iter(sp_v_list[0].vh);
+
+			glBegin(GL_LINES);
+			for( ve_itr = ve_iter(sp_v_list[0].vh) ; ve_itr; ++ve_itr)
+			{
+
+				OMT::HEHandle _hedge = halfedge_handle(ve_itr.handle(),1);
+
+				OMT::Point curVertex  = point(from_vertex_handle(_hedge));
+				glColor3f(0.f,1.f,1.f); glVertex3dv(curVertex);
+
+				curVertex = point(to_vertex_handle(_hedge));
+				glColor3f(0.f,1.f,1.f); glVertex3dv(curVertex);			
+			}
+
+
+
+			glEnd();		
+			glEnable(GL_LIGHTING);
+			glDisable(GL_POLYGON_OFFSET_FILL);
+			glPolygonMode(GL_FRONT,GL_FILL);
+			glEnable(GL_CULL_FACE);
+			glLineWidth(1.f);
+		}
+	}
+
 
 	/*======================================================================*/
 	void Model::add_sp_p(Point   _p, float _r, float _g, float _b)
@@ -124,6 +151,7 @@ namespace OMT
 		input_data.b = _b;
 		sp_f_list.push_back(input_data);
 	}
+
 	void Model::clear_sp_p()
 	{
 		sp_p_list.clear();
@@ -136,6 +164,7 @@ namespace OMT
 	{
 		sp_f_list.clear();
 	}
+
 }
 /*======================================================================*/
 namespace OMP

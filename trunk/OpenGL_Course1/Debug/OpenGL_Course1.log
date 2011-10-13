@@ -1,4 +1,4 @@
-﻿Build started 2011/10/13 下午 11:17:01.
+﻿Build started 2011/10/14 上午 01:19:58.
      1>Project "D:\Peefly\Digital Mesh\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\OpenGL_Course1.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -8,11 +8,11 @@
          All outputs are up-to-date.
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\OpenGL_Course1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"D:\Peefly\Digital Mesh\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Mesh\GUA_OM.cpp OpenGL_Course1.cpp /clr:nostdlib 
          GUA_OM.cpp
-     1>Mesh\GUA_OM.cpp(602): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(602): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(602): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(632): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(632): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(595): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(595): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(595): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(625): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>Mesh\GUA_OM.cpp(625): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(86): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
                  D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(133) : see reference to function template instantiation 'void OpenMesh::vector_copy<src_t,dst_t>(const src_t &,dst_t &,OpenMesh::GenProg::Int2Type<i>)' being compiled
                  with
@@ -45,7 +45,7 @@
                  [
                      Mesh=OMP::MyMesh
                  ]
-                 Mesh\GUA_OM.cpp(179) : see reference to function template instantiation 'bool OpenMesh::IO::write_mesh<OMP::MyMesh>(const Mesh &,const std::string &,OpenMesh::IO::Options)' being compiled
+                 Mesh\GUA_OM.cpp(172) : see reference to function template instantiation 'bool OpenMesh::IO::write_mesh<OMP::MyMesh>(const Mesh &,const std::string &,OpenMesh::IO::Options)' being compiled
                  with
                  [
                      Mesh=OMP::MyMesh
@@ -53,6 +53,7 @@
      1>D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(87): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
      1>D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(88): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
          OpenGL_Course1.cpp
+     1>d:\peefly\digital mesh\opengl_course1\opengl_course1\Form1.h(512): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
          Generating Code...
          All outputs are up-to-date.
        CoreResGen:
@@ -97,4 +98,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:13.48
+Time Elapsed 00:00:14.03

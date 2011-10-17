@@ -63,7 +63,7 @@ namespace OMT
 		glPolygonOffset(0.5, 1.0);
 		glDisable(GL_LIGHTING);
 		glEnable(GL_DEPTH_TEST);
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		FVIter fv_itr;
 		vector< sp_f >::iterator f_itr;
 		for (f_itr = sp_f_list.begin(); f_itr != sp_f_list.end(); ++f_itr)
@@ -81,9 +81,9 @@ namespace OMT
 		glPolygonMode(GL_FRONT,GL_FILL);
 		glEnable(GL_CULL_FACE);
 	}
-	void Model::RenderSpecifiedRingEdge()
-	{
-		if(sp_v_list.size()>0)
+	void Model::RenderSpecifiedEdge()
+	{	//Render ringEdge
+		if(sp_e_list.size()>0)
 		{
 			glDisable(GL_CULL_FACE);
 			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -94,24 +94,24 @@ namespace OMT
 			glDisable(GL_LIGHTING);
 			glEnable(GL_DEPTH_TEST);
 
-
-			VHandle v = sp_v_list[0].vh;
-			VEIter ve_itr = ve_iter(sp_v_list[0].vh);
-
 			glBegin(GL_LINES);
-			for( ve_itr = ve_iter(sp_v_list[0].vh) ; ve_itr; ++ve_itr)
+			
+			//vector<sp_v>::iterator p_itr = sp_p_list.begin();
+			//for (p_itr; p_itr != sp_p_list.end(); p_itr+=2)
+			//{
+			//	glColor3f(p_itr->r, p_itr->g, p_itr->b);
+			//	glVertex3dv(p_itr->pt);
+			//	glColor3f((p_itr+1)->r, (p_itr+1)->g, (p_itr+1)->b);
+			//	glVertex3dv((p_itr+1)->pt);
+			//}
+
+			vector< sp_v >::iterator v_itr = sp_e_list.begin();
+			for (v_itr; v_itr != sp_e_list.end(); v_itr+=2)
 			{
-
-				OMT::HEHandle _hedge = halfedge_handle(ve_itr.handle(),1);
-
-				OMT::Point curVertex  = point(from_vertex_handle(_hedge));
-				glColor3f(0.f,1.f,1.f); glVertex3dv(curVertex);
-
-				curVertex = point(to_vertex_handle(_hedge));
-				glColor3f(0.f,1.f,1.f); glVertex3dv(curVertex);			
+				glColor3f(v_itr->r, v_itr->g, v_itr->b);
+				glVertex3dv(this->point(v_itr->vh));
+				glVertex3dv(this->point( (v_itr+1)->vh));
 			}
-
-
 
 			glEnd();		
 			glEnable(GL_LIGHTING);
@@ -121,6 +121,7 @@ namespace OMT
 			glLineWidth(1.f);
 		}
 	}
+
 
 
 	/*======================================================================*/
@@ -151,6 +152,23 @@ namespace OMT
 		input_data.b = _b;
 		sp_f_list.push_back(input_data);
 	}
+	void Model::add_sp_e(VHandle   _p1, VHandle   _p2, float _r, float _g, float _b)
+	{
+		sp_v input_data1, input_data2;
+		input_data1.vh = _p1;
+		input_data2.vh = _p2;
+		
+		input_data1.r = _r;
+		input_data1.g = _g;
+		input_data1.b = _b;
+		
+		input_data2.r = _r;
+		input_data2.g = _g;
+		input_data2.b = _b;
+
+		sp_e_list.push_back(input_data1);
+		sp_e_list.push_back(input_data2);
+	}
 
 	void Model::clear_sp_p()
 	{
@@ -164,7 +182,10 @@ namespace OMT
 	{
 		sp_f_list.clear();
 	}
-
+	void Model::clear_sp_e()
+	{
+		sp_e_list.clear();
+	}
 }
 /*======================================================================*/
 namespace OMP

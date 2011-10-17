@@ -448,12 +448,8 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 				 mesh->RenderSpecifiedPoint();
 				 mesh->RenderSpecifiedVertex();
 				 mesh->RenderSpecifiedFace();
-				 //mesh->RenderSpecifiedRingEdge();
-				 if(selVBtn && orEBtn->Checked)
-				 {
-					 mesh->RenderSpecifiedRingEdge();
-				 }
-			 }
+				 mesh->RenderSpecifiedEdge();
+			}
 			 
 			glPopMatrix();
 
@@ -495,15 +491,23 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 			winY = (float)viewport[3] - (float)e->Y;
 
 			glReadPixels( int(winX), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
-
+			
+			if(winZ>=0.99999f)
+			{
+				std::cerr << "Click on background (z= " << winZ << ")" << std::endl;
+				glPopMatrix();
+				return;
+			}
 			gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
 
 			outputL->Text = "objX: "+objX+"\nobjY: "+objY+"\nobjZ: "+(objZ);
 			glPopMatrix();
-
+			
+			
 			mesh->clear_sp_p();
 			mesh->clear_sp_v();
 			mesh->clear_sp_f();
+			mesh->clear_sp_e();
 			//加入目前的滑鼠點
 			mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 0.0f, 1.0f);
 
@@ -514,7 +518,7 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				OMT::VIter mV;
 				OMT::VHandle mvH;
 				for (OMT::VIter v_it = mesh->vertices_begin() ; v_it != mesh->vertices_end() ; ++v_it)
-				{
+				{	//找到目前的vertex
 					dist =	(mesh->point( v_it.handle() )[0] - objX) * (mesh->point( v_it.handle() )[0] - objX) +
 							(mesh->point( v_it.handle() )[1] - objY) * (mesh->point( v_it.handle() )[1] - objY) +
 							(mesh->point( v_it.handle() )[2] - objZ) * (mesh->point( v_it.handle() )[2] - objZ);
@@ -536,17 +540,125 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						mesh->add_sp_v( vv_it.handle(), 0.f,1.0f,0.f);
 					}
 				}
-				else if(orEBtn->Checked)
-				{	// One Ring Edge
-					for(OMT::VEIter ve_it = mesh->ve_iter(mvH) ; ve_it ; ++ve_it)
+				else if(orFBtn->Checked)
+				{	// One Ring Face
+					for(OMT::VFIter vf_it = mesh->vf_iter(mvH); vf_it ; ++vf_it )
 					{
-
+						mesh->add_sp_f( vf_it.handle(), 0.f,1.0f,0.f);
 					}
 				}
 				else
-				{	// One Ring Face
-
+				{	// One Ring Edge
+					for(OMT::VEIter ve_itr = mesh->ve_iter(mvH) ; ve_itr; ++ve_itr)
+					{
+						OMT::HEHandle _hedge = mesh->halfedge_handle(ve_itr.handle(),1);
+						mesh->add_sp_e( (mesh->from_vertex_handle(_hedge)), 
+										(mesh->to_vertex_handle(_hedge)), 
+										0.f, 1.f, 1.f );
+					}
 				}
+
+			}
+			else if(selEBtn->Checked)
+			{	//select Edge
+
+			}
+			else
+			{	//select face
+				float mDist=99999.f;
+				float dist;
+				OMT::FIter mF;
+				OMT::FHandle mfH;
+				
+				for (OMT::FIter f_it = mesh->faces_begin() ; f_it != mesh->faces_end() ; ++f_it)
+				{	//找到目前的face
+					OMT::Point com, fv[3];	//重心位置, face vertex
+					com[0]=com[1]=com[2]=0.f;
+					
+					//float curPos[3]; curPos[0]=0.f;curPos[1]=0.f;curPos[2]=0.f;
+					int i = 0;
+					for(OMT::FVIter fv_it = mesh->fv_iter(f_it.handle()); fv_it ; ++fv_it, ++i) 
+					{
+						//curPos[0] += (mesh->point(fv_it.handle() )[0]);
+						//curPos[1] += (mesh->point(fv_it.handle() )[1]);
+						//curPos[2] += (mesh->point(fv_it.handle() )[2]);
+						//memcpy( p[0], (mesh->point(fv_it.handle() ))
+						com += mesh->point(fv_it.handle());
+						memcpy(	fv[i], mesh->point( fv_it.handle() ), sizeof(OMT::Point) ) ;
+					}
+					//curPos[0] /= 3.f; //做平均
+					//curPos[1] /= 3.f;
+					//curPos[2] /= 3.f;
+					com /= 3.f;
+
+					//算重心位置
+					dist =	( com[0] - objX) * ( com[0] - objX ) +
+							( com[1] - objY) * ( com[1] - objY ) +
+							( com[2] - objZ) * ( com[2] - objZ );
+					
+					OMT::Point v[2], normalV, edgeN[3];
+					v[0] = fv[2] - fv[0];
+					v[1] = fv[1] - fv[0];
+					normalV = v[0] CROSS v[1];
+					edgeN[0] = normalV CROSS (fv[1]-fv[0]);
+					edgeN[1] = normalV CROSS (fv[2]-fv[1]);
+					edgeN[2] = normalV CROSS (fv[2]-fv[0]);
+					double paraD[3];
+					paraD[0] = edgeN[0][0]*fv[0][0] + edgeN[0][1]*fv[0][1] + edgeN[0][2]*fv[0][2];
+					paraD[1] = edgeN[1][0]*fv[1][0] + edgeN[1][1]*fv[1][1] + edgeN[1][2]*fv[1][2];
+					paraD[2] = edgeN[2][0]*fv[2][0] + edgeN[2][1]*fv[2][1] + edgeN[2][2]*fv[2][2];
+					if( dist < mDist )
+					{
+						bool inside = true;
+						double s[2];	//紀錄點帶入邊的平面方程式的結果
+						for(int j=0 ; j<3 ; j++)
+						{
+							s[0] = edgeN[j][0]*	objX	+ edgeN[j][1]*objY	+	edgeN[j][2]*objZ -	paraD[j];
+							s[1] = edgeN[j][0]*com[0]	+ edgeN[j][1]*com[1] +	edgeN[j][2]*com[2] - paraD[j];
+							if( s[0]*s[1]<0.f )	//同號
+							{
+								inside = false;
+								break;
+							}
+						}
+						if(inside==false)
+						{	//如果不在三角形內則繼續找下一個三角形
+							continue;
+						}
+						mfH = f_it.handle();
+						mDist = dist;
+
+					}
+					//std::cerr << mesh->point(v_it.handle())[0] << " "<< mesh->point(v_it.handle())[1] <<" "<< mesh->point(v_it.handle())[2] << " " << dist<<std::endl; 
+				}
+				//std::cerr <<"N: "<< mesh->point(mvH)[0] << " "<< mesh->point(mvH)[1] <<" "<< mesh->point(mvH)[2]<< " dist: "<< mDist <<std::endl; 
+				mesh->add_sp_f(mfH, 1.f,0.f,0.f);	//加入要畫的面
+				if(orVBtn->Checked)
+				{	// One Ring Vertex
+					for(OMT::FVIter fv_it = mesh->fv_iter(mfH); fv_it ; ++fv_it )
+					{
+						mesh->add_sp_v( fv_it.handle(), 0.f,1.0f,0.f);
+					}
+				}
+				else if(orFBtn->Checked)
+				{	// One Ring Face
+					for(OMT::FFIter ff_it = mesh->ff_iter(mfH); ff_it ; ++ff_it )
+					{
+						mesh->add_sp_f( ff_it.handle(), 0.f,1.0f,0.f);
+					}
+				}
+				else
+				{	//One Ring Edge
+					for(OMT::FEIter fe_itr = mesh->fe_iter(mfH) ; fe_itr; ++fe_itr)
+					{
+						OMT::HEHandle _hedge = mesh->halfedge_handle(fe_itr.handle(),1);
+						mesh->add_sp_e( (mesh->from_vertex_handle(_hedge)), 
+										(mesh->to_vertex_handle(_hedge)), 
+										0.f, 1.f, 1.f );
+					}
+				}
+
+				
 			}
 
 			this->Refresh();
@@ -633,10 +745,15 @@ private: System::Void orEBtn_CheckedChanged(System::Object^  sender, System::Eve
 			hkoglPanelControl1->Refresh();
 		 }
 private: System::Void orFBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			mesh->clear_sp_f();
-			mesh->clear_sp_v();
-			mesh->clear_sp_p();
-			hkoglPanelControl1->Refresh();
+			if(mesh)
+			{
+				mesh->clear_sp_f();
+				mesh->clear_sp_v();
+				mesh->clear_sp_p();
+				mesh->clear_sp_e();
+				hkoglPanelControl1->Refresh();
+			}
+			
 		 }
 };
 }

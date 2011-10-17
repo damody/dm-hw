@@ -114,20 +114,24 @@ namespace OMT//OpenMesh Triangle mesh
 		void RenderSpecifiedPoint();	//畫出指定位置的點
 		void RenderSpecifiedVertex();	//畫出指定的頂點
 		void RenderSpecifiedFace();		//畫出指定的面
-		void RenderSpecifiedRingEdge();		//畫出指定的邊
+		void RenderSpecifiedEdge();		//畫出指定的邊
+
 
 		void add_sp_p(Point   _p, float _r, float _g, float _b);//指定額外畫出的點
 		void add_sp_v(VHandle _v, float _r, float _g, float _b);//指定額外畫出的頂點
 		void add_sp_f(FHandle _f, float _r, float _g, float _b);//指定額外畫出的面
+		void add_sp_e(VHandle   _p1, VHandle   _p2, float _r, float _g, float _b);//指定額外畫出的邊
 
 		void clear_sp_p();//清空額外畫出的點
 		void clear_sp_v();//清空額外畫出的頂點
 		void clear_sp_f();//清空額外畫出的面
+		void clear_sp_e();//清空額外畫出的邊
 
 	public:
 		vector< sp_p > sp_p_list;
 		vector< sp_v > sp_v_list;
 		vector< sp_f > sp_f_list;
+		vector< sp_v > sp_e_list;
 
 	}; 
 }

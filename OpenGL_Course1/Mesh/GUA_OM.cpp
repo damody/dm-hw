@@ -120,8 +120,28 @@ namespace OMT
 			glEnable(GL_CULL_FACE);
 			glLineWidth(1.f);
 		}
-	}
 
+	}
+	float Model::myDot(Point v1, Point v2)
+	{
+		return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+	}
+	float Model::getPointDistToLine(Point a, VHandle bVH, VHandle cVH)
+	{	//Returns the squared distance between point c and segment ab
+		Point b = point(bVH);
+		Point c = point(cVH);
+		Point ab = b-a;
+		Point ac=c-a;
+		Point bc=c-b;
+		float e = myDot(ac,ab);
+		//Handle cases where c projects outside ab
+		if(e <= 0.0f) return myDot(ac,ac);
+		float f = myDot(ab,ab);
+		if(e >= f)return myDot(bc,bc);
+		//Handle cases where c projects onto ab
+	
+		return (float)( myDot(ac,ac) - e*e/f );
+	 }
 
 
 	/*======================================================================*/

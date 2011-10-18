@@ -132,6 +132,8 @@ namespace OMT//OpenMesh Triangle mesh
 		vector< sp_v > sp_v_list;
 		vector< sp_f > sp_f_list;
 		vector< sp_v > sp_e_list;
+		float getPointDistToLine(Point a, VHandle bVH, VHandle cVH);
+		float myDot(Point a, Point b);
 
 	}; 
 }

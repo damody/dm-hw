@@ -128,8 +128,8 @@ namespace OpenGL_Course1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting1 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
-			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat1 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
+			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting2 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
+			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat2 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->hkoglPanelControl1 = (gcnew HKOGLPanel::HKOGLPanelControl());
 			this->openMeshFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->wireframeBox = (gcnew System::Windows::Forms::CheckBox());
@@ -154,18 +154,18 @@ namespace OpenGL_Course1 {
 			// 
 			// hkoglPanelControl1
 			// 
-			hkcoglPanelCameraSetting1->Far = 1000;
-			hkcoglPanelCameraSetting1->Fov = 45;
-			hkcoglPanelCameraSetting1->Near = -1000;
-			hkcoglPanelCameraSetting1->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
-			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting1;
+			hkcoglPanelCameraSetting2->Far = 1000;
+			hkcoglPanelCameraSetting2->Fov = 45;
+			hkcoglPanelCameraSetting2->Near = -1000;
+			hkcoglPanelCameraSetting2->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
+			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting2;
 			this->hkoglPanelControl1->Dock = System::Windows::Forms::DockStyle::Top;
 			this->hkoglPanelControl1->Location = System::Drawing::Point(0, 0);
 			this->hkoglPanelControl1->Name = L"hkoglPanelControl1";
-			hkcoglPanelPixelFormat1->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			hkcoglPanelPixelFormat1->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			hkcoglPanelPixelFormat1->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat1;
+			hkcoglPanelPixelFormat2->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			hkcoglPanelPixelFormat2->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			hkcoglPanelPixelFormat2->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat2;
 			this->hkoglPanelControl1->Size = System::Drawing::Size(791, 497);
 			this->hkoglPanelControl1->TabIndex = 0;
 			this->hkoglPanelControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::hkoglPanelControl1_Paint);
@@ -284,11 +284,10 @@ namespace OpenGL_Course1 {
 			// outputL
 			// 
 			this->outputL->AutoSize = true;
-			this->outputL->Location = System::Drawing::Point(498, 516);
+			this->outputL->Location = System::Drawing::Point(419, 524);
 			this->outputL->Name = L"outputL";
-			this->outputL->Size = System::Drawing::Size(33, 12);
+			this->outputL->Size = System::Drawing::Size(0, 12);
 			this->outputL->TabIndex = 6;
-			this->outputL->Text = L"label1";
 			// 
 			// button1
 			// 
@@ -343,9 +342,8 @@ namespace OpenGL_Course1 {
 			this->pathLable->AutoSize = true;
 			this->pathLable->Location = System::Drawing::Point(174, 600);
 			this->pathLable->Name = L"pathLable";
-			this->pathLable->Size = System::Drawing::Size(51, 12);
+			this->pathLable->Size = System::Drawing::Size(0, 12);
 			this->pathLable->TabIndex = 11;
-			this->pathLable->Text = L"No model";
 			// 
 			// Form1
 			// 
@@ -500,7 +498,7 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 			}
 			gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
 
-			outputL->Text = "objX: "+objX+"\nobjY: "+objY+"\nobjZ: "+(objZ);
+			outputL->Text = "ObjectX: "+objX+"\nObjectY: "+objY+"\nObjectZ: "+(objZ);
 			glPopMatrix();
 			
 			
@@ -560,7 +558,127 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 
 			}
 			else if(selEBtn->Checked)
-			{	//select Edge
+			{	//select Edge, 但先找面，再從面的三個邊中找邊
+				float mDist=99999.f;
+				float dist;
+				OMT::FIter mF;
+				OMT::FHandle mfH;
+				OMT::Point mEdgeN[3];	//選到的面的邊法線向量
+				double mParaD[3];		//選到的面的平面方程式參數d
+				for (OMT::FIter f_it = mesh->faces_begin() ; f_it != mesh->faces_end() ; ++f_it)
+				{	//找到目前的face
+					OMT::Point com, fv[3];	//重心位置, face vertex
+					com[0]=com[1]=com[2]=0.f;
+
+					//float curPos[3]; curPos[0]=0.f;curPos[1]=0.f;curPos[2]=0.f;
+					int i = 0;
+					for(OMT::FVIter fv_it = mesh->fv_iter(f_it.handle()); fv_it ; ++fv_it, ++i) 
+					{
+						com += mesh->point(fv_it.handle());
+						memcpy(	fv[i], mesh->point( fv_it.handle() ), sizeof(OMT::Point) ) ;
+					}
+					com /= 3.f;
+
+					//算重心位置
+					dist =	( com[0] - objX) * ( com[0] - objX ) +
+						( com[1] - objY) * ( com[1] - objY ) +
+						( com[2] - objZ) * ( com[2] - objZ );
+
+					OMT::Point v[2], normalV, edgeN[3];//兩條邊向量,邊法向量,通過邊且垂直平面的平面法向量
+					v[0] = fv[2] - fv[0];
+					v[1] = fv[1] - fv[0];
+					normalV = v[0] CROSS v[1];
+					edgeN[0] = normalV CROSS (fv[1]-fv[0]);	//算出通過三角形三個邊且垂直於三角形的平面的法線向量
+					edgeN[1] = normalV CROSS (fv[2]-fv[1]);
+					edgeN[2] = normalV CROSS (fv[2]-fv[0]);
+					double paraD[3];//通過三個邊的平面的d (ax+by+cz-d=0)
+					paraD[0] = edgeN[0][0]*fv[0][0] + edgeN[0][1]*fv[0][1] + edgeN[0][2]*fv[0][2];
+					paraD[1] = edgeN[1][0]*fv[1][0] + edgeN[1][1]*fv[1][1] + edgeN[1][2]*fv[1][2];
+					paraD[2] = edgeN[2][0]*fv[2][0] + edgeN[2][1]*fv[2][1] + edgeN[2][2]*fv[2][2];
+					if( dist < mDist )
+					{	//若找到的三角形重心更靠近
+						bool inside = true;
+						double s[2];	//紀錄點帶入邊的平面方程式的結果
+						for(int j=0 ; j<3 ; j++)
+						{	//分別將滑鼠點和重心帶入平面方程式
+							s[0] = edgeN[j][0]*	objX	+ edgeN[j][1]*objY	+	edgeN[j][2]*objZ -	paraD[j];
+							s[1] = edgeN[j][0]*com[0]	+ edgeN[j][1]*com[1] +	edgeN[j][2]*com[2] - paraD[j];
+							if( s[0]*s[1]<0.f )	//異號，表示滑鼠點和重心不在平面的同一邊
+							{					//表示滑鼠點不在該三角形內
+								inside = false;
+								break;
+							}
+						}
+						if(inside==false)
+						{	//如果不在三角形內則繼續找下一個三角形
+							continue;
+						}
+						mfH = f_it.handle();
+						mDist = dist;
+						memcpy(mEdgeN,edgeN, 3*sizeof(OMT::Point));
+						memcpy(mParaD,paraD, 3*sizeof(double));
+
+					}
+					//std::cerr << mesh->point(v_it.handle())[0] << " "<< mesh->point(v_it.handle())[1] <<" "<< mesh->point(v_it.handle())[2] << " " << dist<<std::endl; 
+				}
+				//找到面了，接下來在面的三個邊中找最近的線, 從one ring edge開始找
+				float curEDist, mEDist=99999.f;
+				int theEdgeNum=0;
+				for(int j=0 ; j<3 ; j++)	//找出和滑鼠最接近的邊向量
+				{	//算出滑鼠點和邊的距離
+					curEDist = abs(mEdgeN[j][0]*	objX	+ mEdgeN[j][1]*objY	+	mEdgeN[j][2]*objZ -	mParaD[j]) / sqrtf( mEdgeN[j][0]*mEdgeN[j][0] + mEdgeN[j][1]*mEdgeN[j][1] + mEdgeN[j][2]*mEdgeN[j][2]);
+					
+					if( curEDist < mEDist )	
+					{					
+						mEDist = curEDist;
+						theEdgeNum = j;
+					}
+				}
+				OMT::FEIter e_it = mesh->fe_iter(mfH);
+				for(int q=0; q<=theEdgeNum; ++q, ++e_it);	//巡到目前的Edge iterator
+				OMT::HEHandle _hedge = mesh->halfedge_handle(e_it.handle(),1);
+				mesh->add_sp_e( (mesh->from_vertex_handle(_hedge)), 
+					(mesh->to_vertex_handle(_hedge)), 
+					1.f, 0.f, 0.f );
+				if(orVBtn->Checked)
+				{	// One Ring Vertex
+					for(OMT::VVIter vv_it = mesh->vv_iter( (mesh->from_vertex_handle(_hedge) )); vv_it ; ++vv_it ) 
+					{
+						mesh->add_sp_v( vv_it.handle(), 0.f,1.0f,0.f);
+					}
+					for(OMT::VVIter vv_it = mesh->vv_iter( (mesh->to_vertex_handle(_hedge) )); vv_it ; ++vv_it ) 
+					{
+						mesh->add_sp_v( vv_it.handle(), 0.f,1.0f,0.f);
+					}
+				}
+				else if(orFBtn->Checked)
+				{	// One Ring Face
+					for(OMT::VFIter vf_it = mesh->vf_iter( (mesh->from_vertex_handle(_hedge) ) ); vf_it ; ++vf_it )
+					{
+						mesh->add_sp_f( vf_it.handle(), 0.f,1.0f,0.f);
+					}
+					for(OMT::VFIter vf_it = mesh->vf_iter( (mesh->to_vertex_handle(_hedge) ) ); vf_it ; ++vf_it )
+					{
+						mesh->add_sp_f( vf_it.handle(), 0.f,1.0f,0.f);
+					}
+				}
+				else
+				{	// One Ring Edge
+					for(OMT::VEIter ve_itr = mesh->ve_iter( (mesh->from_vertex_handle(_hedge) ))  ; ve_itr; ++ve_itr)
+					{
+						OMT::HEHandle _hedge = mesh->halfedge_handle(ve_itr.handle(),1);
+						mesh->add_sp_e( (mesh->from_vertex_handle(_hedge)), 
+							(mesh->to_vertex_handle(_hedge)), 
+							0.f, 1.f, 1.f );
+					}
+					for(OMT::VEIter ve_itr = mesh->ve_iter( (mesh->to_vertex_handle(_hedge) ))  ; ve_itr; ++ve_itr)
+					{
+						OMT::HEHandle _hedge = mesh->halfedge_handle(ve_itr.handle(),1);
+						mesh->add_sp_e( (mesh->from_vertex_handle(_hedge)), 
+							(mesh->to_vertex_handle(_hedge)), 
+							0.f, 1.f, 1.f );
+					}
+				}
 
 			}
 			else
@@ -569,7 +687,6 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				float dist;
 				OMT::FIter mF;
 				OMT::FHandle mfH;
-				
 				for (OMT::FIter f_it = mesh->faces_begin() ; f_it != mesh->faces_end() ; ++f_it)
 				{	//找到目前的face
 					OMT::Point com, fv[3];	//重心位置, face vertex
@@ -579,16 +696,9 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 					int i = 0;
 					for(OMT::FVIter fv_it = mesh->fv_iter(f_it.handle()); fv_it ; ++fv_it, ++i) 
 					{
-						//curPos[0] += (mesh->point(fv_it.handle() )[0]);
-						//curPos[1] += (mesh->point(fv_it.handle() )[1]);
-						//curPos[2] += (mesh->point(fv_it.handle() )[2]);
-						//memcpy( p[0], (mesh->point(fv_it.handle() ))
 						com += mesh->point(fv_it.handle());
 						memcpy(	fv[i], mesh->point( fv_it.handle() ), sizeof(OMT::Point) ) ;
 					}
-					//curPos[0] /= 3.f; //做平均
-					//curPos[1] /= 3.f;
-					//curPos[2] /= 3.f;
 					com /= 3.f;
 
 					//算重心位置
@@ -596,27 +706,27 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 							( com[1] - objY) * ( com[1] - objY ) +
 							( com[2] - objZ) * ( com[2] - objZ );
 					
-					OMT::Point v[2], normalV, edgeN[3];
+					OMT::Point v[2], normalV, edgeN[3];//兩條邊向量,邊法向量,通過邊且垂直平面的平面法向量
 					v[0] = fv[2] - fv[0];
 					v[1] = fv[1] - fv[0];
 					normalV = v[0] CROSS v[1];
-					edgeN[0] = normalV CROSS (fv[1]-fv[0]);
+					edgeN[0] = normalV CROSS (fv[1]-fv[0]);	//算出通過三角形三個邊且垂直於三角形的平面的法線向量
 					edgeN[1] = normalV CROSS (fv[2]-fv[1]);
 					edgeN[2] = normalV CROSS (fv[2]-fv[0]);
-					double paraD[3];
+					double paraD[3];//通過三個邊的平面的d (ax+by+cz-d=0)
 					paraD[0] = edgeN[0][0]*fv[0][0] + edgeN[0][1]*fv[0][1] + edgeN[0][2]*fv[0][2];
 					paraD[1] = edgeN[1][0]*fv[1][0] + edgeN[1][1]*fv[1][1] + edgeN[1][2]*fv[1][2];
 					paraD[2] = edgeN[2][0]*fv[2][0] + edgeN[2][1]*fv[2][1] + edgeN[2][2]*fv[2][2];
 					if( dist < mDist )
-					{
+					{	//若找到的三角形重心更靠近
 						bool inside = true;
 						double s[2];	//紀錄點帶入邊的平面方程式的結果
 						for(int j=0 ; j<3 ; j++)
-						{
+						{	//分別將滑鼠點和重心帶入平面方程式
 							s[0] = edgeN[j][0]*	objX	+ edgeN[j][1]*objY	+	edgeN[j][2]*objZ -	paraD[j];
 							s[1] = edgeN[j][0]*com[0]	+ edgeN[j][1]*com[1] +	edgeN[j][2]*com[2] - paraD[j];
-							if( s[0]*s[1]<0.f )	//同號
-							{
+							if( s[0]*s[1]<0.f )	//異號，表示滑鼠點和重心不在平面的同一邊
+							{					//表示滑鼠點不在該三角形內
 								inside = false;
 								break;
 							}

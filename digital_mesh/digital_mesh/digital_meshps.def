@@ -1,0 +1,8 @@
+
+LIBRARY      "digital_meshPS"
+
+EXPORTS
+	DllGetClassObject		PRIVATE
+	DllCanUnloadNow			PRIVATE
+	DllRegisterServer		PRIVATE
+	DllUnregisterServer		PRIVATE

@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'digital_mesh'
+		'digital_mesh.DLL'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

@@ -212,3 +212,48 @@ bool Tri_Mesh::SelectFace( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::
 	}
 	return false;
 }
+
+bool Tri_Mesh::SelectVertexRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectEdgeRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectFaceRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+{
+	return false;
+}
+
+bool Tri_Mesh::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+{
+	return false;
+}

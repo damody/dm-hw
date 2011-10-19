@@ -453,3 +453,48 @@ bool osgImplementation::SelectFace( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& ou
 	if (!mMesh) return false;
 	return mMesh->SelectFace(p, q, out1, out2, out3);
 }
+
+bool osgImplementation::SelectVertexRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+{
+	return mMesh->SelectVertexRingVertex(p, q, out);
+}
+
+bool osgImplementation::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+{
+	return mMesh->SelectVertexRingEdge(p, q, out);
+}
+
+bool osgImplementation::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+{
+	return mMesh->SelectVertexRingFace(p, q, out);
+}
+
+bool osgImplementation::SelectEdgeRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+{
+	return mMesh->SelectEdgeRingVertex(p, q, out);
+}
+
+bool osgImplementation::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+{
+	return mMesh->SelectEdgeRingEdge(p, q, out);
+}
+
+bool osgImplementation::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+{
+	return mMesh->SelectEdgeRingFace(p, q, out);
+}
+
+bool osgImplementation::SelectFaceRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+{
+	return mMesh->SelectFaceRingVertex(p, q, out);
+}
+
+bool osgImplementation::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+{
+	return mMesh->SelectFaceRingEdge(p, q, out);
+}
+
+bool osgImplementation::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+{
+	return mMesh->SelectFaceRingFace(p, q, out);
+}

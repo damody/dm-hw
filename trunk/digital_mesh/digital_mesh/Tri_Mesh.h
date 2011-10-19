@@ -17,25 +17,28 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 };
 typedef OpenMesh::TriMesh_ArrayKernelT<BasicTraits> BasicMesh;
 
-//指定特別畫出面的資料結構
-struct sp_f 
+struct sLine
 {
-	OpenMesh::FaceHandle fh;
-	float r, g, b;
+	sLine(){}
+	sLine(osg::Vec3f& _a, osg::Vec3f& _b)
+		:a(_a), b(_b)
+	{}
+	osg::Vec3f a, b;
 };
-//指定特別畫出頂點的資料結構
-struct sp_v 
+struct sFace
 {
-	OpenMesh::EdgeHandle vh;
-	float r, g, b;
+	sFace(){}
+	sFace(osg::Vec3f& _a, osg::Vec3f& _b, osg::Vec3f& _c)
+		:a(_a), b(_b), c(_c)
+	{}
+	osg::Vec3f a, b, c;
 };
-//指定另外畫出位置的資料結構
-struct sp_p
-{
-	BasicMesh::Point pt;
-	float r, g, b;
-};
+typedef std::vector<sLine> sLines;
+typedef std::vector<sFace> sFaces;
+typedef std::vector<osg::Vec3f> sPoints;
+
 bool IntersectLineTriangle( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c, osg::Vec3f & point );
+
 class Tri_Mesh : public BasicMesh
 {
 public:
@@ -57,5 +60,17 @@ public:
 	bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
 	bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
 	bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
+
+	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
+	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
+	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+
+	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
+	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
+	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+
+	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
+	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
+	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
 };
 

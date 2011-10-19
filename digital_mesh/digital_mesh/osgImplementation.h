@@ -10,23 +10,7 @@
 #include <osgDB/ReadFile>
 #include <osgUtil/Optimizer>
 #include <string>
-
-struct sLine
-{
-	sLine(){}
-	sLine(osg::Vec3f& _a, osg::Vec3f& _b)
-		:a(_a), b(_b)
-	{}
-	osg::Vec3f a, b;
-};
-struct sFace
-{
-	sFace(){}
-	sFace(osg::Vec3f& _a, osg::Vec3f& _b, osg::Vec3f& _c)
-		:a(_a), b(_b), c(_c)
-	{}
-	osg::Vec3f a, b, c;
-};
+#include <vector>
 
 class osgImplementation
 {
@@ -55,10 +39,9 @@ private:
 	osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> mKeyswitchManipulator;
 	Tri_Mesh*	mMesh;
 	int		mStatus;
-	std::vector<osg::Vec3f> mPoints;
-	std::vector<osg::Vec3f> mSVertexs;
-	typedef std::vector<sLine> sLines;
-	typedef std::vector<sLine> sFaces;
+	sPoints mPoints;
+	sPoints mSVertexs;
+	
 	sLines	mLines;
 	sFaces	mFaces;
 	osg::ref_ptr<osg::Geometry> mDrawPoints;
@@ -79,6 +62,19 @@ public:
 	bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
 	bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
 	bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
+
+	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
+	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
+	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+
+	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
+	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
+	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+
+	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
+	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
+	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+
 	void Show(int status);
 	int  GetShowStatus() {return mStatus;}
 	void ShowModel(){Show(mStatus | MODEL);}

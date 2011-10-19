@@ -127,30 +127,116 @@ STDMETHODIMP CosgControl::SelectFace(LONG x, LONG y)
 	return S_OK;
 }
 
-STDMETHODIMP CosgControl::SelectVertexRing(LONG x, LONG y)
+STDMETHODIMP CosgControl::SelectVertexRingVertex(LONG x, LONG y)
 {
-	// TODO: 在這裡加入您的實作程式碼
-
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sPoints out;
+	if (s_osg->SelectVertexRingVertex(ori, dir, out))
+		s_osg->AddVertex(out);
 	return S_OK;
 }
 
-STDMETHODIMP CosgControl::SelectEdgeRing(LONG x, LONG y)
+STDMETHODIMP CosgControl::SelectVertexRingEdge(LONG x, LONG y)
 {
-	// TODO: 在這裡加入您的實作程式碼
-
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sLines out;
+	if (s_osg->SelectVertexRingEdge(ori, dir, out))
+		s_osg->AddLine(out);
 	return S_OK;
 }
 
-STDMETHODIMP CosgControl::SelectFaceRing(LONG x, LONG y)
+STDMETHODIMP CosgControl::SelectVertexRingFace(LONG x, LONG y)
 {
-	// TODO: 在這裡加入您的實作程式碼
-
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sFaces out;
+	if (s_osg->SelectVertexRingFace(ori, dir, out))
+		s_osg->AddFace(out);
 	return S_OK;
 }
 
-
-STDMETHODIMP CosgControl::Render(void)
+STDMETHODIMP CosgControl::SelectEdgeRingVertex(LONG x, LONG y)
 {
-	s_osg->Render(s_osg);
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sPoints out;
+	if (s_osg->SelectEdgeRingVertex(ori, dir, out))
+		s_osg->AddVertex(out);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SelectEdgeRingEdge(LONG x, LONG y)
+{
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sLines out;
+	if (s_osg->SelectEdgeRingEdge(ori, dir, out))
+		s_osg->AddLine(out);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SelectEdgeRingFace(LONG x, LONG y)
+{
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sFaces out;
+	if (s_osg->SelectEdgeRingFace(ori, dir, out))
+		s_osg->AddFace(out);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SelectFaceRingVertex(LONG x, LONG y)
+{
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sPoints out;
+	if (s_osg->SelectFaceRingVertex(ori, dir, out))
+		s_osg->AddVertex(out);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SelectFaceRingEdge(LONG x, LONG y)
+{
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sLines out;
+	if (s_osg->SelectFaceRingEdge(ori, dir, out))
+		s_osg->AddLine(out);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SelectFaceRingFace(LONG x, LONG y)
+{
+	osg::Vec3f ori, dir, o1, o2, o3;
+	s_osg->GetRay(x, y, ori, dir);
+	sFaces out;
+	if (s_osg->SelectFaceRingFace(ori, dir, out))
+		s_osg->AddFace(out);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::ClearPoints(void)
+{
+	s_osg->ClearPoints();
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::ClearVertexes(void)
+{
+	s_osg->ClearVertexes();
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::ClearEdges(void)
+{
+	s_osg->ClearEdges();
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::ClearFaces(void)
+{
+	s_osg->ClearFaces();
 	return S_OK;
 }

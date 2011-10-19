@@ -67,10 +67,19 @@ public:
 	STDMETHOD(SelectEdge)(LONG x, LONG y);
 	STDMETHOD(SelectFace)(LONG x, LONG y);
 	STDMETHOD(SetSelectColor)(SHORT r, SHORT g, SHORT b);
-	STDMETHOD(SelectVertexRing)(LONG x, LONG y);
-	STDMETHOD(SelectEdgeRing)(LONG x, LONG y);
-	STDMETHOD(SelectFaceRing)(LONG x, LONG y);
-	STDMETHOD(Render)(void);
+	STDMETHOD(SelectVertexRingVertex)(LONG x, LONG y);
+	STDMETHOD(SelectVertexRingEdge)(LONG x, LONG y);
+	STDMETHOD(SelectVertexRingFace)(LONG x, LONG y);
+	STDMETHOD(SelectEdgeRingVertex)(LONG x, LONG y);
+	STDMETHOD(SelectEdgeRingEdge)(LONG x, LONG y);
+	STDMETHOD(SelectEdgeRingFace)(LONG x, LONG y);
+	STDMETHOD(SelectFaceRingVertex)(LONG x, LONG y);
+	STDMETHOD(SelectFaceRingEdge)(LONG x, LONG y);
+	STDMETHOD(SelectFaceRingFace)(LONG x, LONG y);
+	STDMETHOD(ClearPoints)(void);
+	STDMETHOD(ClearVertexes)(void);
+	STDMETHOD(ClearEdges)(void);
+	STDMETHOD(ClearFaces)(void);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(osgControl), CosgControl)

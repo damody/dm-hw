@@ -76,29 +76,46 @@ void osgImplementation::GetRay( float x, float y, osg::Vec3f& vPickRayOrig, osg:
 	vPickRayDir = vPickRayOrig-vPickRayDir*10;
 }
 
-void osgImplementation::AddLine( osg::Vec3f& p, osg::Vec3f& q )
-{
-	mLines.push_back(sLine(p, q));
-	Show(mStatus);
-}
-
-void osgImplementation::AddVertex( osg::Vec3f& p )
-{
-	mSVertexs.push_back(p);
-	Show(mStatus);
-}
-
-
-void osgImplementation::AddPoint( osg::Vec3f& p )
+void osgImplementation::AddPoint( const osg::Vec3f& p )
 {
 	mPoints.push_back(p);
 	Show(mStatus);
 }
 
-void osgImplementation::AddFace( osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c )
+void osgImplementation::AddVertex(const osg::Vec3f& p )
+{
+	mSVertexs.push_back(p);
+	Show(mStatus);
+}
+
+void osgImplementation::AddVertex( const sPoints& input )
+{
+	for (int i=0;i<input.size();++i)
+		AddVertex(input[i]);
+}
+
+void osgImplementation::AddLine(const osg::Vec3f& p, const osg::Vec3f& q )
+{
+	mLines.push_back(sLine(p, q));
+	Show(mStatus);
+}
+
+void osgImplementation::AddLine( const sLines& input )
+{
+	for (int i=0;i<input.size();++i)
+		AddLine(input[i].a, input[i].b);
+}
+
+void osgImplementation::AddFace( const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c )
 {  
 	mFaces.push_back(sFace(a, b, c));
 	Show(mStatus);
+}
+
+void osgImplementation::AddFace( const sFaces& input )
+{
+	for (int i=0;i<input.size();++i)
+		AddFace(input[i].a, input[i].b, input[i].c);
 }
 
 
@@ -241,7 +258,7 @@ void osgImplementation::PreFrameUpdate()
 				mShape->addDrawable(mDrawSVertexs);
 		}
 		else
-			mShape->removeDrawable(mDrawPoints);
+			mShape->removeDrawable(mDrawSVertexs);
 		if (!mLines.empty())
 		{// add all lines
 			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
@@ -497,4 +514,24 @@ bool osgImplementation::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines
 bool osgImplementation::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 {
 	return mMesh->SelectFaceRingFace(p, q, out);
+}
+
+void osgImplementation::ClearPoints()
+{
+	mPoints.clear();
+}
+
+void osgImplementation::ClearVertexes()
+{
+	mSVertexs.clear();
+}
+
+void osgImplementation::ClearEdges()
+{
+	mLines.clear();
+}
+
+void osgImplementation::ClearFaces()
+{
+	mFaces.clear();
 }

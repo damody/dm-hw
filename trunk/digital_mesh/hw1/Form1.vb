@@ -30,21 +30,39 @@ Public Class Form1
         End If
         If ChooseVertexToolStripMenuItem.Checked Then
             osg.SelectVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            If RingVertexToolStripMenuItem.Checked Then
+                osg.SelectVertexRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
+            If RingEdgeToolStripMenuItem.Checked Then
+                osg.SelectVertexRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
+            If RingFaceToolStripMenuItem.Checked Then
+                osg.SelectVertexRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
         End If
         If ChooseEdgeToolStripMenuItem.Checked Then
             osg.SelectEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            If RingVertexToolStripMenuItem.Checked Then
+                osg.SelectEdgeRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
+            If RingEdgeToolStripMenuItem.Checked Then
+                osg.SelectEdgeRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
+            If RingFaceToolStripMenuItem.Checked Then
+                osg.SelectEdgeRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
         End If
         If ChooseFaceToolStripMenuItem.Checked Then
             osg.SelectFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-        End If
-        If VertexRingToolStripMenuItem.Checked Then
-            osg.SelectVertexRing(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-        End If
-        If EdgeRingToolStripMenuItem.Checked Then
-            osg.SelectEdgeRing(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-        End If
-        If FaceRingToolStripMenuItem.Checked Then
-            osg.SelectFaceRing(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            If RingVertexToolStripMenuItem.Checked Then
+                osg.SelectFaceRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
+            If RingEdgeToolStripMenuItem.Checked Then
+                osg.SelectFaceRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
+            If RingFaceToolStripMenuItem.Checked Then
+                osg.SelectFaceRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
         End If
     End Sub
 
@@ -80,7 +98,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub ResetToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetToolStripMenuItem.Click
+    Private Sub ResetToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
@@ -101,18 +119,6 @@ Public Class Form1
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         osg.InitOSG(PictureBox.Handle)
-    End Sub
-
-    Private Sub VertexRingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VertexRingToolStripMenuItem.Click
-        VertexRingToolStripMenuItem.Checked = Not (VertexRingToolStripMenuItem.Checked)
-    End Sub
-
-    Private Sub EdgeRingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EdgeRingToolStripMenuItem.Click
-        EdgeRingToolStripMenuItem.Checked = Not (EdgeRingToolStripMenuItem.Checked)
-    End Sub
-
-    Private Sub FaceRingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FaceRingToolStripMenuItem.Click
-        FaceRingToolStripMenuItem.Checked = Not (FaceRingToolStripMenuItem.Checked)
     End Sub
 
     Private Sub RenderTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RenderTimer.Tick
@@ -144,5 +150,39 @@ Public Class Form1
                 osg.HideFace()
             End If
         End If
+        If e.KeyChar = "c" Or e.KeyChar = "C" Then
+            osg.ClearPoints()
+            osg.ClearVertexes()
+            osg.ClearEdges()
+            osg.ClearFaces()
+        End If
+    End Sub
+
+    Private Sub RingVertexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RingVertexToolStripMenuItem.Click
+        RingVertexToolStripMenuItem.Checked = Not (RingVertexToolStripMenuItem.Checked)
+    End Sub
+
+    Private Sub RingEdgeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RingEdgeToolStripMenuItem.Click
+        RingEdgeToolStripMenuItem.Checked = Not (RingEdgeToolStripMenuItem.Checked)
+    End Sub
+
+    Private Sub RingFaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RingFaceToolStripMenuItem.Click
+        RingFaceToolStripMenuItem.Checked = Not (RingFaceToolStripMenuItem.Checked)
+    End Sub
+
+    Private Sub PointsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PointsToolStripMenuItem.Click
+        osg.ClearPoints()
+    End Sub
+
+    Private Sub VertexesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VertexesToolStripMenuItem.Click
+        osg.ClearVertexes()
+    End Sub
+
+    Private Sub EdgesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EdgesToolStripMenuItem.Click
+        osg.ClearEdges()
+    End Sub
+
+    Private Sub FacesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FacesToolStripMenuItem.Click
+        osg.ClearFaces()
     End Sub
 End Class

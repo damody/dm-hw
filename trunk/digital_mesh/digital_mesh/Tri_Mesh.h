@@ -20,7 +20,7 @@ typedef OpenMesh::TriMesh_ArrayKernelT<BasicTraits> BasicMesh;
 struct sLine
 {
 	sLine(){}
-	sLine(osg::Vec3f& _a, osg::Vec3f& _b)
+	sLine(const osg::Vec3f& _a, const osg::Vec3f& _b)
 		:a(_a), b(_b)
 	{}
 	osg::Vec3f a, b;
@@ -28,7 +28,7 @@ struct sLine
 struct sFace
 {
 	sFace(){}
-	sFace(osg::Vec3f& _a, osg::Vec3f& _b, osg::Vec3f& _c)
+	sFace(const osg::Vec3f& _a, const osg::Vec3f& _b, const osg::Vec3f& _c)
 		:a(_a), b(_b), c(_c)
 	{}
 	osg::Vec3f a, b, c;
@@ -37,7 +37,7 @@ typedef std::vector<sLine> sLines;
 typedef std::vector<sFace> sFaces;
 typedef std::vector<osg::Vec3f> sPoints;
 
-bool IntersectLineTriangle( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c, osg::Vec3f & point );
+bool IntersectLineTriangle( const osg::Vec3f& p, const osg::Vec3f& q, const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c, osg::Vec3f & point );
 
 class Tri_Mesh : public BasicMesh
 {
@@ -61,16 +61,20 @@ public:
 	bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
 	bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
 
-	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
-	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
-	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
 
-	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
-	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
-	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
 
-	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
-	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
-	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+
+	bool GetVertexHandle(osg::Vec3f& p, osg::Vec3f& q, VIter& iter);
+	bool GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EIter& iter );
+	bool GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FIter& iter );
 };
 

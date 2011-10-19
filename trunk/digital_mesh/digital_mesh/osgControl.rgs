@@ -1,0 +1,26 @@
+HKCR
+{
+	digital_mesh.osgControl.1 = s 'osgControl Class'
+	{
+		CLSID = s '{7FA9490A-AD27-4787-8E98-EBCDCF28F6CE}'
+	}
+	digital_mesh.osgControl = s 'osgControl Class'
+	{
+		CLSID = s '{7FA9490A-AD27-4787-8E98-EBCDCF28F6CE}'
+		CurVer = s 'digital_mesh.osgControl.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {7FA9490A-AD27-4787-8E98-EBCDCF28F6CE} = s 'osgControl Class'
+		{
+			ProgID = s 'digital_mesh.osgControl.1'
+			VersionIndependentProgID = s 'digital_mesh.osgControl'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{A236B4E3-2D2B-4504-A7D4-A9210684BEFE}'
+		}
+	}
+}

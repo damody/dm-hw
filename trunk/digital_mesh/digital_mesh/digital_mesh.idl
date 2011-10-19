@@ -1,0 +1,56 @@
+// digital_mesh.idl : digital_mesh 的 IDL 來源
+//
+
+// 這個檔案會由 MIDL 工具處理
+// 以產生型別程式庫 (digital_mesh.tlb) 和封送處理程式碼。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(DD78AA03-FFA2-49C0-84ED-2FCA530FA736),
+	dual,
+	nonextensible,
+	helpstring("IosgControl 介面"),
+	pointer_default(unique)
+]
+interface IosgControl : IDispatch{
+	[id(1), helpstring("方法 LoadObjMesh")] HRESULT LoadObjMesh([in] BSTR* filepath, [out,retval] LONG* status);
+	[id(2), helpstring("方法 ShowVertex")] HRESULT ShowVertex(void);
+	[id(3), helpstring("方法 ShowEdge")] HRESULT ShowEdge(void);
+	[id(4), helpstring("方法 ShowFace")] HRESULT ShowFace(void);
+	[id(5), helpstring("方法 InitOSG")] HRESULT InitOSG([in] LONG windowHandle);
+	[id(6), helpstring("方法 MouseDown")] HRESULT MouseDown([in] LONG x, [in] LONG y, [in] CHAR button);
+	[id(7), helpstring("方法 MouseMove")] HRESULT MouseMove([in] LONG x, [in] LONG y);
+	[id(8), helpstring("方法 MouseUp")] HRESULT MouseUp([in] LONG x, [in] LONG y, [in] CHAR button);
+	[id(9), helpstring("方法 HideVertex")] HRESULT HideVertex(void);
+	[id(10), helpstring("方法 HideEdge")] HRESULT HideEdge(void);
+	[id(11), helpstring("方法 HideFace")] HRESULT HideFace(void);
+	[id(12), helpstring("方法 SelectPoint")] HRESULT SelectPoint([in] LONG x, [in] LONG y);
+	[id(13), helpstring("方法 SelectVertex")] HRESULT SelectVertex([in] LONG x, [in] LONG y);
+	[id(14), helpstring("方法 SelectEdge")] HRESULT SelectEdge([in] LONG x, [in] LONG y);
+	[id(15), helpstring("方法 SelectFace")] HRESULT SelectFace([in] LONG x, [in] LONG y);
+	[id(16), helpstring("方法 SetSelectColor")] HRESULT SetSelectColor([in] SHORT r, [in] SHORT g, [in] SHORT b);
+	[id(17), helpstring("方法 SelectVertexRing")] HRESULT SelectVertexRing([in] LONG x, [in] LONG y);
+	[id(18), helpstring("方法 SelectEdgeRing")] HRESULT SelectEdgeRing([in] LONG x, [in] LONG y);
+	[id(19), helpstring("方法 SelectFaceRing")] HRESULT SelectFaceRing([in] LONG x, [in] LONG y);
+	[id(20), helpstring("方法 Render")] HRESULT Render(void);
+};
+[
+	uuid(A236B4E3-2D2B-4504-A7D4-A9210684BEFE),
+	version(1.0),
+	helpstring("digital_mesh 1.0 型別程式庫")
+]
+library digital_meshLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(7FA9490A-AD27-4787-8E98-EBCDCF28F6CE),
+		helpstring("osgControl Class")
+	]
+	coclass osgControl
+	{
+		[default] interface IosgControl;
+	};
+};

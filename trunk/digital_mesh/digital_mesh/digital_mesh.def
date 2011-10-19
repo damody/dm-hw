@@ -1,0 +1,10 @@
+; digital_mesh.def : 宣告模組參數。
+
+LIBRARY      "digital_mesh.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE
+	DllInstall		PRIVATE

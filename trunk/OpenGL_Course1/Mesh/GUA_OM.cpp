@@ -96,15 +96,6 @@ namespace OMT
 
 			glBegin(GL_LINES);
 			
-			//vector<sp_v>::iterator p_itr = sp_p_list.begin();
-			//for (p_itr; p_itr != sp_p_list.end(); p_itr+=2)
-			//{
-			//	glColor3f(p_itr->r, p_itr->g, p_itr->b);
-			//	glVertex3dv(p_itr->pt);
-			//	glColor3f((p_itr+1)->r, (p_itr+1)->g, (p_itr+1)->b);
-			//	glVertex3dv((p_itr+1)->pt);
-			//}
-
 			vector< sp_v >::iterator v_itr = sp_e_list.begin();
 			for (v_itr; v_itr != sp_e_list.end(); v_itr+=2)
 			{
@@ -122,26 +113,6 @@ namespace OMT
 		}
 
 	}
-	float Model::myDot(Point v1, Point v2)
-	{
-		return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
-	}
-	float Model::getPointDistToLine(Point a, VHandle bVH, VHandle cVH)
-	{	//Returns the squared distance between point c and segment ab
-		Point b = point(bVH);
-		Point c = point(cVH);
-		Point ab = b-a;
-		Point ac=c-a;
-		Point bc=c-b;
-		float e = myDot(ac,ab);
-		//Handle cases where c projects outside ab
-		if(e <= 0.0f) return myDot(ac,ac);
-		float f = myDot(ab,ab);
-		if(e >= f)return myDot(bc,bc);
-		//Handle cases where c projects onto ab
-	
-		return (float)( myDot(ac,ac) - e*e/f );
-	 }
 
 
 	/*======================================================================*/

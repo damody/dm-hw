@@ -653,14 +653,8 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				}
 				else if(orFBtn->Checked)
 				{	// One Ring Face
-					for(OMT::VFIter vf_it = mesh->vf_iter( (mesh->from_vertex_handle(_hedge) ) ); vf_it ; ++vf_it )
-					{
-						mesh->add_sp_f( vf_it.handle(), 0.f,1.0f,0.f);
-					}
-					for(OMT::VFIter vf_it = mesh->vf_iter( (mesh->to_vertex_handle(_hedge) ) ); vf_it ; ++vf_it )
-					{
-						mesh->add_sp_f( vf_it.handle(), 0.f,1.0f,0.f);
-					}
+					mesh->add_sp_f( mesh->face_handle(_hedge) , 0.f, 1.f,0.f);
+					mesh->add_sp_f( mesh->opposite_face_handle(_hedge) , 0.f, 1.f,0.f);
 				}
 				else
 				{	// One Ring Edge

@@ -41,7 +41,6 @@ private:
 	int		mStatus;
 	sPoints mPoints;
 	sPoints mSVertexs;
-	
 	sLines	mLines;
 	sFaces	mFaces;
 	osg::ref_ptr<osg::Geometry> mDrawPoints;
@@ -54,26 +53,38 @@ private:
 	bool	mNeedUpdate;
 public:
 	static void Render(void* ptr);
-	void AddLine(osg::Vec3f& p, osg::Vec3f& q);
-	void AddPoint(osg::Vec3f& p);
-	void AddVertex(osg::Vec3f& p);
-	void AddFace(osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c);
+	// clear
+	void ClearPoints();
+	void ClearVertexes();
+	void ClearEdges();
+	void ClearFaces();
+
+	// add single shape
+	void AddPoint(const osg::Vec3f& p);
+	void AddVertex(const osg::Vec3f& p);
+	void AddLine(const osg::Vec3f& p, const osg::Vec3f& q);
+	void AddFace(const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c);
+	// add shapes
+	void AddVertex(const sPoints& input);
+	void AddLine(const sLines& input);
+	void AddFace(const sFaces& input);
+	// select basic shape
 	bool SelectPoint(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
 	bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
 	bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
 	bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
-
-	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
-	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
-	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
-
-	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
-	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
-	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
-
-	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& points);
-	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& points);
-	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& points);
+	// select Vertex Ring
+	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	// select Edge Ring
+	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	// select Face Ring
+	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
 
 	void Show(int status);
 	int  GetShowStatus() {return mStatus;}

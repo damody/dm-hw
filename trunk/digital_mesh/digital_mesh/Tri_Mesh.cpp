@@ -569,3 +569,89 @@ bool Tri_Mesh::GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FIter& iter )
 	}
 	return false;
 }
+
+BasicMesh::VertexHandle Tri_Mesh::AddVertex( Point _p )
+{
+	int find_result = FindVertex(_p);
+	if (find_result != -1)
+	{
+		return vertex_handle(find_result);
+	}
+	else
+	{
+		return add_vertex(_p);
+	}
+}
+
+BasicMesh::VertexIter Tri_Mesh::GetVIterFormIndex( int idx )
+{
+	VIter it = vertices_begin();
+	for (int i=0;i<idx && it!=vertices_end();++it, ++i);
+	return it;
+}
+
+int Tri_Mesh::FindVertex( float x, float y, float z )
+{
+	return FindVertex(Point(x, y, z));
+}
+
+int Tri_Mesh::FindVertex( Point _p )
+{
+	for( VIter v_itr = vertices_begin(); v_itr != vertices_end(); ++v_itr)
+		if( point(v_itr) == _p )
+			return v_itr.handle().idx();
+	return -1;
+}
+
+BasicMesh::FaceHandle Tri_Mesh::addFace( BasicMesh::VHandle _v0, BasicMesh::VHandle _v1, BasicMesh::VHandle _v2, BasicMesh::VHandle _v3 )
+{
+	std::vector<BasicMesh::VHandle> face_vhandles;
+
+	face_vhandles.clear();
+	face_vhandles.push_back(_v0);
+	face_vhandles.push_back(_v1);
+	face_vhandles.push_back(_v2);
+	face_vhandles.push_back(_v3);
+	return add_face(face_vhandles);
+}
+
+void Tri_Mesh::deleteFace( BasicMesh::FaceHandle _f )
+{
+	delete_face(_f);
+	garbage_collection();
+}
+
+void Tri_Mesh::deleteFace( VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3 )
+{
+	/* 
+	v1				v0
+	*<--------------*
+	|				|
+	|				|
+	|				|
+	|		f		|
+	|				|
+	|				|
+	|				|
+	* --------------*
+	v2				v3
+	*/
+	HalfedgeHandle v0v1 = find_halfedge(_v0, _v1);
+	if (v0v1.is_valid())
+	{
+		FHandle fh = face_handle(v0v1);
+		if (fh.is_valid())
+		{
+			delete_face(fh);
+			garbage_collection();
+		}
+	}
+}
+
+bool Tri_Mesh::IsVertexVertex( VHandle _vj, VHandle _vi )
+{
+	for( VVIter vvit = vv_iter(_vi) ; vvit ; ++vvit )
+		if( vvit.handle() == _vj )
+			return true;
+	return false;
+}

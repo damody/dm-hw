@@ -220,7 +220,7 @@ void osgImplementation::PreFrameUpdate()
 	// Due any preframe updates in this routine
 	if (mNeedUpdate && mMesh)
 	{
-		mNeedUpdate = false;
+		//mNeedUpdate = false;
 		if (!mPoints.empty())
 		{// add all points
 			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
@@ -519,19 +519,23 @@ bool osgImplementation::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces
 void osgImplementation::ClearPoints()
 {
 	mPoints.clear();
+	Show(mStatus);
 }
 
 void osgImplementation::ClearVertexes()
 {
 	mSVertexs.clear();
+	Show(mStatus);
 }
 
 void osgImplementation::ClearEdges()
 {
 	mLines.clear();
+	Show(mStatus);
 }
 
 void osgImplementation::ClearFaces()
 {
 	mFaces.clear();
+	Show(mStatus);
 }

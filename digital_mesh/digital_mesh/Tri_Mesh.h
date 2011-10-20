@@ -76,5 +76,18 @@ public:
 	bool GetVertexHandle(osg::Vec3f& p, osg::Vec3f& q, VIter& iter);
 	bool GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EIter& iter );
 	bool GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FIter& iter );
+
+	// mesh control
+	BasicMesh::VertexHandle AddVertex(Point _p);
+	VIter GetVIterFormIndex(int idx);
+	int FindVertex(float x, float y, float z);
+	int FindVertex(Point _p);
+	//在model上增加新的面
+	FHandle addFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
+	//在model上刪除面
+	void deleteFace(FHandle _f);
+	void deleteFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
+	//檢查兩頂點是否相鄰
+	bool IsVertexVertex( VHandle _vj, VHandle _vi);
 };
 

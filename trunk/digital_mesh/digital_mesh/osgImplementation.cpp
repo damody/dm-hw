@@ -20,6 +20,13 @@ osgImplementation::osgImplementation( HWND hWnd )
 	mDrawVertexs = new osg::Geometry;
 	mDrawFaces = new osg::Geometry;
 	mDrawSFaces = new osg::Geometry;
+	mDrawPoints->setUseDisplayList(false);
+	mDrawSVertexs->setUseDisplayList(false);
+	mDrawLines->setUseDisplayList(false);
+	mDrawEdges->setUseDisplayList(false);
+	mDrawVertexs->setUseDisplayList(false);
+	mDrawFaces->setUseDisplayList(false);
+	mDrawSFaces->setUseDisplayList(false);
 }
 
 osgImplementation::~osgImplementation(void)
@@ -34,6 +41,7 @@ void osgImplementation::Render( void* ptr )
 {
 	osgImplementation* osg = (osgImplementation*)ptr;
 	osgViewer::Viewer* viewer = osg->getViewer();
+	viewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
 	// You have two options for the main viewer loop
 	//      viewer->run()   or
 	//      while(!viewer->done()) { viewer->frame(); }
@@ -41,8 +49,8 @@ void osgImplementation::Render( void* ptr )
 	while(!viewer->done())
 	{
 		osg->PreFrameUpdate();
-		viewer->frame();
-		Sleep(10);         // Use this command if you need to allow other processes to have cpu time
+ 		viewer->frame();
+		//Sleep(10);
 	}
 	_endthread();
 }
@@ -161,7 +169,7 @@ void osgImplementation::InitCameraConfig()
 	// Create the viewer for this window
 	mViewer = new osgViewer::Viewer();
 	// add the thread model handler
-	mViewer->addEventHandler(new osgViewer::ThreadingHandler);
+	//mViewer->addEventHandler(new osgViewer::ThreadingHandler);
 	// add the window size toggle handler
 	mViewer->addEventHandler(new osgViewer::WindowSizeHandler);
 	// add the stats handler
@@ -220,20 +228,20 @@ void osgImplementation::PreFrameUpdate()
 	// Due any preframe updates in this routine
 	if (mNeedUpdate && mMesh)
 	{
-		//mNeedUpdate = false;
+		mNeedUpdate = false;
 		if (!mPoints.empty())
 		{// add all points
 			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
 			for (size_t i=0;i<mPoints.size();++i)
 				vertices->push_back(mPoints[i]);
-			mDrawPoints->removePrimitiveSet(0,999);
 			mDrawPoints->setVertexArray(vertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(1.0f,0.0f,1.0f,1.0f));
 			mDrawPoints->setColorArray(shared_colors);
 			mDrawPoints->setColorBinding(osg::Geometry::BIND_OVERALL);
 			mDrawPoints->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawPoints->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mPoints.size()));
+			mDrawPoints->removePrimitiveSet(0,999);
+			mDrawPoints->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, vertices->getNumElements()));
 			mDrawPoints->getOrCreateStateSet()->setAttribute( new osg::Point( 5.0f ), osg::StateAttribute::ON );
 			if (!mShape->containsDrawable(mDrawPoints))
 				mShape->addDrawable(mDrawPoints);
@@ -245,14 +253,15 @@ void osgImplementation::PreFrameUpdate()
 			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
 			for (size_t i=0;i<mSVertexs.size();++i)
 				vertices->push_back(mSVertexs[i]);
-			mDrawSVertexs->removePrimitiveSet(0,999);
+			
 			mDrawSVertexs->setVertexArray(vertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(1.0f,1.0f,1.0f,1.0f));
 			mDrawSVertexs->setColorArray(shared_colors);
 			mDrawSVertexs->setColorBinding(osg::Geometry::BIND_OVERALL);
 			mDrawSVertexs->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawSVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mSVertexs.size()));
+			mDrawSVertexs->removePrimitiveSet(0,999);
+			mDrawSVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, vertices->getNumElements()));
 			mDrawSVertexs->getOrCreateStateSet()->setAttribute( new osg::Point( 5.0f ), osg::StateAttribute::ON );
 			if (!mShape->containsDrawable(mDrawSVertexs))
 				mShape->addDrawable(mDrawSVertexs);
@@ -267,7 +276,7 @@ void osgImplementation::PreFrameUpdate()
 				vertices->push_back(mLines[i].a);
 				vertices->push_back(mLines[i].b);
 			}
-			mDrawLines->removePrimitiveSet(0,999);
+			
 			mDrawLines->setVertexArray(vertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(0.0f,1.0f,1.0f,1.0f));
@@ -275,7 +284,8 @@ void osgImplementation::PreFrameUpdate()
 			mDrawLines->setColorArray(shared_colors);
 			mDrawLines->setColorBinding(osg::Geometry::BIND_OVERALL);
 			mDrawLines->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawLines->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, mLines.size()*2));
+			mDrawLines->removePrimitiveSet(0,999);
+			mDrawLines->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->getNumElements()));
 			mDrawLines->getOrCreateStateSet()->setAttribute( new osg::LineWidth(3.0f), osg::StateAttribute::ON );
 			if (!mShape->containsDrawable(mDrawLines))
 				mShape->addDrawable(mDrawLines);
@@ -291,7 +301,7 @@ void osgImplementation::PreFrameUpdate()
 				vertices->push_back(mFaces[i].b);
 				vertices->push_back(mFaces[i].c);
 			}
-			mDrawSFaces->removePrimitiveSet(0,999);
+			
 			mDrawSFaces->setVertexArray(vertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(0.5f,0.5f,0.2f,1.0f));
@@ -299,7 +309,8 @@ void osgImplementation::PreFrameUpdate()
 			mDrawSFaces->setColorArray(shared_colors);
 			mDrawSFaces->setColorBinding(osg::Geometry::BIND_OVERALL);
 			mDrawSFaces->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawSFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, mFaces.size()*3));
+			mDrawSFaces->removePrimitiveSet(0,999);
+			mDrawSFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, vertices->getNumElements()));
 			if (!mShape->containsDrawable(mDrawSFaces))
 				mShape->addDrawable(mDrawSFaces);
 		}
@@ -325,18 +336,19 @@ void osgImplementation::PreFrameUpdate()
 				normals->push_back(v_normal);
 			}
 			// pass the created vertex array to the points geometry object.
-			mDrawVertexs->removePrimitiveSet(0,999);
+			
 			mDrawVertexs->setVertexArray(vertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(1.0f,0.0f,0.0f,1.0f));
 			// use the shared color array.
-			mDrawVertexs->setColorArray(shared_colors.get());
+			mDrawVertexs->setColorArray(shared_colors);
 			mDrawVertexs->setColorBinding(osg::Geometry::BIND_OVERALL);
 			// use the normal array.
 			mDrawVertexs->setNormalArray(normals);
 			mDrawVertexs->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
 			// This time we simply use primitive, and hardwire the number of coords to use 
 			// since we know up front,
+			mDrawVertexs->removePrimitiveSet(0,999);
 			mDrawVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, vertices->getNumElements()));
 			// add the points geometry to the geode.
 			mDrawVertexs->getOrCreateStateSet()->setAttribute( new osg::Point( 2.0f ), osg::StateAttribute::ON );
@@ -377,7 +389,7 @@ void osgImplementation::PreFrameUpdate()
 				normals->push_back(v_normal);
 			}
 			// pass the created vertex array to the points geometry object.
-			mDrawEdges->removePrimitiveSet(0,999);
+			
 			mDrawEdges->setVertexArray(vertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(0.0f,1.0f,0.0f,1.0f));
@@ -385,10 +397,11 @@ void osgImplementation::PreFrameUpdate()
 			mDrawEdges->setColorArray(shared_colors);
 			mDrawEdges->setColorBinding(osg::Geometry::BIND_OVERALL);
 			// use the normal array.
-			mDrawEdges->setNormalArray(normals.get());
+			mDrawEdges->setNormalArray(normals);
 			mDrawEdges->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
 			// This time we simply use primitive, and hardwire the number of coords to use 
 			// since we know up front,
+			mDrawEdges->removePrimitiveSet(0,999);
 			mDrawEdges->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->getNumElements()));
 			// add the points geometry to the geode.
 			if (!mModel->containsDrawable(mDrawEdges))
@@ -421,7 +434,7 @@ void osgImplementation::PreFrameUpdate()
 					normals->push_back(v_normal);
 				}
 			}
-			mDrawFaces->removePrimitiveSet(0,999);
+			
 			// pass the created vertex array to the points geometry object.
 			mDrawFaces->setVertexArray(vertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
@@ -434,6 +447,7 @@ void osgImplementation::PreFrameUpdate()
 			mDrawFaces->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
 			// This time we simply use primitive, and hardwire the number of coords to use 
 			// since we know up front,
+			mDrawFaces->removePrimitiveSet(0,999);
 			mDrawFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, vertices->getNumElements()));
 			// add the points geometry to the geode.
 			if (!mModel->containsDrawable(mDrawFaces))
@@ -538,4 +552,41 @@ void osgImplementation::ClearFaces()
 {
 	mFaces.clear();
 	Show(mStatus);
+}
+
+void RedirectIOToConsole()
+{
+	using namespace std;
+	int hConHandle;
+	long lStdHandle;
+	CONSOLE_SCREEN_BUFFER_INFO coninfo;
+	FILE *fp;
+	// allocate a console for this app
+	AllocConsole();
+	// set the screen buffer to be big enough to let us scroll text
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &coninfo);
+	coninfo.dwSize.Y = 1024;
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),
+		coninfo.dwSize);
+	// redirect unbuffered STDOUT to the console
+	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	fp = _fdopen( hConHandle, "w" );
+	*stdout = *fp;
+	setvbuf( stdout, NULL, _IONBF, 0 );
+	// redirect unbuffered STDIN to the console
+	lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	fp = _fdopen( hConHandle, "r" );
+	*stdin = *fp;
+	setvbuf( stdin, NULL, _IONBF, 0 );
+	// redirect unbuffered STDERR to the console
+	lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	fp = _fdopen( hConHandle, "w" );
+	*stderr = *fp;
+	setvbuf( stderr, NULL, _IONBF, 0 );
+	// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog
+	// point to console as well
+	ios::sync_with_stdio();
 }

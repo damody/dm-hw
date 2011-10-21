@@ -25,43 +25,45 @@ Public Class Form1
         ChooseFaceToolStripMenuItem.Checked = Not (ChooseFaceToolStripMenuItem.Checked)
     End Sub
     Private Sub PictureBox_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox.MouseDown
-        If ChoosePointToolStripMenuItem.Checked Then
-            osg.SelectPoint(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-        End If
-        If ChooseVertexToolStripMenuItem.Checked Then
-            osg.SelectVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            If RingVertexToolStripMenuItem.Checked Then
-                osg.SelectVertexRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+        If e.Button = MouseButtons.Right Then
+            If ChoosePointToolStripMenuItem.Checked Then
+                osg.SelectPoint(PictureBox.Width - e.X, PictureBox.Height - e.Y)
             End If
-            If RingEdgeToolStripMenuItem.Checked Then
-                osg.SelectVertexRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            If ChooseVertexToolStripMenuItem.Checked Then
+                osg.SelectVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                If RingVertexToolStripMenuItem.Checked Then
+                    osg.SelectVertexRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
+                If RingEdgeToolStripMenuItem.Checked Then
+                    osg.SelectVertexRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
+                If RingFaceToolStripMenuItem.Checked Then
+                    osg.SelectVertexRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
             End If
-            If RingFaceToolStripMenuItem.Checked Then
-                osg.SelectVertexRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            If ChooseEdgeToolStripMenuItem.Checked Then
+                osg.SelectEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                If RingVertexToolStripMenuItem.Checked Then
+                    osg.SelectEdgeRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
+                If RingEdgeToolStripMenuItem.Checked Then
+                    osg.SelectEdgeRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
+                If RingFaceToolStripMenuItem.Checked Then
+                    osg.SelectEdgeRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
             End If
-        End If
-        If ChooseEdgeToolStripMenuItem.Checked Then
-            osg.SelectEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            If RingVertexToolStripMenuItem.Checked Then
-                osg.SelectEdgeRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            End If
-            If RingEdgeToolStripMenuItem.Checked Then
-                osg.SelectEdgeRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            End If
-            If RingFaceToolStripMenuItem.Checked Then
-                osg.SelectEdgeRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            End If
-        End If
-        If ChooseFaceToolStripMenuItem.Checked Then
-            osg.SelectFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            If RingVertexToolStripMenuItem.Checked Then
-                osg.SelectFaceRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            End If
-            If RingEdgeToolStripMenuItem.Checked Then
-                osg.SelectFaceRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
-            End If
-            If RingFaceToolStripMenuItem.Checked Then
-                osg.SelectFaceRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            If ChooseFaceToolStripMenuItem.Checked Then
+                osg.SelectFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                If RingVertexToolStripMenuItem.Checked Then
+                    osg.SelectFaceRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
+                If RingEdgeToolStripMenuItem.Checked Then
+                    osg.SelectFaceRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
+                If RingFaceToolStripMenuItem.Checked Then
+                    osg.SelectFaceRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                End If
             End If
         End If
     End Sub
@@ -185,4 +187,5 @@ Public Class Form1
     Private Sub FacesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FacesToolStripMenuItem.Click
         osg.ClearFaces()
     End Sub
+
 End Class

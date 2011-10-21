@@ -41,14 +41,14 @@ Partial Class Form1
         Me.ShowEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PictureBox = New System.Windows.Forms.PictureBox
-        Me.OpenMeshFileDialog = New System.Windows.Forms.OpenFileDialog
-        Me.SaveMeshFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.RenderTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PointsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.VertexesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EdgesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FacesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.PictureBox = New System.Windows.Forms.PictureBox
+        Me.OpenMeshFileDialog = New System.Windows.Forms.OpenFileDialog
+        Me.SaveMeshFileDialog = New System.Windows.Forms.SaveFileDialog
+        Me.RenderTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -122,19 +122,19 @@ Partial Class Form1
         'RingVertexToolStripMenuItem
         '
         Me.RingVertexToolStripMenuItem.Name = "RingVertexToolStripMenuItem"
-        Me.RingVertexToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RingVertexToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
         Me.RingVertexToolStripMenuItem.Text = "Vertex"
         '
         'RingEdgeToolStripMenuItem
         '
         Me.RingEdgeToolStripMenuItem.Name = "RingEdgeToolStripMenuItem"
-        Me.RingEdgeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RingEdgeToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
         Me.RingEdgeToolStripMenuItem.Text = "Edge"
         '
         'RingFaceToolStripMenuItem
         '
         Me.RingFaceToolStripMenuItem.Name = "RingFaceToolStripMenuItem"
-        Me.RingFaceToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.RingFaceToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
         Me.RingFaceToolStripMenuItem.Text = "Face"
         '
         'ShowToolStripMenuItem
@@ -171,6 +171,30 @@ Partial Class Form1
         Me.CameraToolStripMenuItem.Size = New System.Drawing.Size(66, 21)
         Me.CameraToolStripMenuItem.Text = "Clear(&C)"
         '
+        'PointsToolStripMenuItem
+        '
+        Me.PointsToolStripMenuItem.Name = "PointsToolStripMenuItem"
+        Me.PointsToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.PointsToolStripMenuItem.Text = "Points"
+        '
+        'VertexesToolStripMenuItem
+        '
+        Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
+        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.VertexesToolStripMenuItem.Text = "Vertexes"
+        '
+        'EdgesToolStripMenuItem
+        '
+        Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
+        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.EdgesToolStripMenuItem.Text = "Edges"
+        '
+        'FacesToolStripMenuItem
+        '
+        Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
+        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.FacesToolStripMenuItem.Text = "Faces"
+        '
         'PictureBox
         '
         Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill
@@ -191,30 +215,6 @@ Partial Class Form1
         'RenderTimer
         '
         Me.RenderTimer.Interval = 50
-        '
-        'PointsToolStripMenuItem
-        '
-        Me.PointsToolStripMenuItem.Name = "PointsToolStripMenuItem"
-        Me.PointsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.PointsToolStripMenuItem.Text = "Points"
-        '
-        'VertexesToolStripMenuItem
-        '
-        Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
-        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.VertexesToolStripMenuItem.Text = "Vertexes"
-        '
-        'EdgesToolStripMenuItem
-        '
-        Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
-        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.EdgesToolStripMenuItem.Text = "Edges"
-        '
-        'FacesToolStripMenuItem
-        '
-        Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
-        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.FacesToolStripMenuItem.Text = "Faces"
         '
         'Form1
         '

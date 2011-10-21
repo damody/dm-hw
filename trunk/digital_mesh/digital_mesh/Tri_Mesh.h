@@ -6,6 +6,7 @@
 #include <vector>
 #include <osg/Vec3f>
 #include <string>
+#include <osg/Array>
 
 struct BasicTraits : public OpenMesh::DefaultTraits
 {
@@ -33,10 +34,10 @@ struct sFace
 	{}
 	osg::Vec3f a, b, c;
 };
-typedef std::vector<sLine> sLines;
-typedef std::vector<sFace> sFaces;
-typedef std::vector<osg::Vec3f> sPoints;
-typedef std::vector<osg::Vec4f> sColors;
+typedef osg::Vec3Array sLines;
+typedef osg::Vec3Array sFaces;
+typedef osg::Vec3Array sPoints;
+typedef osg::Vec4Array sColors;
 
 bool IntersectLineTriangle( const osg::Vec3f& p, const osg::Vec3f& q, const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c, osg::Vec3f & point );
 

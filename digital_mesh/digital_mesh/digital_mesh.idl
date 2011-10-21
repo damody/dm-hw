@@ -41,10 +41,9 @@ interface IosgControl : IDispatch{
 	[id(23), helpstring("方法 SelectFaceRingVertex")] HRESULT SelectFaceRingVertex([in] LONG x, [in] LONG y);
 	[id(24), helpstring("方法 SelectFaceRingEdge")] HRESULT SelectFaceRingEdge([in] LONG x, [in] LONG y);
 	[id(25), helpstring("方法 SelectFaceRingFace")] HRESULT SelectFaceRingFace([in] LONG x, [in] LONG y);
-	[id(26), helpstring("方法 ClearPoints")] HRESULT ClearPoints(void);
-	[id(27), helpstring("方法 ClearVertexes")] HRESULT ClearVertexes(void);
-	[id(28), helpstring("方法 ClearEdges")] HRESULT ClearEdges(void);
-	[id(29), helpstring("方法 ClearFaces")] HRESULT ClearFaces(void);
+	[id(26), helpstring("方法 ClearVertexes")] HRESULT ClearVertexes(void);
+	[id(27), helpstring("方法 ClearEdges")] HRESULT ClearEdges(void);
+	[id(28), helpstring("方法 ClearFaces")] HRESULT ClearFaces(void);
 };
 [
 	uuid(A236B4E3-2D2B-4504-A7D4-A9210684BEFE),

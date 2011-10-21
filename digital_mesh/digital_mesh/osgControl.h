@@ -76,7 +76,6 @@ public:
 	STDMETHOD(SelectFaceRingVertex)(LONG x, LONG y);
 	STDMETHOD(SelectFaceRingEdge)(LONG x, LONG y);
 	STDMETHOD(SelectFaceRingFace)(LONG x, LONG y);
-	STDMETHOD(ClearPoints)(void);
 	STDMETHOD(ClearVertexes)(void);
 	STDMETHOD(ClearEdges)(void);
 	STDMETHOD(ClearFaces)(void);

@@ -243,7 +243,8 @@ bool Tri_Mesh::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 				tmp1[j] = p1[j];
 				tmp2[j] = p2[j];
 			}
-			out.push_back(sLine(tmp1, tmp2));
+			out.push_back(tmp1);
+			out.push_back(tmp2);
 		}
 		return true;
 	}
@@ -265,8 +266,8 @@ bool Tri_Mesh::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 				t[j][0] = p[0];
 				t[j][1] = p[1];
 				t[j][2] = p[2];
+				out.push_back(t[j]);
 			}
-			out.push_back(sFace(t[0], t[1], t[2]));
 		}
 		return true;
 	}
@@ -321,7 +322,8 @@ bool Tri_Mesh::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 				tmp1[j] = p1[j];
 				tmp2[j] = p2[j];
 			}
-			out.push_back(sLine(tmp1, tmp2));
+			out.push_back(tmp1);
+			out.push_back(tmp2);
 		}
 		for(BasicMesh::VertexEdgeIter ve_itr = ve_iter(to_vertex_handle(_hedge)); ve_itr ; ++ve_itr )
 		{
@@ -334,7 +336,8 @@ bool Tri_Mesh::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 				tmp1[j] = p1[j];
 				tmp2[j] = p2[j];
 			}
-			out.push_back(sLine(tmp1, tmp2));
+			out.push_back(tmp1);
+			out.push_back(tmp2);
 		}
 		return true;
 	}
@@ -357,8 +360,8 @@ bool Tri_Mesh::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 				t[j][0] = p[0];
 				t[j][1] = p[1];
 				t[j][2] = p[2];
+				out.push_back(t[j]);
 			}
-			out.push_back(sFace(t[0], t[1], t[2]));
 		}
 		for(BasicMesh::VertexFaceIter vf_itr = vf_iter(to_vertex_handle(_hedge)); vf_itr ; ++vf_itr )
 		{
@@ -370,8 +373,8 @@ bool Tri_Mesh::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 				t[j][0] = p[0];
 				t[j][1] = p[1];
 				t[j][2] = p[2];
+				out.push_back(t[j]);
 			}
-			out.push_back(sFace(t[0], t[1], t[2]));
 		}
 		return true;
 	}
@@ -414,7 +417,8 @@ bool Tri_Mesh::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 				tmp1[j] = p1[j];
 				tmp2[j] = p2[j];
 			}
-			out.push_back(sLine(tmp1, tmp2));
+			out.push_back(tmp1);
+			out.push_back(tmp2);
 		}
 		return true;
 	}
@@ -436,8 +440,8 @@ bool Tri_Mesh::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 				t[j][0] = dp[0];
 				t[j][1] = dp[1];
 				t[j][2] = dp[2];
+				out.push_back(t[j]);
 			}
-			out.push_back(sFace(t[0], t[1], t[2]));
 		}
 		return true;
 	}

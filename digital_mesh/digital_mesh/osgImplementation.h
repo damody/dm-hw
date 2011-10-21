@@ -38,7 +38,6 @@ public:
 	~osgImplementation(void);
 	osg::ref_ptr<osg::Camera> mCamera;
 private:
-	
 	bool mDone;
 	HWND mhWnd;
 	osgViewer::Viewer* mViewer;
@@ -49,37 +48,41 @@ private:
 	osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> mKeyswitchManipulator;
 	Tri_Mesh*	mMesh;
 	int		mStatus;
-	sPoints mPoints;
-	sColors mPointColors;
-	sPoints mSVertexs;
-	sColors mSVertexColors;
-	sLines	mLines;
-	sFaces	mFaces;
+	osg::ref_ptr<sPoints>	mVertices;
+	osg::ref_ptr<sColors>	mVerticesColors;
+	osg::ref_ptr<sLines>	mLines;
+	osg::ref_ptr<sColors>	mLinesColors;
+	osg::ref_ptr<sFaces>	mFaces;
+	osg::ref_ptr<sColors>	mFacesColors;
 	osg::ref_ptr<osg::Geometry> mDrawPoints;
 	osg::ref_ptr<osg::Geometry> mDrawLines;
-	osg::ref_ptr<osg::Geometry> mDrawSVertexs;
+	osg::ref_ptr<osg::Geometry> mDrawSVertices;
 	osg::ref_ptr<osg::Geometry> mDrawEdges;
 	osg::ref_ptr<osg::Geometry> mDrawVertexs;
 	osg::ref_ptr<osg::Geometry> mDrawSFaces;
 	osg::ref_ptr<osg::Geometry> mDrawFaces;
+	osg::ref_ptr<osg::Vec3Array> mPointVertices;
+	osg::ref_ptr<osg::Vec3Array> mPointNormals;
+	osg::ref_ptr<osg::Vec3Array> mEdgeVertices;
+	osg::ref_ptr<osg::Vec3Array> mEdgeNormals;
+	osg::ref_ptr<osg::Vec3Array> mFaceVertices;
+	osg::ref_ptr<osg::Vec3Array> mFaceNormals;
 	bool	mNeedUpdate;
 public:
 	static void Render(void* ptr);
 	// clear
-	void ClearPoints();
 	void ClearVertexes();
 	void ClearEdges();
 	void ClearFaces();
 
 	// add single shape
-	void AddPoint(const osg::Vec3f& p);
-	void AddVertex(const osg::Vec3f& p);
-	void AddLine(const osg::Vec3f& p, const osg::Vec3f& q);
-	void AddFace(const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c);
+	void AddVertex(const osg::Vec3f& p, float r, float g, float b);
+	void AddLine(const osg::Vec3f& p, const osg::Vec3f& q, float r, float g, float b);
+	void AddFace(const osg::Vec3f& fa, const osg::Vec3f& fb, const osg::Vec3f& fc, float r, float g, float b);
 	// add shapes
-	void AddVertex(const sPoints& input);
-	void AddLine(const sLines& input);
-	void AddFace(const sFaces& input);
+	void AddVertex(const sPoints& input, float r, float g, float b);
+	void AddLine(const sLines& input, float r, float g, float b);
+	void AddFace(const sFaces& input, float r, float g, float b);
 	// select basic shape
 	bool SelectPoint(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
 	bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);

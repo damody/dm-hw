@@ -41,7 +41,6 @@ Partial Class Form1
         Me.ShowEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PointsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.VertexesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EdgesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FacesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -91,25 +90,25 @@ Partial Class Form1
         'ChoosePointToolStripMenuItem
         '
         Me.ChoosePointToolStripMenuItem.Name = "ChoosePointToolStripMenuItem"
-        Me.ChoosePointToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
+        Me.ChoosePointToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ChoosePointToolStripMenuItem.Text = "Point"
         '
         'ChooseVertexToolStripMenuItem
         '
         Me.ChooseVertexToolStripMenuItem.Name = "ChooseVertexToolStripMenuItem"
-        Me.ChooseVertexToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
+        Me.ChooseVertexToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ChooseVertexToolStripMenuItem.Text = "Vertex"
         '
         'ChooseEdgeToolStripMenuItem
         '
         Me.ChooseEdgeToolStripMenuItem.Name = "ChooseEdgeToolStripMenuItem"
-        Me.ChooseEdgeToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
+        Me.ChooseEdgeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ChooseEdgeToolStripMenuItem.Text = "Edge"
         '
         'ChooseFaceToolStripMenuItem
         '
         Me.ChooseFaceToolStripMenuItem.Name = "ChooseFaceToolStripMenuItem"
-        Me.ChooseFaceToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
+        Me.ChooseFaceToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ChooseFaceToolStripMenuItem.Text = "Face"
         '
         'RingToolStripMenuItem
@@ -166,33 +165,27 @@ Partial Class Form1
         '
         'CameraToolStripMenuItem
         '
-        Me.CameraToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PointsToolStripMenuItem, Me.VertexesToolStripMenuItem, Me.EdgesToolStripMenuItem, Me.FacesToolStripMenuItem})
+        Me.CameraToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VertexesToolStripMenuItem, Me.EdgesToolStripMenuItem, Me.FacesToolStripMenuItem})
         Me.CameraToolStripMenuItem.Name = "CameraToolStripMenuItem"
         Me.CameraToolStripMenuItem.Size = New System.Drawing.Size(66, 21)
         Me.CameraToolStripMenuItem.Text = "Clear(&C)"
         '
-        'PointsToolStripMenuItem
-        '
-        Me.PointsToolStripMenuItem.Name = "PointsToolStripMenuItem"
-        Me.PointsToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
-        Me.PointsToolStripMenuItem.Text = "Points"
-        '
         'VertexesToolStripMenuItem
         '
         Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
-        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.VertexesToolStripMenuItem.Text = "Vertexes"
         '
         'EdgesToolStripMenuItem
         '
         Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
-        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EdgesToolStripMenuItem.Text = "Edges"
         '
         'FacesToolStripMenuItem
         '
         Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
-        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FacesToolStripMenuItem.Text = "Faces"
         '
         'PictureBox
@@ -257,7 +250,6 @@ Partial Class Form1
     Friend WithEvents RingVertexToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RingEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RingFaceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PointsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents VertexesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EdgesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FacesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

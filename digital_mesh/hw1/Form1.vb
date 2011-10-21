@@ -12,18 +12,6 @@ Public Class Form1
 
     End Sub
 
-    Private Sub ChoosePointToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChoosePointToolStripMenuItem.Click
-        ChoosePointToolStripMenuItem.Checked = Not (ChoosePointToolStripMenuItem.Checked)
-    End Sub
-    Private Sub ChooseVertexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseVertexToolStripMenuItem.Click
-        ChooseVertexToolStripMenuItem.Checked = Not (ChooseVertexToolStripMenuItem.Checked)
-    End Sub
-    Private Sub ChooseEdgeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseEdgeToolStripMenuItem.Click
-        ChooseEdgeToolStripMenuItem.Checked = Not (ChooseEdgeToolStripMenuItem.Checked)
-    End Sub
-    Private Sub ChooseFaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseFaceToolStripMenuItem.Click
-        ChooseFaceToolStripMenuItem.Checked = Not (ChooseFaceToolStripMenuItem.Checked)
-    End Sub
     Private Sub PictureBox_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox.MouseDown
         If e.Button = MouseButtons.Right Then
             If ChoosePointToolStripMenuItem.Checked Then
@@ -127,37 +115,75 @@ Public Class Form1
         'osg.Render()
     End Sub
 
-    Private Sub Form1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
-        If e.KeyChar = "q" Or e.KeyChar = "Q" Then
-            ShowVertexToolStripMenuItem.Checked = Not (ShowVertexToolStripMenuItem.Checked)
-            If ShowVertexToolStripMenuItem.Checked Then
-                osg.ShowVertex()
-            Else
-                osg.HideVertex()
-            End If
+    Private Sub Form1_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        'clear all
+        Select Case Chr(e.KeyCode)
+            Case "c", "C"
+                osg.ClearVertexes()
+                osg.ClearEdges()
+                osg.ClearFaces()
+        End Select
+
+        If e.Shift = True Then 'select choose mode
+            Select Case Chr(e.KeyCode)
+                Case "p", "P"
+                    ChoosePointToolStripMenuItem.Checked = Not (ChoosePointToolStripMenuItem.Checked)
+                Case "v", "V"
+                    ChooseVertexToolStripMenuItem.Checked = Not (ChooseVertexToolStripMenuItem.Checked)
+                Case "e", "E"
+                    ChooseEdgeToolStripMenuItem.Checked = Not (ChooseEdgeToolStripMenuItem.Checked)
+                Case "f", "F"
+                    ChooseFaceToolStripMenuItem.Checked = Not (ChooseFaceToolStripMenuItem.Checked)
+            End Select
+
+        ElseIf e.Control = True Then  'select ring mode
+            Select Case Chr(e.KeyCode)
+                Case "v", "V"
+                    RingVertexToolStripMenuItem.Checked = Not (RingVertexToolStripMenuItem.Checked)
+                Case "e", "E"
+                    RingEdgeToolStripMenuItem.Checked = Not (RingEdgeToolStripMenuItem.Checked)
+                Case "f", "F"
+                    RingFaceToolStripMenuItem.Checked = Not (RingFaceToolStripMenuItem.Checked)
+            End Select
+
+        Else 'normal mode
+            Select Case Chr(e.KeyCode)
+                Case "v", "V"
+                    ShowVertexToolStripMenuItem.Checked = Not (ShowVertexToolStripMenuItem.Checked)
+                    If ShowVertexToolStripMenuItem.Checked Then
+                        osg.ShowVertex()
+                    Else
+                        osg.HideVertex()
+                    End If
+                Case "e", "E"
+                    ShowEdgeToolStripMenuItem.Checked = Not (ShowEdgeToolStripMenuItem.Checked)
+                    If ShowEdgeToolStripMenuItem.Checked Then
+                        osg.ShowEdge()
+                    Else
+                        osg.HideEdge()
+                    End If
+                Case "f", "F"
+                    ShowFaceToolStripMenuItem.Checked = Not (ShowFaceToolStripMenuItem.Checked)
+                    If ShowFaceToolStripMenuItem.Checked Then
+                        osg.ShowFace()
+                    Else
+                        osg.HideFace()
+                    End If
+            End Select
         End If
-        If e.KeyChar = "w" Or e.KeyChar = "W" Then
-            ShowEdgeToolStripMenuItem.Checked = Not (ShowEdgeToolStripMenuItem.Checked)
-            If ShowEdgeToolStripMenuItem.Checked Then
-                osg.ShowEdge()
-            Else
-                osg.HideEdge()
-            End If
-        End If
-        If e.KeyChar = "e" Or e.KeyChar = "E" Then
-            ShowFaceToolStripMenuItem.Checked = Not (ShowFaceToolStripMenuItem.Checked)
-            If ShowFaceToolStripMenuItem.Checked Then
-                osg.ShowFace()
-            Else
-                osg.HideFace()
-            End If
-        End If
-        If e.KeyChar = "c" Or e.KeyChar = "C" Then
-            osg.ClearPoints()
-            osg.ClearVertexes()
-            osg.ClearEdges()
-            osg.ClearFaces()
-        End If
+    End Sub
+
+    Private Sub ChoosePointToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChoosePointToolStripMenuItem.Click
+        ChoosePointToolStripMenuItem.Checked = Not (ChoosePointToolStripMenuItem.Checked)
+    End Sub
+    Private Sub ChooseVertexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseVertexToolStripMenuItem.Click
+        ChooseVertexToolStripMenuItem.Checked = Not (ChooseVertexToolStripMenuItem.Checked)
+    End Sub
+    Private Sub ChooseEdgeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseEdgeToolStripMenuItem.Click
+        ChooseEdgeToolStripMenuItem.Checked = Not (ChooseEdgeToolStripMenuItem.Checked)
+    End Sub
+    Private Sub ChooseFaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChooseFaceToolStripMenuItem.Click
+        ChooseFaceToolStripMenuItem.Checked = Not (ChooseFaceToolStripMenuItem.Checked)
     End Sub
 
     Private Sub RingVertexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RingVertexToolStripMenuItem.Click
@@ -172,8 +198,8 @@ Public Class Form1
         RingFaceToolStripMenuItem.Checked = Not (RingFaceToolStripMenuItem.Checked)
     End Sub
 
-    Private Sub PointsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PointsToolStripMenuItem.Click
-        osg.ClearPoints()
+    Private Sub PointsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
     End Sub
 
     Private Sub VertexesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VertexesToolStripMenuItem.Click

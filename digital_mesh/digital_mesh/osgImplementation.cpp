@@ -14,14 +14,20 @@ osgImplementation::osgImplementation( HWND hWnd )
 :mhWnd(hWnd), mStatus(0), mMesh(0), mNeedUpdate(false)
 {
 	mDrawPoints = new osg::Geometry;
-	mDrawSVertexs = new osg::Geometry;
+	mDrawSVertices = new osg::Geometry;
 	mDrawLines = new osg::Geometry;
 	mDrawEdges = new osg::Geometry;
 	mDrawVertexs = new osg::Geometry;
 	mDrawFaces = new osg::Geometry;
 	mDrawSFaces = new osg::Geometry;
+	mVertices = new osg::Vec3Array;
+	mVerticesColors = new osg::Vec4Array;
+	mLinesColors = new osg::Vec4Array;
+	mFacesColors= new osg::Vec4Array;
+	mLines = new osg::Vec3Array;
+	mFaces = new osg::Vec3Array;
 	mDrawPoints->setUseDisplayList(false);
-	mDrawSVertexs->setUseDisplayList(false);
+	mDrawSVertices->setUseDisplayList(false);
 	mDrawLines->setUseDisplayList(false);
 	mDrawEdges->setUseDisplayList(false);
 	mDrawVertexs->setUseDisplayList(false);
@@ -54,6 +60,73 @@ void osgImplementation::Render( void* ptr )
 void osgImplementation::SetModel( Tri_Mesh* mesh )
 {
 	mMesh = mesh;
+	//init point
+	BasicMesh::VertexIter v_it;
+	mPointVertices = new osg::Vec3Array;
+	mPointNormals = new osg::Vec3Array;
+	for (v_it = mMesh->vertices_begin(); v_it != mMesh->vertices_end(); ++v_it) 
+	{
+		osg::Vec3 v_normal, v_point;
+		const Tri_Mesh::Normal& n = mMesh->normal(v_it.handle());
+		const Tri_Mesh::Point& p = mMesh->point(v_it.handle());
+		for (int i=0;i<3;++i)
+		{
+			v_normal[i] = n[i];
+			v_point[i] = p[i];
+		}
+		mPointVertices->push_back(v_point);
+		mPointNormals->push_back(v_normal);
+	}
+	// init edge
+	BasicMesh::EdgeIter e_it;
+	BasicMesh::HalfedgeHandle _hedge;
+	mEdgeVertices = new osg::Vec3Array;
+	mEdgeNormals = new osg::Vec3Array;
+	osg::Vec3 v_normal, v_point;
+	for(e_it = mMesh->edges_begin(); e_it != mMesh->edges_end(); ++e_it)
+	{
+		_hedge = mMesh->halfedge_handle(e_it.handle(),1);
+		const Tri_Mesh::Normal& n1 = mMesh->normal(mMesh->from_vertex_handle(_hedge));
+		const Tri_Mesh::Point& p1 = mMesh->point(mMesh->from_vertex_handle(_hedge));
+		for (int i=0;i<3;++i)
+		{
+			v_point[i] = p1[i];
+			v_normal[i] = n1[i];
+		}
+		mEdgeVertices->push_back(v_point);
+		mEdgeNormals->push_back(v_normal);
+		const Tri_Mesh::Normal& n2 = mMesh->normal(mMesh->to_vertex_handle(_hedge));
+		const Tri_Mesh::Point& p2 = mMesh->point(mMesh->to_vertex_handle(_hedge));
+		for (int i=0;i<3;++i)
+		{
+			v_point[i] = p2[i];
+			v_normal[i] = n2[i];
+		}
+		mEdgeVertices->push_back(v_point);
+		mEdgeNormals->push_back(v_normal);
+	}
+	//niit face
+	BasicMesh::FaceIter f_it;
+	BasicMesh::FaceVertexIter fv_it;
+	mFaceVertices = new osg::Vec3Array;
+	mFaceNormals = new osg::Vec3Array;
+	int count = 0;
+	for (f_it = mMesh->faces_begin(); f_it != mMesh->faces_end(); ++f_it, ++count) 
+	{
+		osg::Vec3 v_normal, v_point;
+		for (fv_it = mMesh->fv_iter( f_it ); fv_it; ++fv_it)
+		{
+			const Tri_Mesh::Normal& n = mMesh->normal(fv_it.handle());
+			const Tri_Mesh::Point& p= mMesh->point(fv_it.handle());
+			for (int i=0;i<3;++i)
+			{
+				v_normal[i] = n[i];
+				v_point[i] = p[i];
+			}
+			mFaceVertices->push_back(v_point);
+			mFaceNormals->push_back(v_normal);
+		}
+	}
 }
 
 void osgImplementation::GetRay( float x, float y, osg::Vec3f& vPickRayOrig, osg::Vec3f& vPickRayDir )
@@ -80,46 +153,58 @@ void osgImplementation::GetRay( float x, float y, osg::Vec3f& vPickRayOrig, osg:
 	vPickRayDir = vPickRayOrig-vPickRayDir*10;
 }
 
-void osgImplementation::AddPoint( const osg::Vec3f& p )
+
+void osgImplementation::AddVertex(const osg::Vec3f& p, float r, float g, float b )
 {
-	mPoints.push_back(p);
+	mVertices->push_back(p);
+	mVerticesColors->push_back(osg::Vec4f(r, g, b, 1.0f));
 	Show(mStatus);
 }
 
-void osgImplementation::AddVertex(const osg::Vec3f& p )
+void osgImplementation::AddVertex( const sPoints& input, float r, float g, float b )
 {
-	mSVertexs.push_back(p);
+	for (size_t i=0;i<input.size();++i)
+		AddVertex(input[i], r, g, b);
+}
+
+void osgImplementation::AddLine(const osg::Vec3f& p, const osg::Vec3f& q, float r, float g, float b )
+{
+	mLines->push_back(p);
+	mLines->push_back(q);
+	mLinesColors->push_back(osg::Vec4f(r, g, b, 1.0f));
 	Show(mStatus);
 }
 
-void osgImplementation::AddVertex( const sPoints& input )
+void osgImplementation::AddLine( const sLines& input, float r, float g, float b )
 {
-	for (int i=0;i<input.size();++i)
-		AddVertex(input[i]);
-}
-
-void osgImplementation::AddLine(const osg::Vec3f& p, const osg::Vec3f& q )
-{
-	mLines.push_back(sLine(p, q));
+	for (size_t i=0;i<input.size();i+=2)
+	{
+		mLines->push_back(input[i]);
+		mLines->push_back(input[i+1]);
+		mLinesColors->push_back(osg::Vec4f(r, g, b, 1.0f));
+	}
 	Show(mStatus);
 }
 
-void osgImplementation::AddLine( const sLines& input )
-{
-	for (int i=0;i<input.size();++i)
-		AddLine(input[i].a, input[i].b);
-}
-
-void osgImplementation::AddFace( const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c )
+void osgImplementation::AddFace( const osg::Vec3f& fa, const osg::Vec3f& fb, const osg::Vec3f& fc, float r, float g, float b )
 {  
-	mFaces.push_back(sFace(a, b, c));
+	mFaces->push_back(fa);
+	mFaces->push_back(fb);
+	mFaces->push_back(fc);
+	mFacesColors->push_back(osg::Vec4f(r, g, b, 1.0f));
 	Show(mStatus);
 }
 
-void osgImplementation::AddFace( const sFaces& input )
+void osgImplementation::AddFace( const sFaces& input, float r, float g, float b )
 {
-	for (int i=0;i<input.size();++i)
-		AddFace(input[i].a, input[i].b, input[i].c);
+	for (size_t i=0;i<input.size();i+=3)
+	{
+		mFaces->push_back(input[i]);
+		mFaces->push_back(input[i+1]);
+		mFaces->push_back(input[i+2]);
+		mFacesColors->push_back(osg::Vec4f(r, g, b, 1.0f));
+	}
+	Show(mStatus);
 }
 
 
@@ -165,7 +250,7 @@ void osgImplementation::InitCameraConfig()
 	// Create the viewer for this window
 	mViewer = new osgViewer::Viewer();
 	// add the thread model handler
-	//mViewer->addEventHandler(new osgViewer::ThreadingHandler);
+	mViewer->addEventHandler(new osgViewer::ThreadingHandler);
 	// add the window size toggle handler
 	mViewer->addEventHandler(new osgViewer::WindowSizeHandler);
 	// add the stats handler
@@ -225,88 +310,42 @@ void osgImplementation::PreFrameUpdate()
 	if (mNeedUpdate && mMesh)
 	{
 		mNeedUpdate = false;
-		if (!mPoints.empty())
+		if (!mVertices->empty())
 		{// add all points
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
-			for (size_t i=0;i<mPoints.size();++i)
-				vertices->push_back(mPoints[i]);
-			mDrawPoints->setVertexArray(vertices);
-			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(1.0f,0.0f,1.0f,1.0f));
-			mDrawPoints->setColorArray(shared_colors);
-			mDrawPoints->setColorBinding(osg::Geometry::BIND_OVERALL);
-			mDrawPoints->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawPoints->removePrimitiveSet(0,999);
-			mDrawPoints->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, vertices->getNumElements()));
-			mDrawPoints->getOrCreateStateSet()->setAttribute( new osg::Point( 5.0f ), osg::StateAttribute::ON );
-			if (!mShape->containsDrawable(mDrawPoints))
-				mShape->addDrawable(mDrawPoints);
+			mDrawSVertices->setVertexArray(mVertices);
+			mDrawSVertices->setColorArray(mVerticesColors);
+			mDrawSVertices->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+			mDrawSVertices->setNormalBinding(osg::Geometry::BIND_OFF);
+			mDrawSVertices->removePrimitiveSet(0,999);
+			mDrawSVertices->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mVertices->size()));
+			mDrawSVertices->getOrCreateStateSet()->setAttribute( new osg::Point( 5.0f ), osg::StateAttribute::ON );
+			if (!mShape->containsDrawable(mDrawSVertices))
+				mShape->addDrawable(mDrawSVertices);
 		}
 		else
-			mShape->removeDrawable(mDrawPoints);
-		if (!mSVertexs.empty())
-		{// add all points
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
-			for (size_t i=0;i<mSVertexs.size();++i)
-				vertices->push_back(mSVertexs[i]);
-			
-			mDrawSVertexs->setVertexArray(vertices);
-			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(1.0f,1.0f,1.0f,1.0f));
-			mDrawSVertexs->setColorArray(shared_colors);
-			mDrawSVertexs->setColorBinding(osg::Geometry::BIND_OVERALL);
-			mDrawSVertexs->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawSVertexs->removePrimitiveSet(0,999);
-			mDrawSVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, vertices->getNumElements()));
-			mDrawSVertexs->getOrCreateStateSet()->setAttribute( new osg::Point( 5.0f ), osg::StateAttribute::ON );
-			if (!mShape->containsDrawable(mDrawSVertexs))
-				mShape->addDrawable(mDrawSVertexs);
-		}
-		else
-			mShape->removeDrawable(mDrawSVertexs);
-		if (!mLines.empty())
+			mShape->removeDrawable(mDrawSVertices);
+		if (!mLines->empty())
 		{// add all lines
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
-			for (size_t i=0;i<mLines.size();++i)
-			{
-				vertices->push_back(mLines[i].a);
-				vertices->push_back(mLines[i].b);
-			}
-			
-			mDrawLines->setVertexArray(vertices);
-			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(0.0f,1.0f,1.0f,1.0f));
-			// use the shared color array.
-			mDrawLines->setColorArray(shared_colors);
-			mDrawLines->setColorBinding(osg::Geometry::BIND_OVERALL);
+			mDrawLines->setVertexArray(mLines);
+			mDrawLines->setColorArray(mLinesColors);
+			mDrawLines->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
 			mDrawLines->setNormalBinding(osg::Geometry::BIND_OFF);
 			mDrawLines->removePrimitiveSet(0,999);
-			mDrawLines->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->getNumElements()));
+			mDrawLines->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, mLines->size()));
 			mDrawLines->getOrCreateStateSet()->setAttribute( new osg::LineWidth(3.0f), osg::StateAttribute::ON );
 			if (!mShape->containsDrawable(mDrawLines))
 				mShape->addDrawable(mDrawLines);
 		}
 		else
 			mShape->removeDrawable(mDrawLines);
-		if (!mFaces.empty())
+		if (!mFaces->empty())
 		{// add all faces
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
-			for (size_t i=0;i<mFaces.size();++i)
-			{
-				vertices->push_back(mFaces[i].a);
-				vertices->push_back(mFaces[i].b);
-				vertices->push_back(mFaces[i].c);
-			}
-			
-			mDrawSFaces->setVertexArray(vertices);
-			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(0.5f,0.5f,0.2f,1.0f));
-			// use the shared color array.
-			mDrawSFaces->setColorArray(shared_colors);
-			mDrawSFaces->setColorBinding(osg::Geometry::BIND_OVERALL);
+			mDrawSFaces->setVertexArray(mFaces);
+			mDrawSFaces->setColorArray(mFacesColors);
+			mDrawSFaces->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
 			mDrawSFaces->setNormalBinding(osg::Geometry::BIND_OFF);
 			mDrawSFaces->removePrimitiveSet(0,999);
-			mDrawSFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, vertices->getNumElements()));
+			mDrawSFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, mFaces->size()));
 			if (!mShape->containsDrawable(mDrawSFaces))
 				mShape->addDrawable(mDrawSFaces);
 		}
@@ -315,37 +354,20 @@ void osgImplementation::PreFrameUpdate()
 		
 		if (mStatus & VERTEX)
 		{
-			BasicMesh::VertexIter v_it;
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
-			osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array;
-			for (v_it = mMesh->vertices_begin(); v_it != mMesh->vertices_end(); ++v_it) 
-			{
-				osg::Vec3 v_normal, v_point;
-				const Tri_Mesh::Normal& n = mMesh->normal(v_it.handle());
-				const Tri_Mesh::Point& p = mMesh->point(v_it.handle());
-				for (int i=0;i<3;++i)
-				{
-					v_normal[i] = n[i];
-					v_point[i] = p[i];
-				}
-				vertices->push_back(v_point);
-				normals->push_back(v_normal);
-			}
 			// pass the created vertex array to the points geometry object.
-			
-			mDrawVertexs->setVertexArray(vertices);
+			mDrawVertexs->setVertexArray(mPointVertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(1.0f,0.0f,0.0f,1.0f));
 			// use the shared color array.
 			mDrawVertexs->setColorArray(shared_colors);
 			mDrawVertexs->setColorBinding(osg::Geometry::BIND_OVERALL);
 			// use the normal array.
-			mDrawVertexs->setNormalArray(normals);
+			mDrawVertexs->setNormalArray(mPointNormals);
 			mDrawVertexs->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
 			// This time we simply use primitive, and hardwire the number of coords to use 
 			// since we know up front,
 			mDrawVertexs->removePrimitiveSet(0,999);
-			mDrawVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, vertices->getNumElements()));
+			mDrawVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mPointVertices->size()));
 			// add the points geometry to the geode.
 			mDrawVertexs->getOrCreateStateSet()->setAttribute( new osg::Point( 2.0f ), osg::StateAttribute::ON );
 			if (!mModel->containsDrawable(mDrawVertexs))
@@ -357,48 +379,20 @@ void osgImplementation::PreFrameUpdate()
 		}
 		if (mStatus & EDGE)
 		{
-			BasicMesh::EdgeIter e_it;
-			BasicMesh::HalfedgeHandle _hedge;
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
-			osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array;
-			osg::Vec3 v_normal, v_point;
-			for(e_it = mMesh->edges_begin(); e_it != mMesh->edges_end(); ++e_it)
-			{
-				_hedge = mMesh->halfedge_handle(e_it.handle(),1);
-				const Tri_Mesh::Normal& n1 = mMesh->normal(mMesh->from_vertex_handle(_hedge));
-				const Tri_Mesh::Point& p1 = mMesh->point(mMesh->from_vertex_handle(_hedge));
-				for (int i=0;i<3;++i)
-				{
-					v_point[i] = p1[i];
-					v_normal[i] = n1[i];
-				}
-				vertices->push_back(v_point);
-				normals->push_back(v_normal);
-				const Tri_Mesh::Normal& n2 = mMesh->normal(mMesh->to_vertex_handle(_hedge));
-				const Tri_Mesh::Point& p2 = mMesh->point(mMesh->to_vertex_handle(_hedge));
-				for (int i=0;i<3;++i)
-				{
-					v_point[i] = p2[i];
-					v_normal[i] = n2[i];
-				}
-				vertices->push_back(v_point);
-				normals->push_back(v_normal);
-			}
-			// pass the created vertex array to the points geometry object.
-			
-			mDrawEdges->setVertexArray(vertices);
+			// pass the created vertex array to the points geometry object.			
+			mDrawEdges->setVertexArray(mEdgeVertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(0.0f,1.0f,0.0f,1.0f));
 			// use the shared color array.
 			mDrawEdges->setColorArray(shared_colors);
 			mDrawEdges->setColorBinding(osg::Geometry::BIND_OVERALL);
 			// use the normal array.
-			mDrawEdges->setNormalArray(normals);
+			mDrawEdges->setNormalArray(mEdgeNormals);
 			mDrawEdges->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
 			// This time we simply use primitive, and hardwire the number of coords to use 
 			// since we know up front,
 			mDrawEdges->removePrimitiveSet(0,999);
-			mDrawEdges->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->getNumElements()));
+			mDrawEdges->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, mEdgeVertices->size()));
 			// add the points geometry to the geode.
 			if (!mModel->containsDrawable(mDrawEdges))
 				mModel->addDrawable(mDrawEdges);
@@ -409,42 +403,20 @@ void osgImplementation::PreFrameUpdate()
 		}
 		if (mStatus & FACE)
 		{
-			BasicMesh::FaceIter f_it;
-			BasicMesh::FaceVertexIter fv_it;
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
-			osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array;
-			int count = 0;
-			for (f_it = mMesh->faces_begin(); f_it != mMesh->faces_end(); ++f_it, ++count) 
-			{
-				osg::Vec3 v_normal, v_point;
-				for (fv_it = mMesh->fv_iter( f_it ); fv_it; ++fv_it)
-				{
-					const Tri_Mesh::Normal& n = mMesh->normal(fv_it.handle());
-					const Tri_Mesh::Point& p= mMesh->point(fv_it.handle());
-					for (int i=0;i<3;++i)
-					{
-						v_normal[i] = n[i];
-						v_point[i] = p[i];
-					}
-					vertices->push_back(v_point);
-					normals->push_back(v_normal);
-				}
-			}
-			
 			// pass the created vertex array to the points geometry object.
-			mDrawFaces->setVertexArray(vertices);
+			mDrawFaces->setVertexArray(mFaceVertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 			shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,1.0f));
 			// use the shared color array.
 			mDrawFaces->setColorArray(shared_colors);
 			mDrawFaces->setColorBinding(osg::Geometry::BIND_OVERALL);
 			// use the normal array.
-			mDrawFaces->setNormalArray(normals);
+			mDrawFaces->setNormalArray(mFaceNormals);
 			mDrawFaces->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
 			// This time we simply use primitive, and hardwire the number of coords to use 
 			// since we know up front,
 			mDrawFaces->removePrimitiveSet(0,999);
-			mDrawFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, vertices->getNumElements()));
+			mDrawFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, mFaceVertices->size()));
 			// add the points geometry to the geode.
 			if (!mModel->containsDrawable(mDrawFaces))
 				mModel->addDrawable(mDrawFaces);
@@ -526,27 +498,24 @@ bool osgImplementation::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces
 	return mMesh->SelectFaceRingFace(p, q, out);
 }
 
-void osgImplementation::ClearPoints()
-{
-	mPoints.clear();
-	Show(mStatus);
-}
-
 void osgImplementation::ClearVertexes()
 {
-	mSVertexs.clear();
+	mVertices->clear();
+	mVerticesColors->clear();
 	Show(mStatus);
 }
 
 void osgImplementation::ClearEdges()
 {
-	mLines.clear();
+	mLines->clear();
+	mLinesColors->clear();
 	Show(mStatus);
 }
 
 void osgImplementation::ClearFaces()
 {
-	mFaces.clear();
+	mFaces->clear();
+	mFacesColors->clear();
 	Show(mStatus);
 }
 

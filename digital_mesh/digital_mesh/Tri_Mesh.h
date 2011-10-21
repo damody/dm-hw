@@ -42,6 +42,16 @@ bool IntersectLineTriangle( const osg::Vec3f& p, const osg::Vec3f& q, const osg:
 class Tri_Mesh : public BasicMesh
 {
 public:
+	enum Type
+	{
+		POINT	= 1,
+		VERTEX	= 2,
+		FACE	= 8,
+		EDGE = 16,
+		RINGVERTEX	= 32,
+		RINGFACE	= 64,
+		RINGEDGE	= 128
+	};
 	Tri_Mesh()
 	{
 		request_vertex_status();
@@ -55,7 +65,7 @@ public:
 		release_face_status();
 	}
 	bool ReadFile(std::string _fileName);//讀取mesh資料;
-	bool SaveFile(std::string _fileName);//儲存mesh資料;
+	bool SaveFile(std::string _fileName);//儲存mesh資料;`
 	bool SelectPoint(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
 	bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
 	bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);

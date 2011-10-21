@@ -12,6 +12,16 @@
 #include <string>
 #include <vector>
 
+
+#include <windows.h>
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <fcntl.h>
+#include <io.h>
+
+void RedirectIOToConsole();
+
 class osgImplementation
 {
 public:
@@ -105,6 +115,7 @@ public:
 	void InitOSG()
 	{
 		// Init different parts of OSG
+		//RedirectIOToConsole();
 		InitManipulators();
 		InitSceneGraph();
 		InitCameraConfig();

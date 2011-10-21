@@ -50,7 +50,9 @@ private:
 	Tri_Mesh*	mMesh;
 	int		mStatus;
 	sPoints mPoints;
+	sColors mPointColors;
 	sPoints mSVertexs;
+	sColors mSVertexColors;
 	sLines	mLines;
 	sFaces	mFaces;
 	osg::ref_ptr<osg::Geometry> mDrawPoints;

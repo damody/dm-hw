@@ -42,15 +42,11 @@ void osgImplementation::Render( void* ptr )
 	osgImplementation* osg = (osgImplementation*)ptr;
 	osgViewer::Viewer* viewer = osg->getViewer();
 	viewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
-	// You have two options for the main viewer loop
-	//      viewer->run()   or
-	//      while(!viewer->done()) { viewer->frame(); }
-	//viewer->run();
 	while(!viewer->done())
 	{
 		osg->PreFrameUpdate();
  		viewer->frame();
-		//Sleep(10);
+		Sleep(10);
 	}
 	_endthread();
 }

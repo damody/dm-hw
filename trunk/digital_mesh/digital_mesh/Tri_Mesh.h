@@ -36,6 +36,7 @@ struct sFace
 typedef std::vector<sLine> sLines;
 typedef std::vector<sFace> sFaces;
 typedef std::vector<osg::Vec3f> sPoints;
+typedef std::vector<osg::Vec4f> sColors;
 
 bool IntersectLineTriangle( const osg::Vec3f& p, const osg::Vec3f& q, const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c, osg::Vec3f & point );
 

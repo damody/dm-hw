@@ -234,3 +234,13 @@ STDMETHODIMP CosgControl::ClearFaces(void)
 	s_osg->ClearFaces();
 	return S_OK;
 }
+
+STDMETHODIMP CosgControl::DeleteSelectEdge(LONG x, LONG y)
+{
+	osg::Vec3f ori, dir, o1, o2;
+	s_osg->GetRay(x, y, ori, dir);
+	if (s_osg->SelectEdge(ori, dir, o1, o2))
+		s_osg->DeleteEdge(o1, o2);
+	s_osg->SetModel(s_Tri_Mesh);
+	return S_OK;
+}

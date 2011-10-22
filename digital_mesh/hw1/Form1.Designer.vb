@@ -48,6 +48,7 @@ Partial Class Form1
         Me.OpenMeshFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SaveMeshFileDialog = New System.Windows.Forms.SaveFileDialog
         Me.RenderTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.DeleteEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -82,7 +83,7 @@ Partial Class Form1
         '
         'ChooseToolStripMenuItem
         '
-        Me.ChooseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChoosePointToolStripMenuItem, Me.ChooseVertexToolStripMenuItem, Me.ChooseEdgeToolStripMenuItem, Me.ChooseFaceToolStripMenuItem})
+        Me.ChooseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChoosePointToolStripMenuItem, Me.ChooseVertexToolStripMenuItem, Me.ChooseEdgeToolStripMenuItem, Me.ChooseFaceToolStripMenuItem, Me.DeleteEdgeToolStripMenuItem})
         Me.ChooseToolStripMenuItem.Name = "ChooseToolStripMenuItem"
         Me.ChooseToolStripMenuItem.Size = New System.Drawing.Size(64, 21)
         Me.ChooseToolStripMenuItem.Text = "Choose"
@@ -173,19 +174,19 @@ Partial Class Form1
         'VertexesToolStripMenuItem
         '
         Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
-        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.VertexesToolStripMenuItem.Text = "Vertexes"
         '
         'EdgesToolStripMenuItem
         '
         Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
-        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.EdgesToolStripMenuItem.Text = "Edges"
         '
         'FacesToolStripMenuItem
         '
         Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
-        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.FacesToolStripMenuItem.Text = "Faces"
         '
         'PictureBox
@@ -208,6 +209,12 @@ Partial Class Form1
         'RenderTimer
         '
         Me.RenderTimer.Interval = 50
+        '
+        'DeleteEdgeToolStripMenuItem
+        '
+        Me.DeleteEdgeToolStripMenuItem.Name = "DeleteEdgeToolStripMenuItem"
+        Me.DeleteEdgeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DeleteEdgeToolStripMenuItem.Text = "DeleteEdge"
         '
         'Form1
         '
@@ -253,5 +260,6 @@ Partial Class Form1
     Friend WithEvents VertexesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EdgesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FacesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

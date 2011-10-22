@@ -107,7 +107,7 @@ STDMETHODIMP CosgControl::SelectEdge(LONG x, LONG y)
 	osg::Vec3f ori, dir, o1, o2;
 	s_osg->GetRay(x, y, ori, dir);
 	if (s_osg->SelectEdge(ori, dir, o1, o2))
-		s_osg->AddLine(o1, o2, .1f, .3f, .5f);
+		s_osg->AddLine(o1, o2, .5f, .5f, .9f);
 	return S_OK;
 }
 

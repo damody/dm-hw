@@ -11,7 +11,8 @@
 #include <osg/PolygonMode>
 
 osgImplementation::osgImplementation( HWND hWnd )
-:mhWnd(hWnd), mStatus(0), mMesh(0), mNeedUpdate(false)
+:mhWnd(hWnd), mStatus(0), mMesh(0), mNeedUpdate(0), 
+mNeedClearVertexes(0), mNeedClearEdges(0), mNeedClearFaces(0)
 {
 	mDrawPoints = new osg::Geometry;
 	mDrawSVertices = new osg::Geometry;
@@ -26,13 +27,6 @@ osgImplementation::osgImplementation( HWND hWnd )
 	mFacesColors= new osg::Vec4Array;
 	mLines = new osg::Vec3Array;
 	mFaces = new osg::Vec3Array;
-	mDrawPoints->setUseDisplayList(false);
-	mDrawSVertices->setUseDisplayList(false);
-	mDrawLines->setUseDisplayList(false);
-	mDrawEdges->setUseDisplayList(false);
-	mDrawVertexs->setUseDisplayList(false);
-	mDrawFaces->setUseDisplayList(false);
-	mDrawSFaces->setUseDisplayList(false);
 }
 
 osgImplementation::~osgImplementation(void)
@@ -222,6 +216,7 @@ void osgImplementation::InitSceneGraph( void )
 	mRoot->addChild(mShape.get());
 	mRoot->addChild(mModel.get());
 	mShape->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+	mShape->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
 	//mShape->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 	mShape->getOrCreateStateSet()->setRenderBinDetails( -1, "RenderBin");
  
@@ -251,13 +246,13 @@ void osgImplementation::InitCameraConfig()
 	// add the thread model handler
 	mViewer->addEventHandler(new osgViewer::ThreadingHandler);
 	// add the window size toggle handler
-	mViewer->addEventHandler(new osgViewer::WindowSizeHandler);
+	//mViewer->addEventHandler(new osgViewer::WindowSizeHandler);
 	// add the stats handler
 	mViewer->addEventHandler(new osgViewer::StatsHandler);
 	// add the LOD Scale handler
 	mViewer->addEventHandler(new osgViewer::LODScaleHandler);
 	// add the screen capture handler
-	mViewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
+	//mViewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
 	// Get the current window size
 	::GetWindowRect(mhWnd, &rect);
 	// Init the GraphicsContext Traits
@@ -306,11 +301,40 @@ void osgImplementation::InitCameraConfig()
 void osgImplementation::PreFrameUpdate()
 {
 	// Due any preframe updates in this routine
+	if (mNeedClearFaces)
+	{
+		mNeedClearFaces = false;
+		mNeedUpdate = true;
+		mDrawSFaces->removePrimitiveSet(0,999);
+		mFaces->clear();
+		mFacesColors->clear();
+	}
+	if (mNeedClearEdges)
+	{
+		mNeedClearEdges = false;
+		mNeedUpdate = true;
+		mDrawLines->removePrimitiveSet(0,999);
+		mLines->clear();
+		mLinesColors->clear();
+	}
+	if (mNeedClearVertexes)
+	{
+		mNeedClearVertexes = false;
+		mNeedUpdate = true;
+		mDrawSVertices->removePrimitiveSet(0,999);
+		mVertices->clear();
+		mVerticesColors->clear();
+	}
 	if (mNeedUpdate && mMesh)
 	{
 		mNeedUpdate = false;
 		if (!mVertices->empty())
 		{// add all points
+			if (mVertices->size() == 1)
+			{
+				mVertices->push_back(osg::Vec3f(0,0,0));
+				mVerticesColors->push_back(osg::Vec4f(0,0,0,0));
+			}
 			mDrawSVertices->setVertexArray(mVertices);
 			mDrawSVertices->setColorArray(mVerticesColors);
 			mDrawSVertices->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
@@ -499,23 +523,17 @@ bool osgImplementation::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces
 
 void osgImplementation::ClearVertexes()
 {
-	mVertices->clear();
-	mVerticesColors->clear();
-	Show(mStatus);
+	mNeedClearVertexes = true;
 }
 
 void osgImplementation::ClearEdges()
 {
-	mLines->clear();
-	mLinesColors->clear();
-	Show(mStatus);
+	mNeedClearEdges = true;
 }
 
 void osgImplementation::ClearFaces()
 {
-	mFaces->clear();
-	mFacesColors->clear();
-	Show(mStatus);
+	mNeedClearFaces = true;
 }
 
 void osgImplementation::DeleteEdge( const osg::Vec3f& a, const osg::Vec3f& b )
@@ -523,43 +541,9 @@ void osgImplementation::DeleteEdge( const osg::Vec3f& a, const osg::Vec3f& b )
 	BasicMesh::HalfedgeHandle it;
 	if (mMesh->GetEdgeHandleFromPoints(a, b, it))
 	{
-		mMesh->deleteEdge(it);
+		mMesh->DeleteEdge(it);
+		//mMesh->collapse(it);
 	}
+	Show(mStatus);
 }
 
-void RedirectIOToConsole()
-{
-	using namespace std;
-	int hConHandle;
-	long lStdHandle;
-	CONSOLE_SCREEN_BUFFER_INFO coninfo;
-	FILE *fp;
-	// allocate a console for this app
-	AllocConsole();
-	// set the screen buffer to be big enough to let us scroll text
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &coninfo);
-	coninfo.dwSize.Y = 1024;
-	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),
-		coninfo.dwSize);
-	// redirect unbuffered STDOUT to the console
-	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen( hConHandle, "w" );
-	*stdout = *fp;
-	setvbuf( stdout, NULL, _IONBF, 0 );
-	// redirect unbuffered STDIN to the console
-	lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen( hConHandle, "r" );
-	*stdin = *fp;
-	setvbuf( stdin, NULL, _IONBF, 0 );
-	// redirect unbuffered STDERR to the console
-	lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen( hConHandle, "w" );
-	*stderr = *fp;
-	setvbuf( stderr, NULL, _IONBF, 0 );
-	// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog
-	// point to console as well
-	ios::sync_with_stdio();
-}

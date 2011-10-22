@@ -18,22 +18,6 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 };
 typedef OpenMesh::TriMesh_ArrayKernelT<BasicTraits> BasicMesh;
 
-struct sLine
-{
-	sLine(){}
-	sLine(const osg::Vec3f& _a, const osg::Vec3f& _b)
-		:a(_a), b(_b)
-	{}
-	osg::Vec3f a, b;
-};
-struct sFace
-{
-	sFace(){}
-	sFace(const osg::Vec3f& _a, const osg::Vec3f& _b, const osg::Vec3f& _c)
-		:a(_a), b(_b), c(_c)
-	{}
-	osg::Vec3f a, b, c;
-};
 typedef osg::Vec3Array sLines;
 typedef osg::Vec3Array sFaces;
 typedef osg::Vec3Array sPoints;
@@ -60,47 +44,47 @@ public:
 		request_edge_status();
 		request_face_status();
 	}
-	~Tri_Mesh()
+	virtual ~Tri_Mesh()
 	{
 		release_vertex_status();
 		release_edge_status();
 		release_face_status();
 	}
-	bool ReadFile(std::string _fileName);//讀取mesh資料;
-	bool SaveFile(std::string _fileName);//儲存mesh資料;`
-	bool SelectPoint(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
-	bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
-	bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
-	bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
+	virtual bool ReadFile(std::string _fileName);//讀取mesh資料;
+	virtual bool SaveFile(std::string _fileName);//儲存mesh資料;`
+	virtual bool SelectPoint(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
+	virtual bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
+	virtual bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
+	virtual bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
 
-	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	virtual bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	virtual bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	virtual bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
 
-	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	virtual bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	virtual bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	virtual bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
 
-	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	virtual bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
+	virtual bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
+	virtual bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
 
-	bool GetVertexHandle(osg::Vec3f& p, osg::Vec3f& q, VIter& iter);
-	bool GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EIter& iter );
-	bool GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FIter& iter );
+	virtual bool GetVertexHandle(osg::Vec3f& p, osg::Vec3f& q, VertexHandle& iter);
+	virtual bool GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EdgeHandle& iter );
+	virtual bool GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FaceHandle& iter );
 	
 	// mesh control
-	BasicMesh::VertexHandle AddVertex(Point _p);
+	VHandle AddVertex(Point _p);
 	VIter GetVIterFormIndex(int idx);
 	int FindVertex(float x, float y, float z);
 	int FindVertex(Point _p);
 	//在model上增加新的面
-	FHandle addFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
+	FHandle AddFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
 	//在model上刪除面
-	void deleteFace(FHandle _f);
-	void deleteFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
+	void DeleteFace(FHandle _f);
+	void DeleteFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
 	bool GetEdgeHandleFromPoints(const osg::Vec3f& p, const osg::Vec3f& q, BasicMesh::HalfedgeHandle& iter );
-	void deleteEdge(BasicMesh::HalfedgeHandle _e0);
+	void DeleteEdge(HalfedgeHandle _e0);
 	//檢查兩頂點是否相鄰
 	bool IsVertexVertex( VHandle _vj, VHandle _vi);
 };

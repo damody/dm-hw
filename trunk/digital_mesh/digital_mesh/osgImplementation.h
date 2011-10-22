@@ -20,8 +20,6 @@
 #include <fcntl.h>
 #include <io.h>
 
-void RedirectIOToConsole();
-
 class osgImplementation
 {
 public:
@@ -68,6 +66,9 @@ private:
 	osg::ref_ptr<osg::Vec3Array> mFaceVertices;
 	osg::ref_ptr<osg::Vec3Array> mFaceNormals;
 	bool	mNeedUpdate;
+	bool	mNeedClearVertexes;
+	bool	mNeedClearEdges;
+	bool	mNeedClearFaces;
 public:
 	static void Render(void* ptr);
 	// clear

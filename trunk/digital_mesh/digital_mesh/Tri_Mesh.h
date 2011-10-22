@@ -88,7 +88,7 @@ public:
 	bool GetVertexHandle(osg::Vec3f& p, osg::Vec3f& q, VIter& iter);
 	bool GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EIter& iter );
 	bool GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FIter& iter );
-
+	
 	// mesh control
 	BasicMesh::VertexHandle AddVertex(Point _p);
 	VIter GetVIterFormIndex(int idx);
@@ -99,6 +99,8 @@ public:
 	//在model上刪除面
 	void deleteFace(FHandle _f);
 	void deleteFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
+	bool GetEdgeHandleFromPoints(const osg::Vec3f& p, const osg::Vec3f& q, BasicMesh::HalfedgeHandle& iter );
+	void deleteEdge(BasicMesh::HalfedgeHandle _e0);
 	//檢查兩頂點是否相鄰
 	bool IsVertexVertex( VHandle _vj, VHandle _vi);
 };

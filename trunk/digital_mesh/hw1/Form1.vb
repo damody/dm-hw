@@ -29,6 +29,9 @@ Public Class Form1
                     osg.SelectVertexRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
                 End If
             End If
+            If DeleteEdgeToolStripMenuItem.Checked Then
+                osg.DeleteSelectEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+            End If
             If ChooseEdgeToolStripMenuItem.Checked Then
                 osg.SelectEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
                 If RingVertexToolStripMenuItem.Checked Then
@@ -214,4 +217,7 @@ Public Class Form1
         osg.ClearFaces()
     End Sub
 
+    Private Sub DeleteEdgeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteEdgeToolStripMenuItem.Click
+        DeleteEdgeToolStripMenuItem.Checked = Not (DeleteEdgeToolStripMenuItem.Checked)
+    End Sub
 End Class

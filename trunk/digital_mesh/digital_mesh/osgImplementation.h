@@ -75,6 +75,8 @@ public:
 	void ClearEdges();
 	void ClearFaces();
 
+	//delete edge
+	void DeleteEdge(const osg::Vec3f& a, const osg::Vec3f& b);
 	// add single shape
 	void AddVertex(const osg::Vec3f& p, float r, float g, float b);
 	void AddLine(const osg::Vec3f& p, const osg::Vec3f& q, float r, float g, float b);

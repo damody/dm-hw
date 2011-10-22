@@ -207,7 +207,6 @@ void osgImplementation::AddFace( const sFaces& input, float r, float g, float b 
 	Show(mStatus);
 }
 
-
 void osgImplementation::Show( int status /*= MODEL*/ )
 {
 	mStatus = status;
@@ -517,6 +516,15 @@ void osgImplementation::ClearFaces()
 	mFaces->clear();
 	mFacesColors->clear();
 	Show(mStatus);
+}
+
+void osgImplementation::DeleteEdge( const osg::Vec3f& a, const osg::Vec3f& b )
+{
+	BasicMesh::HalfedgeHandle it;
+	if (mMesh->GetEdgeHandleFromPoints(a, b, it))
+	{
+		mMesh->deleteEdge(it);
+	}
 }
 
 void RedirectIOToConsole()

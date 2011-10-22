@@ -44,6 +44,7 @@ interface IosgControl : IDispatch{
 	[id(26), helpstring("方法 ClearVertexes")] HRESULT ClearVertexes(void);
 	[id(27), helpstring("方法 ClearEdges")] HRESULT ClearEdges(void);
 	[id(28), helpstring("方法 ClearFaces")] HRESULT ClearFaces(void);
+	[id(29), helpstring("方法 DeleteSelectEdge")] HRESULT DeleteSelectEdge([in] LONG x, [in] LONG y);
 };
 [
 	uuid(A236B4E3-2D2B-4504-A7D4-A9210684BEFE),

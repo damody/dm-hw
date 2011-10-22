@@ -79,6 +79,7 @@ public:
 	STDMETHOD(ClearVertexes)(void);
 	STDMETHOD(ClearEdges)(void);
 	STDMETHOD(ClearFaces)(void);
+	STDMETHOD(DeleteSelectEdge)(LONG x, LONG y);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(osgControl), CosgControl)

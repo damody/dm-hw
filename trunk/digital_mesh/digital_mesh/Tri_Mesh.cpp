@@ -619,6 +619,15 @@ BasicMesh::FaceHandle Tri_Mesh::addFace( BasicMesh::VHandle _v0, BasicMesh::VHan
 	return add_face(face_vhandles);
 }
 
+
+void Tri_Mesh::deleteEdge( BasicMesh::HalfedgeHandle _hedge )
+{
+	Tri_Mesh::Point& p1 = point(from_vertex_handle(_hedge));
+	Tri_Mesh::Point& p2 = point(to_vertex_handle(_hedge));
+	Tri_Mesh::Point res = (p1+p2)*0.5f;
+	p1=p2=res;
+}
+
 void Tri_Mesh::deleteFace( BasicMesh::FaceHandle _f )
 {
 	delete_face(_f);
@@ -658,4 +667,12 @@ bool Tri_Mesh::IsVertexVertex( VHandle _vj, VHandle _vi )
 		if( vvit.handle() == _vj )
 			return true;
 	return false;
+}
+
+bool Tri_Mesh::GetEdgeHandleFromPoints( const osg::Vec3f& a, const osg::Vec3f& b, HalfedgeHandle& iter )
+{
+	VIter p1 = GetVIterFormIndex(FindVertex(Point(a[0], a[1], a[2])));
+	VIter p2 = GetVIterFormIndex(FindVertex(Point(b[0], b[1], b[2])));
+	iter = find_halfedge(p1, p2);
+	return iter.is_valid();
 }

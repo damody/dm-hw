@@ -59,31 +59,7 @@ bool Tri_Mesh::SelectPoint( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
 	FIter f_it;
 	FVIter	fv_it;
 	osg::Vec3f face[3], result;
-	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
-	{
-		int i=0;
-		for (fv_it = fv_iter( f_it ); fv_it; ++fv_it, ++i)
-		{
-			const Point& dp = point(fv_it.handle());
-			face[i][0] = dp[0];
-			face[i][1] = dp[1];
-			face[i][2] = dp[2];
-		}
-		int ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], result);
-		if (ret == 1)
-		{
-			out = result;
-			return true;
-		}
-	}
-	return false;
-}
-
-bool Tri_Mesh::SelectVertex( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
-{
-	FIter f_it;
-	FVIter	fv_it;
-	osg::Vec3f face[3], result;
+	float distance_from_p_to_face = -1;
 	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
 	{
 		int i=0;
@@ -97,25 +73,57 @@ bool Tri_Mesh::SelectVertex( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
 		bool ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], result);
 		if (ret)
 		{
-			out = result;
-			float min_dis = 99999999.0f;
-			for(VIter v_itr = vertices_begin();v_itr != vertices_end(); ++v_itr)
+			float tmp_dis = (p-result).length2();
+			if (tmp_dis<distance_from_p_to_face || distance_from_p_to_face == -1)
 			{
-				const Point& dp = point(v_itr);
-				osg::Vec3f pos;
-				pos[0] = dp[0];
-				pos[1] = dp[1];
-				pos[2] = dp[2];
-				float tmp = (pos-result).length2();
-				if (tmp < min_dis)
-				{
-					min_dis = tmp;
-					out = pos;
-				}
+				distance_from_p_to_face = tmp_dis;
+				out = result;
 			}
-			return true;
 		}
 	}
+	if (distance_from_p_to_face != -1)
+		return true;
+	return false;
+}
+
+bool Tri_Mesh::SelectVertex( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
+{
+	FIter f_it;
+	FVIter	fv_it;
+	osg::Vec3f face[3], result;
+	float distance_from_p_to_face = -1;
+	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
+	{
+		int i=0;
+		for (fv_it = fv_iter( f_it ); fv_it; ++fv_it, ++i)
+		{
+			const Point& dp = point(fv_it.handle());
+			face[i][0] = dp[0];
+			face[i][1] = dp[1];
+			face[i][2] = dp[2];
+		}
+		bool ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], result);
+		if (ret)
+		{
+			float tmp_dis = (p-result).length2();
+			if (tmp_dis<distance_from_p_to_face || distance_from_p_to_face == -1)
+			{
+				distance_from_p_to_face = tmp_dis;
+				float min_dis = -1;
+				for (int j=0;j<3;++j)
+				{
+					float tmp = (face[j]-result).length2();
+					if (tmp < min_dis || min_dis == -1)
+					{
+						min_dis = tmp;
+						out = face[j];
+					}
+				}
+			}
+		}
+	}
+	if (distance_from_p_to_face != -1)
+		return true;
 	return false;
 }
 
@@ -124,6 +132,7 @@ bool Tri_Mesh::SelectEdge( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::
 	FIter f_it;
 	FVIter	fv_it;
 	osg::Vec3f face[3], c;
+	float distance_from_p_to_face = -1;
 	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
 	{
 		int i=0;
@@ -137,46 +146,44 @@ bool Tri_Mesh::SelectEdge( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::
 		bool ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], c);
 		if (ret)
 		{
-			float min_dis = 99999999.0f, tmp;
-			BasicMesh::EdgeIter e_it;
-			BasicMesh::HalfedgeHandle _hedge;
-			for(e_it = edges_begin(); e_it != edges_end(); ++e_it)
+			float tmp_dis = (p-c).length2();
+			if (tmp_dis<distance_from_p_to_face || distance_from_p_to_face == -1)
 			{
-				_hedge = halfedge_handle(e_it.handle(),1);
-				const Tri_Mesh::Point& p1 = point(from_vertex_handle(_hedge));
-				const Tri_Mesh::Point& p2 = point(to_vertex_handle(_hedge));
-				osg::Vec3f a, b, ab, ac, bc;
-				for (int j=0;j<3;++j)
+				distance_from_p_to_face = tmp_dis;
+				float tmp, min_dis=999999.0f;
+				for(int j=0;j<3;++j)
 				{
-					a[j] = p1[j];
-					b[j] = p2[j];
-				}
-				ab = b-a;
-				ac = c-a;
-				bc = c-b;
-				float e = ac*ab;
-				if (e <= 0.0f) 
-					tmp = ac*ac;
-				else
-				{
-					float f = ab*ab;
-					if (e >= f) 
-						tmp = bc*bc;
+					osg::Vec3f a, b, ab, ac, bc;
+					a = face[j];
+					b = face[(j+1)%3];
+					ab = b-a;
+					ac = c-a;
+					bc = c-b;
+					float e = ac*ab;
+					if (e <= 0.0f) 
+						tmp = ac*ac;
 					else
 					{
-						tmp = ac*ac - e * e / f;
+						float f = ab*ab;
+						if (e >= f) 
+							tmp = bc*bc;
+						else
+						{
+							tmp = ac*ac - e * e / f;
+						}
+					}
+					if (tmp < min_dis)
+					{
+						min_dis = tmp;
+						out1 = a;
+						out2 = b;
 					}
 				}
-				if (tmp < min_dis)
-				{
-					min_dis = tmp;
-					out1 = a;
-					out2 = b;
-				}
 			}
-			return true;
 		}
 	}
+	if (distance_from_p_to_face != -1)
+		return true;
 	return false;
 }
 
@@ -185,6 +192,7 @@ bool Tri_Mesh::SelectFace( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::
 	FIter f_it;
 	FVIter	fv_it;
 	osg::Vec3f face[3], c;
+	float distance_from_p_to_face = -1;
 	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
 	{
 		int i=0;
@@ -198,18 +206,24 @@ bool Tri_Mesh::SelectFace( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::
 		int ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], c);
 		if (ret)
 		{
-			out1 = face[0];
-			out2 = face[1];
-			out3 = face[2];
-			return true;
+			float tmp_dis = (p-c).length2();
+			if (tmp_dis<distance_from_p_to_face || distance_from_p_to_face == -1)
+			{
+				distance_from_p_to_face = tmp_dis;
+				out1 = face[0];
+				out2 = face[1];
+				out3 = face[2];
+			}
 		}
 	}
+	if (distance_from_p_to_face != -1)
+		return true;
 	return false;
 }
 
 bool Tri_Mesh::SelectVertexRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
 {
-	VIter f_it;
+	VertexHandle f_it;
 	if (GetVertexHandle(p, q, f_it))
 	{
 		for(BasicMesh::VertexVertexIter vv_it = vv_iter(f_it); vv_it ; ++vv_it )
@@ -229,7 +243,7 @@ bool Tri_Mesh::SelectVertexRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& ou
 
 bool Tri_Mesh::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 {
-	VIter v_it;
+	VertexHandle v_it;
 	if (GetVertexHandle(p, q, v_it))
 	{
 		for(BasicMesh::VertexEdgeIter ve_itr = ve_iter(v_it); ve_itr ; ++ve_itr )
@@ -253,7 +267,7 @@ bool Tri_Mesh::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 
 bool Tri_Mesh::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 {
-	VIter f_it;
+	VertexHandle f_it;
 	if (GetVertexHandle(p, q, f_it))
 	{
 		for(BasicMesh::VertexFaceIter vf_itr = vf_iter(f_it); vf_itr ; ++vf_itr )
@@ -276,10 +290,10 @@ bool Tri_Mesh::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 
 bool Tri_Mesh::SelectEdgeRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
 {
-	EIter iter;
+	EdgeHandle iter;
 	if (GetEdgeHandle(p, q, iter))
 	{
-		BasicMesh::HalfedgeHandle _hedge = halfedge_handle(iter.handle(),1);
+		BasicMesh::HalfedgeHandle _hedge = halfedge_handle(iter,1);
 		for(BasicMesh::VertexVertexIter vv_it = vv_iter(from_vertex_handle(_hedge)); vv_it ; ++vv_it )
 		{
 			osg::Vec3f tmp;
@@ -307,10 +321,10 @@ bool Tri_Mesh::SelectEdgeRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out 
 
 bool Tri_Mesh::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 {
-	EIter iter;
+	EdgeHandle iter;
 	if (GetEdgeHandle(p, q, iter))
 	{
-		BasicMesh::HalfedgeHandle _hedge = halfedge_handle(iter.handle(),1);
+		BasicMesh::HalfedgeHandle _hedge = halfedge_handle(iter,1);
 		for(BasicMesh::VertexEdgeIter ve_itr = ve_iter(from_vertex_handle(_hedge)); ve_itr ; ++ve_itr )
 		{
 			BasicMesh::HalfedgeHandle _hedge2 = halfedge_handle(ve_itr.handle(),1);
@@ -346,10 +360,10 @@ bool Tri_Mesh::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 
 bool Tri_Mesh::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 {
-	EIter iter;
+	EdgeHandle iter;
 	if (GetEdgeHandle(p, q, iter))
 	{
-		BasicMesh::HalfedgeHandle _hedge = halfedge_handle(iter.handle(),1);
+		BasicMesh::HalfedgeHandle _hedge = halfedge_handle(iter,1);
 		for(BasicMesh::VertexFaceIter vf_itr = vf_iter(from_vertex_handle(_hedge)); vf_itr ; ++vf_itr )
 		{
 			osg::Vec3f t[3];
@@ -383,7 +397,7 @@ bool Tri_Mesh::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 
 bool Tri_Mesh::SelectFaceRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
 {
-	FIter iter;
+	FaceHandle iter;
 	if (GetFaceHandle(p, q, iter))
 	{
 		for(FVIter fv_it = fv_iter(iter); fv_it ; ++fv_it )
@@ -403,7 +417,7 @@ bool Tri_Mesh::SelectFaceRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out 
 
 bool Tri_Mesh::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 {
-	FIter iter;
+	FaceHandle iter;
 	if (GetFaceHandle(p, q, iter))
 	{
 		for(FEIter fe_itr = fe_iter(iter) ; fe_itr; ++fe_itr)
@@ -427,7 +441,7 @@ bool Tri_Mesh::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 
 bool Tri_Mesh::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 {
-	FIter iter;
+	FaceHandle iter;
 	if (GetFaceHandle(p, q, iter))
 	{
 		for(FFIter ff_it = ff_iter(iter); ff_it ; ++ff_it )
@@ -448,11 +462,12 @@ bool Tri_Mesh::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 	return false;
 }
 
-bool Tri_Mesh::GetVertexHandle( osg::Vec3f& p, osg::Vec3f& q, VIter& iter )
+bool Tri_Mesh::GetVertexHandle( osg::Vec3f& p, osg::Vec3f& q, VertexHandle& iter )
 {
 	FIter f_it;
 	FVIter	fv_it;
 	osg::Vec3f face[3], result;
+	float distance_from_p_to_face = -1;
 	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
 	{
 		int i=0;
@@ -466,33 +481,36 @@ bool Tri_Mesh::GetVertexHandle( osg::Vec3f& p, osg::Vec3f& q, VIter& iter )
 		bool ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], result);
 		if (ret)
 		{
-			float min_dis = 99999999.0f;
-			for(VIter v_itr = vertices_begin();v_itr != vertices_end(); ++v_itr)
+			float tmp_dis = (p-result).length2();
+			if (tmp_dis<distance_from_p_to_face || distance_from_p_to_face == -1)
 			{
-				const Point& dp = point(v_itr);
-				osg::Vec3f pos;
-				pos[0] = dp[0];
-				pos[1] = dp[1];
-				pos[2] = dp[2];
-				float tmp = (pos-result).length2();
-				if (tmp < min_dis)
+				distance_from_p_to_face = tmp_dis;
+				float min_dis = -1;
+				int j=0;
+				for (fv_it = fv_iter( f_it ); fv_it; ++fv_it, ++j)
 				{
-					min_dis = tmp;
-					iter = v_itr;
+					float tmp = (face[j]-result).length2();
+					if (tmp < min_dis || min_dis == -1)
+					{
+						min_dis = tmp;
+						iter = fv_it.handle();
+					}
 				}
 			}
-			return true;
 		}
 	}
+	if (distance_from_p_to_face != -1)
+		return true;
 	return false;
 }
 
 
-bool Tri_Mesh::GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EIter& iter )
+bool Tri_Mesh::GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EdgeHandle& iter )
 {
 	FIter f_it;
 	FVIter	fv_it;
 	osg::Vec3f face[3], c;
+	float distance_from_p_to_face = -1;
 	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
 	{
 		int i=0;
@@ -506,54 +524,59 @@ bool Tri_Mesh::GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EIter& iter )
 		bool ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], c);
 		if (ret)
 		{
-			float min_dis = 99999999.0f, tmp;
-			BasicMesh::EdgeIter e_it;
-			BasicMesh::HalfedgeHandle _hedge;
-			for(e_it = edges_begin(); e_it != edges_end(); ++e_it)
+			float tmp_dis = (p-c).length2();
+			if (tmp_dis<distance_from_p_to_face || distance_from_p_to_face == -1)
 			{
-				_hedge = halfedge_handle(e_it.handle(),1);
-				const Tri_Mesh::Point& p1 = point(from_vertex_handle(_hedge));
-				const Tri_Mesh::Point& p2 = point(to_vertex_handle(_hedge));
-				osg::Vec3f a, b, ab, ac, bc;
-				for (int j=0;j<3;++j)
+				distance_from_p_to_face = tmp_dis;
+				float tmp, min_dis=-1;
+				for(FEIter fe_itr = fe_iter(f_it) ; fe_itr; ++fe_itr)
 				{
-					a[j] = p1[j];
-					b[j] = p2[j];
-				}
-				ab = b-a;
-				ac = c-a;
-				bc = c-b;
-				float e = ac*ab;
-				if (e <= 0.0f) 
-					tmp = ac*ac;
-				else
-				{
-					float f = ab*ab;
-					if (e >= f) 
-						tmp = bc*bc;
+					BasicMesh::HalfedgeHandle _hedge = halfedge_handle(fe_itr.handle(),1);
+					osg::Vec3f a, b, ab, ac, bc;
+					const Point& p1 = point(from_vertex_handle(_hedge));
+					const Point& p2 = point(to_vertex_handle(_hedge));
+					for (int j=0;j<3;++j)
+					{
+						a[j] = p1[j];
+						b[j] = p2[j];
+					}
+					ab = b-a;
+					ac = c-a;
+					bc = c-b;
+					float e = ac*ab;
+					if (e <= 0.0f) 
+						tmp = ac*ac;
 					else
 					{
-						tmp = ac*ac - e * e / f;
+						float f = ab*ab;
+						if (e >= f) 
+							tmp = bc*bc;
+						else
+						{
+							tmp = ac*ac - e * e / f;
+						}
+					}
+					if (tmp < min_dis || min_dis == -1)
+					{
+						min_dis = tmp;
+						iter = fe_itr.handle();
 					}
 				}
-				if (tmp < min_dis)
-				{
-					min_dis = tmp;
-					iter = e_it;
-				}
 			}
-			return true;
 		}
 	}
+	if (distance_from_p_to_face != -1)
+		return true;
 	return false;
 }
 
 
-bool Tri_Mesh::GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FIter& iter )
+bool Tri_Mesh::GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FaceHandle& iter )
 {
 	FIter f_it;
 	FVIter	fv_it;
 	osg::Vec3f face[3], result;
+	float distance_from_p_to_face = -1;
 	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
 	{
 		int i=0;
@@ -567,10 +590,16 @@ bool Tri_Mesh::GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FIter& iter )
 		bool ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], result);
 		if (ret)
 		{
-			iter = f_it;
-			return true;
+			float tmp_dis = (p-result).length2();
+			if (tmp_dis<distance_from_p_to_face || distance_from_p_to_face == -1)
+			{
+				distance_from_p_to_face = tmp_dis;
+				iter = f_it;
+			}
 		}
 	}
+	if (distance_from_p_to_face != -1)
+		return true;
 	return false;
 }
 
@@ -607,7 +636,7 @@ int Tri_Mesh::FindVertex( Point _p )
 	return -1;
 }
 
-BasicMesh::FaceHandle Tri_Mesh::addFace( BasicMesh::VHandle _v0, BasicMesh::VHandle _v1, BasicMesh::VHandle _v2, BasicMesh::VHandle _v3 )
+BasicMesh::FaceHandle Tri_Mesh::AddFace( BasicMesh::VHandle _v0, BasicMesh::VHandle _v1, BasicMesh::VHandle _v2, BasicMesh::VHandle _v3 )
 {
 	std::vector<BasicMesh::VHandle> face_vhandles;
 
@@ -620,7 +649,7 @@ BasicMesh::FaceHandle Tri_Mesh::addFace( BasicMesh::VHandle _v0, BasicMesh::VHan
 }
 
 
-void Tri_Mesh::deleteEdge( BasicMesh::HalfedgeHandle _hedge )
+void Tri_Mesh::DeleteEdge( BasicMesh::HalfedgeHandle _hedge )
 {
 	Tri_Mesh::Point& p1 = point(from_vertex_handle(_hedge));
 	Tri_Mesh::Point& p2 = point(to_vertex_handle(_hedge));
@@ -628,13 +657,13 @@ void Tri_Mesh::deleteEdge( BasicMesh::HalfedgeHandle _hedge )
 	p1=p2=res;
 }
 
-void Tri_Mesh::deleteFace( BasicMesh::FaceHandle _f )
+void Tri_Mesh::DeleteFace( BasicMesh::FaceHandle _f )
 {
 	delete_face(_f);
 	garbage_collection();
 }
 
-void Tri_Mesh::deleteFace( VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3 )
+void Tri_Mesh::DeleteFace( VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3 )
 {
 	/* 
 	v1				v0

@@ -129,7 +129,7 @@ Public Class Form1
 
         If e.Shift = True Then 'select choose mode
             Select Case Chr(e.KeyCode)
-                Case "p", "P"
+                Case "t", "T"
                     ChoosePointToolStripMenuItem.Checked = Not (ChoosePointToolStripMenuItem.Checked)
                 Case "v", "V"
                     ChooseVertexToolStripMenuItem.Checked = Not (ChooseVertexToolStripMenuItem.Checked)

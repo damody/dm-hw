@@ -30,6 +30,30 @@ bool Tri_Mesh::ReadFile( std::string _fileName ) /*Åª¨úmesh¸ê®Æ */
 	{
 		//read mesh from filename OK!
 		isRead = true;
+		/*
+		for (VertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
+		{
+			const Normal& n = normal(v_it);
+			const Point&  p = point(v_it);
+			float a = n[0], b = n[1], c = n[2];
+			float x = p[0], y = p[1], z = p[2];
+			float d = -(a*x+b*y+c*z);
+			osg::Matrixf  m(
+				a*a,	a*b,	a*c,	a*d,
+				a*b,	b*b,	b*c,	b*d,
+				a*c,	a*b,	c*c,	c*d,
+				a*d,	b*d,	c*d,	d*d,
+				);
+			mQMatrixs.push_back(QMatrix(v_it.handle(), m));
+		}
+		*/
+		for (EdgeIter e_it=edges_begin(); e_it!=edges_end(); ++e_it) 
+		{
+// 			BasicMesh::HalfedgeHandle _hedge = halfedge_handle(e_it.handle(),1);
+// 			const Point& p1 = point(from_vertex_handle(_hedge));
+// 			const Point& p2 = point(to_vertex_handle(_hedge));
+			mQEdges.push_back(QEdge(e_it.handle(), 0));
+		}
 	}
 	if(isRead)
 	{
@@ -704,4 +728,20 @@ bool Tri_Mesh::GetEdgeHandleFromPoints( const osg::Vec3f& a, const osg::Vec3f& b
 	VIter p2 = GetVIterFormIndex(FindVertex(Point(b[0], b[1], b[2])));
 	iter = find_halfedge(p1, p2);
 	return iter.is_valid();
+}
+
+void Tri_Mesh::MeshSimplification( int level )
+{
+	if (level == 0)
+		return ;
+	const int size = mQEdges.size();
+	int mod = 1+(11-level);
+	for (int i=0;i < size;++i)
+	{
+		if (i % mod == 0)
+		{
+			BasicMesh::HalfedgeHandle _hedge = halfedge_handle(mQEdges[i].handle, 1);
+			DeleteEdge(_hedge);
+		}
+	}
 }

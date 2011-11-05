@@ -541,9 +541,16 @@ void osgImplementation::DeleteEdge( const osg::Vec3f& a, const osg::Vec3f& b )
 	BasicMesh::HalfedgeHandle it;
 	if (mMesh->GetEdgeHandleFromPoints(a, b, it))
 	{
-		mMesh->DeleteEdge(it);
-		//mMesh->collapse(it);
+		//mMesh->DeleteEdge(it);
+		mMesh->collapse(it);
 	}
+	Show(mStatus);
+}
+
+void osgImplementation::MeshSimplification( int level )
+{
+	if (!mMesh) return ;
+	mMesh->MeshSimplification(level);
 	Show(mStatus);
 }
 

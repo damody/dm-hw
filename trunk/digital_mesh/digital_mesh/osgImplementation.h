@@ -71,6 +71,7 @@ private:
 	bool	mNeedClearFaces;
 public:
 	static void Render(void* ptr);
+	void MeshSimplification(int level);
 	// clear
 	void ClearVertexes();
 	void ClearEdges();

@@ -22,7 +22,6 @@ Partial Class Form1
     '請不要使用程式碼編輯器進行修改。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -32,6 +31,7 @@ Partial Class Form1
         Me.ChooseVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChooseEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChooseFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DeleteEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RingVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RingEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -47,10 +47,11 @@ Partial Class Form1
         Me.PictureBox = New System.Windows.Forms.PictureBox
         Me.OpenMeshFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SaveMeshFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.RenderTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.DeleteEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.EdgeTrackBar = New System.Windows.Forms.TrackBar
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -91,26 +92,32 @@ Partial Class Form1
         'ChoosePointToolStripMenuItem
         '
         Me.ChoosePointToolStripMenuItem.Name = "ChoosePointToolStripMenuItem"
-        Me.ChoosePointToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ChoosePointToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.ChoosePointToolStripMenuItem.Text = "Point"
         '
         'ChooseVertexToolStripMenuItem
         '
         Me.ChooseVertexToolStripMenuItem.Name = "ChooseVertexToolStripMenuItem"
-        Me.ChooseVertexToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ChooseVertexToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.ChooseVertexToolStripMenuItem.Text = "Vertex"
         '
         'ChooseEdgeToolStripMenuItem
         '
         Me.ChooseEdgeToolStripMenuItem.Name = "ChooseEdgeToolStripMenuItem"
-        Me.ChooseEdgeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ChooseEdgeToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.ChooseEdgeToolStripMenuItem.Text = "Edge"
         '
         'ChooseFaceToolStripMenuItem
         '
         Me.ChooseFaceToolStripMenuItem.Name = "ChooseFaceToolStripMenuItem"
-        Me.ChooseFaceToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ChooseFaceToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.ChooseFaceToolStripMenuItem.Text = "Face"
+        '
+        'DeleteEdgeToolStripMenuItem
+        '
+        Me.DeleteEdgeToolStripMenuItem.Name = "DeleteEdgeToolStripMenuItem"
+        Me.DeleteEdgeToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
+        Me.DeleteEdgeToolStripMenuItem.Text = "DeleteEdge"
         '
         'RingToolStripMenuItem
         '
@@ -206,21 +213,28 @@ Partial Class Form1
         '
         Me.SaveMeshFileDialog.Filter = "obj 模型|*.obj"
         '
-        'RenderTimer
+        'EdgeTrackBar
         '
-        Me.RenderTimer.Interval = 50
+        Me.EdgeTrackBar.Location = New System.Drawing.Point(538, 367)
+        Me.EdgeTrackBar.Name = "EdgeTrackBar"
+        Me.EdgeTrackBar.Size = New System.Drawing.Size(104, 45)
+        Me.EdgeTrackBar.TabIndex = 2
         '
-        'DeleteEdgeToolStripMenuItem
+        'StatusStrip1
         '
-        Me.DeleteEdgeToolStripMenuItem.Name = "DeleteEdgeToolStripMenuItem"
-        Me.DeleteEdgeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.DeleteEdgeToolStripMenuItem.Text = "DeleteEdge"
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 365)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(667, 22)
+        Me.StatusStrip1.TabIndex = 3
+        Me.StatusStrip1.Text = "StatusStrip1"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(667, 387)
+        Me.Controls.Add(Me.EdgeTrackBar)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.PictureBox)
         Me.Controls.Add(Me.MenuStrip1)
         Me.KeyPreview = True
@@ -231,6 +245,7 @@ Partial Class Form1
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -252,7 +267,6 @@ Partial Class Form1
     Friend WithEvents OpenMeshFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents SaveMeshFileDialog As System.Windows.Forms.SaveFileDialog
     Friend WithEvents ChooseEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RenderTimer As System.Windows.Forms.Timer
     Friend WithEvents RingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RingVertexToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RingEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -261,5 +275,7 @@ Partial Class Form1
     Friend WithEvents EdgesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FacesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DeleteEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EdgeTrackBar As System.Windows.Forms.TrackBar
+    Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
 
 End Class

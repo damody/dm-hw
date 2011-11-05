@@ -7,6 +7,7 @@
 #include <osg/Vec3f>
 #include <string>
 #include <osg/Array>
+#include <osg/Matrixf>
 
 struct BasicTraits : public OpenMesh::DefaultTraits
 {
@@ -23,11 +24,34 @@ typedef osg::Vec3Array sFaces;
 typedef osg::Vec3Array sPoints;
 typedef osg::Vec4Array sColors;
 
+struct QMatrix
+{
+	QMatrix(){}
+	QMatrix(const BasicMesh::VHandle& _handle, const osg::Matrixf& _mat)
+		:handle(_handle), mat(_mat)
+	{}
+	BasicMesh::VHandle	handle;
+	osg::Matrixf		mat;
+};
+typedef std::vector<QMatrix> QMatrixs;
+struct QEdge
+{
+	QEdge(){}
+	QEdge(BasicMesh::EHandle& _handle, float _qv)
+		:handle(_handle), qv(_qv)
+	{}
+	BasicMesh::EHandle	handle;
+	float			qv;
+};
+typedef std::vector<QEdge> QEdges;
+
 bool IntersectLineTriangle( const osg::Vec3f& p, const osg::Vec3f& q, const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c, osg::Vec3f & point );
 
 class Tri_Mesh : public BasicMesh
 {
 public:
+	QMatrixs	mQMatrixs;
+	QEdges		mQEdges;
 	enum Type
 	{
 		POINT	= 1,
@@ -73,6 +97,7 @@ public:
 	virtual bool GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EdgeHandle& iter );
 	virtual bool GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FaceHandle& iter );
 	
+	void MeshSimplification( int level );
 	// mesh control
 	VHandle AddVertex(Point _p);
 	VIter GetVIterFormIndex(int idx);

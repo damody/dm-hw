@@ -244,3 +244,11 @@ STDMETHODIMP CosgControl::DeleteSelectEdge(LONG x, LONG y)
 	s_osg->SetModel(s_Tri_Mesh);
 	return S_OK;
 }
+
+STDMETHODIMP CosgControl::MeshSimplification(LONG level)
+{
+	// TODO: 在這裡加入您的實作程式碼
+	s_osg->MeshSimplification(level);
+	s_osg->SetModel(s_Tri_Mesh);
+	return S_OK;
+}

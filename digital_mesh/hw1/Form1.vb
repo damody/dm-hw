@@ -114,7 +114,7 @@ Public Class Form1
         osg.InitOSG(PictureBox.Handle)
     End Sub
 
-    Private Sub RenderTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RenderTimer.Tick
+    Private Sub RenderTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'osg.Render()
     End Sub
 
@@ -219,5 +219,13 @@ Public Class Form1
 
     Private Sub DeleteEdgeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteEdgeToolStripMenuItem.Click
         DeleteEdgeToolStripMenuItem.Checked = Not (DeleteEdgeToolStripMenuItem.Checked)
+    End Sub
+
+    Private Sub Form1_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Resize
+        EdgeTrackBar.Location = New Size(Me.Width - EdgeTrackBar.Width - 50, Me.Height - EdgeTrackBar.Height - 12)
+    End Sub
+
+    Private Sub EdgeTrackBar_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EdgeTrackBar.Scroll
+        osg.MeshSimplification(EdgeTrackBar.Value)
     End Sub
 End Class

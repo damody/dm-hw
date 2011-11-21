@@ -26,6 +26,9 @@ static arb_fragment_program fp_peel, fp_peel_debug, fp_nopeel;
 //-----------------------Depth Peeling 初始化設定-----------------------//
 bool DP_COM::Scene_Init()
 {
+	m_pZBuffer = NULL;
+	m_ValidBuffer = NULL;
+
 	GLint depth_bits;
 	glGetIntegerv(GL_DEPTH_BITS, & depth_bits);
 

@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Fri Oct 21 12:36:13 2011
+/* at Wed Oct 19 22:18:38 2011
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -141,49 +141,19 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ SHORT g,
             /* [in] */ SHORT b) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRingVertex( 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRing( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRingEdge( 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRing( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRingFace( 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRing( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRingVertex( 
-            /* [in] */ LONG x,
-            /* [in] */ LONG y) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRingEdge( 
-            /* [in] */ LONG x,
-            /* [in] */ LONG y) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRingFace( 
-            /* [in] */ LONG x,
-            /* [in] */ LONG y) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRingVertex( 
-            /* [in] */ LONG x,
-            /* [in] */ LONG y) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRingEdge( 
-            /* [in] */ LONG x,
-            /* [in] */ LONG y) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRingFace( 
-            /* [in] */ LONG x,
-            /* [in] */ LONG y) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ClearPoints( void) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ClearVertexes( void) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ClearEdges( void) = 0;
-        
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ClearFaces( void) = 0;
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Render( void) = 0;
         
     };
     
@@ -304,61 +274,22 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ SHORT g,
             /* [in] */ SHORT b);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRingVertex )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRing )( 
             IosgControl * This,
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRingEdge )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRing )( 
             IosgControl * This,
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRingFace )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRing )( 
             IosgControl * This,
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRingVertex )( 
-            IosgControl * This,
-            /* [in] */ LONG x,
-            /* [in] */ LONG y);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRingEdge )( 
-            IosgControl * This,
-            /* [in] */ LONG x,
-            /* [in] */ LONG y);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRingFace )( 
-            IosgControl * This,
-            /* [in] */ LONG x,
-            /* [in] */ LONG y);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRingVertex )( 
-            IosgControl * This,
-            /* [in] */ LONG x,
-            /* [in] */ LONG y);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRingEdge )( 
-            IosgControl * This,
-            /* [in] */ LONG x,
-            /* [in] */ LONG y);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRingFace )( 
-            IosgControl * This,
-            /* [in] */ LONG x,
-            /* [in] */ LONG y);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ClearPoints )( 
-            IosgControl * This);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ClearVertexes )( 
-            IosgControl * This);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ClearEdges )( 
-            IosgControl * This);
-        
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ClearFaces )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Render )( 
             IosgControl * This);
         
         END_INTERFACE
@@ -445,44 +376,17 @@ EXTERN_C const IID IID_IosgControl;
 #define IosgControl_SetSelectColor(This,r,g,b)	\
     ( (This)->lpVtbl -> SetSelectColor(This,r,g,b) ) 
 
-#define IosgControl_SelectVertexRingVertex(This,x,y)	\
-    ( (This)->lpVtbl -> SelectVertexRingVertex(This,x,y) ) 
+#define IosgControl_SelectVertexRing(This,x,y)	\
+    ( (This)->lpVtbl -> SelectVertexRing(This,x,y) ) 
 
-#define IosgControl_SelectVertexRingEdge(This,x,y)	\
-    ( (This)->lpVtbl -> SelectVertexRingEdge(This,x,y) ) 
+#define IosgControl_SelectEdgeRing(This,x,y)	\
+    ( (This)->lpVtbl -> SelectEdgeRing(This,x,y) ) 
 
-#define IosgControl_SelectVertexRingFace(This,x,y)	\
-    ( (This)->lpVtbl -> SelectVertexRingFace(This,x,y) ) 
+#define IosgControl_SelectFaceRing(This,x,y)	\
+    ( (This)->lpVtbl -> SelectFaceRing(This,x,y) ) 
 
-#define IosgControl_SelectEdgeRingVertex(This,x,y)	\
-    ( (This)->lpVtbl -> SelectEdgeRingVertex(This,x,y) ) 
-
-#define IosgControl_SelectEdgeRingEdge(This,x,y)	\
-    ( (This)->lpVtbl -> SelectEdgeRingEdge(This,x,y) ) 
-
-#define IosgControl_SelectEdgeRingFace(This,x,y)	\
-    ( (This)->lpVtbl -> SelectEdgeRingFace(This,x,y) ) 
-
-#define IosgControl_SelectFaceRingVertex(This,x,y)	\
-    ( (This)->lpVtbl -> SelectFaceRingVertex(This,x,y) ) 
-
-#define IosgControl_SelectFaceRingEdge(This,x,y)	\
-    ( (This)->lpVtbl -> SelectFaceRingEdge(This,x,y) ) 
-
-#define IosgControl_SelectFaceRingFace(This,x,y)	\
-    ( (This)->lpVtbl -> SelectFaceRingFace(This,x,y) ) 
-
-#define IosgControl_ClearPoints(This)	\
-    ( (This)->lpVtbl -> ClearPoints(This) ) 
-
-#define IosgControl_ClearVertexes(This)	\
-    ( (This)->lpVtbl -> ClearVertexes(This) ) 
-
-#define IosgControl_ClearEdges(This)	\
-    ( (This)->lpVtbl -> ClearEdges(This) ) 
-
-#define IosgControl_ClearFaces(This)	\
-    ( (This)->lpVtbl -> ClearFaces(This) ) 
+#define IosgControl_Render(This)	\
+    ( (This)->lpVtbl -> Render(This) ) 
 
 #endif /* COBJMACROS */
 

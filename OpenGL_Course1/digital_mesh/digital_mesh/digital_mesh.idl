@@ -32,20 +32,10 @@ interface IosgControl : IDispatch{
 	[id(14), helpstring("方法 SelectEdge")] HRESULT SelectEdge([in] LONG x, [in] LONG y);
 	[id(15), helpstring("方法 SelectFace")] HRESULT SelectFace([in] LONG x, [in] LONG y);
 	[id(16), helpstring("方法 SetSelectColor")] HRESULT SetSelectColor([in] SHORT r, [in] SHORT g, [in] SHORT b);
-	[id(17), helpstring("方法 SelectVertexRingVertex")] HRESULT SelectVertexRingVertex([in] LONG x, [in] LONG y);
-	[id(18), helpstring("方法 SelectVertexRingEdge")] HRESULT SelectVertexRingEdge([in] LONG x, [in] LONG y);
-	[id(19), helpstring("方法 SelectVertexRingFace")] HRESULT SelectVertexRingFace([in] LONG x, [in] LONG y);
-	[id(20), helpstring("方法 SelectEdgeRingVertex")] HRESULT SelectEdgeRingVertex([in] LONG x, [in] LONG y);
-	[id(21), helpstring("方法 SelectEdgeRingEdge")] HRESULT SelectEdgeRingEdge([in] LONG x, [in] LONG y);
-	[id(22), helpstring("方法 SelectEdgeRingFace")] HRESULT SelectEdgeRingFace([in] LONG x, [in] LONG y);
-	[id(23), helpstring("方法 SelectFaceRingVertex")] HRESULT SelectFaceRingVertex([in] LONG x, [in] LONG y);
-	[id(24), helpstring("方法 SelectFaceRingEdge")] HRESULT SelectFaceRingEdge([in] LONG x, [in] LONG y);
-	[id(25), helpstring("方法 SelectFaceRingFace")] HRESULT SelectFaceRingFace([in] LONG x, [in] LONG y);
-	[id(26), helpstring("方法 ClearVertexes")] HRESULT ClearVertexes(void);
-	[id(27), helpstring("方法 ClearEdges")] HRESULT ClearEdges(void);
-	[id(28), helpstring("方法 ClearFaces")] HRESULT ClearFaces(void);
-	[id(29), helpstring("方法 DeleteSelectEdge")] HRESULT DeleteSelectEdge([in] LONG x, [in] LONG y);
-	[id(30), helpstring("方法 MeshSimplification")] HRESULT MeshSimplification([in] LONG level);
+	[id(17), helpstring("方法 SelectVertexRing")] HRESULT SelectVertexRing([in] LONG x, [in] LONG y);
+	[id(18), helpstring("方法 SelectEdgeRing")] HRESULT SelectEdgeRing([in] LONG x, [in] LONG y);
+	[id(19), helpstring("方法 SelectFaceRing")] HRESULT SelectFaceRing([in] LONG x, [in] LONG y);
+	[id(20), helpstring("方法 Render")] HRESULT Render(void);
 };
 [
 	uuid(A236B4E3-2D2B-4504-A7D4-A9210684BEFE),

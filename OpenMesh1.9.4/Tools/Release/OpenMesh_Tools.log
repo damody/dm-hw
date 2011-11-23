@@ -1,0 +1,52 @@
+﻿Build started 2011/5/17 下午 03:08:28.
+     1>Project "C:\MyLib\OpenMesh2.0\Tools\OpenMesh_Tools.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Release\OpenMesh_Tools.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\.. /nologo /W3 /WX- /O2 /Ob2 /Oy- /D WIN32 /D NDEBUG /D _LIB /D _USE_MATH_DEFINES /D _VC80_UPGRADE=0x0710 /D _MBCS /GF- /Gm- /EHsc /MD /GS- /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Smoother\JacobiLaplaceSmootherT.cc Smoother\LaplaceSmootherT.cc Smoother\SmootherT.cc Utils\conio.cc Utils\Gnuplot.cc Utils\MeshCheckerT.cc Utils\StripifierT.cc Utils\Timer.cc Decimater\DecimaterT.cc Decimater\ModProgMeshT.cc Decimater\ModQuadricT.cc
+         JacobiLaplaceSmootherT.cc
+         LaplaceSmootherT.cc
+         SmootherT.cc
+         conio.cc
+         Gnuplot.cc
+         MeshCheckerT.cc
+         StripifierT.cc
+         Timer.cc
+         DecimaterT.cc
+         ModProgMeshT.cc
+         ModQuadricT.cc
+         Generating Code...
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\.. /nologo /W3 /WX- /O2 /Ob2 /Oy- /D WIN32 /D NDEBUG /D _LIB /D _USE_MATH_DEFINES /D _VC80_UPGRADE=0x0710 /D _MBCS /GF- /Gm- /EHsc /MD /GS- /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt Utils\getopt.c
+         getopt.c
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1151,5): warning MSB8012: TargetPath(C:\MyLib\OpenMesh2.0\Tools\Release\OpenMesh_Tools.lib) does not match the Library's OutputFile property value (C:\MyLib\OpenMesh2.0\Tools\Release\Tools.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1153,5): warning MSB8012: TargetName(OpenMesh_Tools) does not match the Library's OutputFile property value (Tools). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"Release\Tools.lib" /NOLOGO Release\JacobiLaplaceSmootherT.obj
+         Release\LaplaceSmootherT.obj
+         Release\SmootherT.obj
+         Release\conio.obj
+         Release\getopt.obj
+         Release\Gnuplot.obj
+         Release\MeshCheckerT.obj
+         Release\StripifierT.obj
+         Release\Timer.obj
+         Release\DecimaterT.obj
+         Release\ModProgMeshT.obj
+         Release\ModQuadricT.obj
+         Release\test1.obj
+     1>ModProgMeshT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>DecimaterT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>StripifierT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>MeshCheckerT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SmootherT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>LaplaceSmootherT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>JacobiLaplaceSmootherT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         OpenMesh_Tools.vcxproj -> C:\MyLib\OpenMesh2.0\Tools\Release\OpenMesh_Tools.lib
+       FinalizeBuildStatus:
+         Deleting file "Release\OpenMesh_Tools.unsuccessfulbuild".
+         Touching "Release\OpenMesh_Tools.lastbuildstate".
+     1>Done Building Project "C:\MyLib\OpenMesh2.0\Tools\OpenMesh_Tools.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.59

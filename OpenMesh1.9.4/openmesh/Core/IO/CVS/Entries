@@ -1,0 +1,24 @@
+/ACGMakefile/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/BinaryHelper.cc/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/BinaryHelper.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/IOInstances.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/IOManager.cc/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/IOManager.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/MeshIO.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/OFFFormat.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/OMFormat.cc/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/OMFormat.hh/1.2/Fri Oct 13 20:27:11 2006//
+/Options.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/SR_binary.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/SR_binary_spec.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/SR_binary_vector_of_bool.inl/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/SR_binary_vector_of_fundamentals.inl/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/SR_binary_vector_of_string.inl/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/SR_rbo.hh/1.2/Mon Jun 12 18:13:57 2006//
+/SR_store.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+/SR_types.hh/1.2/Thu Mar 23 18:09:43 2006//
+/StoreRestore.hh/1.1.1.1/Wed Mar 22 20:12:04 2006//
+D/exporter////
+D/importer////
+D/reader////
+D/writer////

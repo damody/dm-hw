@@ -1,0 +1,80 @@
+﻿Build started 2011/5/17 下午 03:05:51.
+     1>Project "C:\MyLib\OpenMesh2.0\Core\OpenMesh_Core.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Release\OpenMesh_Core.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "Release\OpenMesh_Core.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\.. /AI"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /clr /nologo /W3 /WX- /O2 /Ob2 /Oy- /D WIN32 /D NDEBUG /D _LIB /D _USE_MATH_DEFINES /D _VC80_UPGRADE=0x0710 /D _MBCS /GF- /EHa /MD /GS- /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /analyze- /errorReport:prompt Mesh\ArrayKernel.cc Mesh\BaseKernel.cc Mesh\PolyConnectivity.cc Mesh\PolyMeshT.cc Mesh\TriConnectivity.cc Mesh\TriMeshT.cc System\omstream.cc Utils\BaseProperty.cc Utils\Endian.cc Utils\SingletonT.cc Io\BinaryHelper.cc Io\IOManager.cc Io\OMFormat.cc Io\reader\BaseReader.cc Io\reader\OBJReader.cc Io\reader\OFFReader.cc Io\reader\OMReader.cc Io\reader\STLReader.cc Io\writer\BaseWriter.cc Io\writer\OBJWriter.cc Io\writer\OFFWriter.cc Io\writer\OMWriter.cc Io\writer\STLWriter.cc ..\test1.cpp /clr:nostdlib 
+         ArrayKernel.cc
+         BaseKernel.cc
+         PolyConnectivity.cc
+         PolyMeshT.cc
+         TriConnectivity.cc
+         TriMeshT.cc
+         omstream.cc
+         BaseProperty.cc
+         Endian.cc
+         SingletonT.cc
+         BinaryHelper.cc
+         IOManager.cc
+         OMFormat.cc
+         BaseReader.cc
+         OBJReader.cc
+         OFFReader.cc
+         OMReader.cc
+         STLReader.cc
+         BaseWriter.cc
+         OBJWriter.cc
+         Generating Code...
+         Compiling...
+         OFFWriter.cc
+         OMWriter.cc
+         STLWriter.cc
+         test1.cpp
+         Generating Code...
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\.. /clr /nologo /W3 /WX- /O2 /Ob2 /Oy- /D WIN32 /D NDEBUG /D _LIB /D _USE_MATH_DEFINES /D _VC80_UPGRADE=0x0710 /D _MBCS /GF- /EHa /MD /GS- /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /analyze- /errorReport:prompt "C:\Users\ashung\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
+         .NETFramework,Version=v4.0.AssemblyAttributes.cpp
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1151,5): warning MSB8012: TargetPath(C:\MyLib\OpenMesh2.0\Core\Release\OpenMesh_Core.lib) does not match the Library's OutputFile property value (C:\MyLib\OpenMesh2.0\Core\Release\OpenMesh.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1153,5): warning MSB8012: TargetName(OpenMesh_Core) does not match the Library's OutputFile property value (OpenMesh). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"Release\OpenMesh.lib" /NOLOGO Release\ArrayKernel.obj
+         Release\BaseKernel.obj
+         Release\PolyConnectivity.obj
+         Release\PolyMeshT.obj
+         Release\TriConnectivity.obj
+         Release\TriMeshT.obj
+         Release\omstream.obj
+         Release\BaseProperty.obj
+         Release\Endian.obj
+         Release\SingletonT.obj
+         Release\BinaryHelper.obj
+         Release\IOManager.obj
+         Release\OMFormat.obj
+         Release\BaseReader.obj
+         Release\OBJReader.obj
+         Release\OFFReader.obj
+         Release\OMReader.obj
+         Release\STLReader.obj
+         Release\BaseWriter.obj
+         Release\OBJWriter.obj
+         Release\OFFWriter.obj
+         Release\OMWriter.obj
+         Release\STLWriter.obj
+         Release\test1.obj
+         "Release\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+     1>.NETFramework,Version=v4.0.AssemblyAttributes.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>test1.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SingletonT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>PolyMeshT.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         OpenMesh_Core.vcxproj -> C:\MyLib\OpenMesh2.0\Core\Release\OpenMesh_Core.lib
+       FinalizeBuildStatus:
+         Deleting file "Release\OpenMesh_Core.unsuccessfulbuild".
+         Touching "Release\OpenMesh_Core.lastbuildstate".
+     1>Done Building Project "C:\MyLib\OpenMesh2.0\Core\OpenMesh_Core.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:21.41

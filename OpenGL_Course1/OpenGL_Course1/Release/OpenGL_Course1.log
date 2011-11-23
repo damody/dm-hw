@@ -1,27 +1,31 @@
-﻿Build started 2011/10/20 上午 01:02:05.
-     1>Project "D:\Peefly\Digital Mesh\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" on node 2 (build target(s)).
+﻿Build started 2011/11/23 下午 05:24:05.
+     1>Project "D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\OpenGL_Course1.unsuccessfulbuild" because "AlwaysCreate" was specified.
        GenerateTargetFrameworkMonikerAttribute:
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
-         All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\OpenGL_Course1.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"D:\Peefly\Digital Mesh\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Mesh\GUA_OM.cpp OpenGL_Course1.cpp /clr:nostdlib 
+         J:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Release\OpenGL_Course1.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Release\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt stdafx.cpp /clr:nostdlib 
+         stdafx.cpp
+         J:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\OpenGL_Course1.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Release\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt AssemblyInfo.cpp DotNetUitilities.cpp Mesh\GLCamera.cc Mesh\GUA_OM.cpp OpenGL_Course1.cpp /clr:nostdlib 
+         AssemblyInfo.cpp
+         DotNetUitilities.cpp
+         GLCamera.cc
          GUA_OM.cpp
      1>Mesh\GUA_OM.cpp(643): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(643): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(643): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(673): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(673): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(86): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-                 D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(133) : see reference to function template instantiation 'void OpenMesh::vector_copy<src_t,dst_t>(const src_t &,dst_t &,OpenMesh::GenProg::Int2Type<i>)' being compiled
+     1>D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(86): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(133) : see reference to function template instantiation 'void OpenMesh::vector_copy<src_t,dst_t>(const src_t &,dst_t &,OpenMesh::GenProg::Int2Type<i>)' being compiled
                  with
                  [
                      src_t=OpenMesh::VectorT<double,3>,
                      dst_t=OpenMesh::Vec3f,
                      i=3
                  ]
-                 D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(131) : while compiling class template member function 'OpenMesh::VectorT<Scalar,N> OpenMesh::vector_caster<dst_t,src_t>::cast(const src_t &)'
+                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(131) : while compiling class template member function 'OpenMesh::VectorT<Scalar,N> OpenMesh::vector_caster<dst_t,src_t>::cast(const src_t &)'
                  with
                  [
                      Scalar=float,
@@ -29,18 +33,18 @@
                      dst_t=OpenMesh::Vec3f,
                      src_t=OpenMesh::VectorT<double,3>
                  ]
-                 D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(76) : see reference to class template instantiation 'OpenMesh::vector_caster<dst_t,src_t>' being compiled
+                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(76) : see reference to class template instantiation 'OpenMesh::vector_caster<dst_t,src_t>' being compiled
                  with
                  [
                      dst_t=OpenMesh::Vec3f,
                      src_t=OpenMesh::VectorT<double,3>
                  ]
-                 D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(75) : while compiling class template member function 'OpenMesh::Vec3f OpenMesh::IO::ExporterT<Mesh>::point(OpenMesh::VertexHandle) const'
+                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(75) : while compiling class template member function 'OpenMesh::Vec3f OpenMesh::IO::ExporterT<Mesh>::point(OpenMesh::VertexHandle) const'
                  with
                  [
                      Mesh=OMP::MyMesh
                  ]
-                 D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/IO/MeshIO.hh(96) : see reference to class template instantiation 'OpenMesh::IO::ExporterT<Mesh>' being compiled
+                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/MeshIO.hh(96) : see reference to class template instantiation 'OpenMesh::IO::ExporterT<Mesh>' being compiled
                  with
                  [
                      Mesh=OMP::MyMesh
@@ -50,22 +54,24 @@
                  [
                      Mesh=OMP::MyMesh
                  ]
-     1>D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(87): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>D:\Peefly\Digital Mesh\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(88): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(87): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(88): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
          OpenGL_Course1.cpp
-     1>d:\peefly\digital mesh\opengl_course1\opengl_course1\Form1.h(522): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\digital mesh\opengl_course1\opengl_course1\Form1.h(585): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\digital mesh\opengl_course1\opengl_course1\Form1.h(629): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\digital mesh\opengl_course1\opengl_course1\Form1.h(629): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\digital mesh\opengl_course1\opengl_course1\Form1.h(701): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(522): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(585): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(629): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(629): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(701): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
          Generating Code...
-         All outputs are up-to-date.
+         J:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /analyze- /errorReport:prompt "C:\Users\Peefly\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
+         .NETFramework,Version=v4.0.AssemblyAttributes.cpp
        CoreResGen:
-         All outputs are up-to-date.
+         "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\resgen.exe" /useSourcePath /r:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Release\HKOGLPanel.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /compile Form1.resX,Release\OpenGL_Course1.Form1.resources
+         Processing resource file "Form1.resX" into "Release\OpenGL_Course1.Form1.resources".
        ResourceCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\app.res" app.rc 
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Peefly\Digital Mesh\OpenGL_Course1\Release\OpenGL_Course1.exe" /INCREMENTAL:NO /NOLOGO OpenMesh.lib glu32.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:Release\OpenGL_Course1.Form1.resources /MANIFEST /ManifestFile:"Release\OpenGL_Course1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Peefly\Digital Mesh\OpenGL_Course1\Release\OpenGL_Course1.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Release\app.res
+         J:\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Release\OpenGL_Course1.exe" /INCREMENTAL:NO /NOLOGO OpenMesh.lib glu32.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:Release\OpenGL_Course1.Form1.resources /MANIFEST /ManifestFile:"Release\OpenGL_Course1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Release\OpenGL_Course1.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Release\app.res
          Release\AssemblyInfo.obj
          Release\DotNetUitilities.obj
          Release\GLCamera.obj
@@ -73,14 +79,14 @@
          Release\OpenGL_Course1.obj
          Release\stdafx.obj
          "Release\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
-         OpenGL_Course1.vcxproj -> D:\Peefly\Digital Mesh\OpenGL_Course1\Release\OpenGL_Course1.exe
+         OpenGL_Course1.vcxproj -> D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Release\OpenGL_Course1.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Peefly\Digital Mesh\OpenGL_Course1\Release\OpenGL_Course1.exe;#1" /manifest Release\OpenGL_Course1.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Release\OpenGL_Course1.exe;#1" /manifest Release\OpenGL_Course1.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Release\OpenGL_Course1.unsuccessfulbuild".
          Touching "Release\OpenGL_Course1.lastbuildstate".
-     1>Done Building Project "D:\Peefly\Digital Mesh\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" (build target(s)).
+     1>Done Building Project "D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.96
+Time Elapsed 00:00:22.80

@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{2a7bbb26-f96b-49ed-88b2-efee8edc11e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh">
+      <UniqueIdentifier>{a3d8dcb1-606e-4351-a880-bd21fdf50675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{86a0f8db-be56-49b6-93bc-b7351bff3e33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{9c1dd8bf-de19-41df-a655-93b7f3210207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{4009e5da-1a70-48d1-853e-cf179a917711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\exporter">
+      <UniqueIdentifier>{dc9cd1ce-e0f2-422a-84ee-2bb8ba3a1448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\importer">
+      <UniqueIdentifier>{7c16cbb6-9634-4117-8bd5-013d446af8ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\reader">
+      <UniqueIdentifier>{f0b42cc6-7fb4-4fa1-a455-828afda993d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\writer">
+      <UniqueIdentifier>{6a3c55c9-61d1-44e8-a880-175653decb83}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Geometry\Config.hh">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Geometry\LoopSchemeMaskT.hh">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Geometry\MathDefs.hh">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Geometry\Plane3d.hh">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Geometry\QuadricT.hh">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Geometry\VectorT.hh">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Geometry\VectorT_inc.hh">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Mesh\ArrayItems.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\ArrayKernel.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\AttribKernelT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\Attributes.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\BaseKernel.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\BaseMesh.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\Casts.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\CirculatorsT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\FinalMeshItemsT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\Handles.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\IteratorsT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\PolyConnectivity.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\PolyMesh_ArrayKernelT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\PolyMeshT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\Status.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\Traits.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\TriConnectivity.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\TriMesh_ArrayKernelT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="Mesh\TriMeshT.hh">
+      <Filter>Mesh</Filter>
+    </None>
+    <None Include="System\compiler.hh">
+      <Filter>System</Filter>
+    </None>
+    <None Include="System\config.hh">
+      <Filter>System</Filter>
+    </None>
+    <None Include="System\mostream.hh">
+      <Filter>System</Filter>
+    </None>
+    <None Include="System\omstream.hh">
+      <Filter>System</Filter>
+    </None>
+    <None Include="Utils\AutoPropertyHandleT.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\BaseProperty.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\color_cast.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\Endian.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\GenProg.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\Noncopyable.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\Property.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\PropertyContainer.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\SingletonT.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\vector_cast.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\vector_traits.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Io\BinaryHelper.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\IOInstances.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\IOManager.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\MeshIO.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\OFFFormat.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\OMFormat.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\Options.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_binary.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_binary_spec.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_binary_vector_of_bool.inl">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_binary_vector_of_fundamentals.inl">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_binary_vector_of_string.inl">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_rbo.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_store.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\SR_types.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\StoreRestore.hh">
+      <Filter>IO</Filter>
+    </None>
+    <None Include="Io\exporter\BaseExporter.hh">
+      <Filter>IO\exporter</Filter>
+    </None>
+    <None Include="Io\exporter\ExporterT.hh">
+      <Filter>IO\exporter</Filter>
+    </None>
+    <None Include="Io\importer\BaseImporter.hh">
+      <Filter>IO\importer</Filter>
+    </None>
+    <None Include="Io\importer\ImporterT.hh">
+      <Filter>IO\importer</Filter>
+    </None>
+    <None Include="Io\reader\BaseReader.hh">
+      <Filter>IO\reader</Filter>
+    </None>
+    <None Include="Io\reader\OBJReader.hh">
+      <Filter>IO\reader</Filter>
+    </None>
+    <None Include="Io\reader\OFFReader.hh">
+      <Filter>IO\reader</Filter>
+    </None>
+    <None Include="Io\reader\OMReader.hh">
+      <Filter>IO\reader</Filter>
+    </None>
+    <None Include="Io\reader\STLReader.hh">
+      <Filter>IO\reader</Filter>
+    </None>
+    <None Include="Io\writer\BaseWriter.hh">
+      <Filter>IO\writer</Filter>
+    </None>
+    <None Include="Io\writer\OBJWriter.hh">
+      <Filter>IO\writer</Filter>
+    </None>
+    <None Include="Io\writer\OFFWriter.hh">
+      <Filter>IO\writer</Filter>
+    </None>
+    <None Include="Io\writer\OMWriter.hh">
+      <Filter>IO\writer</Filter>
+    </None>
+    <None Include="Io\writer\STLWriter.hh">
+      <Filter>IO\writer</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Mesh\ArrayKernel.cc">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\BaseKernel.cc">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\PolyConnectivity.cc">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\PolyMeshT.cc">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\TriConnectivity.cc">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\TriMeshT.cc">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="System\omstream.cc">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\BaseProperty.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Endian.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\SingletonT.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\BinaryHelper.cc">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\IOManager.cc">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\OMFormat.cc">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\reader\BaseReader.cc">
+      <Filter>IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\reader\OBJReader.cc">
+      <Filter>IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\reader\OFFReader.cc">
+      <Filter>IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\reader\OMReader.cc">
+      <Filter>IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\reader\STLReader.cc">
+      <Filter>IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\writer\BaseWriter.cc">
+      <Filter>IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\writer\OBJWriter.cc">
+      <Filter>IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\writer\OFFWriter.cc">
+      <Filter>IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\writer\OMWriter.cc">
+      <Filter>IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\writer\STLWriter.cc">
+      <Filter>IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="System\config.h">
+      <Filter>System</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

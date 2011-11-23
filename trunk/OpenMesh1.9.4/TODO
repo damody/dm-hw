@@ -1,0 +1,5 @@
+- Decimater does not always produce a correct progressive mesh.
+- binary_size for OM-Format
+- MIPS port
+- CMAKE makefiles
+- VC .Net 2003 compatibility

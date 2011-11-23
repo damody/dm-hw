@@ -1,0 +1,17 @@
+#==  SYSTEM PART -- DON'T TOUCH  ==============================================
+include $(ACGMAKE)/Config
+#==============================================================================
+
+
+SUBDIRS = mkbalancedpm Analyzer Synthesizer Streaming
+
+PACKAGES := 
+
+PROJ_LIBS := 
+
+MODULES := cxx
+
+
+#==  SYSTEM PART -- DON'T TOUCH  ==============================================
+include $(ACGMAKE)/Rules
+#==============================================================================

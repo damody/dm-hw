@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{ED38FC0A-3C42-4D41-B234-B2912430DE52}</ProjectGuid>
+    <RootNamespace>OpenMesh_Core</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\MyLib\OpenMesh2.0;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\GL_LIB\OpenMesh1.9.4;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)OpenMeshd.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)OpenMesh.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="Geometry\Config.hh" />
+    <None Include="Geometry\LoopSchemeMaskT.hh" />
+    <None Include="Geometry\MathDefs.hh" />
+    <None Include="Geometry\Plane3d.hh" />
+    <None Include="Geometry\QuadricT.hh" />
+    <None Include="Geometry\VectorT.hh" />
+    <None Include="Geometry\VectorT_inc.hh" />
+    <None Include="Mesh\ArrayItems.hh" />
+    <None Include="Mesh\ArrayKernel.hh" />
+    <None Include="Mesh\AttribKernelT.hh" />
+    <None Include="Mesh\Attributes.hh" />
+    <None Include="Mesh\BaseKernel.hh" />
+    <None Include="Mesh\BaseMesh.hh" />
+    <None Include="Mesh\Casts.hh" />
+    <None Include="Mesh\CirculatorsT.hh" />
+    <None Include="Mesh\FinalMeshItemsT.hh" />
+    <None Include="Mesh\Handles.hh" />
+    <None Include="Mesh\IteratorsT.hh" />
+    <None Include="Mesh\PolyConnectivity.hh" />
+    <None Include="Mesh\PolyMesh_ArrayKernelT.hh" />
+    <None Include="Mesh\PolyMeshT.hh" />
+    <None Include="Mesh\Status.hh" />
+    <None Include="Mesh\Traits.hh" />
+    <None Include="Mesh\TriConnectivity.hh" />
+    <None Include="Mesh\TriMesh_ArrayKernelT.hh" />
+    <None Include="Mesh\TriMeshT.hh" />
+    <None Include="System\compiler.hh" />
+    <None Include="System\config.hh" />
+    <None Include="System\mostream.hh" />
+    <None Include="System\omstream.hh" />
+    <None Include="Utils\AutoPropertyHandleT.hh" />
+    <None Include="Utils\BaseProperty.hh" />
+    <None Include="Utils\color_cast.hh" />
+    <None Include="Utils\Endian.hh" />
+    <None Include="Utils\GenProg.hh" />
+    <None Include="Utils\Noncopyable.hh" />
+    <None Include="Utils\Property.hh" />
+    <None Include="Utils\PropertyContainer.hh" />
+    <None Include="Utils\SingletonT.hh" />
+    <None Include="Utils\vector_cast.hh" />
+    <None Include="Utils\vector_traits.hh" />
+    <None Include="Io\BinaryHelper.hh" />
+    <None Include="Io\IOInstances.hh" />
+    <None Include="Io\IOManager.hh" />
+    <None Include="Io\MeshIO.hh" />
+    <None Include="Io\OFFFormat.hh" />
+    <None Include="Io\OMFormat.hh" />
+    <None Include="Io\Options.hh" />
+    <None Include="Io\SR_binary.hh" />
+    <None Include="Io\SR_binary_spec.hh" />
+    <None Include="Io\SR_binary_vector_of_bool.inl" />
+    <None Include="Io\SR_binary_vector_of_fundamentals.inl" />
+    <None Include="Io\SR_binary_vector_of_string.inl" />
+    <None Include="Io\SR_rbo.hh" />
+    <None Include="Io\SR_store.hh" />
+    <None Include="Io\SR_types.hh" />
+    <None Include="Io\StoreRestore.hh" />
+    <None Include="Io\exporter\BaseExporter.hh" />
+    <None Include="Io\exporter\ExporterT.hh" />
+    <None Include="Io\importer\BaseImporter.hh" />
+    <None Include="Io\importer\ImporterT.hh" />
+    <None Include="Io\reader\BaseReader.hh" />
+    <None Include="Io\reader\OBJReader.hh" />
+    <None Include="Io\reader\OFFReader.hh" />
+    <None Include="Io\reader\OMReader.hh" />
+    <None Include="Io\reader\STLReader.hh" />
+    <None Include="Io\writer\BaseWriter.hh" />
+    <None Include="Io\writer\OBJWriter.hh" />
+    <None Include="Io\writer\OFFWriter.hh" />
+    <None Include="Io\writer\OMWriter.hh" />
+    <None Include="Io\writer\STLWriter.hh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Mesh\ArrayKernel.cc" />
+    <ClCompile Include="Mesh\BaseKernel.cc" />
+    <ClCompile Include="Mesh\PolyConnectivity.cc" />
+    <ClCompile Include="Mesh\PolyMeshT.cc" />
+    <ClCompile Include="Mesh\TriConnectivity.cc" />
+    <ClCompile Include="Mesh\TriMeshT.cc" />
+    <ClCompile Include="System\omstream.cc" />
+    <ClCompile Include="Utils\BaseProperty.cc" />
+    <ClCompile Include="Utils\Endian.cc" />
+    <ClCompile Include="Utils\SingletonT.cc" />
+    <ClCompile Include="Io\BinaryHelper.cc" />
+    <ClCompile Include="Io\IOManager.cc" />
+    <ClCompile Include="Io\OMFormat.cc" />
+    <ClCompile Include="Io\reader\BaseReader.cc" />
+    <ClCompile Include="Io\reader\OBJReader.cc" />
+    <ClCompile Include="Io\reader\OFFReader.cc" />
+    <ClCompile Include="Io\reader\OMReader.cc" />
+    <ClCompile Include="Io\reader\STLReader.cc" />
+    <ClCompile Include="Io\writer\BaseWriter.cc" />
+    <ClCompile Include="Io\writer\OBJWriter.cc" />
+    <ClCompile Include="Io\writer\OFFWriter.cc" />
+    <ClCompile Include="Io\writer\OMWriter.cc" />
+    <ClCompile Include="Io\writer\STLWriter.cc" />
+    <ClCompile Include="..\test1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="System\config.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

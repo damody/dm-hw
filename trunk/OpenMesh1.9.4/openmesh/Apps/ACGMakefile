@@ -1,0 +1,12 @@
+#==  SYSTEM PART -- DON'T TOUCH  ==============================================
+include $(ACGMAKE)/Config
+#==============================================================================
+
+
+#SUBDIRS = Smoothing QtViewer ProgViewer Decimating Subdivider VDProgMesh
+SUBDIRS = mconvert Smoothing QtViewer ProgViewer Decimating Subdivider VDProgMesh
+
+
+#==  SYSTEM PART -- DON'T TOUCH  ==============================================
+include $(ACGMAKE)/Rules
+#==============================================================================

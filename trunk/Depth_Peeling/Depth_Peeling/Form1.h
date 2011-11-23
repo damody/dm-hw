@@ -80,6 +80,7 @@ namespace Depth_Peeling {
 	private: System::Windows::Forms::GroupBox^  groupBox2;
 	private: HKOGLPanel::HKOGLPanelControl^  hkoglPanelControl1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+	private: System::Windows::Forms::Label^  testL;
 
 	private:
 		/// <summary>
@@ -102,12 +103,14 @@ namespace Depth_Peeling {
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->hkoglPanelControl1 = (gcnew HKOGLPanel::HKOGLPanelControl());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->testL = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->testL);
 			this->groupBox1->Controls->Add(this->DepthPeel_button);
 			this->groupBox1->Controls->Add(this->OpenMesh_button);
 			this->groupBox1->Dock = System::Windows::Forms::DockStyle::Right;
@@ -177,6 +180,15 @@ namespace Depth_Peeling {
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			this->openFileDialog1->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &Form1::openFileDialog1_FileOk);
 			// 
+			// testL
+			// 
+			this->testL->AutoSize = true;
+			this->testL->Location = System::Drawing::Point(18, 186);
+			this->testL->Name = L"testL";
+			this->testL->Size = System::Drawing::Size(33, 12);
+			this->testL->TabIndex = 2;
+			this->testL->Text = L"label1";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
@@ -187,6 +199,7 @@ namespace Depth_Peeling {
 			this->Name = L"Form1";
 			this->Text = L"Form1";
 			this->groupBox1->ResumeLayout(false);
+			this->groupBox1->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
 			this->ResumeLayout(false);
 
@@ -225,6 +238,11 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				 camera.mouse(e->X,e->Y, Mouse_State,
 					 xf * center,
 					 1.0, xf);
+			 }
+			 else if(e->Button == System::Windows::Forms::MouseButtons::Right)
+			 {
+				 
+				 testL->Text = "mouseX= " + (e->X).ToString() + "\nmouseY= " + (e->Y).ToString();
 			 }
 		 }
 private: System::Void hkoglPanelControl1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {

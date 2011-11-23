@@ -62,8 +62,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-PeeflyPC|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Peefly\Graduate\Digital Mesh\OpenMesh1.9.4;D:\Peefly\Graduate\Digital Mesh\hw\OpenGL;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Peefly\Graduate\Digital Mesh\OpenMesh1.9.4\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\OpenMesh1.9.4;$(SolutionDir)..\OpenGL;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\OpenMesh1.9.4\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

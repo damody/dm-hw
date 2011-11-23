@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Smoother">
+      <UniqueIdentifier>{ecc1af77-0eed-47fe-94f9-a0c8d8f62c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5b89b641-7cf4-4801-bb34-821261b26040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decimater">
+      <UniqueIdentifier>{169822ff-98e1-4b02-9a8a-916de9065a55}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Smoother\JacobiLaplaceSmootherT.cc">
+      <Filter>Smoother</Filter>
+    </ClCompile>
+    <ClCompile Include="Smoother\LaplaceSmootherT.cc">
+      <Filter>Smoother</Filter>
+    </ClCompile>
+    <ClCompile Include="Smoother\SmootherT.cc">
+      <Filter>Smoother</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\conio.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\getopt.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Gnuplot.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\MeshCheckerT.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\StripifierT.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Timer.cc">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Decimater\DecimaterT.cc">
+      <Filter>Decimater</Filter>
+    </ClCompile>
+    <ClCompile Include="Decimater\ModProgMeshT.cc">
+      <Filter>Decimater</Filter>
+    </ClCompile>
+    <ClCompile Include="Decimater\ModQuadricT.cc">
+      <Filter>Decimater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Smoother\JacobiLaplaceSmootherT.hh">
+      <Filter>Smoother</Filter>
+    </None>
+    <None Include="Smoother\LaplaceSmootherT.hh">
+      <Filter>Smoother</Filter>
+    </None>
+    <None Include="Smoother\smooth_mesh.hh">
+      <Filter>Smoother</Filter>
+    </None>
+    <None Include="Smoother\SmootherT.hh">
+      <Filter>Smoother</Filter>
+    </None>
+    <None Include="Utils\Config.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\conio.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\GLConstAsString.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\Gnuplot.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\HeapT.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\MeshCheckerT.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\NumLimitsT.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\StripifierT.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\TestingFramework.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Utils\Timer.hh">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Decimater\CollapseInfoT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+    <None Include="Decimater\DecimaterT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+    <None Include="Decimater\ModBaseT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+    <None Include="Decimater\ModIndependentSetsT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+    <None Include="Decimater\ModNormalFlippingT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+    <None Include="Decimater\ModProgMeshT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+    <None Include="Decimater\ModQuadricT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+    <None Include="Decimater\ModRoundnessT.hh">
+      <Filter>Decimater</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utils\getopt.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

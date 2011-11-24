@@ -268,8 +268,10 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				winX = (float)e->X;
 				winY = (float)viewport[3] - (float)e->Y;
 
+				glEnable(GL_DEPTH_TEST);
 				glReadPixels( int(winX), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
-			
+				glDisable(GL_DEPTH_TEST);
+
 				outputL->Text += "\nmouseZ= " + winZ +"\n" ;
 
 				if(winZ>=0.99999f)
@@ -378,8 +380,9 @@ private: System::Void DepthPeel_button_Click(System::Object^  sender, System::Ev
 			   {
 				   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				   glEnable(GL_BLEND);
-				   glDisable( GL_DEPTH_TEST ) ;  //****** 
+				   glDisable(GL_DEPTH_TEST);	//*******開了可能會抓不到深度
 				   peeling_state = false ;
+				   glMatrixMode(GL_VIEWPORT); glMultMatrixd((double *)xf);
 				   if(  dp_com->Scene_Init() )
 				   {
 					   dp_com->Set_BufferObj(hkoglPanelControl1->Width, hkoglPanelControl1->Height);
@@ -388,7 +391,7 @@ private: System::Void DepthPeel_button_Click(System::Object^  sender, System::Ev
 						//for(int curLayer = 0 ; curLayer< 1 ; curLayer++ )
 						{
 							//  DP_COM::Peeling_layer
-							dp_com->Peeling_layer( hkoglPanelControl1->Width, hkoglPanelControl1->Height, curLayer, mesh );
+							dp_com->Peeling_layer( hkoglPanelControl1->Width, hkoglPanelControl1->Height, curLayer, mesh, xf );
 						}
 						dp_com->Set_ValidRegion( hkoglPanelControl1->Width, hkoglPanelControl1->Height );
 					 

@@ -153,7 +153,7 @@ void DP_COM::ClearBuffer()
 
 
 //-------------穿刺一層-------------//
-void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Mesh* mesh )
+void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Mesh* mesh ,double *xf)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -164,7 +164,9 @@ void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Me
 	}
 
 	glDisable(GL_CULL_FACE);
+	glEnable( GL_DEPTH_TEST ) ;
 	mesh->Render_Solid();
+	glDisable( GL_DEPTH_TEST ) ;
 	glEnable(GL_CULL_FACE);
 	glDisable(GL_FRAGMENT_PROGRAM_ARB);
 
@@ -176,11 +178,12 @@ void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Me
 	rgba_layer[layer].bind();
 	glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE_NV, 0, 0, 0, 0, 0, scene_width, scene_height);
 
-	//glPushMatrix();
+
 	//glMatrixMode(GL_MODELVIEW); //glMultMatrixd((double *)xf);
 	//glGetIntegerv( GL_VIEWPORT, viewport );
 	//glEnable( GL_DEPTH_TEST ) ; //****
 
+	glEnable( GL_DEPTH_TEST ) ;
 	glReadPixels(
 		0, 0,
 		scene_width, scene_height, 
@@ -188,6 +191,21 @@ void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Me
 		GL_FLOAT,
 		&(m_pZBuffer[scene_width * scene_height * layer])
 	);
+	/*
+	for(int i=0 ; i<scene_width ; i++)
+	{
+		for(int j=0 ; j<scene_width ; j++)
+		{
+			float tmpF;
+			glReadPixels(i,j,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&tmpF);
+			if(tmpF != 1.f)
+			{
+				std::cout<< "tmpF= " << tmpF << std::endl;
+			}
+		}
+
+	}
+	*/
 	//glPopMatrix();
 
 }
@@ -203,7 +221,7 @@ void DP_COM::Set_ValidRegion(int width, int height)
 				m_ValidBuffer[ curY*width+curX ] = false;	//一開始先假設為false
 				if(m_pZBuffer[ curLayer*width*height + curY * width + curX ] != 1.f  && m_pZBuffer[ curLayer*width*height + curY*width + curX ] != 0.f)
 				{
-					std::cout << m_pZBuffer[ curLayer*width*height + curY*width+curX ] << " ";
+					//std::cout << m_pZBuffer[ curLayer*width*height + curY*width+curX ] << " ";
 					
 				}
 				//std::cout << curLayer*width*height + curY*width+curX << " ";

@@ -1,4 +1,4 @@
-﻿Build started 2011/11/24 下午 04:22:45.
+﻿Build started 2011/11/25 上午 02:00:46.
      1>Project "D:\DigitalMesh\hw\Depth_Peeling\Depth_Peeling\Depth_Peeling.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release-PeeflyPC\Depth_Peeling.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -8,8 +8,7 @@
          The previous error was converted to a warning because the task was called with ContinueOnError=true.
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release-PeeflyPC\Depth_Peeling.pch" /Fo"Release-PeeflyPC\\" /Fd"Release-PeeflyPC\vc100.pdb" /TP /FU"D:\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Design.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Depth_Peeling.cpp /clr:nostdlib 
-         Depth_Peeling.cpp
+         All outputs are up-to-date.
          All outputs are up-to-date.
        ManagedIncrementalBuildPostProcessDependencyGraph:
          To improve incremental build performance for managed components, please make sure that the 'VC++ Directories->Reference Directories' points to all the paths which contain the referenced managed assemblies.
@@ -21,18 +20,10 @@
        ResourceCompile:
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe" /INCREMENTAL:NO /NOLOGO OpenMesh.lib GLU32.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:"Release-PeeflyPC\Depth_Peeling.Form1.resources" /MANIFEST /ManifestFile:"Release-PeeflyPC\Depth_Peeling.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 "Release-PeeflyPC\app.res"
-         "Release-PeeflyPC\AssemblyInfo.obj"
-         "Release-PeeflyPC\Depth_Peeling.obj"
-         "Release-PeeflyPC\DotNetUitilities.obj"
-         "Release-PeeflyPC\DP.obj"
-         "Release-PeeflyPC\GLCamera.obj"
-         "Release-PeeflyPC\GUA_OM.obj"
-         "Release-PeeflyPC\stdafx.obj"
-         "Release-PeeflyPC\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         All outputs are up-to-date.
          Depth_Peeling.vcxproj -> D:\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe;#1" /manifest "Release-PeeflyPC\Depth_Peeling.exe.intermediate.manifest"
+       MetaGen:
+       Skipping target "MetaGen" because all output files are up-to-date with respect to the input files.
        FinalizeBuildStatus:
          Deleting file "Release-PeeflyPC\Depth_Peeling.unsuccessfulbuild".
          Touching "Release-PeeflyPC\Depth_Peeling.lastbuildstate".
@@ -40,4 +31,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.11
+Time Elapsed 00:00:00.16

@@ -176,12 +176,45 @@ void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Me
 	rgba_layer[layer].bind();
 	glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE_NV, 0, 0, 0, 0, 0, scene_width, scene_height);
 
+	//glPushMatrix();
+	//glMatrixMode(GL_MODELVIEW); //glMultMatrixd((double *)xf);
+	//glGetIntegerv( GL_VIEWPORT, viewport );
+	//glEnable( GL_DEPTH_TEST ) ; //****
+
 	glReadPixels(
 		0, 0,
 		scene_width, scene_height, 
 		GL_DEPTH_COMPONENT,
 		GL_FLOAT,
-		& m_pZBuffer[scene_width * scene_height * layer]
+		&(m_pZBuffer[scene_width * scene_height * layer])
 	);
+	//glPopMatrix();
+
+}
+
+void DP_COM::Set_ValidRegion(int width, int height)
+{
+	for(int curY = 0 ; curY < height ; curY++ )
+	{
+		for(int curX = 0 ; curX < width ; curX++ )
+		{
+			for(int curLayer = 0 ; curLayer < MAX_LAYERS ; curLayer++)
+			{
+				m_ValidBuffer[ curY*width+curX ] = false;	//一開始先假設為false
+				if(m_pZBuffer[ curLayer*width*height + curY * width + curX ] != 1.f  && m_pZBuffer[ curLayer*width*height + curY*width + curX ] != 0.f)
+				{
+					std::cout << m_pZBuffer[ curLayer*width*height + curY*width+curX ] << " ";
+					
+				}
+				//std::cout << curLayer*width*height + curY*width+curX << " ";
+				//system("pause");
+				
+				
+			}
+			//std::cout << std::endl;
+			
+		}
+		//system("pause");
+	}
 
 }

@@ -21,6 +21,7 @@ public:
 	void Set_BufferObj(  int, int  );
 	void ClearBuffer( );
 	void Peeling_layer(  int, int, int,  Tri_Mesh*  ) ;
+	void Set_ValidRegion(int, int );
 
 protected:
 private:

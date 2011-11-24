@@ -80,7 +80,8 @@ namespace Depth_Peeling {
 	private: System::Windows::Forms::GroupBox^  groupBox2;
 	private: HKOGLPanel::HKOGLPanelControl^  hkoglPanelControl1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
-	private: System::Windows::Forms::Label^  testL;
+	private: System::Windows::Forms::Label^  outputL;
+
 
 	private:
 		/// <summary>
@@ -98,19 +99,19 @@ namespace Depth_Peeling {
 			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting1 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
 			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat1 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->outputL = (gcnew System::Windows::Forms::Label());
 			this->DepthPeel_button = (gcnew System::Windows::Forms::Button());
 			this->OpenMesh_button = (gcnew System::Windows::Forms::Button());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->hkoglPanelControl1 = (gcnew HKOGLPanel::HKOGLPanelControl());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->testL = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// groupBox1
 			// 
-			this->groupBox1->Controls->Add(this->testL);
+			this->groupBox1->Controls->Add(this->outputL);
 			this->groupBox1->Controls->Add(this->DepthPeel_button);
 			this->groupBox1->Controls->Add(this->OpenMesh_button);
 			this->groupBox1->Dock = System::Windows::Forms::DockStyle::Right;
@@ -120,6 +121,15 @@ namespace Depth_Peeling {
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Mesh_OP";
+			// 
+			// outputL
+			// 
+			this->outputL->AutoSize = true;
+			this->outputL->Location = System::Drawing::Point(18, 186);
+			this->outputL->Name = L"outputL";
+			this->outputL->Size = System::Drawing::Size(33, 12);
+			this->outputL->TabIndex = 2;
+			this->outputL->Text = L"label1";
 			// 
 			// DepthPeel_button
 			// 
@@ -180,15 +190,6 @@ namespace Depth_Peeling {
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			this->openFileDialog1->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &Form1::openFileDialog1_FileOk);
 			// 
-			// testL
-			// 
-			this->testL->AutoSize = true;
-			this->testL->Location = System::Drawing::Point(18, 186);
-			this->testL->Name = L"testL";
-			this->testL->Size = System::Drawing::Size(33, 12);
-			this->testL->TabIndex = 2;
-			this->testL->Text = L"label1";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
@@ -222,7 +223,11 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 			 glMultMatrixd((double *)xf);
 
 			 if ( mesh != NULL )
+			 {
 				 mesh->Render_Solid();
+				 mesh->RenderSpecifiedPoint();
+			 }
+
 
 			 glPopMatrix();
 		 }
@@ -242,7 +247,57 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 			 else if(e->Button == System::Windows::Forms::MouseButtons::Right)
 			 {
 				 
-				 testL->Text = "mouseX= " + (e->X).ToString() + "\nmouseY= " + (e->Y).ToString();
+				outputL->Text = "mouseX= " + (e->X).ToString() + "\nmouseY= " + (e->Y).ToString();
+				 
+				GLint viewport[4];
+				GLdouble modelview[16];
+				GLdouble projection[16];
+				GLfloat winX, winY, winZ;
+				GLdouble objX, objY, objZ;
+				glPushMatrix();
+
+				glMatrixMode(GL_MODELVIEW);	glMultMatrixd((double *)xf);
+				glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+
+				glMatrixMode(GL_PROJECTION_MATRIX);	glMultMatrixd((double *)xf);
+				glGetDoublev( GL_PROJECTION_MATRIX, projection );
+
+				glMatrixMode(GL_VIEWPORT); glMultMatrixd((double *)xf);
+				glGetIntegerv( GL_VIEWPORT, viewport );
+
+				winX = (float)e->X;
+				winY = (float)viewport[3] - (float)e->Y;
+
+				glReadPixels( int(winX), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+			
+				outputL->Text += "\nmouseZ= " + winZ +"\n" ;
+
+				if(winZ>=0.99999f)
+				{
+					std::cerr << "Click on background (z= " << winZ << ")" << std::endl;
+				}
+				else
+				{
+					gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
+					outputL->Text += "\nObjectX: "+objX+"\nObjectY: "+objY+"\nObjectZ: "+(objZ);
+					//加入目前的滑鼠點
+					mesh->clear_sp_p();
+					mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 0.0f, 1.0f);
+				}
+				if(peeling_state==false)
+				{
+					for(int i=0 ; i<MAX_LAYERS ; i++)
+					{
+						float zValue = (dp_com->m_pZBuffer)[ (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX ];
+						//std::cout << (dp_com->m_pZBuffer)[ (int)( (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + winY*(hkoglPanelControl1->Width)+winX) ] << " ";
+						std::cout << zValue << " ";
+						
+					}
+					std::cout << std::endl;
+				}
+				glPopMatrix();
+				//this->Refresh();
+				return;
 			 }
 		 }
 private: System::Void hkoglPanelControl1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -318,26 +373,30 @@ private: System::Void hkoglPanelControl1_MouseWheel(System::Object^  sender, Sys
 			 }
 		 }
 private: System::Void DepthPeel_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			   if ( peeling_state )
+			 if(mesh==NULL)return;	//沒有載入model則直接關掉
+			 if ( peeling_state )
 			   {
 				   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				   glEnable(GL_BLEND);
-				   glDisable( GL_DEPTH_TEST ) ;
+				   glDisable( GL_DEPTH_TEST ) ;  //****** 
 				   peeling_state = false ;
 				   if(  dp_com->Scene_Init() )
 				   {
 					   dp_com->Set_BufferObj(hkoglPanelControl1->Width, hkoglPanelControl1->Height);
-					    //用for迴圈將每一層Depth Layer 抓出來
-					    
-					   //  DP_COM::Peeling_layer
-
-					   //Set_ValidRegion();
+					   //用for迴圈將每一層Depth Layer 抓出來
+						for(int curLayer = 0 ; curLayer< MAX_LAYERS ; curLayer++ )
+						//for(int curLayer = 0 ; curLayer< 1 ; curLayer++ )
+						{
+							//  DP_COM::Peeling_layer
+							dp_com->Peeling_layer( hkoglPanelControl1->Width, hkoglPanelControl1->Height, curLayer, mesh );
+						}
+						dp_com->Set_ValidRegion( hkoglPanelControl1->Width, hkoglPanelControl1->Height );
 					 
-					   std::cout<<"Peeling Success.....";
+						std::cout<<"Peeling Success....." << std::endl;
 				   }
 				   else
 				   {
-				       std::cout<<"Peeling Fail.............WTX..............";
+				       std::cout<<"Peeling Fail.............WTX.............." << std::endl;
 				   }
 			   } 
 			   else

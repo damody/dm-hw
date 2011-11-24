@@ -77,6 +77,13 @@ namespace OMT//OpenMesh Triangle mesh
 
 	/*定義額外資料結構*/
 	using namespace OpenMesh;
+	//指定另外畫出位置的資料結構
+	struct sp_p
+	{
+		Point pt;
+		float r, g, b;
+	};
+	
 	/*----------------------------------------------------------------------*/
 
 	/*定義類別*/
@@ -85,7 +92,16 @@ namespace OMT//OpenMesh Triangle mesh
 	public:
 		Model();//constructor
 		~Model();//de-constructor
-	};
+		void RenderSpecifiedPoint();	//畫出指定位置的點
+		
+		void add_sp_p(Point   _p, float _r, float _g, float _b);//指定額外畫出的點
+		
+		void clear_sp_p();//清空額外畫出的點
+		
+	public:
+		vector< sp_p > sp_p_list;
+		
+	}; 
 }
 /*======================================================================*/
 

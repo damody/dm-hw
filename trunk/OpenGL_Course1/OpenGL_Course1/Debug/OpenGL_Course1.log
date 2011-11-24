@@ -1,13 +1,13 @@
-﻿Build started 2011/11/23 下午 05:24:56.
-     1>Project "D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" on node 2 (build target(s)).
+﻿Build started 2011/11/24 下午 12:49:49.
+     1>Project "D:\DigitalMesh\hw\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\OpenGL_Course1.unsuccessfulbuild" because "AlwaysCreate" was specified.
        GenerateTargetFrameworkMonikerAttribute:
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
-         J:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\OpenGL_Course1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt stdafx.cpp /clr:nostdlib 
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\OpenGL_Course1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FUD:\DigitalMesh\hw\OpenGL_Course1\Debug\HKOGLPanel.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt stdafx.cpp /clr:nostdlib 
          stdafx.cpp
-         J:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\OpenGL_Course1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt AssemblyInfo.cpp DotNetUitilities.cpp Mesh\GLCamera.cc Mesh\GUA_OM.cpp OpenGL_Course1.cpp /clr:nostdlib 
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\OpenGL_Course1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FUD:\DigitalMesh\hw\OpenGL_Course1\Debug\HKOGLPanel.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt AssemblyInfo.cpp DotNetUitilities.cpp Mesh\GLCamera.cc Mesh\GUA_OM.cpp OpenGL_Course1.cpp /clr:nostdlib 
          AssemblyInfo.cpp
          DotNetUitilities.cpp
          GLCamera.cc
@@ -17,15 +17,15 @@
      1>Mesh\GUA_OM.cpp(643): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(673): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
      1>Mesh\GUA_OM.cpp(673): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(86): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(133) : see reference to function template instantiation 'void OpenMesh::vector_copy<src_t,dst_t>(const src_t &,dst_t &,OpenMesh::GenProg::Int2Type<i>)' being compiled
+     1>D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(86): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+                 D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(133) : see reference to function template instantiation 'void OpenMesh::vector_copy<src_t,dst_t>(const src_t &,dst_t &,OpenMesh::GenProg::Int2Type<i>)' being compiled
                  with
                  [
                      src_t=OpenMesh::VectorT<double,3>,
                      dst_t=OpenMesh::Vec3f,
                      i=3
                  ]
-                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(131) : while compiling class template member function 'OpenMesh::VectorT<Scalar,N> OpenMesh::vector_caster<dst_t,src_t>::cast(const src_t &)'
+                 D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(131) : while compiling class template member function 'OpenMesh::VectorT<Scalar,N> OpenMesh::vector_caster<dst_t,src_t>::cast(const src_t &)'
                  with
                  [
                      Scalar=float,
@@ -33,18 +33,18 @@
                      dst_t=OpenMesh::Vec3f,
                      src_t=OpenMesh::VectorT<double,3>
                  ]
-                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(76) : see reference to class template instantiation 'OpenMesh::vector_caster<dst_t,src_t>' being compiled
+                 D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(76) : see reference to class template instantiation 'OpenMesh::vector_caster<dst_t,src_t>' being compiled
                  with
                  [
                      dst_t=OpenMesh::Vec3f,
                      src_t=OpenMesh::VectorT<double,3>
                  ]
-                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(75) : while compiling class template member function 'OpenMesh::Vec3f OpenMesh::IO::ExporterT<Mesh>::point(OpenMesh::VertexHandle) const'
+                 D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(75) : while compiling class template member function 'OpenMesh::Vec3f OpenMesh::IO::ExporterT<Mesh>::point(OpenMesh::VertexHandle) const'
                  with
                  [
                      Mesh=OMP::MyMesh
                  ]
-                 D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/MeshIO.hh(96) : see reference to class template instantiation 'OpenMesh::IO::ExporterT<Mesh>' being compiled
+                 D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/MeshIO.hh(96) : see reference to class template instantiation 'OpenMesh::IO::ExporterT<Mesh>' being compiled
                  with
                  [
                      Mesh=OMP::MyMesh
@@ -54,24 +54,29 @@
                  [
                      Mesh=OMP::MyMesh
                  ]
-     1>D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(87): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>D:\Peefly\Graduate\Digital Mesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(88): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(87): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>D:\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(88): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
          OpenGL_Course1.cpp
-     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(522): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(585): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(629): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(629): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\peefly\graduate\digital mesh\hw\opengl_course1\opengl_course1\Form1.h(701): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\digitalmesh\hw\opengl_course1\opengl_course1\Form1.h(522): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\digitalmesh\hw\opengl_course1\opengl_course1\Form1.h(585): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\digitalmesh\hw\opengl_course1\opengl_course1\Form1.h(629): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\digitalmesh\hw\opengl_course1\opengl_course1\Form1.h(629): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\digitalmesh\hw\opengl_course1\opengl_course1\Form1.h(701): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
          Generating Code...
-         J:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /analyze- /errorReport:prompt "C:\Users\Peefly\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /analyze- /errorReport:prompt "C:\Users\Algorithm\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
          .NETFramework,Version=v4.0.AssemblyAttributes.cpp
+       ManagedIncrementalBuildPostProcessDependencyGraph:
+         To improve incremental build performance for managed components, please make sure that the 'VC++ Directories->Reference Directories' points to all the paths which contain the referenced managed assemblies.
+         Could not load file or assembly 'file:///J:\MICROSOFT VISUAL STUDIO 10.0\VC\BIN\1033\CLUI.DLL' or one of its dependencies. 系統找不到指定的檔案。
+         To improve incremental build performance for managed components, please make sure that the 'VC++ Directories->Reference Directories' points to all the paths which contain the referenced managed assemblies.
+         Could not load file or assembly 'file:///D:\PEEFLY\GRADUATE\DIGITAL MESH\HW\OPENGL_COURSE1\DEBUG\HKOGLPANEL.DLL' or one of its dependencies. 系統找不到指定的檔案。
        CoreResGen:
-         "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\resgen.exe" /useSourcePath /r:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\HKOGLPanel.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /compile Form1.resX,Debug\OpenGL_Course1.Form1.resources
+         "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\resgen.exe" /useSourcePath /r:D:\DigitalMesh\hw\OpenGL_Course1\Debug\HKOGLPanel.dll /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /compile Form1.resX,Debug\OpenGL_Course1.Form1.resources
          Processing resource file "Form1.resX" into "Debug\OpenGL_Course1.Form1.resources".
        ResourceCompile:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\app.res" app.rc 
        Link:
-         J:\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.exe" /INCREMENTAL /NOLOGO OpenMeshd.lib glu32.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:Debug\OpenGL_Course1.Form1.resources /MANIFEST /ManifestFile:"Debug\OpenGL_Course1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\app.res
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\DigitalMesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.exe" /INCREMENTAL /NOLOGO OpenMeshd.lib glu32.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:Debug\OpenGL_Course1.Form1.resources /MANIFEST /ManifestFile:"Debug\OpenGL_Course1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\DigitalMesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\app.res
          Debug\AssemblyInfo.obj
          Debug\DotNetUitilities.obj
          Debug\GLCamera.obj
@@ -79,33 +84,33 @@
          Debug\OpenGL_Course1.obj
          Debug\stdafx.obj
          "Debug\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
-     1>OpenMeshd.lib(ArrayKernel.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(ArrayKernel.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(PolyConnectivity.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(PolyConnectivity.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(TriConnectivity.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(TriConnectivity.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(omstream.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(omstream.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(BaseProperty.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BaseProperty.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(Endian.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(Endian.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(BinaryHelper.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BinaryHelper.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(IOManager.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(IOManager.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(OMFormat.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OMFormat.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(BaseReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BaseReader.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(OBJReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OBJReader.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(OFFReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OFFReader.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(OMReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OMReader.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(STLReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(STLReader.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(BaseWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BaseWriter.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(OBJWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OBJWriter.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(OFFWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OFFWriter.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(OMWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OMWriter.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-     1>OpenMeshd.lib(STLWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(STLWriter.obj)' or at 'D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
-         OpenGL_Course1.vcxproj -> D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.exe
+     1>OpenMeshd.lib(ArrayKernel.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(ArrayKernel.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(PolyConnectivity.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(PolyConnectivity.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(TriConnectivity.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(TriConnectivity.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(omstream.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(omstream.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(BaseProperty.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BaseProperty.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(Endian.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(Endian.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(BinaryHelper.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BinaryHelper.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(IOManager.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(IOManager.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(OMFormat.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OMFormat.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(BaseReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BaseReader.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(OBJReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OBJReader.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(OFFReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OFFReader.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(OMReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OMReader.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(STLReader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(STLReader.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(BaseWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(BaseWriter.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(OBJWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OBJWriter.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(OFFWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OFFWriter.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(OMWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(OMWriter.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+     1>OpenMeshd.lib(STLWriter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'OpenMeshd.lib(STLWriter.obj)' or at 'D:\DigitalMesh\hw\OpenGL_Course1\Debug\vc100.pdb'; linking object as if no debug info
+         OpenGL_Course1.vcxproj -> D:\DigitalMesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.exe;#1" /manifest Debug\OpenGL_Course1.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\DigitalMesh\hw\OpenGL_Course1\Debug\OpenGL_Course1.exe;#1" /manifest Debug\OpenGL_Course1.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\OpenGL_Course1.unsuccessfulbuild".
          Touching "Debug\OpenGL_Course1.lastbuildstate".
-     1>Done Building Project "D:\Peefly\Graduate\Digital Mesh\hw\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" (build target(s)).
+     1>Done Building Project "D:\DigitalMesh\hw\OpenGL_Course1\OpenGL_Course1\OpenGL_Course1.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:28.78
+Time Elapsed 00:00:13.02

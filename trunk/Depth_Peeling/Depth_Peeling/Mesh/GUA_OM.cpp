@@ -20,6 +20,36 @@ namespace OMT
 		release_edge_status();
 		release_face_status();
 	}
+	void Model::RenderSpecifiedPoint()
+	{
+		glPushAttrib(GL_LIGHTING_BIT);
+		glDisable(GL_LIGHTING);
+		glEnable(GL_DEPTH_TEST);
+		glPointSize(5.0f);
+		glBegin(GL_POINTS);
+		vector<sp_p>::iterator p_itr = sp_p_list.begin();
+		for (p_itr; p_itr != sp_p_list.end(); ++p_itr)
+		{
+			glColor3f(p_itr->r, p_itr->g, p_itr->b);
+			glVertex3dv(p_itr->pt);
+		}
+		glEnd();
+		glEnable(GL_LIGHTING);
+		glDisable(GL_POLYGON_OFFSET_FILL);
+	}
+	void Model::add_sp_p(Point   _p, float _r, float _g, float _b)
+	{
+		sp_p input_data;
+		input_data.pt = _p;
+		input_data.r = _r;
+		input_data.g = _g;
+		input_data.b = _b;
+		sp_p_list.push_back(input_data);
+	}
+	void Model::clear_sp_p()
+	{
+		sp_p_list.clear();
+	}
 }
 /*======================================================================*/
 namespace OMP

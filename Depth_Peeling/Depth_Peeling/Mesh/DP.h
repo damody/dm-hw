@@ -14,7 +14,7 @@ class DP_COM
 
 public:
 	float*	   m_pZBuffer      ;    //儲存每一階層的ZBuffer值       
-	bool*     m_ValidBuffer ;    //此Pixel是否存在mesh的判斷buffer，判斷加速用
+	unsigned int*     m_ValidBuffer ;    //此Pixel是否存在mesh的判斷buffer，判斷加速用
 
 	//---------------function---------------//
 	bool Scene_Init( );

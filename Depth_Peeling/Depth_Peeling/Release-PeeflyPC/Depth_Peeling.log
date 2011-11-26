@@ -1,74 +1,18 @@
-﻿Build started 2011/11/26 下午 01:33:07.
+﻿Build started 2011/11/26 下午 07:34:52.
      1>Project "D:\P\DigitalMesh\hw\Depth_Peeling\Depth_Peeling\Depth_Peeling.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release-PeeflyPC\Depth_Peeling.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
-         D:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Release-PeeflyPC\Depth_Peeling.pch" /Fo"Release-PeeflyPC\\" /Fd"Release-PeeflyPC\vc100.pdb" /TP /FU"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\HKOGLPanel.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Design.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt stdafx.cpp /clr:nostdlib 
-         stdafx.cpp
-         D:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release-PeeflyPC\Depth_Peeling.pch" /Fo"Release-PeeflyPC\\" /Fd"Release-PeeflyPC\vc100.pdb" /TP /FU"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\HKOGLPanel.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Design.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt AssemblyInfo.cpp Depth_Peeling.cpp DotNetUitilities.cpp Mesh\DP.cpp Mesh\GLCamera.cc Mesh\GUA_OM.cpp /clr:nostdlib 
-         AssemblyInfo.cpp
+         All outputs are up-to-date.
+         D:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release-PeeflyPC\Depth_Peeling.pch" /Fo"Release-PeeflyPC\\" /Fd"Release-PeeflyPC\vc100.pdb" /TP /FU"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\HKOGLPanel.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Design.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Depth_Peeling.cpp /clr:nostdlib 
          Depth_Peeling.cpp
-         DotNetUitilities.cpp
-         DP.cpp
-     1>Mesh\DP.cpp(133): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\DP.cpp(133): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\DP.cpp(133): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\DP.cpp(133): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-         GLCamera.cc
-         GUA_OM.cpp
-     1>Mesh\GUA_OM.cpp(515): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(515): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(515): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(515): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(545): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>Mesh\GUA_OM.cpp(545): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(86): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-                 D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(133) : see reference to function template instantiation 'void OpenMesh::vector_copy<src_t,dst_t>(const src_t &,dst_t &,OpenMesh::GenProg::Int2Type<i>)' being compiled
-                 with
-                 [
-                     src_t=OpenMesh::VectorT<double,3>,
-                     dst_t=OpenMesh::Vec3f,
-                     i=3
-                 ]
-                 D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(131) : while compiling class template member function 'OpenMesh::VectorT<Scalar,N> OpenMesh::vector_caster<dst_t,src_t>::cast(const src_t &)'
-                 with
-                 [
-                     Scalar=float,
-                     N=3,
-                     dst_t=OpenMesh::Vec3f,
-                     src_t=OpenMesh::VectorT<double,3>
-                 ]
-                 D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(76) : see reference to class template instantiation 'OpenMesh::vector_caster<dst_t,src_t>' being compiled
-                 with
-                 [
-                     dst_t=OpenMesh::Vec3f,
-                     src_t=OpenMesh::VectorT<double,3>
-                 ]
-                 D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/exporter/ExporterT.hh(75) : while compiling class template member function 'OpenMesh::Vec3f OpenMesh::IO::ExporterT<Mesh>::point(OpenMesh::VertexHandle) const'
-                 with
-                 [
-                     Mesh=OMP::MyMesh
-                 ]
-                 D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/IO/MeshIO.hh(96) : see reference to class template instantiation 'OpenMesh::IO::ExporterT<Mesh>' being compiled
-                 with
-                 [
-                     Mesh=OMP::MyMesh
-                 ]
-                 Mesh\GUA_OM.cpp(93) : see reference to function template instantiation 'bool OpenMesh::IO::write_mesh<OMP::MyMesh>(const Mesh &,const std::string &,OpenMesh::IO::Options)' being compiled
-                 with
-                 [
-                     Mesh=OMP::MyMesh
-                 ]
-     1>D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(87): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-     1>D:\P\DigitalMesh\hw\OpenMesh1.9.4\OpenMesh/Core/Utils/vector_cast.hh(88): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
-         Generating Code...
-         D:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release-PeeflyPC\\" /Fd"Release-PeeflyPC\vc100.pdb" /TP /analyze- /errorReport:prompt "C:\Documents and Settings\quwie\Local Settings\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
-         .NETFramework,Version=v4.0.AssemblyAttributes.cpp
+         All outputs are up-to-date.
        CoreResGen:
-         "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\resgen.exe" /useSourcePath /r:D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\HKOGLPanel.dll /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Design.dll" /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /r:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /compile Form1.resX,Release-PeeflyPC\Depth_Peeling.Form1.resources
-         Processing resource file "Form1.resX" into "Release-PeeflyPC\Depth_Peeling.Form1.resources".
+         All outputs are up-to-date.
        ResourceCompile:
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release-PeeflyPC\app.res" app.rc 
+         All outputs are up-to-date.
        Link:
          D:\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe" /INCREMENTAL:NO /NOLOGO OpenMesh.lib GLU32.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:"Release-PeeflyPC\Depth_Peeling.Form1.resources" /MANIFEST /ManifestFile:"Release-PeeflyPC\Depth_Peeling.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 "Release-PeeflyPC\app.res"
          "Release-PeeflyPC\AssemblyInfo.obj"
@@ -89,4 +33,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:36.57
+Time Elapsed 00:00:07.48

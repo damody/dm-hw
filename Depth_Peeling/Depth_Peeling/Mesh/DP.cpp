@@ -134,7 +134,7 @@ void DP_COM::Set_BufferObj( int scene_width,  int scene_height )
 
 	ClearBuffer();
 	m_pZBuffer = new float[scene_width * scene_height * MAX_LAYERS];
-	m_ValidBuffer = new bool [scene_width * scene_height];
+	m_ValidBuffer = new unsigned int [scene_width * scene_height];
 }
 
 //-------------將ZBuffer清空，及VailBuffer清空-------------//
@@ -183,7 +183,7 @@ void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Me
 	//glGetIntegerv( GL_VIEWPORT, viewport );
 	//glEnable( GL_DEPTH_TEST ) ; //****
 
-	glEnable( GL_DEPTH_TEST ) ;
+	//glEnable( GL_DEPTH_TEST ) ;
 	glReadPixels(
 		0, 0,
 		scene_width, scene_height, 
@@ -216,23 +216,23 @@ void DP_COM::Set_ValidRegion(int width, int height)
 	{
 		for(int curX = 0 ; curX < width ; curX++ )
 		{
+			m_ValidBuffer[ curY*width+curX ] = 0;	//一開始先設為0
 			for(int curLayer = 0 ; curLayer < MAX_LAYERS ; curLayer++)
 			{
-				m_ValidBuffer[ curY*width+curX ] = false;	//一開始先假設為false
-				if(m_pZBuffer[ curLayer*width*height + curY * width + curX ] != 1.f  && m_pZBuffer[ curLayer*width*height + curY*width + curX ] != 0.f)
+				
+				if( m_pZBuffer[ curLayer*width*height + curY * width + curX ] != 1.f)
 				{
 					//std::cout << m_pZBuffer[ curLayer*width*height + curY*width+curX ] << " ";
-					
+					m_ValidBuffer[ curY*width+curX ] += 1;	//層數+1
 				}
-				//std::cout << curLayer*width*height + curY*width+curX << " ";
-				//system("pause");
-				
-				
+				else
+				{	//到底了，直接跳開
+					break;
+				}
 			}
+			m_ValidBuffer[ curY*width+curX ] /= 2;	//層數/2
 			//std::cout << std::endl;
-			
 		}
-		//system("pause");
 	}
 
 }

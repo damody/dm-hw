@@ -288,14 +288,42 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				}
 				if(peeling_state==false)
 				{
+					//for(int pointLayer = 0 ; pointLayer < dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] ; pointLayer++)
+					//{
+					//
+					//}
 					for(int i=0 ; i<MAX_LAYERS ; i++)
 					{
-						float zValue = (dp_com->m_pZBuffer)[ (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX ];
+						int theIndex = (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						float zValue = (dp_com->m_pZBuffer)[ theIndex ];
 						//std::cout << (dp_com->m_pZBuffer)[ (int)( (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + winY*(hkoglPanelControl1->Width)+winX) ] << " ";
 						std::cout << zValue << " ";
+						GLdouble drawX, drawY, drawZ;
+						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
 						
+						/*
+						glPushAttrib(GL_LIGHTING_BIT);
+						glDisable(GL_LIGHTING);
+						glEnable(GL_DEPTH_TEST);
+						glPointSize(5.0f);
+						glBegin(GL_POINTS);
+
+							glColor3f(1.f, 0.f, 0.f);
+							glVertex3d(drawX, drawY, drawZ);
+
+						glEnd();
+						glEnable(GL_LIGHTING);
+						glDisable(GL_POLYGON_OFFSET_FILL);
+						this->Refresh();
+						*/
+						//std::cout << "drawZ =" << drawZ << std::endl;
+						if(drawZ == -1.f)
+						{
+							break;
+						}
+						mesh->add_sp_p( OMT::MyMesh::Point(drawX,drawY,drawZ), 1.0f, 0.0f, 0.0f);
 					}
-					std::cout << std::endl;
+					std::cout << " :" << dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] << std::endl;
 				}
 				glPopMatrix();
 				//this->Refresh();

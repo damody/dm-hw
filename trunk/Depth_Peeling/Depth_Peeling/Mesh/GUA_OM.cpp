@@ -20,15 +20,33 @@ namespace OMT
 		release_edge_status();
 		release_face_status();
 	}
-	void Model::RenderSpecifiedPoint()
-	{
+	void Model::RenderSpecifiedPoint(int type)
+	{	//type: 0:sp_p 1:surface_p 2:skeleton_p
 		glPushAttrib(GL_LIGHTING_BIT);
 		glDisable(GL_LIGHTING);
 		glEnable(GL_DEPTH_TEST);
 		glPointSize(5.0f);
 		glBegin(GL_POINTS);
-		vector<sp_p>::iterator p_itr = sp_p_list.begin();
-		for (p_itr; p_itr != sp_p_list.end(); ++p_itr)
+
+		vector<sp_p> *theList = NULL;
+		switch (type)
+		{	//type: 0:sp_p 1:surface_p 2:skeleton_p
+			case spList:
+				theList = &sp_p_list;
+				break;
+			case surfaceList:
+				theList = &surface_p_list;
+				break;
+			case skeletonList: 
+				theList = &skeleton_p_list;
+				break;
+			default:
+				theList = &sp_p_list;
+				break;
+		}
+
+		vector<sp_p>::iterator p_itr = theList->begin();
+		for (p_itr; p_itr != theList->end(); ++p_itr)
 		{
 			glColor3f(p_itr->r, p_itr->g, p_itr->b);
 			glVertex3dv(p_itr->pt);
@@ -49,6 +67,32 @@ namespace OMT
 	void Model::clear_sp_p()
 	{
 		sp_p_list.clear();
+	}
+	void Model::add_surface_p(Point   _p, float _r, float _g, float _b)
+	{
+		sp_p input_data;
+		input_data.pt = _p;
+		input_data.r = _r;
+		input_data.g = _g;
+		input_data.b = _b;
+		surface_p_list.push_back(input_data);
+	}
+	void Model::clear_surface_p()
+	{
+		surface_p_list.clear();
+	}
+	void Model::add_skeleton_p(Point   _p, float _r, float _g, float _b)
+	{
+		sp_p input_data;
+		input_data.pt = _p;
+		input_data.r = _r;
+		input_data.g = _g;
+		input_data.b = _b;
+		skeleton_p_list.push_back(input_data);
+	}
+	void Model::clear_skeleton_p()
+	{
+		skeleton_p_list.clear();
 	}
 }
 /*======================================================================*/

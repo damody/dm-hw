@@ -92,14 +92,23 @@ namespace OMT//OpenMesh Triangle mesh
 	public:
 		Model();//constructor
 		~Model();//de-constructor
-		void RenderSpecifiedPoint();	//畫出指定位置的點
+		void RenderSpecifiedPoint(int type = 0);	//畫出指定位置的點
 		
 		void add_sp_p(Point   _p, float _r, float _g, float _b);//指定額外畫出的點
+		void add_surface_p(Point   _p, float _r, float _g, float _b);//指定額外畫出的點
+		void add_skeleton_p(Point   _p, float _r, float _g, float _b);//指定額外畫出的點
 		
 		void clear_sp_p();//清空額外畫出的點
-		
+		void clear_surface_p();//清空表面點
+		void clear_skeleton_p();//清空骨架點
+		const static int spList = 0;
+		const static int surfaceList = 1;
+		const static int skeletonList = 2;
+
 	public:
 		vector< sp_p > sp_p_list;
+		vector< sp_p > surface_p_list;
+		vector< sp_p > skeleton_p_list;
 		
 	}; 
 }

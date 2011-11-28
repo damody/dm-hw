@@ -1,36 +1,25 @@
-﻿Build started 2011/11/26 下午 07:34:52.
-     1>Project "D:\P\DigitalMesh\hw\Depth_Peeling\Depth_Peeling\Depth_Peeling.vcxproj" on node 2 (build target(s)).
+﻿Build started 2011/11/28 下午 05:44:35.
+     1>Project "D:\Peefly\Digital Mesh\hw\Depth_Peeling\Depth_Peeling\Depth_Peeling.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release-PeeflyPC\Depth_Peeling.unsuccessfulbuild" because "AlwaysCreate" was specified.
        GenerateTargetFrameworkMonikerAttribute:
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
          All outputs are up-to-date.
-         D:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release-PeeflyPC\Depth_Peeling.pch" /Fo"Release-PeeflyPC\\" /Fd"Release-PeeflyPC\vc100.pdb" /TP /FU"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\HKOGLPanel.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Design.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Depth_Peeling.cpp /clr:nostdlib 
-         Depth_Peeling.cpp
+         All outputs are up-to-date.
          All outputs are up-to-date.
        CoreResGen:
          All outputs are up-to-date.
        ResourceCompile:
          All outputs are up-to-date.
        Link:
-         D:\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe" /INCREMENTAL:NO /NOLOGO OpenMesh.lib GLU32.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:"Release-PeeflyPC\Depth_Peeling.Form1.resources" /MANIFEST /ManifestFile:"Release-PeeflyPC\Depth_Peeling.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 "Release-PeeflyPC\app.res"
-         "Release-PeeflyPC\AssemblyInfo.obj"
-         "Release-PeeflyPC\Depth_Peeling.obj"
-         "Release-PeeflyPC\DotNetUitilities.obj"
-         "Release-PeeflyPC\DP.obj"
-         "Release-PeeflyPC\GLCamera.obj"
-         "Release-PeeflyPC\GUA_OM.obj"
-         "Release-PeeflyPC\stdafx.obj"
-         "Release-PeeflyPC\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
-         Depth_Peeling.vcxproj -> D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe
-       Manifest:
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\P\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe;#1" /manifest "Release-PeeflyPC\Depth_Peeling.exe.intermediate.manifest"
+         All outputs are up-to-date.
+         Depth_Peeling.vcxproj -> D:\Peefly\Digital Mesh\hw\Depth_Peeling\Release-PeeflyPC\Depth_Peeling.exe
        FinalizeBuildStatus:
          Deleting file "Release-PeeflyPC\Depth_Peeling.unsuccessfulbuild".
          Touching "Release-PeeflyPC\Depth_Peeling.lastbuildstate".
-     1>Done Building Project "D:\P\DigitalMesh\hw\Depth_Peeling\Depth_Peeling\Depth_Peeling.vcxproj" (build target(s)).
+     1>Done Building Project "D:\Peefly\Digital Mesh\hw\Depth_Peeling\Depth_Peeling\Depth_Peeling.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.48
+Time Elapsed 00:00:00.11

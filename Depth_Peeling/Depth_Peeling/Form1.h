@@ -81,6 +81,12 @@ namespace Depth_Peeling {
 	private: HKOGLPanel::HKOGLPanelControl^  hkoglPanelControl1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 	private: System::Windows::Forms::Label^  outputL;
+	private: System::Windows::Forms::Button^  clearBtn;
+	private: System::Windows::Forms::CheckBox^  showModelBtn;
+	private: System::Windows::Forms::GroupBox^  groupBox3;
+	private: System::Windows::Forms::CheckBox^  showSurfacePBtn;
+	private: System::Windows::Forms::CheckBox^  showSkeletonPBtn;
+
 
 
 	private:
@@ -99,6 +105,11 @@ namespace Depth_Peeling {
 			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting1 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
 			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat1 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->showModelBtn = (gcnew System::Windows::Forms::CheckBox());
+			this->showSurfacePBtn = (gcnew System::Windows::Forms::CheckBox());
+			this->showSkeletonPBtn = (gcnew System::Windows::Forms::CheckBox());
+			this->clearBtn = (gcnew System::Windows::Forms::Button());
 			this->outputL = (gcnew System::Windows::Forms::Label());
 			this->DepthPeel_button = (gcnew System::Windows::Forms::Button());
 			this->OpenMesh_button = (gcnew System::Windows::Forms::Button());
@@ -106,11 +117,14 @@ namespace Depth_Peeling {
 			this->hkoglPanelControl1 = (gcnew HKOGLPanel::HKOGLPanelControl());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->groupBox1->SuspendLayout();
+			this->groupBox3->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->groupBox3);
+			this->groupBox1->Controls->Add(this->clearBtn);
 			this->groupBox1->Controls->Add(this->outputL);
 			this->groupBox1->Controls->Add(this->DepthPeel_button);
 			this->groupBox1->Controls->Add(this->OpenMesh_button);
@@ -121,6 +135,67 @@ namespace Depth_Peeling {
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Mesh_OP";
+			// 
+			// groupBox3
+			// 
+			this->groupBox3->Controls->Add(this->showModelBtn);
+			this->groupBox3->Controls->Add(this->showSurfacePBtn);
+			this->groupBox3->Controls->Add(this->showSkeletonPBtn);
+			this->groupBox3->Location = System::Drawing::Point(6, 291);
+			this->groupBox3->Name = L"groupBox3";
+			this->groupBox3->Size = System::Drawing::Size(113, 145);
+			this->groupBox3->TabIndex = 7;
+			this->groupBox3->TabStop = false;
+			this->groupBox3->Text = L"Show";
+			// 
+			// showModelBtn
+			// 
+			this->showModelBtn->AutoSize = true;
+			this->showModelBtn->Checked = true;
+			this->showModelBtn->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->showModelBtn->Location = System::Drawing::Point(6, 21);
+			this->showModelBtn->Name = L"showModelBtn";
+			this->showModelBtn->Size = System::Drawing::Size(54, 16);
+			this->showModelBtn->TabIndex = 4;
+			this->showModelBtn->Text = L"Model";
+			this->showModelBtn->UseVisualStyleBackColor = true;
+			this->showModelBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::showModelBtn_CheckedChanged);
+			// 
+			// showSurfacePBtn
+			// 
+			this->showSurfacePBtn->AutoSize = true;
+			this->showSurfacePBtn->Checked = true;
+			this->showSurfacePBtn->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->showSurfacePBtn->Location = System::Drawing::Point(6, 65);
+			this->showSurfacePBtn->Name = L"showSurfacePBtn";
+			this->showSurfacePBtn->Size = System::Drawing::Size(90, 16);
+			this->showSurfacePBtn->TabIndex = 6;
+			this->showSurfacePBtn->Text = L"Surface points";
+			this->showSurfacePBtn->UseVisualStyleBackColor = true;
+			this->showSurfacePBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::showSurfacePBtn_CheckedChanged);
+			// 
+			// showSkeletonPBtn
+			// 
+			this->showSkeletonPBtn->AutoSize = true;
+			this->showSkeletonPBtn->Checked = true;
+			this->showSkeletonPBtn->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->showSkeletonPBtn->Location = System::Drawing::Point(6, 43);
+			this->showSkeletonPBtn->Name = L"showSkeletonPBtn";
+			this->showSkeletonPBtn->Size = System::Drawing::Size(95, 16);
+			this->showSkeletonPBtn->TabIndex = 5;
+			this->showSkeletonPBtn->Text = L"Skeleton points";
+			this->showSkeletonPBtn->UseVisualStyleBackColor = true;
+			this->showSkeletonPBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::showSkeletonPBtn_CheckedChanged);
+			// 
+			// clearBtn
+			// 
+			this->clearBtn->Location = System::Drawing::Point(3, 110);
+			this->clearBtn->Name = L"clearBtn";
+			this->clearBtn->Size = System::Drawing::Size(144, 48);
+			this->clearBtn->TabIndex = 3;
+			this->clearBtn->Text = L"Clear surface points";
+			this->clearBtn->UseVisualStyleBackColor = true;
+			this->clearBtn->Click += gcnew System::EventHandler(this, &Form1::resetBtn_Click);
 			// 
 			// outputL
 			// 
@@ -201,6 +276,8 @@ namespace Depth_Peeling {
 			this->Text = L"Form1";
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
+			this->groupBox3->ResumeLayout(false);
+			this->groupBox3->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
 			this->ResumeLayout(false);
 
@@ -224,8 +301,22 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 
 			 if ( mesh != NULL )
 			 {
-				 mesh->Render_Solid();
-				 mesh->RenderSpecifiedPoint();
+				 if( showModelBtn->Checked )
+				 {
+					mesh->Render_Solid();
+				 }
+				 
+				 mesh->RenderSpecifiedPoint(OMT::Model::spList);
+				 
+				 if( showSkeletonPBtn->Checked )
+				 {
+					mesh->RenderSpecifiedPoint(OMT::Model::skeletonList);
+				 }
+				 if( showSurfacePBtn->Checked )
+				 {
+					mesh->RenderSpecifiedPoint(OMT::Model::surfaceList);
+				 }
+
 			 }
 
 
@@ -284,6 +375,8 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 					outputL->Text += "\nObjectX: "+objX+"\nObjectY: "+objY+"\nObjectZ: "+(objZ);
 					//加入目前的滑鼠點
 					mesh->clear_sp_p();
+					mesh->clear_surface_p();
+					mesh->clear_skeleton_p();
 					mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 0.0f, 1.0f);
 				}
 				if(peeling_state==false)
@@ -321,12 +414,31 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						{
 							break;
 						}
-						mesh->add_sp_p( OMT::MyMesh::Point(drawX,drawY,drawZ), 1.0f, 0.0f, 0.0f);
+						mesh->add_surface_p( OMT::MyMesh::Point(drawX,drawY,drawZ), 1.0f, 0.0f, 0.0f);
+					}
+					for(int curMid = 0, curLayer = 0 ; (unsigned int)curMid <dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] ; curMid++, curLayer+=2)
+					{
+						int theIndex = (curLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						float zValue = (dp_com->m_pZBuffer)[ theIndex ];
+						
+						
+						GLdouble drawX, drawY, drawZ;
+						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+						OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
+						
+
+						theIndex = ( (curLayer+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						zValue = (dp_com->m_pZBuffer)[ theIndex ];
+						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+						OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
+
+						mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);
+
 					}
 					std::cout << " :" << dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] << std::endl;
 				}
 				glPopMatrix();
-				//this->Refresh();
+				this->Refresh();
 				return;
 			 }
 		 }
@@ -441,6 +553,21 @@ private: System::Void DepthPeel_button_Click(System::Object^  sender, System::Ev
 			   glPolygonMode(  GL_FRONT, GL_FILL ) ;
 			   glPolygonMode(  GL_BACK, GL_POINT ) ;
 			   hkoglPanelControl1->Invalidate( );
+		 }
+private: System::Void resetBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+			mesh->clear_sp_p();
+			mesh->clear_surface_p();
+			mesh->clear_skeleton_p();
+			this->Refresh();
+		 }
+private: System::Void showModelBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 this->Refresh();
+		 }
+private: System::Void showSkeletonPBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 this->Refresh();
+		 }
+private: System::Void showSurfacePBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 this->Refresh();
 		 }
 };
 }

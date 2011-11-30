@@ -532,53 +532,52 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 
 					if(totalLayers > 1)
 					{
-						return;	//交由右鍵選單按鈕作後續動作
+						//return;	
+						//交由右鍵選單按鈕作後續動作
 					}
+					else
+					{
+						//畫出最表層的表面和骨架點
+						GLdouble drawX, drawY, drawZ;
+						int theIndex = 0;
+						float zValue = 0.f;
 
-					//畫出最表層的表面和骨架點
-					GLdouble drawX, drawY, drawZ;
-					int theIndex = 0;
-					float zValue = 0.f;
+						theIndex = (0*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						zValue = (dp_com->m_pZBuffer)[ theIndex ];
+						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+						OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
+						mesh->add_surface_p( frontPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
 
-					theIndex = (0*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
-					zValue = (dp_com->m_pZBuffer)[ theIndex ];
-					gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
-					OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
-					mesh->add_surface_p( frontPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+						theIndex = ( (0+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						zValue = (dp_com->m_pZBuffer)[ theIndex ];
+						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+						OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
+						mesh->add_surface_p( backPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
 
-					theIndex = ( (0+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
-					zValue = (dp_com->m_pZBuffer)[ theIndex ];
-					gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
-					OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
-					mesh->add_surface_p( backPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
-
-					mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);	//畫骨架點
-					
-					std::cout << winX << " " << winY << " " << zValue << std::endl;
-					std::cout << drawX << " " << drawY << " " << drawZ << std::endl;
-					//
-					////畫出所有層的表面和骨架點
-					//for(int curMid = 0, curLayer = 0 ; curMid < totalLayers ; curMid++, curLayer+=2)
-					//{
-					//	int theIndex = (curLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
-					//	float zValue = (dp_com->m_pZBuffer)[ theIndex ];
-					//	
-					//	
-					//	GLdouble drawX, drawY, drawZ;
-					//	gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
-					//	OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
-					//	mesh->add_surface_p( frontPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
-					//
-					//	theIndex = ( (curLayer+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
-					//	zValue = (dp_com->m_pZBuffer)[ theIndex ];
-					//	gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
-					//	OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
-					//	mesh->add_surface_p( backPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
-					//
-					//	mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);	//畫骨架點
-					//
-					//}
-					//
+						mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);	//畫骨架點
+						////畫出所有層的表面和骨架點
+						//for(int curMid = 0, curLayer = 0 ; curMid < totalLayers ; curMid++, curLayer+=2)
+						//{
+						//	int theIndex = (curLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						//	float zValue = (dp_com->m_pZBuffer)[ theIndex ];
+						//	
+						//	
+						//	GLdouble drawX, drawY, drawZ;
+						//	gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+						//	OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
+						//	mesh->add_surface_p( frontPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+						//
+						//	theIndex = ( (curLayer+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						//	zValue = (dp_com->m_pZBuffer)[ theIndex ];
+						//	gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+						//	OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
+						//	mesh->add_surface_p( backPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+						//
+						//	mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);	//畫骨架點
+						//
+						//}
+						//
+					}
 				}
 				glPopMatrix();
 				this->Refresh();

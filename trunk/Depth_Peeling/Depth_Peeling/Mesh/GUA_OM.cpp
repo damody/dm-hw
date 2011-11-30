@@ -554,6 +554,10 @@ void Tri_Mesh::Render_Solid()
 		//glPushAttrib(GL_LIGHTING_BIT);
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		glEnable(GL_LIGHTING);
+
+			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			//glEnable(GL_BLEND);
+
 		glPolygonOffset(2.0, 2.0);
 		glBegin(GL_TRIANGLES);
 		glColor4f(0.81, 0.74, 0.33, 0.3);
@@ -568,6 +572,8 @@ void Tri_Mesh::Render_Solid()
 		glEnd();	
 		
 		glDisable(GL_POLYGON_OFFSET_FILL);
+
+			//glDisable(GL_BLEND);
 }
 
 void Tri_Mesh::Render_SolidWireframe()

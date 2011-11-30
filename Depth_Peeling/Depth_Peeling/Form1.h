@@ -86,6 +86,23 @@ namespace Depth_Peeling {
 	private: System::Windows::Forms::GroupBox^  groupBox3;
 	private: System::Windows::Forms::CheckBox^  showSurfacePBtn;
 	private: System::Windows::Forms::CheckBox^  showSkeletonPBtn;
+	private: System::Windows::Forms::ContextMenuStrip^  layerMenu;
+	private: System::Windows::Forms::ToolStripMenuItem^  plot1;
+	private: System::Windows::Forms::ToolStripMenuItem^  plot2;
+
+
+
+
+	private: System::Windows::Forms::Button^  testBtn;
+	private: System::ComponentModel::IContainer^  components;
+	private: System::Windows::Forms::ToolStripMenuItem^  plot3;
+	private: System::Windows::Forms::ToolStripMenuItem^  plot4;
+	private: System::Windows::Forms::ToolStripMenuItem^  plot5;
+
+
+
+
+	private: System::Windows::Forms::ContextMenuStrip^ noRightMenu;
 
 
 
@@ -93,7 +110,7 @@ namespace Depth_Peeling {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -102,9 +119,11 @@ namespace Depth_Peeling {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting1 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
 			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat1 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->testBtn = (gcnew System::Windows::Forms::Button());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
 			this->showModelBtn = (gcnew System::Windows::Forms::CheckBox());
 			this->showSurfacePBtn = (gcnew System::Windows::Forms::CheckBox());
@@ -115,14 +134,22 @@ namespace Depth_Peeling {
 			this->OpenMesh_button = (gcnew System::Windows::Forms::Button());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
 			this->hkoglPanelControl1 = (gcnew HKOGLPanel::HKOGLPanelControl());
+			this->layerMenu = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
+			this->plot1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->plot2 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->plot3 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->plot4 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->plot5 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->groupBox1->SuspendLayout();
 			this->groupBox3->SuspendLayout();
 			this->groupBox2->SuspendLayout();
+			this->layerMenu->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->testBtn);
 			this->groupBox1->Controls->Add(this->groupBox3);
 			this->groupBox1->Controls->Add(this->clearBtn);
 			this->groupBox1->Controls->Add(this->outputL);
@@ -135,6 +162,16 @@ namespace Depth_Peeling {
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Mesh_OP";
+			// 
+			// testBtn
+			// 
+			this->testBtn->Location = System::Drawing::Point(20, 455);
+			this->testBtn->Name = L"testBtn";
+			this->testBtn->Size = System::Drawing::Size(75, 23);
+			this->testBtn->TabIndex = 8;
+			this->testBtn->Text = L"testBtn";
+			this->testBtn->UseVisualStyleBackColor = true;
+			this->testBtn->Click += gcnew System::EventHandler(this, &Form1::testBtn_Click);
 			// 
 			// groupBox3
 			// 
@@ -193,7 +230,7 @@ namespace Depth_Peeling {
 			this->clearBtn->Name = L"clearBtn";
 			this->clearBtn->Size = System::Drawing::Size(144, 48);
 			this->clearBtn->TabIndex = 3;
-			this->clearBtn->Text = L"Clear surface points";
+			this->clearBtn->Text = L"Clear points";
 			this->clearBtn->UseVisualStyleBackColor = true;
 			this->clearBtn->Click += gcnew System::EventHandler(this, &Form1::resetBtn_Click);
 			// 
@@ -260,6 +297,44 @@ namespace Depth_Peeling {
 			this->hkoglPanelControl1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::hkoglPanelControl1_MouseMove);
 			this->hkoglPanelControl1->MouseWheel += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::hkoglPanelControl1_MouseWheel);
 			// 
+			// layerMenu
+			// 
+			this->layerMenu->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {this->plot1, this->plot2, 
+				this->plot3, this->plot4, this->plot5});
+			this->layerMenu->Name = L"layerMenu";
+			this->layerMenu->Size = System::Drawing::Size(153, 136);
+			// 
+			// plot1
+			// 
+			this->plot1->Name = L"plot1";
+			this->plot1->Size = System::Drawing::Size(152, 22);
+			this->plot1->Text = L"Layer 1";
+			this->plot1->Click += gcnew System::EventHandler(this, &Form1::plot1_Click);
+			// 
+			// plot2
+			// 
+			this->plot2->Name = L"plot2";
+			this->plot2->Size = System::Drawing::Size(152, 22);
+			this->plot2->Text = L"Layer 2";
+			// 
+			// plot3
+			// 
+			this->plot3->Name = L"plot3";
+			this->plot3->Size = System::Drawing::Size(152, 22);
+			this->plot3->Text = L"Layer 3";
+			// 
+			// plot4
+			// 
+			this->plot4->Name = L"plot4";
+			this->plot4->Size = System::Drawing::Size(152, 22);
+			this->plot4->Text = L"Layer 4";
+			// 
+			// plot5
+			// 
+			this->plot5->Name = L"plot5";
+			this->plot5->Size = System::Drawing::Size(152, 22);
+			this->plot5->Text = L"Layer 5";
+			// 
 			// openFileDialog1
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
@@ -274,11 +349,13 @@ namespace Depth_Peeling {
 			this->Controls->Add(this->groupBox1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
+			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox3->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
+			this->layerMenu->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
@@ -337,14 +414,17 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 			 }
 			 else if(e->Button == System::Windows::Forms::MouseButtons::Right)
 			 {
-				 
-				outputL->Text = "mouseX= " + (e->X).ToString() + "\nmouseY= " + (e->Y).ToString();
-				 
+				
+				//System::Windows::Forms::ContextMenuStrip^ QQ= this->ContextMenuStrip;
+				//this->ContextMenuStrip = layerMenu;
+				//this->ContextMenuStrip = QQ;
+				//this->ContextMenuStrip = NULL;
+				
 				GLint viewport[4];
 				GLdouble modelview[16];
 				GLdouble projection[16];
 				GLfloat winX, winY, winZ;
-				GLdouble objX, objY, objZ;
+				//GLdouble objX, objY, objZ;
 				glPushMatrix();
 
 				glMatrixMode(GL_MODELVIEW);	glMultMatrixd((double *)xf);
@@ -363,36 +443,71 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				glReadPixels( int(winX), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
 				glDisable(GL_DEPTH_TEST);
 
+				outputL->Text = "mouseX= " + (e->X).ToString() + "\nmouseY= " + (e->Y).ToString();
 				outputL->Text += "\nmouseZ= " + winZ +"\n" ;
+				
+				//if(winZ>=0.99999f)
+				//{
+				//	std::cerr << "Click on background (z= " << winZ << ")" << std::endl;
+				//}
+				//else
+				//{
+				//	gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
+				//	outputL->Text += "\nObjectX: "+objX+"\nObjectY: "+objY+"\nObjectZ: "+(objZ);
+				//	//加入目前的滑鼠點
+				//	mesh->clear_sp_p();
+				//	mesh->clear_surface_p();
+				//	mesh->clear_skeleton_p();
+				//	mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 0.0f, 1.0f);
+				//}
 
-				if(winZ>=0.99999f)
-				{
-					std::cerr << "Click on background (z= " << winZ << ")" << std::endl;
-				}
-				else
-				{
-					gluUnProject( winX, winY, winZ, modelview, projection, viewport, &objX, &objY, &objZ);
-					outputL->Text += "\nObjectX: "+objX+"\nObjectY: "+objY+"\nObjectZ: "+(objZ);
-					//加入目前的滑鼠點
-					mesh->clear_sp_p();
-					mesh->clear_surface_p();
-					mesh->clear_skeleton_p();
-					mesh->add_sp_p( OMT::MyMesh::Point(objX,objY,objZ), 1.0f, 0.0f, 1.0f);
-				}
 				if(peeling_state==false)
-				{
-					//for(int pointLayer = 0 ; pointLayer < dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] ; pointLayer++)
-					//{
-					//
-					//}
+				{	//該點的總層數
+					int totalLayers = dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ];
+					if( totalLayers > 1 )
+					{	//如果大於一層
+						this->ContextMenuStrip = layerMenu;
+						
+						plot1->Visible = false;
+						plot2->Visible = false;
+						plot3->Visible = false;
+						plot4->Visible = false;
+						plot5->Visible = false;
+						
+						switch (totalLayers)
+						{
+							case 5:
+								plot5->Visible = true;
+							case 4:
+								plot4->Visible = true;
+							case 3:
+								plot3->Visible = true;
+							case 2:
+								plot2->Visible = true;
+								plot1->Visible = true;
+							default:
+								break;
+						}
+					}
+					else
+					{
+						this->ContextMenuStrip = noRightMenu;
+					}
+
+					//抓出Z值 並顯示在console
 					for(int i=0 ; i<MAX_LAYERS ; i++)
 					{
 						int theIndex = (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
 						float zValue = (dp_com->m_pZBuffer)[ theIndex ];
 						//std::cout << (dp_com->m_pZBuffer)[ (int)( (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + winY*(hkoglPanelControl1->Width)+winX) ] << " ";
+						if(zValue >= 1.f)
+						{	//深度大於1為背景，直接跳開
+							break;
+						}
 						std::cout << zValue << " ";
-						GLdouble drawX, drawY, drawZ;
-						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+						
+						//GLdouble drawX, drawY, drawZ;
+						//gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
 						
 						/*
 						glPushAttrib(GL_LIGHTING_BIT);
@@ -410,32 +525,60 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						this->Refresh();
 						*/
 						//std::cout << "drawZ =" << drawZ << std::endl;
-						if(drawZ == -1.f)
-						{
-							break;
-						}
-						mesh->add_surface_p( OMT::MyMesh::Point(drawX,drawY,drawZ), 1.0f, 0.0f, 0.0f);
-					}
-					for(int curMid = 0, curLayer = 0 ; (unsigned int)curMid <dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] ; curMid++, curLayer+=2)
-					{
-						int theIndex = (curLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
-						float zValue = (dp_com->m_pZBuffer)[ theIndex ];
 						
-						
-						GLdouble drawX, drawY, drawZ;
-						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
-						OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
-						
-
-						theIndex = ( (curLayer+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
-						zValue = (dp_com->m_pZBuffer)[ theIndex ];
-						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
-						OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
-
-						mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);
-
+						//mesh->add_surface_p( OMT::MyMesh::Point(drawX,drawY,drawZ), 1.0f, 0.0f, 0.0f);
 					}
 					std::cout << " :" << dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] << std::endl;
+
+					if(totalLayers > 1)
+					{
+						return;	//交由右鍵選單按鈕作後續動作
+					}
+
+					//畫出最表層的表面和骨架點
+					GLdouble drawX, drawY, drawZ;
+					int theIndex = 0;
+					float zValue = 0.f;
+
+					theIndex = (0*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+					zValue = (dp_com->m_pZBuffer)[ theIndex ];
+					gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+					OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
+					mesh->add_surface_p( frontPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+
+					theIndex = ( (0+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+					zValue = (dp_com->m_pZBuffer)[ theIndex ];
+					gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+					OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
+					mesh->add_surface_p( backPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+
+					mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);	//畫骨架點
+					
+					std::cout << winX << " " << winY << " " << zValue << std::endl;
+					std::cout << drawX << " " << drawY << " " << drawZ << std::endl;
+					//
+					////畫出所有層的表面和骨架點
+					//for(int curMid = 0, curLayer = 0 ; curMid < totalLayers ; curMid++, curLayer+=2)
+					//{
+					//	int theIndex = (curLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+					//	float zValue = (dp_com->m_pZBuffer)[ theIndex ];
+					//	
+					//	
+					//	GLdouble drawX, drawY, drawZ;
+					//	gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+					//	OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
+					//	mesh->add_surface_p( frontPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+					//
+					//	theIndex = ( (curLayer+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+					//	zValue = (dp_com->m_pZBuffer)[ theIndex ];
+					//	gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+					//	OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
+					//	mesh->add_surface_p( backPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+					//
+					//	mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);	//畫骨架點
+					//
+					//}
+					//
 				}
 				glPopMatrix();
 				this->Refresh();
@@ -528,7 +671,6 @@ private: System::Void DepthPeel_button_Click(System::Object^  sender, System::Ev
 					   dp_com->Set_BufferObj(hkoglPanelControl1->Width, hkoglPanelControl1->Height);
 					   //用for迴圈將每一層Depth Layer 抓出來
 						for(int curLayer = 0 ; curLayer< MAX_LAYERS ; curLayer++ )
-						//for(int curLayer = 0 ; curLayer< 1 ; curLayer++ )
 						{
 							//  DP_COM::Peeling_layer
 							dp_com->Peeling_layer( hkoglPanelControl1->Width, hkoglPanelControl1->Height, curLayer, mesh, xf );
@@ -568,6 +710,15 @@ private: System::Void showSkeletonPBtn_CheckedChanged(System::Object^  sender, S
 		 }
 private: System::Void showSurfacePBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 this->Refresh();
+		 }
+private: System::Void testBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+			 
+		 }
+private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+			 this->noRightMenu = this->ContextMenuStrip;
+		 }
+private: System::Void plot1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 hkoglPanelControl1->Focus();
 		 }
 };
 }

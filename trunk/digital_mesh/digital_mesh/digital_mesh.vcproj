@@ -339,6 +339,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FastTri_Mesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FastTri_Mesh.h"
+				>
+			</File>
+			<File
 				RelativePath=".\osgControl.h"
 				>
 			</File>

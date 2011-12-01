@@ -22,6 +22,12 @@ public:
 	void ClearBuffer( );
 	void Peeling_layer(  int, int, int,  Tri_Mesh*, double *xf  ) ;
 	void Set_ValidRegion(int, int );
+	std::vector<int> lineSegIndex;
+	bool newLine;
+	void clearLineSegIndex();
+	void RenderSkeleton( std::vector<struct OMT::sp_p> &skeletonList );	//µe¥X°©¬[
+	OMT::MyMesh::Point previousP;
+	std::vector<OMT::MyMesh::Point> tmpLines;
 
 protected:
 private:

@@ -55,6 +55,7 @@ namespace OMT
 		glEnable(GL_LIGHTING);
 		glDisable(GL_POLYGON_OFFSET_FILL);
 	}
+	
 	void Model::add_sp_p(Point   _p, float _r, float _g, float _b)
 	{
 		sp_p input_data;
@@ -557,7 +558,7 @@ void Tri_Mesh::Render_Solid()
 
 			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//glEnable(GL_BLEND);
-
+		
 		glPolygonOffset(2.0, 2.0);
 		glBegin(GL_TRIANGLES);
 		glColor4f(0.81, 0.74, 0.33, 0.3);

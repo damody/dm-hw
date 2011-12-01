@@ -7,6 +7,8 @@
 #include <glh/glh_obs.h>
 #include <glh/glh_convenience.h>
 
+#include <vector>
+
 #if !defined(GL_TEXTURE_RECTANGLE_NV) && defined(GL_EXT_texture_rectangle)
 #  define GL_TEXTURE_RECTANGLE_NV GL_TEXTURE_RECTANGLE_EXT
 #endif
@@ -28,6 +30,7 @@ bool DP_COM::Scene_Init()
 {
 	m_pZBuffer = NULL;
 	m_ValidBuffer = NULL;
+	newLine = true;
 
 	GLint depth_bits;
 	glGetIntegerv(GL_DEPTH_BITS, & depth_bits);
@@ -213,6 +216,7 @@ void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Me
 void DP_COM::Set_ValidRegion(int width, int height)
 {
 	const float minLayerThreshold = 0.0005f;
+	//const float minLayerThreshold = 0.001f;
 	for(int curY = 0 ; curY < height ; curY++ )
 	{
 		for(int curX = 0 ; curX < width ; curX++ )
@@ -248,4 +252,33 @@ void DP_COM::Set_ValidRegion(int width, int height)
 		}
 	}
 
+}
+void DP_COM::clearLineSegIndex()
+{
+	this->lineSegIndex.clear();
+}
+
+void DP_COM::RenderSkeleton( std::vector<struct OMT::sp_p> &skeletonList )
+{
+	//if( lineSegIndex.size() >= 2 )
+	{
+		glDisable(GL_LIGHTING);
+		glLineWidth(3.0);
+		
+		for(int segIndex=0 ; segIndex < lineSegIndex.size() ; segIndex += 2)
+		{
+			glBegin(GL_LINE_STRIP);
+			glColor3f( 0.f, 0.f, 1.f);
+			for(int curPoint = lineSegIndex[segIndex] ; curPoint < lineSegIndex[segIndex+1] ; curPoint++)
+			{
+				glVertex3dv( skeletonList[curPoint].pt );
+				//std::cout << ((((skeletonList))[curPoint])).pt[0] << std::endl;
+				//std::cout << skeletonList[curPoint].pt[0] << " " << skeletonList[curPoint].pt[1] << " " << skeletonList[curPoint].pt[2] << std::endl;
+			}
+			glEnd();
+		}
+		
+		glLineWidth(1.0);
+		glEnable(GL_LIGHTING);
+	}
 }

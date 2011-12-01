@@ -98,6 +98,8 @@ namespace Depth_Peeling {
 	private: System::Windows::Forms::ToolStripMenuItem^  plot3;
 	private: System::Windows::Forms::ToolStripMenuItem^  plot4;
 	private: System::Windows::Forms::ToolStripMenuItem^  plot5;
+	private: System::Windows::Forms::CheckBox^  showSkeletonBtn;
+
 
 
 
@@ -120,11 +122,12 @@ namespace Depth_Peeling {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting1 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
-			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat1 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
+			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting2 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
+			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat2 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->testBtn = (gcnew System::Windows::Forms::Button());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->showSkeletonBtn = (gcnew System::Windows::Forms::CheckBox());
 			this->showModelBtn = (gcnew System::Windows::Forms::CheckBox());
 			this->showSurfacePBtn = (gcnew System::Windows::Forms::CheckBox());
 			this->showSkeletonPBtn = (gcnew System::Windows::Forms::CheckBox());
@@ -175,15 +178,29 @@ namespace Depth_Peeling {
 			// 
 			// groupBox3
 			// 
+			this->groupBox3->Controls->Add(this->showSkeletonBtn);
 			this->groupBox3->Controls->Add(this->showModelBtn);
 			this->groupBox3->Controls->Add(this->showSurfacePBtn);
 			this->groupBox3->Controls->Add(this->showSkeletonPBtn);
 			this->groupBox3->Location = System::Drawing::Point(6, 291);
 			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(113, 145);
+			this->groupBox3->Size = System::Drawing::Size(113, 116);
 			this->groupBox3->TabIndex = 7;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"Show";
+			// 
+			// showSkeletonBtn
+			// 
+			this->showSkeletonBtn->AutoSize = true;
+			this->showSkeletonBtn->Checked = true;
+			this->showSkeletonBtn->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->showSkeletonBtn->Location = System::Drawing::Point(6, 87);
+			this->showSkeletonBtn->Name = L"showSkeletonBtn";
+			this->showSkeletonBtn->Size = System::Drawing::Size(105, 16);
+			this->showSkeletonBtn->TabIndex = 7;
+			this->showSkeletonBtn->Text = L"Skeleton segment";
+			this->showSkeletonBtn->UseVisualStyleBackColor = true;
+			this->showSkeletonBtn->CheckedChanged += gcnew System::EventHandler(this, &Form1::showSkeleton_CheckedChanged);
 			// 
 			// showModelBtn
 			// 
@@ -230,7 +247,7 @@ namespace Depth_Peeling {
 			this->clearBtn->Name = L"clearBtn";
 			this->clearBtn->Size = System::Drawing::Size(144, 48);
 			this->clearBtn->TabIndex = 3;
-			this->clearBtn->Text = L"Clear points";
+			this->clearBtn->Text = L"Clear All";
 			this->clearBtn->UseVisualStyleBackColor = true;
 			this->clearBtn->Click += gcnew System::EventHandler(this, &Form1::resetBtn_Click);
 			// 
@@ -278,21 +295,22 @@ namespace Depth_Peeling {
 			// 
 			// hkoglPanelControl1
 			// 
-			hkcoglPanelCameraSetting1->Far = 1000;
-			hkcoglPanelCameraSetting1->Fov = 45;
-			hkcoglPanelCameraSetting1->Near = -1000;
-			hkcoglPanelCameraSetting1->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
-			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting1;
+			hkcoglPanelCameraSetting2->Far = 1000;
+			hkcoglPanelCameraSetting2->Fov = 45;
+			hkcoglPanelCameraSetting2->Near = -1000;
+			hkcoglPanelCameraSetting2->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
+			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting2;
 			this->hkoglPanelControl1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->hkoglPanelControl1->Location = System::Drawing::Point(3, 18);
 			this->hkoglPanelControl1->Name = L"hkoglPanelControl1";
-			hkcoglPanelPixelFormat1->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			hkcoglPanelPixelFormat1->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_32;
-			hkcoglPanelPixelFormat1->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat1;
+			hkcoglPanelPixelFormat2->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			hkcoglPanelPixelFormat2->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_32;
+			hkcoglPanelPixelFormat2->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat2;
 			this->hkoglPanelControl1->Size = System::Drawing::Size(709, 699);
 			this->hkoglPanelControl1->TabIndex = 0;
 			this->hkoglPanelControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::hkoglPanelControl1_Paint);
+			this->hkoglPanelControl1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &Form1::hkoglPanelControl1_KeyPress);
 			this->hkoglPanelControl1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::hkoglPanelControl1_MouseDown);
 			this->hkoglPanelControl1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::hkoglPanelControl1_MouseMove);
 			this->hkoglPanelControl1->MouseWheel += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::hkoglPanelControl1_MouseWheel);
@@ -380,7 +398,18 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 			 {
 				 if( showModelBtn->Checked )
 				 {
+					//if(peeling_state==false)
+					//{
+					//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					//	glEnable(GL_BLEND);
+					//}
 					mesh->Render_Solid();
+					//if(peeling_state==false)
+					//{
+					//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					//	glDisable(GL_BLEND);
+					//}
+					
 				 }
 				 
 				 mesh->RenderSpecifiedPoint(OMT::Model::spList);
@@ -392,6 +421,10 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 				 if( showSurfacePBtn->Checked )
 				 {
 					mesh->RenderSpecifiedPoint(OMT::Model::surfaceList);
+				 }
+				 if( showSkeletonBtn->Checked )
+				 {
+					 dp_com->RenderSkeleton( (mesh->skeleton_p_list) );
 				 }
 
 			 }
@@ -419,7 +452,7 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				//this->ContextMenuStrip = layerMenu;
 				//this->ContextMenuStrip = QQ;
 				//this->ContextMenuStrip = NULL;
-				
+				this->ContextMenuStrip = noRightMenu;	//預設為無右鍵選單狀態
 				GLint viewport[4];
 				GLdouble modelview[16];
 				GLdouble projection[16];
@@ -546,15 +579,34 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						zValue = (dp_com->m_pZBuffer)[ theIndex ];
 						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
 						OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
-						mesh->add_surface_p( frontPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+						mesh->add_surface_p( frontPoint, 0.0f, 1.0f, 0.0f);	//畫表面點
 
 						theIndex = ( (0+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
 						zValue = (dp_com->m_pZBuffer)[ theIndex ];
 						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
 						OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
-						mesh->add_surface_p( backPoint, 1.0f, 0.0f, 0.0f);	//畫表面點
+						mesh->add_surface_p( backPoint, 0.0f, 1.0f, 0.0f);	//畫表面點
 
-						mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 0.0f, 1.0f, 0.0f);	//畫骨架點
+						if( dp_com->newLine )
+						{	//為線段起點
+							dp_com->lineSegIndex.push_back(mesh->skeleton_p_list.size());
+							dp_com->newLine  = false;
+						}
+						else
+						{	//不為線段起點
+									glDisable(GL_LIGHTING);
+									glLineWidth(3.0);
+									glBegin(GL_LINES);
+									glColor3f( 0.f, 0.f, 1.f);
+									glVertex3dv( dp_com->previousP );
+									glVertex3dv( ((frontPoint+backPoint)/2) );
+									glEnd();
+									glLineWidth(1.0);
+									glEnable(GL_LIGHTING);
+						}
+						dp_com->previousP = (frontPoint+backPoint)/2 ;
+						mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 1.0f, 0.0f, 0.0f);	//畫骨架點
+						
 						////畫出所有層的表面和骨架點
 						//for(int curMid = 0, curLayer = 0 ; curMid < totalLayers ; curMid++, curLayer+=2)
 						//{
@@ -596,7 +648,7 @@ private: System::Void hkoglPanelControl1_MouseMove(System::Object^  sender, Syst
 					 xf * center,
 					 1.0, xf);
 				 hkoglPanelControl1->Invalidate();
-			 }
+			}
 
 			 if (e->Button == System::Windows::Forms::MouseButtons::Middle)
 			 { 
@@ -610,6 +662,7 @@ private: System::Void hkoglPanelControl1_MouseMove(System::Object^  sender, Syst
 					 1.0, xf);
 				 hkoglPanelControl1->Invalidate();
 			 }
+			 
 		 }
 private: System::Void OpenMesh_button_Click(System::Object^  sender, System::EventArgs^  e) {
 			    openFileDialog1->ShowDialog();
@@ -699,6 +752,7 @@ private: System::Void resetBtn_Click(System::Object^  sender, System::EventArgs^
 			mesh->clear_sp_p();
 			mesh->clear_surface_p();
 			mesh->clear_skeleton_p();
+			dp_com->clearLineSegIndex();
 			this->Refresh();
 		 }
 private: System::Void showModelBtn_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -717,7 +771,24 @@ private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e)
 			 this->noRightMenu = this->ContextMenuStrip;
 		 }
 private: System::Void plot1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 hkoglPanelControl1->Focus();
+			 
+		 }
+private: System::Void hkoglPanelControl1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+			 if(e->KeyChar == '\r')
+			 {
+				std::cout << "ENTER" << std::endl;
+				dp_com->newLine = true;	//下一個點要畫新線段
+				dp_com->lineSegIndex.push_back(mesh->skeleton_p_list.size());
+				std::vector<int>::iterator it;
+				this->Invalidate();
+				//for( it = dp_com->lineSegIndex.begin() ; it != dp_com->lineSegIndex.end() ; it++)
+				//{
+				//	 //std::cout << it << " ";
+				//}
+			 }
+		 }
+private: System::Void showSkeleton_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			this->Refresh();
 		 }
 };
 }

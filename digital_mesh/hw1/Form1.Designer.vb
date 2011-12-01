@@ -32,29 +32,41 @@ Partial Class Form1
         Me.ChooseVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChooseEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChooseFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.VertexRingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.EdgeRingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.FaceRingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DeleteEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RingVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RingEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RingFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.VertexesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.EdgesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.FacesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PictureBox = New System.Windows.Forms.PictureBox
         Me.OpenMeshFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SaveMeshFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.RenderTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.EdgeTrackBar = New System.Windows.Forms.TrackBar
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
+        Me.MeshReduce = New System.Windows.Forms.Timer(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button
+        Me.Button2 = New System.Windows.Forms.Button
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.DontMoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ChooseToolStripMenuItem, Me.ShowToolStripMenuItem, Me.CameraToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ChooseToolStripMenuItem, Me.RingToolStripMenuItem, Me.ShowToolStripMenuItem, Me.CameraToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(667, 25)
+        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(8, 2, 0, 2)
+        Me.MenuStrip1.Size = New System.Drawing.Size(889, 28)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -62,87 +74,100 @@ Partial Class Form1
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.SaveToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 21)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(118, 24)
         Me.OpenToolStripMenuItem.Text = "Open"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(118, 24)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'ChooseToolStripMenuItem
         '
-        Me.ChooseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChoosePointToolStripMenuItem, Me.ChooseVertexToolStripMenuItem, Me.ChooseEdgeToolStripMenuItem, Me.ChooseFaceToolStripMenuItem, Me.VertexRingToolStripMenuItem, Me.EdgeRingToolStripMenuItem, Me.FaceRingToolStripMenuItem})
+        Me.ChooseToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChoosePointToolStripMenuItem, Me.ChooseVertexToolStripMenuItem, Me.ChooseEdgeToolStripMenuItem, Me.ChooseFaceToolStripMenuItem, Me.DeleteEdgeToolStripMenuItem, Me.DontMoveToolStripMenuItem})
         Me.ChooseToolStripMenuItem.Name = "ChooseToolStripMenuItem"
-        Me.ChooseToolStripMenuItem.Size = New System.Drawing.Size(64, 21)
+        Me.ChooseToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
         Me.ChooseToolStripMenuItem.Text = "Choose"
         '
         'ChoosePointToolStripMenuItem
         '
         Me.ChoosePointToolStripMenuItem.Name = "ChoosePointToolStripMenuItem"
-        Me.ChoosePointToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.ChoosePointToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
         Me.ChoosePointToolStripMenuItem.Text = "Point"
         '
         'ChooseVertexToolStripMenuItem
         '
         Me.ChooseVertexToolStripMenuItem.Name = "ChooseVertexToolStripMenuItem"
-        Me.ChooseVertexToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.ChooseVertexToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
         Me.ChooseVertexToolStripMenuItem.Text = "Vertex"
         '
         'ChooseEdgeToolStripMenuItem
         '
         Me.ChooseEdgeToolStripMenuItem.Name = "ChooseEdgeToolStripMenuItem"
-        Me.ChooseEdgeToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.ChooseEdgeToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
         Me.ChooseEdgeToolStripMenuItem.Text = "Edge"
         '
         'ChooseFaceToolStripMenuItem
         '
         Me.ChooseFaceToolStripMenuItem.Name = "ChooseFaceToolStripMenuItem"
-        Me.ChooseFaceToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
+        Me.ChooseFaceToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
         Me.ChooseFaceToolStripMenuItem.Text = "Face"
         '
-        'VertexRingToolStripMenuItem
+        'DeleteEdgeToolStripMenuItem
         '
-        Me.VertexRingToolStripMenuItem.Name = "VertexRingToolStripMenuItem"
-        Me.VertexRingToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-        Me.VertexRingToolStripMenuItem.Text = "VertexRing"
+        Me.DeleteEdgeToolStripMenuItem.Name = "DeleteEdgeToolStripMenuItem"
+        Me.DeleteEdgeToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
+        Me.DeleteEdgeToolStripMenuItem.Text = "DeleteEdge"
         '
-        'EdgeRingToolStripMenuItem
+        'RingToolStripMenuItem
         '
-        Me.EdgeRingToolStripMenuItem.Name = "EdgeRingToolStripMenuItem"
-        Me.EdgeRingToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-        Me.EdgeRingToolStripMenuItem.Text = "EdgeRing"
+        Me.RingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RingVertexToolStripMenuItem, Me.RingEdgeToolStripMenuItem, Me.RingFaceToolStripMenuItem})
+        Me.RingToolStripMenuItem.Name = "RingToolStripMenuItem"
+        Me.RingToolStripMenuItem.Size = New System.Drawing.Size(54, 24)
+        Me.RingToolStripMenuItem.Text = "Ring"
         '
-        'FaceRingToolStripMenuItem
+        'RingVertexToolStripMenuItem
         '
-        Me.FaceRingToolStripMenuItem.Name = "FaceRingToolStripMenuItem"
-        Me.FaceRingToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-        Me.FaceRingToolStripMenuItem.Text = "FaceRing"
+        Me.RingVertexToolStripMenuItem.Name = "RingVertexToolStripMenuItem"
+        Me.RingVertexToolStripMenuItem.Size = New System.Drawing.Size(126, 24)
+        Me.RingVertexToolStripMenuItem.Text = "Vertex"
+        '
+        'RingEdgeToolStripMenuItem
+        '
+        Me.RingEdgeToolStripMenuItem.Name = "RingEdgeToolStripMenuItem"
+        Me.RingEdgeToolStripMenuItem.Size = New System.Drawing.Size(126, 24)
+        Me.RingEdgeToolStripMenuItem.Text = "Edge"
+        '
+        'RingFaceToolStripMenuItem
+        '
+        Me.RingFaceToolStripMenuItem.Name = "RingFaceToolStripMenuItem"
+        Me.RingFaceToolStripMenuItem.Size = New System.Drawing.Size(126, 24)
+        Me.RingFaceToolStripMenuItem.Text = "Face"
         '
         'ShowToolStripMenuItem
         '
         Me.ShowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowVertexToolStripMenuItem, Me.ShowEdgeToolStripMenuItem, Me.ShowFaceToolStripMenuItem})
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(66, 21)
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(80, 24)
         Me.ShowToolStripMenuItem.Text = "Show(&S)"
         '
         'ShowVertexToolStripMenuItem
         '
         Me.ShowVertexToolStripMenuItem.Name = "ShowVertexToolStripMenuItem"
-        Me.ShowVertexToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowVertexToolStripMenuItem.Size = New System.Drawing.Size(146, 24)
         Me.ShowVertexToolStripMenuItem.Text = "Vertex(&V)"
         '
         'ShowEdgeToolStripMenuItem
         '
         Me.ShowEdgeToolStripMenuItem.Name = "ShowEdgeToolStripMenuItem"
-        Me.ShowEdgeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowEdgeToolStripMenuItem.Size = New System.Drawing.Size(146, 24)
         Me.ShowEdgeToolStripMenuItem.Text = "Edge(&E)"
         '
         'ShowFaceToolStripMenuItem
@@ -150,28 +175,41 @@ Partial Class Form1
         Me.ShowFaceToolStripMenuItem.Checked = True
         Me.ShowFaceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowFaceToolStripMenuItem.Name = "ShowFaceToolStripMenuItem"
-        Me.ShowFaceToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowFaceToolStripMenuItem.Size = New System.Drawing.Size(146, 24)
         Me.ShowFaceToolStripMenuItem.Text = "Face(&F)"
         '
         'CameraToolStripMenuItem
         '
-        Me.CameraToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ResetToolStripMenuItem})
+        Me.CameraToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VertexesToolStripMenuItem, Me.EdgesToolStripMenuItem, Me.FacesToolStripMenuItem})
         Me.CameraToolStripMenuItem.Name = "CameraToolStripMenuItem"
-        Me.CameraToolStripMenuItem.Size = New System.Drawing.Size(65, 21)
-        Me.CameraToolStripMenuItem.Text = "Camera"
+        Me.CameraToolStripMenuItem.Size = New System.Drawing.Size(78, 24)
+        Me.CameraToolStripMenuItem.Text = "Clear(&C)"
         '
-        'ResetToolStripMenuItem
+        'VertexesToolStripMenuItem
         '
-        Me.ResetToolStripMenuItem.Name = "ResetToolStripMenuItem"
-        Me.ResetToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
-        Me.ResetToolStripMenuItem.Text = "Reset"
+        Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
+        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(142, 24)
+        Me.VertexesToolStripMenuItem.Text = "Vertexes"
+        '
+        'EdgesToolStripMenuItem
+        '
+        Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
+        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(142, 24)
+        Me.EdgesToolStripMenuItem.Text = "Edges"
+        '
+        'FacesToolStripMenuItem
+        '
+        Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
+        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(142, 24)
+        Me.FacesToolStripMenuItem.Text = "Faces"
         '
         'PictureBox
         '
         Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PictureBox.Location = New System.Drawing.Point(0, 25)
+        Me.PictureBox.Location = New System.Drawing.Point(0, 28)
+        Me.PictureBox.Margin = New System.Windows.Forms.Padding(4)
         Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(667, 362)
+        Me.PictureBox.Size = New System.Drawing.Size(889, 456)
         Me.PictureBox.TabIndex = 1
         Me.PictureBox.TabStop = False
         '
@@ -183,25 +221,84 @@ Partial Class Form1
         '
         Me.SaveMeshFileDialog.Filter = "obj 模型|*.obj"
         '
-        'RenderTimer
+        'EdgeTrackBar
         '
-        Me.RenderTimer.Interval = 50
+        Me.EdgeTrackBar.Location = New System.Drawing.Point(609, 470)
+        Me.EdgeTrackBar.Margin = New System.Windows.Forms.Padding(4)
+        Me.EdgeTrackBar.Maximum = 1000
+        Me.EdgeTrackBar.Minimum = 1
+        Me.EdgeTrackBar.Name = "EdgeTrackBar"
+        Me.EdgeTrackBar.Size = New System.Drawing.Size(235, 56)
+        Me.EdgeTrackBar.TabIndex = 2
+        Me.EdgeTrackBar.Value = 1
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 462)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 19, 0)
+        Me.StatusStrip1.Size = New System.Drawing.Size(889, 22)
+        Me.StatusStrip1.TabIndex = 3
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'MeshReduce
+        '
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(416, 5)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 4
+        Me.Button1.Text = "開始減面"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(497, 5)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 5
+        Me.Button2.Text = "停止減面"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(526, 466)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(14, 15)
+        Me.Label1.TabIndex = 6
+        Me.Label1.Text = "1"
+        '
+        'DontMoveToolStripMenuItem
+        '
+        Me.DontMoveToolStripMenuItem.Name = "DontMoveToolStripMenuItem"
+        Me.DontMoveToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
+        Me.DontMoveToolStripMenuItem.Text = "DontMove"
         '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(667, 387)
+        Me.ClientSize = New System.Drawing.Size(889, 484)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.EdgeTrackBar)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.PictureBox)
         Me.Controls.Add(Me.MenuStrip1)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip1
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Form1"
+        Me.Text = "I am Visual Basic!"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -219,14 +316,24 @@ Partial Class Form1
     Friend WithEvents ShowEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowFaceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CameraToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PictureBox As System.Windows.Forms.PictureBox
     Friend WithEvents OpenMeshFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents SaveMeshFileDialog As System.Windows.Forms.SaveFileDialog
     Friend WithEvents ChooseEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents VertexRingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents EdgeRingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents FaceRingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RenderTimer As System.Windows.Forms.Timer
+    Friend WithEvents RingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RingVertexToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RingEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RingFaceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents VertexesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EdgesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FacesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteEdgeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EdgeTrackBar As System.Windows.Forms.TrackBar
+    Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
+    Friend WithEvents MeshReduce As System.Windows.Forms.Timer
+    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents DontMoveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

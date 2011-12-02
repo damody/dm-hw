@@ -790,7 +790,7 @@ bool Tri_Mesh::GetEdgeHandleFromPoints( const osg::Vec3f& a, const osg::Vec3f& b
 	return iter.is_valid();
 }
 
-void Tri_Mesh::MeshSimplification( int level )
+void Tri_Mesh::MeshSimplification( int level, bool convex_check )
 {
 	/*
 	for (VertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
@@ -832,9 +832,14 @@ void Tri_Mesh::MeshSimplification( int level )
 				point(to_vertex_handle(hf)));
 			if (it != mDontMove.end())
 				continue;
-			sp->clear();
-			SelectEdgeRingVertex(mQEdges[i].handle, *sp);
-			if (IsConvexPolygon(*sp))
+			if (convex_check)
+			{
+				sp->clear();
+				SelectEdgeRingVertex(mQEdges[i].handle, *sp);
+				if (IsConvexPolygon(*sp))
+					DeleteEdge(hf);
+			}
+			else
 				DeleteEdge(hf);
 		}
 	}

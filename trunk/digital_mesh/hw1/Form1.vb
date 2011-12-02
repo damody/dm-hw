@@ -244,7 +244,7 @@ Public Class Form1
     End Sub
 
     Private Sub MeshReduce_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MeshReduce.Tick
-        osg.MeshSimplification(EdgeTrackBar.Value)
+        osg.MeshSimplification(EdgeTrackBar.Value, CheckBox_Convex.Checked)
     End Sub
 
    

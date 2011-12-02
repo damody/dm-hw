@@ -80,7 +80,7 @@ public:
 	STDMETHOD(ClearEdges)(void);
 	STDMETHOD(ClearFaces)(void);
 	STDMETHOD(DeleteSelectEdge)(LONG x, LONG y);
-	STDMETHOD(MeshSimplification)(LONG level);
+	STDMETHOD(MeshSimplification)(LONG level, VARIANT_BOOL convex_check);
 	STDMETHOD(SelectDontMoveFace)(LONG x, LONG y);
 };
 

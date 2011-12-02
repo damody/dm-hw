@@ -105,7 +105,7 @@ public:
 	
 	bool IsConvexQuad(osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c, osg::Vec3f& d);
 	bool IsConvexPolygon(sPoints& pts);
-	void MeshSimplification( int level );
+	void MeshSimplification( int level, bool convex_check );
 	// mesh control
 	VHandle AddVertex(Point _p);
 	VIter GetVIterFormIndex(int idx);

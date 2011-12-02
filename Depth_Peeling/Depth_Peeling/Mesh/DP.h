@@ -28,6 +28,7 @@ public:
 	void RenderSkeleton( std::vector<struct OMT::sp_p> &skeletonList );	//µe¥X°©¬[
 	OMT::MyMesh::Point previousP;
 	std::vector<OMT::MyMesh::Point> tmpLines;
+	OMT::Point tmpSurP[MAX_LAYERS];
 
 protected:
 private:

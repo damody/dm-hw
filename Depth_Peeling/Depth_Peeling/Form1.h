@@ -122,8 +122,8 @@ namespace Depth_Peeling {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting2 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
-			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat2 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
+			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting4 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
+			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat4 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->testBtn = (gcnew System::Windows::Forms::Button());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
@@ -295,18 +295,18 @@ namespace Depth_Peeling {
 			// 
 			// hkoglPanelControl1
 			// 
-			hkcoglPanelCameraSetting2->Far = 1000;
-			hkcoglPanelCameraSetting2->Fov = 45;
-			hkcoglPanelCameraSetting2->Near = -1000;
-			hkcoglPanelCameraSetting2->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
-			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting2;
+			hkcoglPanelCameraSetting4->Far = 1000;
+			hkcoglPanelCameraSetting4->Fov = 45;
+			hkcoglPanelCameraSetting4->Near = -1000;
+			hkcoglPanelCameraSetting4->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
+			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting4;
 			this->hkoglPanelControl1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->hkoglPanelControl1->Location = System::Drawing::Point(3, 18);
 			this->hkoglPanelControl1->Name = L"hkoglPanelControl1";
-			hkcoglPanelPixelFormat2->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			hkcoglPanelPixelFormat2->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_32;
-			hkcoglPanelPixelFormat2->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat2;
+			hkcoglPanelPixelFormat4->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			hkcoglPanelPixelFormat4->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_32;
+			hkcoglPanelPixelFormat4->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat4;
 			this->hkoglPanelControl1->Size = System::Drawing::Size(709, 699);
 			this->hkoglPanelControl1->TabIndex = 0;
 			this->hkoglPanelControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::hkoglPanelControl1_Paint);
@@ -334,24 +334,28 @@ namespace Depth_Peeling {
 			this->plot2->Name = L"plot2";
 			this->plot2->Size = System::Drawing::Size(152, 22);
 			this->plot2->Text = L"Layer 2";
+			this->plot2->Click += gcnew System::EventHandler(this, &Form1::plot2_Click);
 			// 
 			// plot3
 			// 
 			this->plot3->Name = L"plot3";
 			this->plot3->Size = System::Drawing::Size(152, 22);
 			this->plot3->Text = L"Layer 3";
+			this->plot3->Click += gcnew System::EventHandler(this, &Form1::plot3_Click);
 			// 
 			// plot4
 			// 
 			this->plot4->Name = L"plot4";
 			this->plot4->Size = System::Drawing::Size(152, 22);
 			this->plot4->Text = L"Layer 4";
+			this->plot4->Click += gcnew System::EventHandler(this, &Form1::plot4_Click);
 			// 
 			// plot5
 			// 
 			this->plot5->Name = L"plot5";
 			this->plot5->Size = System::Drawing::Size(152, 22);
 			this->plot5->Text = L"Layer 5";
+			this->plot5->Click += gcnew System::EventHandler(this, &Form1::plot5_Click);
 			// 
 			// openFileDialog1
 			// 
@@ -432,7 +436,9 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 
 			 glPopMatrix();
 		 }
+private: System::Windows::Forms::MouseEventArgs^ lastMouseE;
 private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 lastMouseE = e;
 			 if (e->Button == System::Windows::Forms::MouseButtons::Left ||
 				 e->Button == System::Windows::Forms::MouseButtons::Middle)
 			 {
@@ -497,35 +503,6 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				if(peeling_state==false)
 				{	//該點的總層數
 					int totalLayers = dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ];
-					if( totalLayers > 1 )
-					{	//如果大於一層
-						this->ContextMenuStrip = layerMenu;
-						
-						plot1->Visible = false;
-						plot2->Visible = false;
-						plot3->Visible = false;
-						plot4->Visible = false;
-						plot5->Visible = false;
-						
-						switch (totalLayers)
-						{
-							case 5:
-								plot5->Visible = true;
-							case 4:
-								plot4->Visible = true;
-							case 3:
-								plot3->Visible = true;
-							case 2:
-								plot2->Visible = true;
-								plot1->Visible = true;
-							default:
-								break;
-						}
-					}
-					else
-					{
-						this->ContextMenuStrip = noRightMenu;
-					}
 
 					//抓出Z值 並顯示在console
 					for(int i=0 ; i<MAX_LAYERS ; i++)
@@ -563,13 +540,74 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 					}
 					std::cout << " :" << dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] << std::endl;
 
-					if(totalLayers > 1)
-					{
-						//return;	
+					if( totalLayers > 1 )
+					{	//如果大於一層
+						this->ContextMenuStrip = layerMenu;
+						//OMT::Point tmpSurP[MAX_LAYERS];
+						//OMT::Point preP(-100,-100,-100);
+						const float minThreshold = 0.000005f;
+						int theIndex = 0;
+						float zValue = 0.f;
+						int totalSurfaceLayers = 0;	//總共經過的面層數
+						for(int surLayer = 0 ;  ; surLayer++)
+						{	//先算出每層的實際座標點，以及實際的面層數(totalSurfaceLayers)
+							theIndex = (surLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+							zValue = (dp_com->m_pZBuffer)[ theIndex ];
+							if(zValue == 1.f)break;	//到尾端，跳開
+							gluUnProject( winX, winY, zValue, modelview, projection, viewport, &(dp_com->tmpSurP[surLayer][0]), &(dp_com->tmpSurP[surLayer][1]), &(dp_com->tmpSurP[surLayer][2]));
+							totalSurfaceLayers++;
+						}
+						for(int surLayer = 0 ; surLayer < totalSurfaceLayers ; surLayer++)
+						{	//檢查是否有太近的點
+							
+							float diffDist = 0.f;
+							if( surLayer>0)
+							{
+								OMT::Point diffP = dp_com->tmpSurP[surLayer] - dp_com->tmpSurP[surLayer-1];
+								diffDist = diffP[0]*diffP[0] * diffP[1]*diffP[1] * diffP[2]*diffP[2];
+							}
+							if( surLayer > 0 && diffDist < minThreshold)
+							{	//不為第0層，且兩層太過接近，視為誤差，捨去目前這層
+								for(int curShiftLayer = surLayer ; curShiftLayer < totalSurfaceLayers-1 ; curShiftLayer++)
+								{	//將後面的深度往前移
+									dp_com->tmpSurP[curShiftLayer] = dp_com->tmpSurP[curShiftLayer+1];
+								}
+								dp_com->tmpSurP[totalLayers*2-1] = OMT::Point(-100.f,-100.f,-100.f);	//最後尾巴會有無用數值，填1以讓下次跳開
+								//std::cout<< curLayer << " ";
+								surLayer--;	//檢查的層數-1
+								totalSurfaceLayers--;	//總層數-1
+								continue;	//以讓外層迴圈+1時能夠對同一點進行檢查
+
+							}
+						}
+						totalLayers = totalSurfaceLayers/2;
+						
+						plot1->Visible = false;
+						plot2->Visible = false;
+						plot3->Visible = false;
+						plot4->Visible = false;
+						plot5->Visible = false;
+						
+						switch (totalLayers)
+						{
+							case 5:
+								plot5->Visible = true;
+							case 4:
+								plot4->Visible = true;
+							case 3:
+								plot3->Visible = true;
+							case 2:
+								plot2->Visible = true;
+								plot1->Visible = true;
+							default:
+								break;
+						}
+						std::cout << "check \n";
 						//交由右鍵選單按鈕作後續動作
 					}
 					else
 					{
+						this->ContextMenuStrip = noRightMenu;	//取消右鍵選單
 						//畫出最表層的表面和骨架點
 						GLdouble drawX, drawY, drawZ;
 						int theIndex = 0;
@@ -769,10 +807,8 @@ private: System::Void testBtn_Click(System::Object^  sender, System::EventArgs^ 
 		 }
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
 			 this->noRightMenu = this->ContextMenuStrip;
-		 }
-private: System::Void plot1_Click(System::Object^  sender, System::EventArgs^  e) {
-			 
-		 }
+		}
+
 private: System::Void hkoglPanelControl1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
 			 if(e->KeyChar == '\r')
 			 {
@@ -790,6 +826,90 @@ private: System::Void hkoglPanelControl1_KeyPress(System::Object^  sender, Syste
 private: System::Void showSkeleton_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			this->Refresh();
 		 }
+private: System::Void plot1_Click(System::Object^  sender, System::EventArgs^  e) {
+			this->drawLayerPoints(1);
+		}
+private: System::Void plot2_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->drawLayerPoints(2);
+		 }
+private: System::Void plot3_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->drawLayerPoints(3);
+		 }
+private: System::Void plot4_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->drawLayerPoints(4);
+		 }
+private: System::Void plot5_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->drawLayerPoints(5);
+		 }
+private: System::Void drawLayerPoints(int theLayer)
+		 {
+/*
+			GLint viewport[4];
+			GLdouble modelview[16];
+			GLdouble projection[16];
+			GLfloat winX, winY, winZ;
+			glPushMatrix();
+			glMatrixMode(GL_MODELVIEW);	glMultMatrixd((double *)xf);
+			glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+
+			glMatrixMode(GL_PROJECTION_MATRIX);	glMultMatrixd((double *)xf);
+			glGetDoublev( GL_PROJECTION_MATRIX, projection );
+
+			glMatrixMode(GL_VIEWPORT); glMultMatrixd((double *)xf);
+			glGetIntegerv( GL_VIEWPORT, viewport );
+
+			winX = (float)lastMouseE->X;
+			winY = (float)viewport[3] - (float)lastMouseE->Y;
+
+			glEnable(GL_DEPTH_TEST);
+			glReadPixels( int(winX), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+			glDisable(GL_DEPTH_TEST);
+
+			//畫出最表層的表面和骨架點
+			GLdouble drawX, drawY, drawZ;
+			int theIndex = 0;
+			float zValue = 0.f;
+
+			theIndex = (theLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+			zValue = (dp_com->m_pZBuffer)[ theIndex ];
+			gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+			OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
+			mesh->add_surface_p( frontPoint, 0.0f, 1.0f, 0.0f);	//畫表面點
+
+			theIndex = ( (theLayer+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+			zValue = (dp_com->m_pZBuffer)[ theIndex ];
+			gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
+			OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
+			mesh->add_surface_p( backPoint, 0.0f, 1.0f, 0.0f);	//畫表面點
+*/
+
+			OMT::MyMesh::Point &frontPoint = dp_com->tmpSurP[theLayer*2]; 
+			OMT::MyMesh::Point &backPoint = dp_com->tmpSurP[theLayer*2+1]; 
+			if( dp_com->newLine )
+			{	//為線段起點
+				dp_com->lineSegIndex.push_back(mesh->skeleton_p_list.size());
+				dp_com->newLine  = false;
+			}
+			else
+			{	//不為線段起點
+						glDisable(GL_LIGHTING);
+						glLineWidth(3.0);
+						glBegin(GL_LINES);
+						glColor3f( 0.f, 0.f, 1.f);
+						glVertex3dv( dp_com->previousP );
+						glVertex3dv( ((frontPoint+backPoint)/2) );
+						glEnd();
+						glLineWidth(1.0);
+						glEnable(GL_LIGHTING);
+			}
+			dp_com->previousP = (frontPoint+backPoint)/2 ;
+			mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 1.0f, 0.0f, 0.0f);	//畫骨架點
+						
+			
+			glPopMatrix();
+			//this->Refresh();
+			return;
+		}
 };
 }
 

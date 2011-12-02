@@ -215,7 +215,7 @@ void DP_COM::Peeling_layer( int scene_width, int scene_height, int layer, Tri_Me
 
 void DP_COM::Set_ValidRegion(int width, int height)
 {
-	const float minLayerThreshold = 0.0005f;
+	const float minLayerThreshold = 0.0001f;
 	//const float minLayerThreshold = 0.001f;
 	for(int curY = 0 ; curY < height ; curY++ )
 	{

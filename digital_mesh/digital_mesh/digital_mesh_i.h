@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Wed Oct 19 22:18:38 2011
+/* at Fri Dec 02 06:31:08 2011
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -141,19 +141,58 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ SHORT g,
             /* [in] */ SHORT b) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRing( 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRingVertex( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRing( 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRingEdge( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRing( 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRingFace( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Render( void) = 0;
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRingVertex( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRingEdge( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectEdgeRingFace( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRingVertex( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRingEdge( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectFaceRingFace( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ClearVertexes( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ClearEdges( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ClearFaces( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE DeleteSelectEdge( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE MeshSimplification( 
+            /* [in] */ LONG level) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectDontMoveFace( 
+            LONG x,
+            LONG y) = 0;
         
     };
     
@@ -274,23 +313,73 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ SHORT g,
             /* [in] */ SHORT b);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRing )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRingVertex )( 
             IosgControl * This,
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRing )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRingEdge )( 
             IosgControl * This,
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRing )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRingFace )( 
             IosgControl * This,
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Render )( 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRingVertex )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRingEdge )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectEdgeRingFace )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRingVertex )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRingEdge )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectFaceRingFace )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ClearVertexes )( 
             IosgControl * This);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ClearEdges )( 
+            IosgControl * This);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ClearFaces )( 
+            IosgControl * This);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *DeleteSelectEdge )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *MeshSimplification )( 
+            IosgControl * This,
+            /* [in] */ LONG level);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectDontMoveFace )( 
+            IosgControl * This,
+            LONG x,
+            LONG y);
         
         END_INTERFACE
     } IosgControlVtbl;
@@ -376,17 +465,50 @@ EXTERN_C const IID IID_IosgControl;
 #define IosgControl_SetSelectColor(This,r,g,b)	\
     ( (This)->lpVtbl -> SetSelectColor(This,r,g,b) ) 
 
-#define IosgControl_SelectVertexRing(This,x,y)	\
-    ( (This)->lpVtbl -> SelectVertexRing(This,x,y) ) 
+#define IosgControl_SelectVertexRingVertex(This,x,y)	\
+    ( (This)->lpVtbl -> SelectVertexRingVertex(This,x,y) ) 
 
-#define IosgControl_SelectEdgeRing(This,x,y)	\
-    ( (This)->lpVtbl -> SelectEdgeRing(This,x,y) ) 
+#define IosgControl_SelectVertexRingEdge(This,x,y)	\
+    ( (This)->lpVtbl -> SelectVertexRingEdge(This,x,y) ) 
 
-#define IosgControl_SelectFaceRing(This,x,y)	\
-    ( (This)->lpVtbl -> SelectFaceRing(This,x,y) ) 
+#define IosgControl_SelectVertexRingFace(This,x,y)	\
+    ( (This)->lpVtbl -> SelectVertexRingFace(This,x,y) ) 
 
-#define IosgControl_Render(This)	\
-    ( (This)->lpVtbl -> Render(This) ) 
+#define IosgControl_SelectEdgeRingVertex(This,x,y)	\
+    ( (This)->lpVtbl -> SelectEdgeRingVertex(This,x,y) ) 
+
+#define IosgControl_SelectEdgeRingEdge(This,x,y)	\
+    ( (This)->lpVtbl -> SelectEdgeRingEdge(This,x,y) ) 
+
+#define IosgControl_SelectEdgeRingFace(This,x,y)	\
+    ( (This)->lpVtbl -> SelectEdgeRingFace(This,x,y) ) 
+
+#define IosgControl_SelectFaceRingVertex(This,x,y)	\
+    ( (This)->lpVtbl -> SelectFaceRingVertex(This,x,y) ) 
+
+#define IosgControl_SelectFaceRingEdge(This,x,y)	\
+    ( (This)->lpVtbl -> SelectFaceRingEdge(This,x,y) ) 
+
+#define IosgControl_SelectFaceRingFace(This,x,y)	\
+    ( (This)->lpVtbl -> SelectFaceRingFace(This,x,y) ) 
+
+#define IosgControl_ClearVertexes(This)	\
+    ( (This)->lpVtbl -> ClearVertexes(This) ) 
+
+#define IosgControl_ClearEdges(This)	\
+    ( (This)->lpVtbl -> ClearEdges(This) ) 
+
+#define IosgControl_ClearFaces(This)	\
+    ( (This)->lpVtbl -> ClearFaces(This) ) 
+
+#define IosgControl_DeleteSelectEdge(This,x,y)	\
+    ( (This)->lpVtbl -> DeleteSelectEdge(This,x,y) ) 
+
+#define IosgControl_MeshSimplification(This,level)	\
+    ( (This)->lpVtbl -> MeshSimplification(This,level) ) 
+
+#define IosgControl_SelectDontMoveFace(This,x,y)	\
+    ( (This)->lpVtbl -> SelectDontMoveFace(This,x,y) ) 
 
 #endif /* COBJMACROS */
 

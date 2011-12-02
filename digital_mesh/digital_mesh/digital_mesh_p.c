@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Fri Dec 02 06:31:08 2011
+/* at Fri Dec 02 12:21:06 2011
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -50,7 +50,7 @@
 #include "digital_mesh_i.h"
 
 #define TYPE_FORMAT_STRING_SIZE   47                                
-#define PROC_FORMAT_STRING_SIZE   1201                              
+#define PROC_FORMAT_STRING_SIZE   1207                              
 #define EXPR_FORMAT_STRING_SIZE   1                                 
 #define TRANSMIT_AS_TABLE_SIZE    0            
 #define WIRE_MARSHAL_TABLE_SIZE   1            
@@ -1104,11 +1104,11 @@ static const digital_mesh_MIDL_PROC_FORMAT_STRING digital_mesh__MIDL_ProcFormatS
 			0x6c,		/* Old Flags:  object, Oi2 */
 /* 1124 */	NdrFcLong( 0x0 ),	/* 0 */
 /* 1128 */	NdrFcShort( 0x24 ),	/* 36 */
-/* 1130 */	NdrFcShort( 0xc ),	/* x86 Stack size/offset = 12 */
-/* 1132 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 1130 */	NdrFcShort( 0x10 ),	/* x86 Stack size/offset = 16 */
+/* 1132 */	NdrFcShort( 0xe ),	/* 14 */
 /* 1134 */	NdrFcShort( 0x8 ),	/* 8 */
 /* 1136 */	0x44,		/* Oi2 Flags:  has return, has ext, */
-			0x2,		/* 2 */
+			0x3,		/* 3 */
 /* 1138 */	0x8,		/* 8 */
 			0x1,		/* Ext Flags:  new corr desc, */
 /* 1140 */	NdrFcShort( 0x0 ),	/* 0 */
@@ -1122,49 +1122,56 @@ static const digital_mesh_MIDL_PROC_FORMAT_STRING digital_mesh__MIDL_ProcFormatS
 /* 1150 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
+	/* Parameter convex_check */
+
+/* 1152 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
+/* 1154 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
+/* 1156 */	0x6,		/* FC_SHORT */
+			0x0,		/* 0 */
+
 	/* Return value */
 
-/* 1152 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
-/* 1154 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
-/* 1156 */	0x8,		/* FC_LONG */
+/* 1158 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 1160 */	NdrFcShort( 0xc ),	/* x86 Stack size/offset = 12 */
+/* 1162 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 	/* Procedure SelectDontMoveFace */
 
-/* 1158 */	0x33,		/* FC_AUTO_HANDLE */
+/* 1164 */	0x33,		/* FC_AUTO_HANDLE */
 			0x6c,		/* Old Flags:  object, Oi2 */
-/* 1160 */	NdrFcLong( 0x0 ),	/* 0 */
-/* 1164 */	NdrFcShort( 0x25 ),	/* 37 */
-/* 1166 */	NdrFcShort( 0x10 ),	/* x86 Stack size/offset = 16 */
-/* 1168 */	NdrFcShort( 0x10 ),	/* 16 */
-/* 1170 */	NdrFcShort( 0x8 ),	/* 8 */
-/* 1172 */	0x44,		/* Oi2 Flags:  has return, has ext, */
+/* 1166 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 1170 */	NdrFcShort( 0x25 ),	/* 37 */
+/* 1172 */	NdrFcShort( 0x10 ),	/* x86 Stack size/offset = 16 */
+/* 1174 */	NdrFcShort( 0x10 ),	/* 16 */
+/* 1176 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 1178 */	0x44,		/* Oi2 Flags:  has return, has ext, */
 			0x3,		/* 3 */
-/* 1174 */	0x8,		/* 8 */
+/* 1180 */	0x8,		/* 8 */
 			0x1,		/* Ext Flags:  new corr desc, */
-/* 1176 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 1178 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 1180 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1182 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1184 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1186 */	NdrFcShort( 0x0 ),	/* 0 */
 
 	/* Parameter x */
 
-/* 1182 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
-/* 1184 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */
-/* 1186 */	0x8,		/* FC_LONG */
+/* 1188 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
+/* 1190 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */
+/* 1192 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 	/* Parameter y */
 
-/* 1188 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
-/* 1190 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
-/* 1192 */	0x8,		/* FC_LONG */
+/* 1194 */	NdrFcShort( 0x48 ),	/* Flags:  in, base type, */
+/* 1196 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
+/* 1198 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 	/* Return value */
 
-/* 1194 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
-/* 1196 */	NdrFcShort( 0xc ),	/* x86 Stack size/offset = 12 */
-/* 1198 */	0x8,		/* FC_LONG */
+/* 1200 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 1202 */	NdrFcShort( 0xc ),	/* x86 Stack size/offset = 12 */
+/* 1204 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 			0x0
@@ -1278,7 +1285,7 @@ static const unsigned short IosgControl_FormatStringOffsetTable[] =
     1050,
     1080,
     1122,
-    1158
+    1164
     };
 
 static const MIDL_STUBLESS_PROXY_INFO IosgControl_ProxyInfo =

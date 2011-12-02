@@ -33,6 +33,7 @@ Partial Class Form1
         Me.ChooseEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChooseFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DeleteEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DontMoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RingVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RingEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -54,7 +55,7 @@ Partial Class Form1
         Me.Button1 = New System.Windows.Forms.Button
         Me.Button2 = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
-        Me.DontMoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CheckBox_Convex = New System.Windows.Forms.CheckBox
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -126,6 +127,12 @@ Partial Class Form1
         Me.DeleteEdgeToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
         Me.DeleteEdgeToolStripMenuItem.Text = "DeleteEdge"
         '
+        'DontMoveToolStripMenuItem
+        '
+        Me.DontMoveToolStripMenuItem.Name = "DontMoveToolStripMenuItem"
+        Me.DontMoveToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
+        Me.DontMoveToolStripMenuItem.Text = "DontMove"
+        '
         'RingToolStripMenuItem
         '
         Me.RingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RingVertexToolStripMenuItem, Me.RingEdgeToolStripMenuItem, Me.RingFaceToolStripMenuItem})
@@ -188,19 +195,19 @@ Partial Class Form1
         'VertexesToolStripMenuItem
         '
         Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
-        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(142, 24)
+        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(152, 24)
         Me.VertexesToolStripMenuItem.Text = "Vertexes"
         '
         'EdgesToolStripMenuItem
         '
         Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
-        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(142, 24)
+        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(152, 24)
         Me.EdgesToolStripMenuItem.Text = "Edges"
         '
         'FacesToolStripMenuItem
         '
         Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
-        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(142, 24)
+        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(152, 24)
         Me.FacesToolStripMenuItem.Text = "Faces"
         '
         'PictureBox
@@ -246,7 +253,7 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(416, 5)
+        Me.Button1.Location = New System.Drawing.Point(489, 5)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 4
@@ -255,7 +262,7 @@ Partial Class Form1
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(497, 5)
+        Me.Button2.Location = New System.Drawing.Point(570, 5)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 5
@@ -271,17 +278,22 @@ Partial Class Form1
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "1"
         '
-        'DontMoveToolStripMenuItem
+        'CheckBox_Convex
         '
-        Me.DontMoveToolStripMenuItem.Name = "DontMoveToolStripMenuItem"
-        Me.DontMoveToolStripMenuItem.Size = New System.Drawing.Size(163, 24)
-        Me.DontMoveToolStripMenuItem.Text = "DontMove"
+        Me.CheckBox_Convex.AutoSize = True
+        Me.CheckBox_Convex.Location = New System.Drawing.Point(651, 5)
+        Me.CheckBox_Convex.Name = "CheckBox_Convex"
+        Me.CheckBox_Convex.Size = New System.Drawing.Size(111, 19)
+        Me.CheckBox_Convex.TabIndex = 7
+        Me.CheckBox_Convex.Text = "Convex Check"
+        Me.CheckBox_Convex.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(889, 484)
+        Me.Controls.Add(Me.CheckBox_Convex)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
@@ -335,5 +347,6 @@ Partial Class Form1
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents DontMoveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CheckBox_Convex As System.Windows.Forms.CheckBox
 
 End Class

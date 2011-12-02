@@ -245,10 +245,10 @@ STDMETHODIMP CosgControl::DeleteSelectEdge(LONG x, LONG y)
 	return S_OK;
 }
 
-STDMETHODIMP CosgControl::MeshSimplification(LONG level)
+STDMETHODIMP CosgControl::MeshSimplification(LONG reduce_num, VARIANT_BOOL convex_check)
 {
 	// TODO: 在這裡加入您的實作程式碼
-	s_osg->MeshSimplification(level);
+	s_osg->MeshSimplification(reduce_num, convex_check!=0);
 	return S_OK;
 }
 

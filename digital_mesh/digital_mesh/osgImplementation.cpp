@@ -307,7 +307,7 @@ void osgImplementation::PreFrameUpdate()
 	{
 		mNeedUpdate = true;
 		static int i=0;
-		mMesh->MeshSimplification(mNeedSimple);
+		mMesh->MeshSimplification(mNeedSimple, mNeedSimpleConvex);
 		SetModel(mMesh);
 		mNeedSimple = 0;
 	}
@@ -563,10 +563,11 @@ void osgImplementation::DeleteEdge( const osg::Vec3f& a, const osg::Vec3f& b )
 	Show(mStatus);
 }
 
-void osgImplementation::MeshSimplification( int level )
+void osgImplementation::MeshSimplification( int reduce_num, bool convex_check )
 {
 	if (!mMesh) return ;
-	mNeedSimple = level;
+	mNeedSimple = reduce_num;
+	mNeedSimpleConvex = convex_check;
 	Show(mStatus);
 }
 

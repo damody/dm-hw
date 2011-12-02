@@ -45,8 +45,8 @@ interface IosgControl : IDispatch{
 	[id(27), helpstring("方法 ClearEdges")] HRESULT ClearEdges(void);
 	[id(28), helpstring("方法 ClearFaces")] HRESULT ClearFaces(void);
 	[id(29), helpstring("方法 DeleteSelectEdge")] HRESULT DeleteSelectEdge([in] LONG x, [in] LONG y);
-	[id(30), helpstring("方法 MeshSimplification")] HRESULT MeshSimplification([in] LONG level);
-	[id(31), helpstring("方法 SelectDontMoveFace")] HRESULT SelectDontMoveFace(LONG x, LONG y);
+	[id(30), helpstring("方法 MeshSimplification")] HRESULT MeshSimplification([in] LONG level, [in] VARIANT_BOOL convex_check);
+	[id(31), helpstring("方法 SelectDontMoveFace")] HRESULT SelectDontMoveFace([in] LONG x, [in] LONG y);
 };
 [
 	uuid(A236B4E3-2D2B-4504-A7D4-A9210684BEFE),

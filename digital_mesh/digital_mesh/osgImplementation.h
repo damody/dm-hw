@@ -70,9 +70,10 @@ private:
 	bool	mNeedClearEdges;
 	bool	mNeedClearFaces;
 	int	mNeedSimple;
+	bool	mNeedSimpleConvex;
 public:
 	static void Render(void* ptr);
-	void MeshSimplification(int level);
+	void MeshSimplification(int reduce_num, bool convex_check);
 	// clear
 	void ClearVertexes();
 	void ClearEdges();

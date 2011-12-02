@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Fri Dec 02 06:31:08 2011
+/* at Fri Dec 02 12:21:06 2011
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -188,11 +188,12 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ LONG y) = 0;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE MeshSimplification( 
-            /* [in] */ LONG level) = 0;
+            /* [in] */ LONG level,
+            /* [in] */ VARIANT_BOOL convex_check) = 0;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectDontMoveFace( 
-            LONG x,
-            LONG y) = 0;
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
         
     };
     
@@ -374,12 +375,13 @@ EXTERN_C const IID IID_IosgControl;
         
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *MeshSimplification )( 
             IosgControl * This,
-            /* [in] */ LONG level);
+            /* [in] */ LONG level,
+            /* [in] */ VARIANT_BOOL convex_check);
         
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectDontMoveFace )( 
             IosgControl * This,
-            LONG x,
-            LONG y);
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
         
         END_INTERFACE
     } IosgControlVtbl;
@@ -504,8 +506,8 @@ EXTERN_C const IID IID_IosgControl;
 #define IosgControl_DeleteSelectEdge(This,x,y)	\
     ( (This)->lpVtbl -> DeleteSelectEdge(This,x,y) ) 
 
-#define IosgControl_MeshSimplification(This,level)	\
-    ( (This)->lpVtbl -> MeshSimplification(This,level) ) 
+#define IosgControl_MeshSimplification(This,level,convex_check)	\
+    ( (This)->lpVtbl -> MeshSimplification(This,level,convex_check) ) 
 
 #define IosgControl_SelectDontMoveFace(This,x,y)	\
     ( (This)->lpVtbl -> SelectDontMoveFace(This,x,y) ) 

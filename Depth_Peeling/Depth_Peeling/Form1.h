@@ -99,6 +99,9 @@ namespace Depth_Peeling {
 	private: System::Windows::Forms::ToolStripMenuItem^  plot4;
 	private: System::Windows::Forms::ToolStripMenuItem^  plot5;
 	private: System::Windows::Forms::CheckBox^  showSkeletonBtn;
+	private: System::Windows::Forms::Label^  curShowLayerL;
+
+	private: System::Windows::Forms::TrackBar^  trackBar1;
 
 
 
@@ -122,9 +125,11 @@ namespace Depth_Peeling {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting4 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
-			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat4 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
+			HKOGLPanel::HKCOGLPanelCameraSetting^  hkcoglPanelCameraSetting1 = (gcnew HKOGLPanel::HKCOGLPanelCameraSetting());
+			HKOGLPanel::HKCOGLPanelPixelFormat^  hkcoglPanelPixelFormat1 = (gcnew HKOGLPanel::HKCOGLPanelPixelFormat());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->curShowLayerL = (gcnew System::Windows::Forms::Label());
+			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
 			this->testBtn = (gcnew System::Windows::Forms::Button());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
 			this->showSkeletonBtn = (gcnew System::Windows::Forms::CheckBox());
@@ -145,6 +150,7 @@ namespace Depth_Peeling {
 			this->plot5 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->groupBox1->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->BeginInit();
 			this->groupBox3->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->layerMenu->SuspendLayout();
@@ -152,6 +158,8 @@ namespace Depth_Peeling {
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->curShowLayerL);
+			this->groupBox1->Controls->Add(this->trackBar1);
 			this->groupBox1->Controls->Add(this->testBtn);
 			this->groupBox1->Controls->Add(this->groupBox3);
 			this->groupBox1->Controls->Add(this->clearBtn);
@@ -165,6 +173,24 @@ namespace Depth_Peeling {
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Mesh_OP";
+			// 
+			// curShowLayerL
+			// 
+			this->curShowLayerL->AutoSize = true;
+			this->curShowLayerL->Location = System::Drawing::Point(119, 505);
+			this->curShowLayerL->Name = L"curShowLayerL";
+			this->curShowLayerL->Size = System::Drawing::Size(30, 12);
+			this->curShowLayerL->TabIndex = 10;
+			this->curShowLayerL->Text = L"None";
+			// 
+			// trackBar1
+			// 
+			this->trackBar1->Location = System::Drawing::Point(3, 501);
+			this->trackBar1->Maximum = 11;
+			this->trackBar1->Name = L"trackBar1";
+			this->trackBar1->Size = System::Drawing::Size(117, 45);
+			this->trackBar1->TabIndex = 9;
+			this->trackBar1->Scroll += gcnew System::EventHandler(this, &Form1::trackBar1_Scroll);
 			// 
 			// testBtn
 			// 
@@ -295,18 +321,18 @@ namespace Depth_Peeling {
 			// 
 			// hkoglPanelControl1
 			// 
-			hkcoglPanelCameraSetting4->Far = 1000;
-			hkcoglPanelCameraSetting4->Fov = 45;
-			hkcoglPanelCameraSetting4->Near = -1000;
-			hkcoglPanelCameraSetting4->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
-			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting4;
+			hkcoglPanelCameraSetting1->Far = 1000;
+			hkcoglPanelCameraSetting1->Fov = 45;
+			hkcoglPanelCameraSetting1->Near = -1000;
+			hkcoglPanelCameraSetting1->Type = HKOGLPanel::HKCOGLPanelCameraSetting::CAMERATYPE::ORTHOGRAPHIC;
+			this->hkoglPanelControl1->Camera_Setting = hkcoglPanelCameraSetting1;
 			this->hkoglPanelControl1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->hkoglPanelControl1->Location = System::Drawing::Point(3, 18);
 			this->hkoglPanelControl1->Name = L"hkoglPanelControl1";
-			hkcoglPanelPixelFormat4->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			hkcoglPanelPixelFormat4->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_32;
-			hkcoglPanelPixelFormat4->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
-			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat4;
+			hkcoglPanelPixelFormat1->Accumu_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			hkcoglPanelPixelFormat1->Alpha_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_32;
+			hkcoglPanelPixelFormat1->Stencil_Buffer_Bits = HKOGLPanel::HKCOGLPanelPixelFormat::PIXELBITS::BITS_0;
+			this->hkoglPanelControl1->Pixel_Format = hkcoglPanelPixelFormat1;
 			this->hkoglPanelControl1->Size = System::Drawing::Size(709, 699);
 			this->hkoglPanelControl1->TabIndex = 0;
 			this->hkoglPanelControl1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::hkoglPanelControl1_Paint);
@@ -374,6 +400,7 @@ namespace Depth_Peeling {
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->EndInit();
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox3->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
@@ -430,11 +457,35 @@ private: System::Void hkoglPanelControl1_Paint(System::Object^  sender, System::
 				 {
 					 dp_com->RenderSkeleton( (mesh->skeleton_p_list) );
 				 }
+				 if( trackBar1->Value != 0 )
+				 {
+					 this->RenderDepthPoints();
+				 }
 
 			 }
 
 
 			 glPopMatrix();
+		 }
+private: System::Void RenderDepthPoints()
+		 {
+			glDisable(GL_LIGHTING);
+			glPointSize ( 8.0 ) ;				  
+			glColor3f( 0.0, 0.0, 1.0 ) ;
+			glBegin(GL_POINTS);
+			if( trackBar1->Value != 11 )	// ==0的狀況在paint時過濾掉了，只要考慮all
+			{
+				glVertex3dv( dp_com->tmpSurP[trackBar1->Value - 1] );
+			}
+			else
+			{	//all
+				for(int curD = 0 ; curD<MAX_LAYERS ; curD++)
+				{
+					glVertex3dv( dp_com->tmpSurP[curD] );
+				}
+			}
+			glEnd();
+			glEnable(GL_LIGHTING);
 		 }
 private: System::Windows::Forms::MouseEventArgs^ lastMouseE;
 private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -458,7 +509,7 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 				//this->ContextMenuStrip = layerMenu;
 				//this->ContextMenuStrip = QQ;
 				//this->ContextMenuStrip = NULL;
-				this->ContextMenuStrip = noRightMenu;	//預設為無右鍵選單狀態
+				this->ContextMenuStrip = layerMenu;	//預設為有右鍵選單狀態
 				GLint viewport[4];
 				GLdouble modelview[16];
 				GLdouble projection[16];
@@ -539,21 +590,22 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						//mesh->add_surface_p( OMT::MyMesh::Point(drawX,drawY,drawZ), 1.0f, 0.0f, 0.0f);
 					}
 					std::cout << " :" << dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] << std::endl;
-
+					this->ContextMenuStrip = layerMenu;
+					layerMenu->Visible = true;
 					if( totalLayers > 1 )
 					{	//如果大於一層
-						this->ContextMenuStrip = layerMenu;
+						
 						//OMT::Point tmpSurP[MAX_LAYERS];
 						//OMT::Point preP(-100,-100,-100);
 						const float minThreshold = 0.000005f;
 						int theIndex = 0;
 						float zValue = 0.f;
 						int totalSurfaceLayers = 0;	//總共經過的面層數
-						for(int surLayer = 0 ;  ; surLayer++)
+						for(int surLayer = 0 ; surLayer<MAX_LAYERS ; surLayer++)
 						{	//先算出每層的實際座標點，以及實際的面層數(totalSurfaceLayers)
 							theIndex = (surLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
 							zValue = (dp_com->m_pZBuffer)[ theIndex ];
-							if(zValue == 1.f)break;	//到尾端，跳開
+							if(zValue == 1.f)break;	//到尾端，跳開(early jump
 							gluUnProject( winX, winY, zValue, modelview, projection, viewport, &(dp_com->tmpSurP[surLayer][0]), &(dp_com->tmpSurP[surLayer][1]), &(dp_com->tmpSurP[surLayer][2]));
 							totalSurfaceLayers++;
 						}
@@ -576,12 +628,17 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 								//std::cout<< curLayer << " ";
 								surLayer--;	//檢查的層數-1
 								totalSurfaceLayers--;	//總層數-1
-								continue;	//以讓外層迴圈+1時能夠對同一點進行檢查
+								//continue;	//以讓外層迴圈+1時能夠對同一點進行檢查
 
 							}
 						}
-						totalLayers = totalSurfaceLayers/2;
+						//totalLayers = totalSurfaceLayers / 2;
+						totalSurfaceLayers = 3;
+
+						int a = totalSurfaceLayers / 2;
 						
+						totalLayers = a;
+
 						plot1->Visible = false;
 						plot2->Visible = false;
 						plot3->Visible = false;
@@ -602,7 +659,8 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 							default:
 								break;
 						}
-						std::cout << "check \n";
+						layerMenu->Visible = true;
+						std::cout << totalLayers << " checked \n";
 						//交由右鍵選單按鈕作後續動作
 					}
 					else
@@ -910,6 +968,21 @@ private: System::Void drawLayerPoints(int theLayer)
 			//this->Refresh();
 			return;
 		}
+private: System::Void trackBar1_Scroll(System::Object^  sender, System::EventArgs^  e) {
+			 if(trackBar1->Value ==0)
+			 {
+				 curShowLayerL->Text = "None";
+			 }
+			 else if(trackBar1->Value == 11)
+			 {
+				 curShowLayerL->Text = "All";
+			 }
+			 else
+			 {
+				curShowLayerL->Text = (trackBar1->Value).ToString();
+			 }
+			 this->Refresh();
+		 }
 };
 }
 

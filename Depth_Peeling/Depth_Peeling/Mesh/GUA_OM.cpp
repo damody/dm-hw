@@ -652,6 +652,7 @@ void Tri_Mesh::Render_Wireframe()
 
 void Tri_Mesh::Render_Point()
 {
+	glDisable(GL_LIGHTING);
 	glPointSize ( 8.0 ) ;				  
 	glColor3f( 1.0, 0.0, 0.0 ) ;
 	glBegin(GL_POINTS);
@@ -660,6 +661,7 @@ void Tri_Mesh::Render_Point()
 		  glVertex3dv(point(v_it));
 	}
 	glEnd();
+	glEnable(GL_LIGHTING);
 }
 
 bool ReadFile(std::string _fileName,Tri_Mesh *_mesh)

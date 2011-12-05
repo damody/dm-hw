@@ -1,4 +1,4 @@
-﻿Build started 2011/12/2 下午 09:21:58.
+﻿Build started 2011/12/6 上午 01:06:27.
      1>Project "D:\DigitalMesh\hw\Depth_Peeling\Depth_Peeling\Depth_Peeling.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release-PeeflyPC\Depth_Peeling.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -16,7 +16,7 @@
          All outputs are up-to-date.
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _USE_MATH_DEFINES /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release-PeeflyPC\Depth_Peeling.pch" /Fo"Release-PeeflyPC\\" /Fd"Release-PeeflyPC\vc100.pdb" /TP /FU"D:\DigitalMesh\hw\Depth_Peeling\Release-PeeflyPC\HKOGLPanel.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Design.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Depth_Peeling.cpp /clr:nostdlib 
          Depth_Peeling.cpp
-     1>d:\digitalmesh\hw\depth_peeling\depth_peeling\Form1.h(567): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\digitalmesh\hw\depth_peeling\depth_peeling\Form1.h(619): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
          All outputs are up-to-date.
        ManagedIncrementalBuildPostProcessDependencyGraph:
          To improve incremental build performance for managed components, please make sure that the 'VC++ Directories->Reference Directories' points to all the paths which contain the referenced managed assemblies.
@@ -69,4 +69,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.24
+Time Elapsed 00:00:05.05

@@ -228,18 +228,18 @@ void DP_COM::Set_ValidRegion(int width, int height)
 				if( m_pZBuffer[ curLayer*width*height + curY * width + curX ] < 1.f)
 				{
 					//std::cout << m_pZBuffer[ curLayer*width*height + curY*width+curX ] << " ";
-					if( curLayer > 0 && abs(m_pZBuffer[ curLayer*width*height + curY * width + curX ] - m_pZBuffer[ (curLayer-1)*width*height + curY * width + curX ]) < minLayerThreshold )
-					{	//不為第0層，且兩層太過接近，視為誤差，捨去目前這層
-						for(int curShiftLayer = curLayer ; curShiftLayer < MAX_LAYERS-1 ; curShiftLayer++)
-						{	//將後面的深度往前移
-							m_pZBuffer[ curShiftLayer*width*height + curY * width + curX ] = m_pZBuffer[ (curShiftLayer+1)*width*height + curY * width + curX ];
-						}
-						m_pZBuffer[ (MAX_LAYERS-1)*width*height + curY * width + curX ] = 1.f;	//最後尾巴會有無用數值，填1以讓下次跳開
-						//std::cout<< curLayer << " ";
-						curLayer--;	//檢查的層數-1
-						continue;	//以讓外層迴圈+1時能夠對同一點進行檢查
-
-					}
+					//if( curLayer > 0 && abs(m_pZBuffer[ curLayer*width*height + curY * width + curX ] - m_pZBuffer[ (curLayer-1)*width*height + curY * width + curX ]) < minLayerThreshold )
+					//{	//不為第0層，且兩層太過接近，視為誤差，捨去目前這層
+					//	for(int curShiftLayer = curLayer ; curShiftLayer < MAX_LAYERS-1 ; curShiftLayer++)
+					//	{	//將後面的深度往前移
+					//		m_pZBuffer[ curShiftLayer*width*height + curY * width + curX ] = m_pZBuffer[ (curShiftLayer+1)*width*height + curY * width + curX ];
+					//	}
+					//	m_pZBuffer[ (MAX_LAYERS-1)*width*height + curY * width + curX ] = 1.f;	//最後尾巴會有無用數值，填1以讓下次跳開
+					//	//std::cout<< curLayer << " ";
+					//	curLayer--;	//檢查的層數-1
+					//	continue;	//以讓外層迴圈+1時能夠對同一點進行檢查
+					//
+					//}
 					m_ValidBuffer[ curY*width+curX ] += 1;	//層數+1
 				}
 				else
@@ -247,7 +247,7 @@ void DP_COM::Set_ValidRegion(int width, int height)
 					break;
 				}
 			}
-			m_ValidBuffer[ curY*width+curX ] /= 2;	//層數/2
+			//m_ValidBuffer[ curY*width+curX ] /= 2;	//層數/2
 			//std::cout << std::endl;
 		}
 	}

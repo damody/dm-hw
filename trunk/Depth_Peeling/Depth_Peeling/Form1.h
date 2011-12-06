@@ -556,15 +556,15 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 					int totalLayers = dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ];
 
 					//抓出Z值 並顯示在console
-					for(int i=0 ; i<MAX_LAYERS ; i++)
+					for(int i=0 ; i<totalLayers ; i++)
 					{
 						int theIndex = (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
 						float zValue = (dp_com->m_pZBuffer)[ theIndex ];
 						//std::cout << (dp_com->m_pZBuffer)[ (int)( (i*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + winY*(hkoglPanelControl1->Width)+winX) ] << " ";
-						if(zValue >= 1.f)
-						{	//深度大於1為背景，直接跳開
-							break;
-						}
+						//if(zValue >= 1.f)
+						//{	//深度大於1為背景，直接跳開
+						//	break;
+						//}
 						std::cout << zValue << " ";
 						
 						//GLdouble drawX, drawY, drawZ;
@@ -592,7 +592,7 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 					std::cout << " :" << dp_com->m_ValidBuffer[ (int)winY*(hkoglPanelControl1->Width) + (int)winX ] << std::endl;
 					this->ContextMenuStrip = layerMenu;
 					layerMenu->Visible = true;
-					if( totalLayers > 1 )
+					if( totalLayers/2 > 1 )
 					{	//如果大於一層
 						
 						//OMT::Point tmpSurP[MAX_LAYERS];
@@ -600,44 +600,42 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						const float minThreshold = 0.000005f;
 						int theIndex = 0;
 						float zValue = 0.f;
-						int totalSurfaceLayers = 0;	//總共經過的面層數
-						for(int surLayer = 0 ; surLayer<MAX_LAYERS ; surLayer++)
+						//int totalSurfaceLayers = 0;	//總共經過的面層數
+						//for(int surLayer = 0 ; surLayer<MAX_LAYERS ; surLayer++)
+						for(int surLayer = 0 ; surLayer<totalLayers ; surLayer++)
 						{	//先算出每層的實際座標點，以及實際的面層數(totalSurfaceLayers)
 							theIndex = (surLayer*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
 							zValue = (dp_com->m_pZBuffer)[ theIndex ];
-							if(zValue == 1.f)break;	//到尾端，跳開(early jump
+							if(zValue >= 1.f)break;	//到尾端，跳開(early jump
 							gluUnProject( winX, winY, zValue, modelview, projection, viewport, &(dp_com->tmpSurP[surLayer][0]), &(dp_com->tmpSurP[surLayer][1]), &(dp_com->tmpSurP[surLayer][2]));
-							totalSurfaceLayers++;
+							//totalSurfaceLayers++;
 						}
-						for(int surLayer = 0 ; surLayer < totalSurfaceLayers ; surLayer++)
+						for(int surLayer = 0 ; surLayer < totalLayers ; surLayer++)
 						{	//檢查是否有太近的點
 							
 							float diffDist = 0.f;
 							if( surLayer>0)
 							{
 								OMT::Point diffP = dp_com->tmpSurP[surLayer] - dp_com->tmpSurP[surLayer-1];
-								diffDist = diffP[0]*diffP[0] * diffP[1]*diffP[1] * diffP[2]*diffP[2];
-							}
-							if( surLayer > 0 && diffDist < minThreshold)
-							{	//不為第0層，且兩層太過接近，視為誤差，捨去目前這層
-								for(int curShiftLayer = surLayer ; curShiftLayer < totalSurfaceLayers-1 ; curShiftLayer++)
-								{	//將後面的深度往前移
-									dp_com->tmpSurP[curShiftLayer] = dp_com->tmpSurP[curShiftLayer+1];
+								diffDist = diffP[0]*diffP[0] + diffP[1]*diffP[1] + diffP[2]*diffP[2];
+								if(diffDist < minThreshold)
+								{	//兩層太過接近，視為誤差，捨去目前這層
+									int curShiftLayer;
+									for(curShiftLayer = surLayer ; curShiftLayer < totalLayers-1 ; curShiftLayer++)
+									{	//將後面的深度往前移
+										dp_com->tmpSurP[curShiftLayer] = dp_com->tmpSurP[curShiftLayer+1];
+									}
+									dp_com->tmpSurP[curShiftLayer] = OMT::Point(-100.f,-100.f,-100.f);	//最後尾巴會有無用數值，填1以讓下次跳開
+									//std::cout<< curLayer << " ";
+									surLayer--;	//檢查的層數-1
+									totalLayers--;	//總層數-1
 								}
-								dp_com->tmpSurP[totalLayers*2-1] = OMT::Point(-100.f,-100.f,-100.f);	//最後尾巴會有無用數值，填1以讓下次跳開
-								//std::cout<< curLayer << " ";
-								surLayer--;	//檢查的層數-1
-								totalSurfaceLayers--;	//總層數-1
-								//continue;	//以讓外層迴圈+1時能夠對同一點進行檢查
-
 							}
 						}
-						//totalLayers = totalSurfaceLayers / 2;
-						totalSurfaceLayers = 3;
-
-						int a = totalSurfaceLayers / 2;
-						
-						totalLayers = a;
+						totalLayers = totalLayers / 2;
+						//totalSurfaceLayers = 3;
+						//int a = totalSurfaceLayers / 2;
+						//totalLayers = a;
 
 						plot1->Visible = false;
 						plot2->Visible = false;
@@ -649,35 +647,52 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						{
 							case 5:
 								plot5->Visible = true;
+								std::cout << "4-2: (" << dp_com->tmpSurP[9][0] << ", " << dp_com->tmpSurP[9][1] << ", " << dp_com->tmpSurP[9][2] << ") \n";
+								std::cout << "4-1: (" << dp_com->tmpSurP[8][0] << ", " << dp_com->tmpSurP[8][1] << ", " << dp_com->tmpSurP[8][2] << ") \n";
 							case 4:
 								plot4->Visible = true;
+								std::cout << "3-2: (" << dp_com->tmpSurP[7][0] << ", " << dp_com->tmpSurP[7][1] << ", " << dp_com->tmpSurP[7][2] << ") \n";
+								std::cout << "3-1: (" << dp_com->tmpSurP[6][0] << ", " << dp_com->tmpSurP[6][1] << ", " << dp_com->tmpSurP[6][2] << ") \n";
 							case 3:
 								plot3->Visible = true;
+								std::cout << "2-2: (" << dp_com->tmpSurP[5][0] << ", " << dp_com->tmpSurP[5][1] << ", " << dp_com->tmpSurP[5][2] << ") \n";
+								std::cout << "2-1: (" << dp_com->tmpSurP[4][0] << ", " << dp_com->tmpSurP[4][1] << ", " << dp_com->tmpSurP[4][2] << ") \n";
 							case 2:
 								plot2->Visible = true;
+								std::cout << "1-2: (" << dp_com->tmpSurP[3][0] << ", " << dp_com->tmpSurP[3][1] << ", " << dp_com->tmpSurP[3][2] << ") \n";
+								std::cout << "1-1: (" << dp_com->tmpSurP[2][0] << ", " << dp_com->tmpSurP[2][1] << ", " << dp_com->tmpSurP[2][2] << ") \n";
+							case 1:
 								plot1->Visible = true;
+								std::cout << "0-2: (" << dp_com->tmpSurP[1][0] << ", " << dp_com->tmpSurP[1][1] << ", " << dp_com->tmpSurP[1][2] << ") \n";
+								std::cout << "0-1: (" << dp_com->tmpSurP[0][0] << ", " << dp_com->tmpSurP[0][1] << ", " << dp_com->tmpSurP[0][2] << ") \n";
+								if(totalLayers==1)
+								{
+									std::cout << "only one layer after refining\n";
+								}
 							default:
 								break;
 						}
 						layerMenu->Visible = true;
-						std::cout << totalLayers << " checked \n";
+						std::cout << totalLayers << "layers after refining checked \n";
 						//交由右鍵選單按鈕作後續動作
 					}
 					else
 					{
+						this->ContextMenuStrip->Visible = false;
 						this->ContextMenuStrip = noRightMenu;	//取消右鍵選單
+						//this->ContextMenuStrip->Visible = false;
 						//畫出最表層的表面和骨架點
 						GLdouble drawX, drawY, drawZ;
 						int theIndex = 0;
 						float zValue = 0.f;
-
-						theIndex = (0*(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						theIndex = 0 + ( winY )*(hkoglPanelControl1->Width) + (winX);
 						zValue = (dp_com->m_pZBuffer)[ theIndex ];
+
 						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
 						OMT::MyMesh::Point frontPoint(drawX, drawY, drawZ); 
 						mesh->add_surface_p( frontPoint, 0.0f, 1.0f, 0.0f);	//畫表面點
 
-						theIndex = ( (0+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + (int)winY*(hkoglPanelControl1->Width) + (int)winX;
+						theIndex = ( (0+1) *(hkoglPanelControl1->Width)*(hkoglPanelControl1->Height)) + ((int)winY) * (hkoglPanelControl1->Width) + ((int)winX);
 						zValue = (dp_com->m_pZBuffer)[ theIndex ];
 						gluUnProject( winX, winY, zValue, modelview, projection, viewport, &drawX, &drawY, &drawZ);
 						OMT::MyMesh::Point backPoint(drawX, drawY, drawZ);
@@ -702,7 +717,7 @@ private: System::Void hkoglPanelControl1_MouseDown(System::Object^  sender, Syst
 						}
 						dp_com->previousP = (frontPoint+backPoint)/2 ;
 						mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 1.0f, 0.0f, 0.0f);	//畫骨架點
-						
+						this->Refresh();
 						////畫出所有層的表面和骨架點
 						//for(int curMid = 0, curLayer = 0 ; curMid < totalLayers ; curMid++, curLayer+=2)
 						//{
@@ -964,7 +979,7 @@ private: System::Void drawLayerPoints(int theLayer)
 			mesh->add_skeleton_p( (frontPoint+backPoint)/2 , 1.0f, 0.0f, 0.0f);	//畫骨架點
 						
 			
-			glPopMatrix();
+			//glPopMatrix();
 			//this->Refresh();
 			return;
 		}

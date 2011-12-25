@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 
-
 #include <windows.h>
 #include <iostream>
 #include <fstream>
@@ -65,12 +64,17 @@ private:
 	osg::ref_ptr<osg::Vec3Array> mEdgeNormals;
 	osg::ref_ptr<osg::Vec3Array> mFaceVertices;
 	osg::ref_ptr<osg::Vec3Array> mFaceNormals;
+	Vec3fs	mAllRayTraceNode;
 	bool	mNeedUpdate;
 	bool	mNeedClearVertexes;
 	bool	mNeedClearEdges;
 	bool	mNeedClearFaces;
 	int	mNeedSimple;
 	bool	mNeedSimpleConvex;
+	float	mFaceTransparency;
+	bool	mHasLastSkeletonNode;
+	osg::Vec3f	mLastSkeletonNode;
+	Vec3fs	mSkeletonNodes;
 public:
 	static void Render(void* ptr);
 	void MeshSimplification(int reduce_num, bool convex_check);
@@ -85,28 +89,33 @@ public:
 	void AddVertex(const osg::Vec3f& p, float r, float g, float b);
 	void AddLine(const osg::Vec3f& p, const osg::Vec3f& q, float r, float g, float b);
 	void AddFace(const osg::Vec3f& fa, const osg::Vec3f& fb, const osg::Vec3f& fc, float r, float g, float b);
+	void AddSkeletonNode(const osg::Vec3f& p);
 	// add shapes
 	void AddVertex(const sPoints& input, float r, float g, float b);
 	void AddLine(const sLines& input, float r, float g, float b);
 	void AddFace(const sFaces& input, float r, float g, float b);
 	// select basic shape
-	bool SelectPoint(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
-	bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
-	bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
-	bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
+	bool SelectPoint(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
+	bool SelectVertex(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
+	bool SelectEdge(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
+	bool SelectFace(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
 	// select Vertex Ring
-	bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	bool SelectVertexRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	bool SelectVertexRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	bool SelectVertexRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
 	// select Edge Ring
-	bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	bool SelectEdgeRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	bool SelectEdgeRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	bool SelectEdgeRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
 	// select Face Ring
-	bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	bool SelectDontMoveFace(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	bool SelectFaceRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	bool SelectFaceRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	bool SelectDontMoveFace(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	bool SelectFaceRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
+	int  GetNumOfAllRayTraceNodes(const osg::Vec3f& p, const osg::Vec3f& q);
+	void GetLastAllRayTraceNodes(Vec3fs& res);
+	bool GetLastTraceNodeByIndex(int index, osg::Vec3f& res);
+	void SelectSkeletonNode(const osg::Vec3f& p, const osg::Vec3f& q);
 
 	void Show(int status);
 	int  GetShowStatus() {return mStatus;}
@@ -118,7 +127,9 @@ public:
 	void HideVertex(){Show(mStatus & ~VERTEX);}
 	void HideEdge(){Show(mStatus & ~EDGE);}
 	void HideFace(){Show(mStatus & ~FACE);}
+	void SetFaceTransparency(int percent);
 	void SetModel(Tri_Mesh* mesh);
+	void SetViewer(bool run);
 	void Done(bool value) { mDone = value; }
 	bool Done(void) { return mDone; }
 		

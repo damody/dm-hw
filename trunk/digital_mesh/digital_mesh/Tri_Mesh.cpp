@@ -24,6 +24,16 @@ bool IntersectLineTriangle( const osg::Vec3f& p, const osg::Vec3f& q, const osg:
 	return 1;
 }
 
+float SqDistPointSegment( const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c )
+{
+	const osg::Vec3f ab = b-a, ac = c-a, bc = c-b;
+	float e = ac*ab;
+	if (e<=0) return ac*ac;
+	float f=ab*ab;
+	if (e>=f) return bc*bc;
+	return ac*ac-e*e/f;
+}
+
 bool Tri_Mesh::ReadFile( std::string _fileName ) /*讀取mesh資料 */
 {
 	bool isRead = false;
@@ -73,7 +83,7 @@ bool Tri_Mesh::SaveFile( std::string _fileName ) /*儲存mesh資料 */
 	return isSave;
 }
 
-bool Tri_Mesh::SelectPoint( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
+bool Tri_Mesh::SelectPoint( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out )
 {
 	FIter f_it;
 	FVIter	fv_it;
@@ -105,7 +115,7 @@ bool Tri_Mesh::SelectPoint( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
 	return false;
 }
 
-bool Tri_Mesh::SelectVertex( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
+bool Tri_Mesh::SelectVertex( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out )
 {
 	FIter f_it;
 	FVIter	fv_it;
@@ -146,7 +156,7 @@ bool Tri_Mesh::SelectVertex( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
 	return false;
 }
 
-bool Tri_Mesh::SelectEdge( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2 )
+bool Tri_Mesh::SelectEdge( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2 )
 {
 	FIter f_it;
 	FVIter	fv_it;
@@ -206,7 +216,7 @@ bool Tri_Mesh::SelectEdge( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::
 	return false;
 }
 
-bool Tri_Mesh::SelectFace( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3 )
+bool Tri_Mesh::SelectFace( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3 )
 {
 	FIter f_it;
 	FVIter	fv_it;
@@ -240,7 +250,7 @@ bool Tri_Mesh::SelectFace( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::
 	return false;
 }
 
-bool Tri_Mesh::SelectVertexRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+bool Tri_Mesh::SelectVertexRingVertex( const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out )
 {
 	VertexHandle f_it;
 	if (GetVertexHandle(p, q, f_it))
@@ -269,7 +279,7 @@ bool Tri_Mesh::SelectVertexRingVertex( VertexHandle f_it, VertexHandles& out )
 	return true;
 }
 
-bool Tri_Mesh::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+bool Tri_Mesh::SelectVertexRingEdge( const osg::Vec3f& p, const osg::Vec3f& q, sLines& out )
 {
 	VertexHandle v_it;
 	if (GetVertexHandle(p, q, v_it))
@@ -293,7 +303,7 @@ bool Tri_Mesh::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 	return false;
 }
 
-bool Tri_Mesh::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+bool Tri_Mesh::SelectVertexRingFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out )
 {
 	VertexHandle f_it;
 	if (GetVertexHandle(p, q, f_it))
@@ -316,7 +326,7 @@ bool Tri_Mesh::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 	return false;
 }
 
-bool Tri_Mesh::SelectEdgeRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+bool Tri_Mesh::SelectEdgeRingVertex( const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out )
 {
 	EdgeHandle iter;
 	if (GetEdgeHandle(p, q, iter))
@@ -373,7 +383,7 @@ bool Tri_Mesh::SelectEdgeRingVertex( BasicMesh::EHandle eh, sPoints& out )
 	return true;
 }
 
-bool Tri_Mesh::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+bool Tri_Mesh::SelectEdgeRingEdge( const osg::Vec3f& p, const osg::Vec3f& q, sLines& out )
 {
 	EdgeHandle iter;
 	if (GetEdgeHandle(p, q, iter))
@@ -412,7 +422,7 @@ bool Tri_Mesh::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 	return false;
 }
 
-bool Tri_Mesh::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+bool Tri_Mesh::SelectEdgeRingFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out )
 {
 	EdgeHandle iter;
 	if (GetEdgeHandle(p, q, iter))
@@ -449,7 +459,7 @@ bool Tri_Mesh::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 	return false;
 }
 
-bool Tri_Mesh::SelectFaceRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+bool Tri_Mesh::SelectFaceRingVertex( const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out )
 {
 	FaceHandle iter;
 	if (GetFaceHandle(p, q, iter))
@@ -469,7 +479,7 @@ bool Tri_Mesh::SelectFaceRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out 
 	return false;
 }
 
-bool Tri_Mesh::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+bool Tri_Mesh::SelectFaceRingEdge( const osg::Vec3f& p, const osg::Vec3f& q, sLines& out )
 {
 	FaceHandle iter;
 	if (GetFaceHandle(p, q, iter))
@@ -493,7 +503,7 @@ bool Tri_Mesh::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
 	return false;
 }
 
-bool Tri_Mesh::SelectDontMoveFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out)
+bool Tri_Mesh::SelectDontMoveFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out)
 {
 	FaceHandle iter;
 	if (GetFaceHandle(p, q, iter))
@@ -522,7 +532,7 @@ bool Tri_Mesh::SelectDontMoveFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out)
 	return false;
 }
 
-bool Tri_Mesh::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+bool Tri_Mesh::SelectFaceRingFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out )
 {
 	FaceHandle iter;
 	if (GetFaceHandle(p, q, iter))
@@ -545,7 +555,7 @@ bool Tri_Mesh::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
 	return false;
 }
 
-bool Tri_Mesh::GetVertexHandle( osg::Vec3f& p, osg::Vec3f& q, VertexHandle& iter )
+bool Tri_Mesh::GetVertexHandle( const osg::Vec3f& p, const osg::Vec3f& q, VertexHandle& iter )
 {
 	FIter f_it;
 	FVIter	fv_it;
@@ -588,7 +598,7 @@ bool Tri_Mesh::GetVertexHandle( osg::Vec3f& p, osg::Vec3f& q, VertexHandle& iter
 }
 
 
-bool Tri_Mesh::GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EdgeHandle& iter )
+bool Tri_Mesh::GetEdgeHandle( const osg::Vec3f& p, const osg::Vec3f& q, EdgeHandle& iter )
 {
 	FIter f_it;
 	FVIter	fv_it;
@@ -654,7 +664,7 @@ bool Tri_Mesh::GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EdgeHandle& iter )
 }
 
 
-bool Tri_Mesh::GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FaceHandle& iter )
+bool Tri_Mesh::GetFaceHandle( const osg::Vec3f& p, const osg::Vec3f& q, FaceHandle& iter )
 {
 	FIter f_it;
 	FVIter	fv_it;
@@ -871,5 +881,59 @@ bool Tri_Mesh::IsConvexPolygon( sPoints& pts )
 				return false;
 		}
 		return true;
+	}
+}
+
+struct cmp_pos_dis
+{
+	osg::Vec3f v;
+	bool operator ()(const osg::Vec3f& lhs, const osg::Vec3f& rhs)
+	{
+		return (v-lhs).length2() < (v-rhs).length2();
+	}
+};
+
+
+bool Tri_Mesh::GetAllRayTracePoints( const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& positive, Vec3fs& negative )
+{
+	FIter f_it;
+	FVIter	fv_it;
+	osg::Vec3f face[3], result;
+	float distance_from_p_to_face = -1;
+	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
+	{
+		int i=0;
+		for (fv_it = fv_iter( f_it ); fv_it; ++fv_it, ++i)
+		{
+			const Point& dp = point(fv_it.handle());
+			face[i][0] = dp[0];
+			face[i][1] = dp[1];
+			face[i][2] = dp[2];
+		}
+		// Positive tracing
+		bool ret = IntersectLineTriangle(p, q, face[0], face[1], face[2], result);
+		if (ret) positive.push_back(result);
+		// Negative tracing
+		ret = IntersectLineTriangle(q, p, face[0], face[1], face[2], result);
+		if (ret) negative.push_back(result);
+	}
+	if (positive.empty()) return false;
+	cmp_pos_dis cmp;
+	cmp.v = p;
+	sort(positive.begin(), positive.end(), cmp);
+	sort(negative.begin(), negative.end(), cmp);
+	return true;
+}
+
+bool Tri_Mesh::GetAllRayTraceNode( const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& nodes )
+{
+	Vec3fs positive, negative;
+	bool ret = GetAllRayTracePoints(p, q, positive, negative);
+	if (false == ret) return false;
+	nodes.clear();
+	assert(positive.size() == negative.size());
+	for (int i=0;i<positive.size();++i)
+	{
+		nodes.push_back((positive[i] + negative[i])*0.5);
 	}
 }

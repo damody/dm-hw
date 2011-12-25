@@ -12,60 +12,89 @@ Public Class Form1
 
     End Sub
 
-    Private Sub PictureBox_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox.MouseDown
+    Private Sub PictureBox_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox_DrawOSG.MouseDown
+        Me.PictureBox_DrawOSG.Focus() 'From trackbar get focus
+        Dim x, y As Int32
+        x = PictureBox_DrawOSG.Width - e.X
+        y = PictureBox_DrawOSG.Height - e.Y
+        If e.Button = MouseButtons.Left Then
+            If SkeletonNodeToolStripMenuItem.Checked Then
+                osg.SelectSkeletonNode(x, y)
+            End If
+        End If
         If e.Button = MouseButtons.Right Then
             If ChoosePointToolStripMenuItem.Checked Then
-                osg.SelectPoint(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                osg.SelectPoint(x, y)
+            End If
+            If SkeletonNodeToolStripMenuItem.Checked Then
+                Dim NumOfNode As Int32 = osg.GetNumOfAllRayTraceNodes(x, y)
+                If NumOfNode > 1 Then
+                    ContextMenuStrip_RClick.Items.Clear()
+                    For index As Integer = 1 To NumOfNode
+                        Dim Layer As New System.Windows.Forms.ToolStripMenuItem
+                        Layer.Name = "Layer" + Str(index)
+                        Layer.Size = New System.Drawing.Size(152, 24)
+                        Layer.Text = "Layer" + Str(index)
+                        ContextMenuStrip_RClick.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Layer})
+                    Next
+                    ContextMenuStrip_RClick.Show(Me, e.X, e.Y)
+                Else
+                    osg.AddLastTraceNodeByIndex(1)
+                End If
             End If
             If ChooseVertexToolStripMenuItem.Checked Then
-                osg.SelectVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                osg.SelectVertex(x, y)
                 If RingVertexToolStripMenuItem.Checked Then
-                    osg.SelectVertexRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectVertexRingVertex(x, y)
                 End If
                 If RingEdgeToolStripMenuItem.Checked Then
-                    osg.SelectVertexRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectVertexRingEdge(x, y)
                 End If
                 If RingFaceToolStripMenuItem.Checked Then
-                    osg.SelectVertexRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectVertexRingFace(x, y)
                 End If
             End If
             If DontMoveToolStripMenuItem.Checked Then
-                osg.SelectDontMoveFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                osg.SelectDontMoveFace(x, y)
             End If
             If DeleteEdgeToolStripMenuItem.Checked Then
-                osg.DeleteSelectEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                osg.DeleteSelectEdge(x, y)
             End If
             If ChooseEdgeToolStripMenuItem.Checked Then
-                osg.SelectEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                osg.SelectEdge(x, y)
                 If RingVertexToolStripMenuItem.Checked Then
-                    osg.SelectEdgeRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectEdgeRingVertex(x, y)
                 End If
                 If RingEdgeToolStripMenuItem.Checked Then
-                    osg.SelectEdgeRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectEdgeRingEdge(x, y)
                 End If
                 If RingFaceToolStripMenuItem.Checked Then
-                    osg.SelectEdgeRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectEdgeRingFace(x, y)
                 End If
             End If
             If ChooseFaceToolStripMenuItem.Checked Then
-                osg.SelectFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                osg.SelectFace(x, y)
                 If RingVertexToolStripMenuItem.Checked Then
-                    osg.SelectFaceRingVertex(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectFaceRingVertex(x, y)
                 End If
                 If RingEdgeToolStripMenuItem.Checked Then
-                    osg.SelectFaceRingEdge(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectFaceRingEdge(x, y)
                 End If
                 If RingFaceToolStripMenuItem.Checked Then
-                    osg.SelectFaceRingFace(PictureBox.Width - e.X, PictureBox.Height - e.Y)
+                    osg.SelectFaceRingFace(x, y)
                 End If
             End If
         End If
+
     End Sub
 
-    Private Sub PictureBox_MouseMove(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox.MouseMove
+    Private Sub PictureBox_MouseMove(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox_DrawOSG.MouseMove
+        If e.Button = MouseButtons.Right And DontMoveToolStripMenuItem.Checked Then
+            osg.SelectDontMoveFace(PictureBox_DrawOSG.Width - e.X, PictureBox_DrawOSG.Height - e.Y)
+        End If
     End Sub
 
-    Private Sub PictureBox_MouseUp(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox.MouseUp
+    Private Sub PictureBox_MouseUp(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox_DrawOSG.MouseUp
     End Sub
     Private Sub VertexToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowVertexToolStripMenuItem.Click
         ShowVertexToolStripMenuItem.Checked = Not (ShowVertexToolStripMenuItem.Checked)
@@ -114,7 +143,7 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        osg.InitOSG(PictureBox.Handle)
+        osg.InitOSG(PictureBox_DrawOSG.Handle)
     End Sub
 
     Private Sub RenderTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -194,6 +223,9 @@ Public Class Form1
     Private Sub DontMoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DontMoveToolStripMenuItem.Click
         DontMoveToolStripMenuItem.Checked = Not (DontMoveToolStripMenuItem.Checked)
     End Sub
+    Private Sub SkeletonNodeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SkeletonNodeToolStripMenuItem.Click
+        SkeletonNodeToolStripMenuItem.Checked = Not (SkeletonNodeToolStripMenuItem.Checked)
+    End Sub
 
     Private Sub RingVertexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RingVertexToolStripMenuItem.Click
         RingVertexToolStripMenuItem.Checked = Not (RingVertexToolStripMenuItem.Checked)
@@ -204,7 +236,6 @@ Public Class Form1
     Private Sub RingFaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RingFaceToolStripMenuItem.Click
         RingFaceToolStripMenuItem.Checked = Not (RingFaceToolStripMenuItem.Checked)
     End Sub
-   
 
     Private Sub PointsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
@@ -229,6 +260,8 @@ Public Class Form1
     Private Sub Form1_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Resize
         EdgeTrackBar.Location = New Size(Me.Width - EdgeTrackBar.Width - 50, Me.Height - EdgeTrackBar.Height - 10)
         Label1.Location = New Size(Me.Width - EdgeTrackBar.Width - 100, Me.Height - EdgeTrackBar.Height - 9)
+        TrackBar_Transparency.Location = New Size(120, Me.Height - EdgeTrackBar.Height - 10)
+        Label_Face_Transparency.Location = New Size(5, Me.Height - EdgeTrackBar.Height - 9)
     End Sub
 
     Private Sub EdgeTrackBar_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EdgeTrackBar.Scroll
@@ -247,5 +280,26 @@ Public Class Form1
         osg.MeshSimplification(EdgeTrackBar.Value, CheckBox_Convex.Checked)
     End Sub
 
-   
+    Private Sub StopUpdateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewerUpdateToolStripMenuItem.Click
+        ViewerUpdateToolStripMenuItem.Checked = Not (ViewerUpdateToolStripMenuItem.Checked)
+        osg.SetViewer(ViewerUpdateToolStripMenuItem.Checked)
+    End Sub
+
+
+    Private Sub TrackBar_Transparency_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackBar_Transparency.Scroll
+        osg.SetFaceTransparency(TrackBar_Transparency.Value)
+    End Sub
+
+    Private Sub ContextMenuStrip_RClick_Click(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolStripItemClickedEventArgs) Handles ContextMenuStrip_RClick.ItemClicked
+        ContextMenuStrip_RClick.Hide()
+        Dim cms As System.Windows.Forms.ContextMenuStrip
+        cms = TryCast(sender, System.Windows.Forms.ContextMenuStrip)
+        If cms IsNot Nothing Then
+            For index As Integer = 1 To 10
+                If e.ClickedItem.Text = ("Layer" + Str(index)) Then
+                    osg.AddLastTraceNodeByIndex(index)
+                End If
+            Next
+        End If
+    End Sub
 End Class

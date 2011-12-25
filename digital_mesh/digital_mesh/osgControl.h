@@ -66,7 +66,6 @@ public:
 	STDMETHOD(SelectVertex)(LONG x, LONG y);
 	STDMETHOD(SelectEdge)(LONG x, LONG y);
 	STDMETHOD(SelectFace)(LONG x, LONG y);
-	STDMETHOD(SetSelectColor)(SHORT r, SHORT g, SHORT b);
 	STDMETHOD(SelectVertexRingVertex)(LONG x, LONG y);
 	STDMETHOD(SelectVertexRingEdge)(LONG x, LONG y);
 	STDMETHOD(SelectVertexRingFace)(LONG x, LONG y);
@@ -82,6 +81,11 @@ public:
 	STDMETHOD(DeleteSelectEdge)(LONG x, LONG y);
 	STDMETHOD(MeshSimplification)(LONG level, VARIANT_BOOL convex_check);
 	STDMETHOD(SelectDontMoveFace)(LONG x, LONG y);
+	STDMETHOD(SetViewer)(VARIANT_BOOL run);
+	STDMETHOD(GetNumOfAllRayTraceNodes)(LONG x, LONG y, LONG* NumOfNodes);
+	STDMETHOD(SetFaceTransparency)(LONG percent);
+	STDMETHOD(AddLastTraceNodeByIndex)(LONG i);
+	STDMETHOD(SelectSkeletonNode)(LONG x, LONG y);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(osgControl), CosgControl)

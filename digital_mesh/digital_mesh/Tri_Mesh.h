@@ -23,6 +23,7 @@ typedef osg::Vec3Array sLines;
 typedef osg::Vec3Array sFaces;
 typedef osg::Vec3Array sPoints;
 typedef osg::Vec4Array sColors;
+typedef std::vector<osg::Vec3f> Vec3fs;
 
 struct QMatrix
 {
@@ -47,6 +48,7 @@ typedef std::vector<QEdge> QEdges;
 typedef std::vector<BasicMesh::Point> BMPoints;
 
 bool IntersectLineTriangle( const osg::Vec3f& p, const osg::Vec3f& q, const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c, osg::Vec3f & point );
+float SqDistPointSegment( const osg::Vec3f& a, const osg::Vec3f& b, const osg::Vec3f& c );
 
 class Tri_Mesh : public BasicMesh
 {
@@ -78,30 +80,33 @@ public:
 	}
 	virtual bool ReadFile(std::string _fileName);//讀取mesh資料;
 	virtual bool SaveFile(std::string _fileName);//儲存mesh資料;`
-	virtual bool SelectPoint(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
-	virtual bool SelectVertex(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out);
-	virtual bool SelectEdge(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
-	virtual bool SelectFace(osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
+	virtual bool SelectPoint(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
+	virtual bool SelectVertex(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
+	virtual bool SelectEdge(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
+	virtual bool SelectFace(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
 
-	virtual bool SelectVertexRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	virtual bool SelectVertexRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	virtual bool SelectVertexRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	virtual bool SelectVertexRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	virtual bool SelectVertexRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	virtual bool SelectVertexRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
 	typedef std::vector<VertexHandle> VertexHandles;
 	virtual bool SelectVertexRingVertex( VertexHandle f_it, VertexHandles& out );
 
-	virtual bool SelectEdgeRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	virtual bool SelectEdgeRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	virtual bool SelectEdgeRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	virtual bool SelectEdgeRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	virtual bool SelectEdgeRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	virtual bool SelectEdgeRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
 	virtual bool SelectEdgeRingVertex(BasicMesh::EHandle eh, sPoints& out);
 
-	virtual bool SelectFaceRingVertex(osg::Vec3f& p, osg::Vec3f& q, sPoints& out);
-	virtual bool SelectFaceRingEdge(osg::Vec3f& p, osg::Vec3f& q, sLines& out);
-	virtual bool SelectDontMoveFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
-	virtual bool SelectFaceRingFace(osg::Vec3f& p, osg::Vec3f& q, sFaces& out);
+	virtual bool SelectFaceRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	virtual bool SelectFaceRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	virtual bool SelectDontMoveFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
+	virtual bool SelectFaceRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
 
-	virtual bool GetVertexHandle(osg::Vec3f& p, osg::Vec3f& q, VertexHandle& iter);
-	virtual bool GetEdgeHandle( osg::Vec3f& p, osg::Vec3f& q, EdgeHandle& iter );
-	virtual bool GetFaceHandle( osg::Vec3f& p, osg::Vec3f& q, FaceHandle& iter );
+	virtual bool GetVertexHandle(const osg::Vec3f& p, const osg::Vec3f& q, VertexHandle& iter);
+	virtual bool GetEdgeHandle( const osg::Vec3f& p, const osg::Vec3f& q, EdgeHandle& iter );
+	virtual bool GetFaceHandle( const osg::Vec3f& p, const osg::Vec3f& q, FaceHandle& iter );
+
+	virtual bool GetAllRayTracePoints(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& positive, Vec3fs& negative);
+	virtual bool GetAllRayTraceNode(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& nodes);
 	
 	bool IsConvexQuad(osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c, osg::Vec3f& d);
 	bool IsConvexPolygon(sPoints& pts);

@@ -111,13 +111,6 @@ STDMETHODIMP CosgControl::SelectEdge(LONG x, LONG y)
 	return S_OK;
 }
 
-STDMETHODIMP CosgControl::SetSelectColor(SHORT r, SHORT g, SHORT b)
-{
-	// TODO: 在這裡加入您的實作程式碼
-
-	return S_OK;
-}
-
 STDMETHODIMP CosgControl::SelectFace(LONG x, LONG y)
 {
 	osg::Vec3f ori, dir, o1, o2, o3;
@@ -247,18 +240,52 @@ STDMETHODIMP CosgControl::DeleteSelectEdge(LONG x, LONG y)
 
 STDMETHODIMP CosgControl::MeshSimplification(LONG reduce_num, VARIANT_BOOL convex_check)
 {
-	// TODO: 在這裡加入您的實作程式碼
 	s_osg->MeshSimplification(reduce_num, convex_check!=0);
 	return S_OK;
 }
 
 STDMETHODIMP CosgControl::SelectDontMoveFace(LONG x, LONG y)
 {
-	// TODO: 在這裡加入您的實作程式碼
 	osg::Vec3f ori, dir, o1, o2, o3;
 	s_osg->GetRay(x, y, ori, dir);
 	osg::ref_ptr<sFaces> out = new sFaces;
 	if (s_osg->SelectDontMoveFace(ori, dir, *out))
 		s_osg->AddFace(*out, .8f, .1f, .1f);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SetViewer(VARIANT_BOOL run)
+{
+	s_osg->SetViewer(run);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::GetNumOfAllRayTraceNodes(LONG x, LONG y, LONG* NumOfNodes)
+{
+	osg::Vec3f ori, dir;
+	s_osg->GetRay(x, y, ori, dir);
+	*NumOfNodes = s_osg->GetNumOfAllRayTraceNodes(ori, dir);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SetFaceTransparency(LONG percent)
+{
+	s_osg->SetFaceTransparency(percent);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::AddLastTraceNodeByIndex(LONG i)
+{
+	osg::Vec3f pos;
+	s_osg->GetLastTraceNodeByIndex(i-1, pos);
+	s_osg->AddSkeletonNode(pos);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SelectSkeletonNode(LONG x, LONG y)
+{
+	osg::Vec3f ori, dir;
+	s_osg->GetRay(x, y, ori, dir);
+	s_osg->SelectSkeletonNode(ori, dir);
 	return S_OK;
 }

@@ -261,6 +261,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\FastTri_Mesh.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\osgControl.cpp"
 				>
 			</File>
@@ -336,10 +340,6 @@
 			</File>
 			<File
 				RelativePath=".\dllmain.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FastTri_Mesh.cpp"
 				>
 			</File>
 			<File

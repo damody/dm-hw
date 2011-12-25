@@ -10,9 +10,11 @@
 #include <osg/CullFace>
 #include <osg/PolygonMode>
 
+// Initialization all variable
 osgImplementation::osgImplementation( HWND hWnd )
 :mhWnd(hWnd), mStatus(0), mMesh(0), mNeedUpdate(0), 
-mNeedClearVertexes(0), mNeedClearEdges(0), mNeedClearFaces(0), mNeedSimple(0)
+mNeedClearVertexes(0), mNeedClearEdges(0), mNeedClearFaces(0),
+mNeedSimple(0), mFaceTransparency(1.0f), mHasLastSkeletonNode(false)
 {
 	mDrawPoints = new osg::Geometry;
 	mDrawSVertices = new osg::Geometry;
@@ -32,7 +34,6 @@ mNeedClearVertexes(0), mNeedClearEdges(0), mNeedClearFaces(0), mNeedSimple(0)
 osgImplementation::~osgImplementation(void)
 {
 	mViewer->setDone(true);
-	Sleep(500);
 	mViewer->stopThreading();
 	delete mViewer;
 }
@@ -187,7 +188,7 @@ void osgImplementation::AddFace( const osg::Vec3f& fa, const osg::Vec3f& fb, con
 	mFaces->push_back(fa);
 	mFaces->push_back(fb);
 	mFaces->push_back(fc);
-	mFacesColors->push_back(osg::Vec4f(r, g, b, 1.0f));
+	mFacesColors->push_back(osg::Vec4f(r, g, b, 0.9f));
 	Show(mStatus);
 }
 
@@ -198,7 +199,7 @@ void osgImplementation::AddFace( const sFaces& input, float r, float g, float b 
 		mFaces->push_back(input[i]);
 		mFaces->push_back(input[i+1]);
 		mFaces->push_back(input[i+2]);
-		mFacesColors->push_back(osg::Vec4f(r, g, b, 1.0f));
+		mFacesColors->push_back(osg::Vec4f(r, g, b, 0.9f));
 	}
 	Show(mStatus);
 }
@@ -223,6 +224,7 @@ void osgImplementation::InitSceneGraph( void )
 	mShape->getOrCreateStateSet()->setRenderBinDetails( -1, "RenderBin");
  
  	mModel->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+	mModel->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
  	//mModel->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
 
 }
@@ -440,7 +442,7 @@ void osgImplementation::PreFrameUpdate()
 			// pass the created vertex array to the points geometry object.
 			mDrawFaces->setVertexArray(mFaceVertices);
 			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,1.0f));
+			shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
 			// use the shared color array.
 			mDrawFaces->setColorArray(shared_colors);
 			mDrawFaces->setColorBinding(osg::Geometry::BIND_OVERALL);
@@ -462,77 +464,77 @@ void osgImplementation::PreFrameUpdate()
 	}
 }
 
-bool osgImplementation::SelectPoint( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
+bool osgImplementation::SelectPoint( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out )
 {
 	if (!mMesh) return false;
 	return mMesh->SelectPoint(p, q, out);
 }
 
-bool osgImplementation::SelectVertex( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out )
+bool osgImplementation::SelectVertex( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out )
 {
 	if (!mMesh) return false;
 	return mMesh->SelectVertex(p, q, out);
 }
 
-bool osgImplementation::SelectEdge( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2 )
+bool osgImplementation::SelectEdge( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2 )
 {
 	if (!mMesh) return false;
 	return mMesh->SelectEdge(p, q, out1, out2);
 	return true;
 }
 
-bool osgImplementation::SelectFace( osg::Vec3f& p, osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3 )
+bool osgImplementation::SelectFace( const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3 )
 {
 	if (!mMesh) return false;
 	return mMesh->SelectFace(p, q, out1, out2, out3);
 }
 
-bool osgImplementation::SelectVertexRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+bool osgImplementation::SelectVertexRingVertex( const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out )
 {
 	return mMesh->SelectVertexRingVertex(p, q, out);
 }
 
-bool osgImplementation::SelectVertexRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+bool osgImplementation::SelectVertexRingEdge( const osg::Vec3f& p, const osg::Vec3f& q, sLines& out )
 {
 	return mMesh->SelectVertexRingEdge(p, q, out);
 }
 
-bool osgImplementation::SelectVertexRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+bool osgImplementation::SelectVertexRingFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out )
 {
 	return mMesh->SelectVertexRingFace(p, q, out);
 }
 
-bool osgImplementation::SelectEdgeRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+bool osgImplementation::SelectEdgeRingVertex( const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out )
 {
 	return mMesh->SelectEdgeRingVertex(p, q, out);
 }
 
-bool osgImplementation::SelectEdgeRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+bool osgImplementation::SelectEdgeRingEdge( const osg::Vec3f& p, const osg::Vec3f& q, sLines& out )
 {
 	return mMesh->SelectEdgeRingEdge(p, q, out);
 }
 
-bool osgImplementation::SelectEdgeRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+bool osgImplementation::SelectEdgeRingFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out )
 {
 	return mMesh->SelectEdgeRingFace(p, q, out);
 }
 
-bool osgImplementation::SelectFaceRingVertex( osg::Vec3f& p, osg::Vec3f& q, sPoints& out )
+bool osgImplementation::SelectFaceRingVertex( const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out )
 {
 	return mMesh->SelectFaceRingVertex(p, q, out);
 }
 
-bool osgImplementation::SelectFaceRingEdge( osg::Vec3f& p, osg::Vec3f& q, sLines& out )
+bool osgImplementation::SelectFaceRingEdge( const osg::Vec3f& p, const osg::Vec3f& q, sLines& out )
 {
 	return mMesh->SelectFaceRingEdge(p, q, out);
 }
 
-bool osgImplementation::SelectDontMoveFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+bool osgImplementation::SelectDontMoveFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out )
 {
 	return mMesh->SelectDontMoveFace(p, q, out);
 }
 
-bool osgImplementation::SelectFaceRingFace( osg::Vec3f& p, osg::Vec3f& q, sFaces& out )
+bool osgImplementation::SelectFaceRingFace( const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out )
 {
 	return mMesh->SelectFaceRingFace(p, q, out);
 }
@@ -571,3 +573,68 @@ void osgImplementation::MeshSimplification( int reduce_num, bool convex_check )
 	Show(mStatus);
 }
 
+void osgImplementation::SetViewer( bool run )
+{
+	if (run)
+		mViewer->setCameraManipulator(mKeyswitchManipulator.get());
+	else
+		mViewer->setCameraManipulator(NULL);
+}
+
+int osgImplementation::GetNumOfAllRayTraceNodes( const osg::Vec3f& p, const osg::Vec3f& q )
+{
+	if (!mMesh) return false;
+	mAllRayTraceNode.clear();
+	mMesh->GetAllRayTraceNode(p, q, mAllRayTraceNode);
+	return mAllRayTraceNode.size();
+}
+
+void osgImplementation::GetLastAllRayTraceNodes( Vec3fs& res )
+{
+	if (!mMesh) return ;
+	res = mAllRayTraceNode;
+}
+
+bool osgImplementation::GetLastTraceNodeByIndex(int index, osg::Vec3f& res)
+{
+	if (!mMesh) return false;
+	assert(index >= 0 && index < mAllRayTraceNode.size());
+	if (index >= 0 && index < mAllRayTraceNode.size())
+	{
+		res = mAllRayTraceNode[index];
+		return true;
+	}
+	else
+		return false;
+}
+
+void osgImplementation::SetFaceTransparency( int percent )
+{
+	mFaceTransparency = percent*0.01f;
+	osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
+	shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
+	mDrawFaces->setColorArray(shared_colors);
+}
+
+void osgImplementation::AddSkeletonNode( const osg::Vec3f& p )
+{
+	mSkeletonNodes.push_back(p);
+	AddVertex(p, 1.0f, 0.7f, 0.7f);
+	if (mHasLastSkeletonNode)
+		AddLine(mLastSkeletonNode, p, 1.0f, 0.4f, 0.4f);
+	mHasLastSkeletonNode = true;
+	mLastSkeletonNode = p;
+}
+
+
+void osgImplementation::SelectSkeletonNode( const osg::Vec3f& p, const osg::Vec3f& q )
+{
+	float dis;
+	for (int i=0;i < mSkeletonNodes.size();++i)
+	{
+		dis = SqDistPointSegment(p, q, mSkeletonNodes[i]);
+		if (dis < 0.01)
+			mLastSkeletonNode = mSkeletonNodes[i];
+	}
+	
+}

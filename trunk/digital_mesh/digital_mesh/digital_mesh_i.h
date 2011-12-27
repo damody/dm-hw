@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Fri Dec 02 12:21:06 2011
+/* at Mon Dec 26 06:26:04 2011
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -136,11 +136,6 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetSelectColor( 
-            /* [in] */ SHORT r,
-            /* [in] */ SHORT g,
-            /* [in] */ SHORT b) = 0;
-        
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectVertexRingVertex( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
@@ -192,6 +187,24 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ VARIANT_BOOL convex_check) = 0;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectDontMoveFace( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetViewer( 
+            /* [in] */ VARIANT_BOOL run) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE GetNumOfAllRayTraceNodes( 
+            /* [in] */ LONG x,
+            /* [in] */ LONG y,
+            /* [retval][out] */ LONG *NumOfNodes) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetFaceTransparency( 
+            /* [in] */ LONG percent) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE AddLastTraceNodeByIndex( 
+            /* [in] */ LONG i) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SelectSkeletonNode( 
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
@@ -308,12 +321,6 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SetSelectColor )( 
-            IosgControl * This,
-            /* [in] */ SHORT r,
-            /* [in] */ SHORT g,
-            /* [in] */ SHORT b);
-        
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectVertexRingVertex )( 
             IosgControl * This,
             /* [in] */ LONG x,
@@ -379,6 +386,29 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ VARIANT_BOOL convex_check);
         
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectDontMoveFace )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SetViewer )( 
+            IosgControl * This,
+            /* [in] */ VARIANT_BOOL run);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *GetNumOfAllRayTraceNodes )( 
+            IosgControl * This,
+            /* [in] */ LONG x,
+            /* [in] */ LONG y,
+            /* [retval][out] */ LONG *NumOfNodes);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SetFaceTransparency )( 
+            IosgControl * This,
+            /* [in] */ LONG percent);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *AddLastTraceNodeByIndex )( 
+            IosgControl * This,
+            /* [in] */ LONG i);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SelectSkeletonNode )( 
             IosgControl * This,
             /* [in] */ LONG x,
             /* [in] */ LONG y);
@@ -464,9 +494,6 @@ EXTERN_C const IID IID_IosgControl;
 #define IosgControl_SelectFace(This,x,y)	\
     ( (This)->lpVtbl -> SelectFace(This,x,y) ) 
 
-#define IosgControl_SetSelectColor(This,r,g,b)	\
-    ( (This)->lpVtbl -> SetSelectColor(This,r,g,b) ) 
-
 #define IosgControl_SelectVertexRingVertex(This,x,y)	\
     ( (This)->lpVtbl -> SelectVertexRingVertex(This,x,y) ) 
 
@@ -511,6 +538,21 @@ EXTERN_C const IID IID_IosgControl;
 
 #define IosgControl_SelectDontMoveFace(This,x,y)	\
     ( (This)->lpVtbl -> SelectDontMoveFace(This,x,y) ) 
+
+#define IosgControl_SetViewer(This,run)	\
+    ( (This)->lpVtbl -> SetViewer(This,run) ) 
+
+#define IosgControl_GetNumOfAllRayTraceNodes(This,x,y,NumOfNodes)	\
+    ( (This)->lpVtbl -> GetNumOfAllRayTraceNodes(This,x,y,NumOfNodes) ) 
+
+#define IosgControl_SetFaceTransparency(This,percent)	\
+    ( (This)->lpVtbl -> SetFaceTransparency(This,percent) ) 
+
+#define IosgControl_AddLastTraceNodeByIndex(This,i)	\
+    ( (This)->lpVtbl -> AddLastTraceNodeByIndex(This,i) ) 
+
+#define IosgControl_SelectSkeletonNode(This,x,y)	\
+    ( (This)->lpVtbl -> SelectSkeletonNode(This,x,y) ) 
 
 #endif /* COBJMACROS */
 

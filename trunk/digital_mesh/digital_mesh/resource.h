@@ -5,6 +5,8 @@
 #define IDS_PROJNAME                    100
 #define IDR_DIGITAL_MESH                101
 #define IDR_OSGCONTROL                  102
+#define RETURN_OK                       1
+#define RETURN_FAIL                     0
 
 // Next default values for new objects
 // 

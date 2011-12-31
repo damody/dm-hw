@@ -9,6 +9,11 @@
 #include <osg/StateSet>
 #include <osg/CullFace>
 #include <osg/PolygonMode>
+#include <osgGA/TerrainManipulator>
+#include <osgGA/FirstPersonManipulator>
+#include <osgGA/OrbitManipulator>
+#include <osgGA/FlightManipulator>
+#include <osgGA/DriveManipulator>
 
 // Initialization all variable
 osgImplementation::osgImplementation( HWND hWnd )
@@ -42,12 +47,24 @@ void osgImplementation::Render( void* ptr )
 {
 	osgImplementation* osg = (osgImplementation*)ptr;
 	osgViewer::Viewer* viewer = osg->getViewer();
-	viewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
+	
 	while(!viewer->done())
 	{
 		osg->PreFrameUpdate();
  		viewer->frame();
 		Sleep(10);
+
+		osg::Vec3 eye, center, up;
+		osg::Vec4 r;
+		viewer->getCamera()->getViewMatrixAsLookAt(eye, center, up);
+		up = center-eye;
+		r[0]=eye[0];
+		r[1]=eye[1];
+		r[2]=eye[2];
+		r[3]=1;
+		osg->mModelLight->setPosition(r);
+		osg->mModelLight->setDirection(center-eye); 
+		osg->mModelLight->setSpotCutoff(25.f); 
 	}
 	_endthread();
 }
@@ -220,13 +237,40 @@ void osgImplementation::InitSceneGraph( void )
 	mRoot->addChild(mModel.get());
 	mShape->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	mShape->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
-	//mShape->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+	mShape->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
 	mShape->getOrCreateStateSet()->setRenderBinDetails( -1, "RenderBin");
  
  	mModel->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+	osg::CullFace* cf = new osg::CullFace(osg::CullFace::FRONT); 
+	mModel->getOrCreateStateSet()->setAttribute( cf ); 
+	//mModel->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 	mModel->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
- 	//mModel->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
+	mModelMaterial = new osg::Material; 
+	mModelMaterial->setDiffuse( osg::Material::FRONT, 
+		osg::Vec4( 1.0f,1.0f,0.0f, 1.f ) ); 
+	mModelMaterial->setSpecular( osg::Material::FRONT, 
+		osg::Vec4( .3f, .3f, .3f, .3f ) ); 
+	mModelMaterial->setShininess( osg::Material::FRONT, 96.f ); 
+	mModel->getOrCreateStateSet()->setAttribute(mModelMaterial.get()); 
+	mModelLight = new osg::Light;
+	mModelLight->setAmbient( osg::Vec4( .1f, .1f, .1f, 1.f )); 
+	mModelLight->setDiffuse( osg::Vec4( .8f, .8f, .8f, 1.f )); 
+	mModelLight->setSpecular( osg::Vec4( .8f, .8f, .8f, 1.f )); 
+	// Add the Light to a LightSource. Add the LightSource and 
+	//   MatrixTransform to the scene graph. 
+	osg::ref_ptr<osg::LightSource> ls = new osg::LightSource; 
+	mRoot->addChild( ls );
+	ls->setLight( mModelLight.get() ); 
+}
 
+void osgImplementation::SetFaceTransparency( int percent )
+{
+	mFaceTransparency = percent*0.01f;
+	//mModelMaterial->setDiffuse( osg::Material::FRONT, osg::Vec4( 1.0f,1.0f,0.0f, mFaceTransparency) ); 
+	mModelMaterial->setAlpha(osg::Material::Face::FRONT, mFaceTransparency);
+	// 	osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
+	// 	shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
+	//	mDrawFaces->setColorArray(shared_colors);
 }
 
 void osgImplementation::InitManipulators( void )
@@ -239,6 +283,16 @@ void osgImplementation::InitManipulators( void )
 	mKeyswitchManipulator->addMatrixManipulator( '1', "Trackball", mTrackball.get());
 	// Init the switcher to the first manipulator (in this case the only manipulator)
 	mKeyswitchManipulator->selectMatrixManipulator(0);  // Zero based index Value
+	osg::ref_ptr<osgGA::CameraManipulator> mani = new osgGA::DriveManipulator;
+	mKeyswitchManipulator->addMatrixManipulator( '2', "Drive", mani);
+	mani = new osgGA::FlightManipulator;
+	mKeyswitchManipulator->addMatrixManipulator( '3', "Flight", mani);
+	mani = new osgGA::TerrainManipulator;
+	mKeyswitchManipulator->addMatrixManipulator( '4', "Terrain", mani);
+	mani = new osgGA::FirstPersonManipulator;
+	mKeyswitchManipulator->addMatrixManipulator( '5', "FirstPersonMan", mani);
+	mani = new osgGA::OrbitManipulator;
+	mKeyswitchManipulator->addMatrixManipulator( '6', "Orbit", mani);
 }
 
 void osgImplementation::InitCameraConfig()
@@ -295,11 +349,7 @@ void osgImplementation::InitCameraConfig()
 	mViewer->setSceneData(mRoot.get());
 	// Realize the Viewer
 	mViewer->realize();
-	// Correct aspect ratio
-	/*double fovy,aspectRatio,z1,z2;
-	mViewer->getCamera()->getProjectionMatrixAsPerspective(fovy,aspectRatio,z1,z2);
-	aspectRatio=double(traits->width)/double(traits->height);
-	mViewer->getCamera()->setProjectionMatrixAsPerspective(fovy,aspectRatio,z1,z2);*/
+	mViewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
 }
 
 void osgImplementation::PreFrameUpdate()
@@ -546,6 +596,7 @@ void osgImplementation::ClearVertexes()
 
 void osgImplementation::ClearEdges()
 {
+	mHasLastSkeletonNode = false;
 	mNeedClearEdges = true;
 }
 
@@ -576,7 +627,7 @@ void osgImplementation::MeshSimplification( int reduce_num, bool convex_check )
 void osgImplementation::SetViewer( bool run )
 {
 	if (run)
-		mViewer->setCameraManipulator(mKeyswitchManipulator.get());
+		mViewer->setCameraManipulator(mKeyswitchManipulator.get(), false);
 	else
 		mViewer->setCameraManipulator(NULL);
 }
@@ -608,14 +659,6 @@ bool osgImplementation::GetLastTraceNodeByIndex(int index, osg::Vec3f& res)
 		return false;
 }
 
-void osgImplementation::SetFaceTransparency( int percent )
-{
-	mFaceTransparency = percent*0.01f;
-	osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-	shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
-	mDrawFaces->setColorArray(shared_colors);
-}
-
 void osgImplementation::AddSkeletonNode( const osg::Vec3f& p )
 {
 	mSkeletonNodes.push_back(p);
@@ -637,4 +680,9 @@ void osgImplementation::SelectSkeletonNode( const osg::Vec3f& p, const osg::Vec3
 			mLastSkeletonNode = mSkeletonNodes[i];
 	}
 	
+}
+
+void osgImplementation::ResetCamera()
+{
+	mViewer->setCameraManipulator(mKeyswitchManipulator.get());
 }

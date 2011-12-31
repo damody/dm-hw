@@ -11,13 +11,26 @@ osgImplementation* s_osg = NULL;
 Tri_Mesh*	s_Tri_Mesh = NULL;
 HANDLE		s_ThreadHandle;
 
-STDMETHODIMP CosgControl::LoadObjMesh(BSTR* filepath, LONG* status)
+STDMETHODIMP CosgControl::LoadObjMesh(BSTR filepath, LONG* status)
 {
-	std::string path = ConvStr::GetStr(*filepath);
+	std::string path = ConvStr::GetStr(filepath);
 	if(s_Tri_Mesh->ReadFile(path))
 	{
 		s_osg->SetModel(s_Tri_Mesh);
+		*status = RETURN_OK;
 	}
+	*status = RETURN_FAIL;
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::SaveObjMesh(BSTR filepath, LONG* status)
+{
+	std::string path = ConvStr::GetStr(filepath);
+	if (s_Tri_Mesh->SaveFile(path))
+	{
+		*status = RETURN_OK;
+	}
+	*status = RETURN_FAIL;
 	return S_OK;
 }
 
@@ -287,5 +300,11 @@ STDMETHODIMP CosgControl::SelectSkeletonNode(LONG x, LONG y)
 	osg::Vec3f ori, dir;
 	s_osg->GetRay(x, y, ori, dir);
 	s_osg->SelectSkeletonNode(ori, dir);
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::ResetCamera(void)
+{
+	s_osg->ResetCamera();
 	return S_OK;
 }

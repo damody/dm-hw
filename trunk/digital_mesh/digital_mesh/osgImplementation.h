@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
+#include <osg/Material>
 
 class osgImplementation
 {
@@ -51,6 +52,8 @@ private:
 	osg::ref_ptr<sColors>	mLinesColors;
 	osg::ref_ptr<sFaces>	mFaces;
 	osg::ref_ptr<sColors>	mFacesColors;
+	osg::ref_ptr<osg::Light>    mModelLight;
+	osg::ref_ptr<osg::Material> mModelMaterial;
 	osg::ref_ptr<osg::Geometry> mDrawPoints;
 	osg::ref_ptr<osg::Geometry> mDrawLines;
 	osg::ref_ptr<osg::Geometry> mDrawSVertices;
@@ -130,6 +133,7 @@ public:
 	void SetFaceTransparency(int percent);
 	void SetModel(Tri_Mesh* mesh);
 	void SetViewer(bool run);
+	void ResetCamera();
 	void Done(bool value) { mDone = value; }
 	bool Done(void) { return mDone; }
 		

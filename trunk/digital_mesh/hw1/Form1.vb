@@ -9,7 +9,7 @@ Public Class Form1
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveToolStripMenuItem.Click
-
+        SaveMeshFileDialog.ShowDialog()
     End Sub
 
     Private Sub PictureBox_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox_DrawOSG.MouseDown
@@ -38,7 +38,7 @@ Public Class Form1
                         ContextMenuStrip_RClick.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Layer})
                     Next
                     ContextMenuStrip_RClick.Show(Me, e.X, e.Y)
-                Else
+                ElseIf NumOfNode = 1 Then
                     osg.AddLastTraceNodeByIndex(1)
                 End If
             End If
@@ -130,6 +130,7 @@ Public Class Form1
     Private Sub OpenMeshFileDialog_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles OpenMeshFileDialog.FileOk
         If OpenMeshFileDialog.CheckFileExists Then
             osg.LoadObjMesh(OpenMeshFileDialog.FileName)
+            osg.ResetCamera()
         End If
         If ShowFaceToolStripMenuItem.Checked Then
             osg.ShowFace()
@@ -139,15 +140,17 @@ Public Class Form1
     End Sub
 
     Private Sub SaveMeshFileDialog_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles SaveMeshFileDialog.FileOk
-
+        If SaveMeshFileDialog.ValidateNames Then
+            osg.SaveObjMesh(SaveMeshFileDialog.FileName)
+        End If
     End Sub
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         osg.InitOSG(PictureBox_DrawOSG.Handle)
-    End Sub
-
-    Private Sub RenderTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        'osg.Render()
+        EdgeTrackBar.Location = New Size(Me.Width - EdgeTrackBar.Width - 50, Me.Height - EdgeTrackBar.Height - 10)
+        Label1.Location = New Size(Me.Width - EdgeTrackBar.Width - 100, Me.Height - EdgeTrackBar.Height - 9)
+        TrackBar_Transparency.Location = New Size(120, Me.Height - EdgeTrackBar.Height - 10)
+        Label_Face_Transparency.Location = New Size(5, Me.Height - EdgeTrackBar.Height - 9)
     End Sub
 
     Private Sub Form1_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -301,5 +304,9 @@ Public Class Form1
                 End If
             Next
         End If
+    End Sub
+
+    Private Sub ResetToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetToolStripMenuItem.Click
+        osg.ResetCamera()
     End Sub
 End Class

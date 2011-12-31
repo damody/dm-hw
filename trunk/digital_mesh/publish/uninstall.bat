@@ -1,1 +1,1 @@
-RegSvr32 /u digital_mesh.dll
+RegSvr32 /u digital_mesh.dll /s

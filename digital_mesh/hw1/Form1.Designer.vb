@@ -63,6 +63,7 @@ Partial Class Form1
         Me.Label_Face_Transparency = New System.Windows.Forms.Label
         Me.ContextMenuStrip_RClick = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox_DrawOSG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,13 +91,13 @@ Partial Class Form1
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(118, 24)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 24)
         Me.OpenToolStripMenuItem.Text = "Open"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(118, 24)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(152, 24)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'ChooseToolStripMenuItem
@@ -227,7 +228,7 @@ Partial Class Form1
         '
         'ViewerToolStripMenuItem
         '
-        Me.ViewerToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewerUpdateToolStripMenuItem})
+        Me.ViewerToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewerUpdateToolStripMenuItem, Me.ResetToolStripMenuItem})
         Me.ViewerToolStripMenuItem.Name = "ViewerToolStripMenuItem"
         Me.ViewerToolStripMenuItem.Size = New System.Drawing.Size(71, 24)
         Me.ViewerToolStripMenuItem.Text = "Viewer"
@@ -237,7 +238,7 @@ Partial Class Form1
         Me.ViewerUpdateToolStripMenuItem.Checked = True
         Me.ViewerUpdateToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ViewerUpdateToolStripMenuItem.Name = "ViewerUpdateToolStripMenuItem"
-        Me.ViewerUpdateToolStripMenuItem.Size = New System.Drawing.Size(132, 24)
+        Me.ViewerUpdateToolStripMenuItem.Size = New System.Drawing.Size(152, 24)
         Me.ViewerUpdateToolStripMenuItem.Text = "Update"
         '
         'PictureBox_DrawOSG
@@ -283,18 +284,18 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(489, 5)
+        Me.Button1.Location = New System.Drawing.Point(471, 0)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.Size = New System.Drawing.Size(93, 28)
         Me.Button1.TabIndex = 4
         Me.Button1.Text = "開始減面"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(570, 5)
+        Me.Button2.Location = New System.Drawing.Point(570, 0)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.Size = New System.Drawing.Size(93, 28)
         Me.Button2.TabIndex = 5
         Me.Button2.Text = "停止減面"
         Me.Button2.UseVisualStyleBackColor = True
@@ -311,7 +312,7 @@ Partial Class Form1
         'CheckBox_Convex
         '
         Me.CheckBox_Convex.AutoSize = True
-        Me.CheckBox_Convex.Location = New System.Drawing.Point(651, 5)
+        Me.CheckBox_Convex.Location = New System.Drawing.Point(669, 5)
         Me.CheckBox_Convex.Name = "CheckBox_Convex"
         Me.CheckBox_Convex.Size = New System.Drawing.Size(111, 19)
         Me.CheckBox_Convex.TabIndex = 7
@@ -349,6 +350,12 @@ Partial Class Form1
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(105, 24)
         Me.ToolStripMenuItem2.Text = "123"
         '
+        'ResetToolStripMenuItem
+        '
+        Me.ResetToolStripMenuItem.Name = "ResetToolStripMenuItem"
+        Me.ResetToolStripMenuItem.Size = New System.Drawing.Size(152, 24)
+        Me.ResetToolStripMenuItem.Text = "Reset"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -356,8 +363,8 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(889, 484)
         Me.Controls.Add(Me.Label_Face_Transparency)
         Me.Controls.Add(Me.TrackBar_Transparency)
-        Me.Controls.Add(Me.CheckBox_Convex)
         Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.CheckBox_Convex)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.EdgeTrackBar)
@@ -420,5 +427,6 @@ Partial Class Form1
     Friend WithEvents Label_Face_Transparency As System.Windows.Forms.Label
     Friend WithEvents ContextMenuStrip_RClick As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

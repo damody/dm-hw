@@ -51,7 +51,8 @@ END_COM_MAP()
 	}
 
 public:
-	STDMETHOD(LoadObjMesh)(BSTR* filepath, LONG* status);
+	STDMETHOD(LoadObjMesh)(BSTR filepath, LONG* status);
+	STDMETHOD(SaveObjMesh)(BSTR filepath, LONG* status);
 	STDMETHOD(ShowVertex)(void);
 	STDMETHOD(ShowEdge)(void);
 	STDMETHOD(ShowFace)(void);
@@ -86,6 +87,7 @@ public:
 	STDMETHOD(SetFaceTransparency)(LONG percent);
 	STDMETHOD(AddLastTraceNodeByIndex)(LONG i);
 	STDMETHOD(SelectSkeletonNode)(LONG x, LONG y);
+	STDMETHOD(ResetCamera)(void);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(osgControl), CosgControl)

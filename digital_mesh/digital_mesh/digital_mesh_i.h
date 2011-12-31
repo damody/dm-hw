@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Mon Dec 26 06:26:04 2011
+/* at Sat Dec 31 22:55:02 2011
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -88,7 +88,11 @@ EXTERN_C const IID IID_IosgControl;
     {
     public:
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE LoadObjMesh( 
-            /* [in] */ BSTR *filepath,
+            /* [in] */ BSTR filepath,
+            /* [retval][out] */ LONG *status) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SaveObjMesh( 
+            /* [in] */ BSTR filepath,
             /* [retval][out] */ LONG *status) = 0;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ShowVertex( void) = 0;
@@ -208,6 +212,8 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ LONG x,
             /* [in] */ LONG y) = 0;
         
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ResetCamera( void) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -259,7 +265,12 @@ EXTERN_C const IID IID_IosgControl;
         
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *LoadObjMesh )( 
             IosgControl * This,
-            /* [in] */ BSTR *filepath,
+            /* [in] */ BSTR filepath,
+            /* [retval][out] */ LONG *status);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SaveObjMesh )( 
+            IosgControl * This,
+            /* [in] */ BSTR filepath,
             /* [retval][out] */ LONG *status);
         
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ShowVertex )( 
@@ -413,6 +424,9 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ LONG x,
             /* [in] */ LONG y);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ResetCamera )( 
+            IosgControl * This);
+        
         END_INTERFACE
     } IosgControlVtbl;
 
@@ -451,6 +465,9 @@ EXTERN_C const IID IID_IosgControl;
 
 #define IosgControl_LoadObjMesh(This,filepath,status)	\
     ( (This)->lpVtbl -> LoadObjMesh(This,filepath,status) ) 
+
+#define IosgControl_SaveObjMesh(This,filepath,status)	\
+    ( (This)->lpVtbl -> SaveObjMesh(This,filepath,status) ) 
 
 #define IosgControl_ShowVertex(This)	\
     ( (This)->lpVtbl -> ShowVertex(This) ) 
@@ -553,6 +570,9 @@ EXTERN_C const IID IID_IosgControl;
 
 #define IosgControl_SelectSkeletonNode(This,x,y)	\
     ( (This)->lpVtbl -> SelectSkeletonNode(This,x,y) ) 
+
+#define IosgControl_ResetCamera(This)	\
+    ( (This)->lpVtbl -> ResetCamera(This) ) 
 
 #endif /* COBJMACROS */
 

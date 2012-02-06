@@ -15,6 +15,147 @@
 #include <osgGA/FlightManipulator>
 #include <osgGA/DriveManipulator>
 
+#include <osgManipulator/TabBoxDragger>
+#include <osgManipulator/TabBoxTrackballDragger>
+#include <osgManipulator/TabPlaneDragger>
+#include <osgManipulator/TabPlaneTrackballDragger>
+#include <osgManipulator/TrackballDragger>
+#include <osgManipulator/Translate1DDragger>
+#include <osgManipulator/Translate2DDragger>
+#include <osgManipulator/TranslateAxisDragger>
+#include <osgManipulator/TranslatePlaneDragger>
+#include <osgManipulator/Scale1DDragger>
+#include <osgManipulator/Scale2DDragger>
+#include <osgManipulator/ScaleAxisDragger>
+#include <osgManipulator/RotateCylinderDragger>
+#include <osgManipulator/RotateSphereDragger>
+
+// The DraggerContainer node is used to fix the dragger's size on the screen
+class DraggerContainer : public osg::Group
+{
+public:
+	DraggerContainer() : _draggerSize(240.0f), _active(true) {}
+
+	DraggerContainer( const DraggerContainer& copy, const osg::CopyOp& copyop=osg::CopyOp::SHALLOW_COPY )
+		:   osg::Group(copy, copyop),
+		_dragger(copy._dragger), _draggerSize(copy._draggerSize), _active(copy._active)
+	{}
+
+	META_Node( osgManipulator, DraggerContainer );
+
+	void setDragger( osgManipulator::Dragger* dragger )
+	{
+		_dragger = dragger;
+		if ( !containsNode(dragger) ) addChild( dragger );
+	}
+
+	osgManipulator::Dragger* getDragger() { return _dragger.get(); }
+	const osgManipulator::Dragger* getDragger() const { return _dragger.get(); }
+
+	void setDraggerSize( float size ) { _draggerSize = size; }
+	float getDraggerSize() const { return _draggerSize; }
+
+	void setActive( bool b ) { _active = b; }
+	bool getActive() const { return _active; }
+
+	void traverse( osg::NodeVisitor& nv )
+	{
+		if ( _dragger.valid() )
+		{
+			if ( _active && nv.getVisitorType()==osg::NodeVisitor::CULL_VISITOR )
+			{
+				osgUtil::CullVisitor* cv = static_cast<osgUtil::CullVisitor*>(&nv);
+
+				float pixelSize = cv->pixelSize(_dragger->getBound().center(), 0.48f);
+				if ( pixelSize!=_draggerSize )
+				{
+					float pixelScale = pixelSize>0.0f ? _draggerSize/pixelSize : 1.0f;
+					osg::Vec3d scaleFactor(pixelScale, pixelScale, pixelScale);
+
+					osg::Vec3 trans = _dragger->getMatrix().getTrans();
+					_dragger->setMatrix( osg::Matrix::scale(scaleFactor) * osg::Matrix::translate(trans) );
+				}
+			}
+		}
+		osg::Group::traverse(nv);
+	}
+
+protected:
+	osg::ref_ptr<osgManipulator::Dragger> _dragger;
+	float _draggerSize;
+	bool _active;
+};
+
+osgManipulator::Dragger* createDragger(const std::string& name)
+{
+	osg::ref_ptr<osgManipulator::Dragger> dragger;
+#define DRAGGER(F) if (#F == name) { osgManipulator::F * d = new osgManipulator::F(); \
+	d->setupDefaultGeometry(); dragger = d; return dragger; }
+	DRAGGER(TabBoxDragger);
+	DRAGGER(TabBoxTrackballDragger);
+	DRAGGER(TabPlaneDragger);
+	DRAGGER(TabPlaneTrackballDragger);
+	DRAGGER(TrackballDragger);
+	DRAGGER(Translate1DDragger);
+	DRAGGER(Translate2DDragger);
+	DRAGGER(TranslateAxisDragger);
+	DRAGGER(TranslatePlaneDragger);
+	DRAGGER(Scale1DDragger);
+	DRAGGER(Scale2DDragger);
+	DRAGGER(ScaleAxisDragger);
+	DRAGGER(RotateCylinderDragger);
+	DRAGGER(RotateSphereDragger);
+	if (!dragger.valid())
+	{
+		osgManipulator:: TranslateAxisDragger * d = new osgManipulator:: TranslateAxisDragger ();
+		d->setupDefaultGeometry();
+		dragger = d;
+	}
+	return dragger;
+}
+
+
+osg::Node* addDraggerToScene(osg::Node* scene, const std::string& name, bool fixedSizeInScreen)
+{
+	scene->getOrCreateStateSet()->setMode(GL_NORMALIZE, osg::StateAttribute::ON);
+
+	osg::MatrixTransform* selection = new osg::MatrixTransform;
+	selection->addChild(scene);
+
+	osgManipulator::Dragger* dragger = createDragger(name);
+
+	osg::Group* root = new osg::Group;
+	root->addChild(selection);
+
+	if ( fixedSizeInScreen )
+	{
+		DraggerContainer* draggerContainer = new DraggerContainer;
+		draggerContainer->setDragger( dragger );
+		root->addChild(draggerContainer);
+	}
+	else
+		root->addChild(dragger);
+
+	float scale = scene->getBound().radius() * 1.6;
+	dragger->setMatrix(osg::Matrix::scale(scale, scale, scale) *
+		osg::Matrix::translate(scene->getBound().center()));
+
+	dragger->addTransformUpdating(selection);
+
+	// we want the dragger to handle it's own events automatically
+	dragger->setHandleEvents(true);
+
+	// if we don't set an activation key or mod mask then any mouse click on
+	// the dragger will activate it, however if do define either of ActivationModKeyMask or
+	// and ActivationKeyEvent then you'll have to press either than mod key or the specified key to
+	// be able to activate the dragger when you mouse click on it.  Please note the follow allows
+	// activation if either the ctrl key or the 'a' key is pressed and held down.
+	dragger->setActivationModKeyMask(osgGA::GUIEventAdapter::MODKEY_CTRL);
+	//dragger->setActivationKeyEvent('a');
+
+	return root;
+}
+
 // Initialization all variable
 osgImplementation::osgImplementation( HWND hWnd )
 :mhWnd(hWnd), mStatus(0), mMesh(0), mNeedUpdate(0), 
@@ -234,7 +375,7 @@ void osgImplementation::InitSceneGraph( void )
 	mModel = new osg::Geode;
 	mShape = new osg::Geode;
 	mRoot->addChild(mShape.get());
-	mRoot->addChild(mModel.get());
+	
 	mShape->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	mShape->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
 	mShape->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
@@ -253,14 +394,16 @@ void osgImplementation::InitSceneGraph( void )
 	mModelMaterial->setShininess( osg::Material::FRONT, 96.f ); 
 	mModel->getOrCreateStateSet()->setAttribute(mModelMaterial.get()); 
 	mModelLight = new osg::Light;
-	mModelLight->setAmbient( osg::Vec4( .1f, .1f, .1f, 1.f )); 
-	mModelLight->setDiffuse( osg::Vec4( .8f, .8f, .8f, 1.f )); 
-	mModelLight->setSpecular( osg::Vec4( .8f, .8f, .8f, 1.f )); 
+	mModelLight->setAmbient( osg::Vec4( .3f, .3f, .3f, 1.f )); 
+	mModelLight->setDiffuse( osg::Vec4( .6f, .6f, .6f, 1.f )); 
+	mModelLight->setSpecular( osg::Vec4( .9f, .9f, .9f, 1.f )); 
 	// Add the Light to a LightSource. Add the LightSource and 
 	//   MatrixTransform to the scene graph. 
 	osg::ref_ptr<osg::LightSource> ls = new osg::LightSource; 
 	mRoot->addChild( ls );
 	ls->setLight( mModelLight.get() ); 
+	//mRoot->addChild(addDraggerToScene(mModel,"RotateSphereDragger", false));
+	mRoot->addChild(mModel);
 }
 
 void osgImplementation::SetFaceTransparency( int percent )

@@ -53,11 +53,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="NOMINMAX;OM_STATIC_BUILD;_USE_MATH_DEFINES;WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -77,8 +78,9 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="libOpenMeshCored.lib OpenThreadsd.lib osgAnimationd.lib osgd.lib osgDBd.lib osgFXd.lib osgGAd.lib osgManipulatord.lib osgParticled.lib osgPresentationd.lib osgShadowd.lib osgSimd.lib osgTerraind.lib osgTextd.lib osgUtild.lib osgViewerd.lib osgVolumed.lib osgWidgetd.lib"
+				AdditionalDependencies="blas_win32.lib lapack_win32.lib libatlas.lib libcblas.lib libf77blas.lib liblapack.lib libmetis.lib libtaucs.lib vcf2c.lib libOpenMeshCored.lib OpenThreadsd.lib osgAnimationd.lib osgd.lib osgDBd.lib osgFXd.lib osgGAd.lib osgManipulatord.lib osgParticled.lib osgPresentationd.lib osgShadowd.lib osgSimd.lib osgTerraind.lib osgTextd.lib osgUtild.lib osgViewerd.lib osgVolumed.lib osgWidgetd.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="taucs/lib"
 				ModuleDefinitionFile=".\digital_mesh.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -236,6 +238,14 @@
 				RelativePath=".\digital_mesh.cpp"
 				>
 				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Release|Win32"
 					>
 					<Tool
@@ -293,6 +303,14 @@
 			<File
 				RelativePath=".\osgControl.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
 					>
@@ -624,6 +642,14 @@
 			<File
 				RelativePath=".\taucs\my_solver.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\taucs\my_solver.h"

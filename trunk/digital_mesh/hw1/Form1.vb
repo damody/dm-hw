@@ -309,4 +309,8 @@ Public Class Form1
     Private Sub ResetToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetToolStripMenuItem.Click
         osg.ResetCamera()
     End Sub
+
+    Private Sub ImplicitSmoothToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImplicitSmoothToolStripMenuItem.Click
+        osg.ImplicitSmooth()
+    End Sub
 End Class

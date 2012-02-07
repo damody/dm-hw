@@ -23,6 +23,7 @@ typedef __int64		int64;
 typedef unsigned __int64	uint64;
 
 typedef std::vector<double>	double_vector;
+typedef std::vector<double_vector>	double_vector2d;
 typedef std::vector<float>	float_vector;
 typedef std::vector<int>	int_vector;
 typedef std::vector<bool>	bool_vector;

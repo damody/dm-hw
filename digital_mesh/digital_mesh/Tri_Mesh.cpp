@@ -893,7 +893,6 @@ struct cmp_pos_dis
 	}
 };
 
-
 bool Tri_Mesh::GetAllRayTracePoints( const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& positive, Vec3fs& negative )
 {
 	FIter f_it;
@@ -936,4 +935,34 @@ bool Tri_Mesh::GetAllRayTraceNode( const osg::Vec3f& p, const osg::Vec3f& q, Vec
 	{
 		nodes.push_back((positive[i] + negative[i])*0.5);
 	}
+}
+
+
+double Tri_Mesh::ComputeFaceArea( FaceHandle& iter )
+{
+	osg::Vec3f v[3];
+	int i=0;
+	for(FVIter fv_it = fv_iter(iter); fv_it ; ++fv_it )
+	{
+		const Point& p = point(fv_it.handle());
+		for (int j=0;j<3;++j)
+		{
+			v[i][j] = p[j];
+		}
+		++i;
+	}
+	return ((v[1]-v[0])^(v[2]-v[0])).length() / 2.0;
+}
+
+double Tri_Mesh::AverageFaceArea()
+{
+	FIter	f_it;
+	int	count = 0;
+	double	sum = 0.0;
+	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
+	{
+		sum += ComputeFaceArea(f_it.handle());
+		++count;
+	}
+	return sum/count;
 }

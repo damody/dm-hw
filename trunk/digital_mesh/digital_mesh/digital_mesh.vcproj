@@ -143,9 +143,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="NOMINMAX;OM_STATIC_BUILD;_USE_MATH_DEFINES;WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="0"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -165,8 +166,9 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="libOpenMeshCore.lib OpenThreads.lib osgAnimation.lib osg.lib osgDB.lib osgFX.lib osgGA.lib osgManipulator.lib osgParticle.lib osgPresentation.lib osgShadow.lib osgSim.lib osgTerrain.lib osgText.lib osgUtil.lib osgViewer.lib osgVolume.lib osgWidget.lib"
+				AdditionalDependencies="blas_win32.lib lapack_win32.lib libatlas.lib libcblas.lib libf77blas.lib liblapack.lib libmetis.lib libtaucs.lib vcf2c.lib libOpenMeshCore.lib OpenThreads.lib osgAnimation.lib osg.lib osgDB.lib osgFX.lib osgGA.lib osgManipulator.lib osgParticle.lib osgPresentation.lib osgShadow.lib osgSim.lib osgTerrain.lib osgText.lib osgUtil.lib osgViewer.lib osgVolume.lib osgWidget.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="taucs/lib"
 				IgnoreAllDefaultLibraries="false"
 				ModuleDefinitionFile=".\digital_mesh.def"
 				GenerateDebugInformation="true"
@@ -207,6 +209,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\CCSMatrix.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ConvStr.cpp"
 				>
 				<FileConfiguration
@@ -229,6 +235,14 @@
 			<File
 				RelativePath=".\digital_mesh.cpp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\digital_mesh.def"
@@ -265,8 +279,28 @@
 				>
 			</File>
 			<File
+				RelativePath=".\imath.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\log_define.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Matrix_Mesh.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\osgControl.cpp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\osgImplementation.cpp"
@@ -289,6 +323,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Skeletonizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SparseMatrix.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -307,6 +349,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\TAUCS_CCS_Matrix.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\Tri_Mesh.cpp"
@@ -335,6 +381,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\CCSMatrix.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ConvStr.h"
 				>
 			</File>
@@ -344,6 +394,18 @@
 			</File>
 			<File
 				RelativePath=".\FastTri_Mesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\imath.h"
+				>
+			</File>
+			<File
+				RelativePath=".\log_define.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Matrix_Mesh.h"
 				>
 			</File>
 			<File
@@ -359,11 +421,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\shared_ptr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Skeletonizer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SparseMatrix.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TAUCS_CCS_Matrix.h"
 				>
 			</File>
 			<File
@@ -417,6 +495,138 @@
 			</File>
 			<File
 				RelativePath=".\digital_mesh_i.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="math"
+			>
+			<File
+				RelativePath=".\math\AABB2D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\AABB2D.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\asm_math.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\Centroid.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\Centroid.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreAxisAlignedBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreAxisAlignedBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreMath.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreMath.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreMatrix3.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreMatrix3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreMatrix4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreMatrix4.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgrePlane.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgrePlane.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgrePlaneBoundedVolume.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreQuaternion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreQuaternion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreRay.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreSphere.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreVector2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreVector2.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreVector3.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreVector3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreVector4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\OgreVector4.h"
+				>
+			</File>
+			<File
+				RelativePath=".\math\Polygon2D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math\Polygon2D.h"
+				>
+			</File>
+			<File
+				RelativePath=".\algo\sgmath.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="taucs"
+			>
+			<File
+				RelativePath=".\taucs\my_solver.c"
+				>
+			</File>
+			<File
+				RelativePath=".\taucs\my_solver.h"
 				>
 			</File>
 		</Filter>

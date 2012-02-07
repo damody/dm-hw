@@ -105,6 +105,9 @@ public:
 	virtual bool GetEdgeHandle( const osg::Vec3f& p, const osg::Vec3f& q, EdgeHandle& iter );
 	virtual bool GetFaceHandle( const osg::Vec3f& p, const osg::Vec3f& q, FaceHandle& iter );
 
+	double	ComputeFaceArea(FaceHandle& iter);
+	double	AverageFaceArea();
+
 	virtual bool GetAllRayTracePoints(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& positive, Vec3fs& negative);
 	virtual bool GetAllRayTraceNode(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& nodes);
 	

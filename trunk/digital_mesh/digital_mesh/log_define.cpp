@@ -1,4 +1,5 @@
 #include "log_define.h"
+#include <iomanip>
 
 void log_init()
 {
@@ -17,4 +18,5 @@ void log_init()
 		<< ">\t" << fmt::message()
 		);
 	logging::core::get()->add_sink(pSink);
+	LOG_TRACE.precision(9);
 }

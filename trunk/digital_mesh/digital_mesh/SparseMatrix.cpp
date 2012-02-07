@@ -51,6 +51,7 @@ cell* SparseMatrix::AddElement( const cell& _e )
 
 cell* SparseMatrix::AddElement( int i, int j, double value )
 {
+	if (value == 0) return 0;
 	cells& r = m_rows[i];
 	cells& c = m_cols[j];
 	cell* e = new cell(i, j, value);

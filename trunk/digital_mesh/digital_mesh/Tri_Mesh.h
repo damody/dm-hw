@@ -5,14 +5,15 @@
 #include <OpenMesh/Tools/Utils/getopt.h>
 #include <vector>
 #include <osg/Vec3f>
+#include <osg/Vec3d>
 #include <string>
 #include <osg/Array>
 #include <osg/Matrixf>
 
 struct BasicTraits : public OpenMesh::DefaultTraits
 {
-	typedef OpenMesh::Vec3f Point;
-	typedef OpenMesh::Vec3f Normal;
+	typedef OpenMesh::Vec3d Point;
+	typedef OpenMesh::Vec3d Normal;
 	// add normal property to vertices and faces
 	VertexAttributes(OpenMesh::Attributes::Normal);
 	FaceAttributes  (OpenMesh::Attributes::Normal);
@@ -107,6 +108,7 @@ public:
 
 	double	ComputeFaceArea(FaceHandle& iter);
 	double	AverageFaceArea();
+	double	TotalFaceArea();
 
 	virtual bool GetAllRayTracePoints(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& positive, Vec3fs& negative);
 	virtual bool GetAllRayTraceNode(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& nodes);

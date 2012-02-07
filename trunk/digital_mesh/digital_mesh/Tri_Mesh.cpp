@@ -966,3 +966,14 @@ double Tri_Mesh::AverageFaceArea()
 	}
 	return sum/count;
 }
+
+double Tri_Mesh::TotalFaceArea()
+{
+	FIter	f_it;
+	double	sum = 0.0;
+	for (f_it = faces_begin(); f_it != faces_end(); ++f_it) 
+	{
+		sum += ComputeFaceArea(f_it.handle());
+	}
+	return sum;
+}

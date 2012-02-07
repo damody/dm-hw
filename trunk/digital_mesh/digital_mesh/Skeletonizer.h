@@ -99,10 +99,10 @@ private:
 	Matrix_Mesh&	m_Mesh;
 	void Initialize();
 	MMatrix BuildMatrixA();
-	SparseMatrix BuildSMatrixA();
+	void BuildSMatrixA(SparseMatrix& A);
 	CCSMatrix CCSMatrixATA(const CCSMatrix& A);
 	SparseMatrix Multiply1T(SparseMatrix& A1, SparseMatrix& A2);
-	Solver_tag* Factorization(CCSMatrix C)
+	Solver_tag* Factorization(CCSMatrix& C)
 	{
 		int	*ri = &(C.RowIndex()[0]),
 			*ci = &(C.ColIndex()[0]);

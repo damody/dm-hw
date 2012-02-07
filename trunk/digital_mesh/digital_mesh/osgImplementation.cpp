@@ -839,7 +839,7 @@ void osgImplementation::ImplicitSmooth()
 	Skeletonizer::Options mesh_opt;
 	mesh_opt.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
 	Skeletonizer mesh_skeletonizer(*mMesh, mesh_opt);
-	//mesh_skeletonizer.GeometryCollapse(5);
-	mesh_skeletonizer.ImplicitSmooth();
+	mesh_skeletonizer.GeometryCollapse(8);
+	//mesh_skeletonizer.ImplicitSmooth();
 	Show(mStatus);
 }

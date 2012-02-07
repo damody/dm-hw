@@ -6,7 +6,7 @@ void log_init()
 	typedef sinks::synchronous_sink< sinks::text_ostream_backend > text_sink;
 	boost::shared_ptr< text_sink > pSink = boost::make_shared< text_sink >();
 	pSink->locked_backend()->add_stream(
-		boost::make_shared< std::ofstream >("isoline_cpp.log"));
+		boost::make_shared< std::ofstream >("dm.log"));
 	pSink->locked_backend()->auto_flush(true);
 	pSink->locked_backend()->set_formatter
 		(

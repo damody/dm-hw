@@ -8,7 +8,7 @@
 
 // CosgControl
 osgImplementation* s_osg = NULL;
-Tri_Mesh*	s_Tri_Mesh = NULL;
+Matrix_Mesh*	s_Tri_Mesh = NULL;
 HANDLE		s_ThreadHandle;
 
 STDMETHODIMP CosgControl::LoadObjMesh(BSTR filepath, LONG* status)
@@ -57,7 +57,7 @@ STDMETHODIMP CosgControl::InitOSG(LONG windowHandle)
 	s_osg = new osgImplementation((HWND)windowHandle);
 	s_osg->InitOSG();
 	s_ThreadHandle = (HANDLE)_beginthread(&osgImplementation::Render, 0, s_osg);
-	s_Tri_Mesh = new Tri_Mesh;
+	s_Tri_Mesh = new Matrix_Mesh;
 	return S_OK;
 }
 
@@ -306,5 +306,12 @@ STDMETHODIMP CosgControl::SelectSkeletonNode(LONG x, LONG y)
 STDMETHODIMP CosgControl::ResetCamera(void)
 {
 	s_osg->ResetCamera();
+	return S_OK;
+}
+
+STDMETHODIMP CosgControl::ImplicitSmooth(void)
+{
+	s_osg->ImplicitSmooth();
+	s_osg->SetModel(s_Tri_Mesh);
 	return S_OK;
 }

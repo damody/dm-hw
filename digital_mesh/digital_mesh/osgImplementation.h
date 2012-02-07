@@ -1,5 +1,5 @@
 #pragma once
-#include "Tri_Mesh.h"
+#include "Matrix_Mesh.h"
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 #include <osgViewer/api/win32/GraphicsWindowWin32>
@@ -44,7 +44,7 @@ private:
 	osg::ref_ptr<osg::Geode> mShape;
 	osg::ref_ptr<osgGA::TrackballManipulator> mTrackball;
 	osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> mKeyswitchManipulator;
-	Tri_Mesh*	mMesh;
+	Matrix_Mesh*	mMesh;
 	int		mStatus;
 	osg::ref_ptr<sPoints>	mVertices;
 	osg::ref_ptr<sColors>	mVerticesColors;
@@ -131,7 +131,7 @@ public:
 	void HideEdge(){Show(mStatus & ~EDGE);}
 	void HideFace(){Show(mStatus & ~FACE);}
 	void SetFaceTransparency(int percent);
-	void SetModel(Tri_Mesh* mesh);
+	void SetModel(Matrix_Mesh* mesh);
 	void SetViewer(bool run);
 	void ResetCamera();
 	void Done(bool value) { mDone = value; }
@@ -151,4 +151,5 @@ public:
 	void InitCameraConfig();
 	void InitSceneGraph(void);
 	void InitManipulators(void);
+	void ImplicitSmooth();
 };

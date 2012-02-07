@@ -88,6 +88,7 @@ public:
 	STDMETHOD(AddLastTraceNodeByIndex)(LONG i);
 	STDMETHOD(SelectSkeletonNode)(LONG x, LONG y);
 	STDMETHOD(ResetCamera)(void);
+	STDMETHOD(ImplicitSmooth)(void);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(osgControl), CosgControl)

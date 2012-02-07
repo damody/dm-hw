@@ -8,25 +8,16 @@
 #include "Tri_Mesh.h"
 #include "log_define.h"
 
-Skeletonizer::Skeletonizer()
-{
-	Initialize();
-}
-
-Skeletonizer::~Skeletonizer(void)
-{
-}
-
 Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
+:m_Mesh(mesh)
 {
-	m_Mesh = mesh;
 	Initialize();
 	int n  = m_Mesh.n_vertices();
 	int fn = m_Mesh.n_faces();
-	this->m_lapWeight.resize(n);
-	this->m_posWeight.resize(n);
-	/*this.opt = opt;
-	if (opt.AddNoise) AddNoise();*/
+	m_lapWeight.resize(n);
+	m_posWeight.resize(n);
+	//opt = opt;
+	//if (opt.AddNoise) AddNoise();
 	m_originalVolume = m_Mesh.GetVolume();
 	m_originalVertexPos = m_Mesh.GetVectors();
 	this->m_originalFaceArea.resize(fn);
@@ -50,19 +41,20 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 	MMatrix ATA(A.size1(), A.size1());
 	timer.restart();
 	ATA = MultiplyATA(A);
-	LOG_TRACE << "TAUCS_CCS_Matrix_Double MultiplyATA" << ATA.size1() << ", " << ATA.size2() << " elapsed: " << timer.elapsed();
+	LOG_TRACE << "TAUCS_CCS_Matrix_Double MultiplyATA " << ATA.size1() << ", " << ATA.size2() << " elapsed: " << timer.elapsed();
 #endif // _DEBUG
 	
 	timer.restart();
 	SparseMatrix tmp_A = BuildSMatrixA();
-	LOG_TRACE << "SparseMatrix BuildMatrixA " << tmp_A.GetRowSize() << ", " << tmp_A.GetColSize() << " elapsed: " << timer.elapsed();
+	LOG_TRACE << "SparseMatrix BuildMatrixA " << tmp_A.GetRowSize() << ", " << tmp_A.GetColSize() 
+		<< " nnz:" << tmp_A.NumOfElements() << " elapsed: " << timer.elapsed();
 	timer.restart();
 	m_ccsA = CCSMatrix(tmp_A);
 	LOG_TRACE << "Convert to CCSMatrix finish!";
 	m_ccsATA = CCSMatrixATA(m_ccsA);
-	LOG_TRACE << "SparseMatrix MultiplyATA" << m_ccsATA.GetRowSize() << ", " << m_ccsATA.GetColSize() << " elapsed: " << timer.elapsed();
+	LOG_TRACE << "SparseMatrix MultiplyATA " << m_ccsATA.GetRowSize() << ", " << m_ccsATA.GetColSize() 
+		<< " nnz:" << m_ccsATA.GetNumNonZero() << " elapsed: " << timer.elapsed();
 	
-	//TAUCS_CCS_Matrix_Double ATA_proxy(ATA);
 	if(m_Options.useSymbolicSolver)
 	{
 		LOG_TRACE << "Start Build SymbolicSolver!";
@@ -94,7 +86,7 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 SparseMatrix Skeletonizer::BuildSMatrixA()
 {
 	int n = m_Mesh.n_vertices();
-	int fn =m_Mesh.n_faces();
+	int fn = m_Mesh.n_faces();
 	LOG_TRACE  << "n:" << n << " fn: "<< fn;
 	SparseMatrix A(3*n, n);
 	std::vector <double> areaRatio(fn) ;
@@ -105,7 +97,7 @@ SparseMatrix Skeletonizer::BuildSMatrixA()
 		for(int i = 0; i < fn; i++)
 			m_oldAreaRatio[i]= 0.4;
 	}
-	Tri_Mesh::FIter		 f_it;
+	Tri_Mesh::FIter		f_it;
 	Tri_Mesh::FVIter	fv_it;
 	Vec3 face[3], c;
 	float distance_from_p_to_face = -1;
@@ -190,6 +182,7 @@ SparseMatrix Skeletonizer::BuildSMatrixA()
 				if (_isnan((*it)->value))
 				{
 					ok = false;
+					LOG_TRACE << "isnan test fail!";
 					break;
 				}
 			}
@@ -382,7 +375,6 @@ Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 		if (_isnan(cot1) || _isnan(cot2) || _isnan(cot3))
 		{
 			std::cerr << "nan: " << cot1 << " " << cot2 << "  " << cot3 << std::endl;
-			system("pause");
 		}
 
 		LSMat(c[1], c[1]) += -cot1; LSMat(c[1], c[2]) += cot1;
@@ -413,28 +405,34 @@ Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 
 void Skeletonizer::ImplicitSmooth()
 {
+	LOG_TRACE << "Start ImplicitSmooth";
 	const int n = m_Mesh.n_vertices();
 	double_vector x(n);
 	double_vector b(3*n);
 	double_vector ATb(n);
 	m_originalVertexPos = m_Mesh.GetVectors();
-	assert(m_originalVertexPos.size() == n);
+	assert(m_originalVertexPos.size() == 3*n);
 	for (int i = 0; i < 3; i++)
 	{
-		size_t j=0, k=0;
+		int j=0, k=0;
+		double tsum = 0;
 		for (;j < n; ++j, k+=3) 
 		{
 			b[j] = 0;
 			b[j + n] = m_originalVertexPos[k+i] * m_posWeight[j];
-			b[j + n + n] = m_originalVertexPos[k + i] * m_Options.originalPositionalConstraintWeight;
+			tsum += b[j + n];
+			b[j + n + n] = m_originalVertexPos[k+i] * m_Options.originalPositionalConstraintWeight;
 		}
+		LOG_DEBUG << "sum: " << tsum;
 		m_ccsA.PreMultiply(&b[0], &ATb[0]);
 		double* _x = &x[0];
 		double* _ATb = &ATb[0];
+		int ret;
 		if (m_Options.useSymbolicSolver)
-			NumericSolve(m_SymbolicSolver, _x, _ATb);
+			ret = NumericSolve(m_SymbolicSolver, _x, _ATb);
 		else
-			Solve(m_Solver, _x, _ATb);
+			ret = Solve(m_Solver, _x, _ATb);
+		LOG_TRACE << "Numeric solver: " << (ret == 0);
  		j=0;k=0;
 		for (;j < n; ++j, k+=3)
 		{
@@ -457,7 +455,7 @@ void Skeletonizer::ImplicitSmooth()
 	{
 		FreeNumericFactor(m_SymbolicSolver);
 		int ret = NumericFactorization(m_SymbolicSolver, m_ccsATA);
-		LOG_TRACE << "Numeric solver: " << (ret == 0);
+		LOG_TRACE << "NumericFactorization: " << (ret == 0);
 	}
 	else
 	{
@@ -482,7 +480,7 @@ void Skeletonizer::Initialize()
 	m_Options.laplacianConstraintScale		= 2.0;
 	m_Options.positionalConstraintScale		= 1.5;
 	m_Options.areaRatioThreshold			= 0.001;
-	m_Options.useSymbolicSolver			= true ;
+	m_Options.useSymbolicSolver			= false ;
 	m_Options.useIterativeSolver			= false ;
 	m_Options.volumneRatioThreashold		= 0.001 ;
 	// options for simplification
@@ -607,6 +605,20 @@ SparseMatrix Skeletonizer::Multiply1T( SparseMatrix& A1, SparseMatrix& A2 )
 	}
 	M.SortElement();
 	return M;
+}
+
+void Skeletonizer::GeometryCollapse( int maxIter )
+{
+// 	if (m_collapsedVertexPos.empty())
+// 		return ;
+	iter = 0;
+	double volume;
+	do
+	{
+		ImplicitSmooth();
+		volume = m_Mesh.GetVolume();
+	}
+	while (volume / m_originalVolume > m_Options.volumneRatioThreashold && iter < maxIter);
 }
 
 

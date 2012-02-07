@@ -29,6 +29,7 @@
 #include <osgManipulator/ScaleAxisDragger>
 #include <osgManipulator/RotateCylinderDragger>
 #include <osgManipulator/RotateSphereDragger>
+#include "Skeletonizer.h"
 
 // The DraggerContainer node is used to fix the dragger's size on the screen
 class DraggerContainer : public osg::Group
@@ -162,6 +163,7 @@ osgImplementation::osgImplementation( HWND hWnd )
 mNeedClearVertexes(0), mNeedClearEdges(0), mNeedClearFaces(0),
 mNeedSimple(0), mFaceTransparency(1.0f), mHasLastSkeletonNode(false)
 {
+	log_init();
 	mDrawPoints = new osg::Geometry;
 	mDrawSVertices = new osg::Geometry;
 	mDrawLines = new osg::Geometry;
@@ -210,7 +212,7 @@ void osgImplementation::Render( void* ptr )
 	_endthread();
 }
 
-void osgImplementation::SetModel( Tri_Mesh* mesh )
+void osgImplementation::SetModel( Matrix_Mesh* mesh )
 {
 	mMesh = mesh;
 	//init point
@@ -282,6 +284,7 @@ void osgImplementation::SetModel( Tri_Mesh* mesh )
 			mFaceNormals->push_back(v_normal);
 		}
 	}
+	Show(mStatus);
 }
 
 void osgImplementation::GetRay( float x, float y, osg::Vec3f& vPickRayOrig, osg::Vec3f& vPickRayDir )
@@ -828,4 +831,15 @@ void osgImplementation::SelectSkeletonNode( const osg::Vec3f& p, const osg::Vec3
 void osgImplementation::ResetCamera()
 {
 	mViewer->setCameraManipulator(mKeyswitchManipulator.get());
+}
+
+void osgImplementation::ImplicitSmooth()
+{
+	if (!mMesh) return ;
+	Skeletonizer::Options mesh_opt;
+	mesh_opt.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
+	Skeletonizer mesh_skeletonizer(*mMesh, mesh_opt);
+	//mesh_skeletonizer.GeometryCollapse(5);
+	mesh_skeletonizer.ImplicitSmooth();
+	Show(mStatus);
 }

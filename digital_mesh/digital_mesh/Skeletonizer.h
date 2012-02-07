@@ -96,7 +96,7 @@ public:
 	bool displayNodeSphere;
 private:
 	Options		m_Options;
-	Matrix_Mesh	m_Mesh;
+	Matrix_Mesh&	m_Mesh;
 	void Initialize();
 	MMatrix BuildMatrixA();
 	SparseMatrix BuildSMatrixA();
@@ -129,10 +129,9 @@ private:
 	CCSMatrix m_ccsATA;
 public:
 	Skeletonizer(Matrix_Mesh& mesh, Options& opt);
-	Skeletonizer(void);
-	~Skeletonizer(void);
 	bool	ReadFile(std::string _fileName);
 	Vector	Least_Square (Matrix_Mesh& mesh);
 	void	ImplicitSmooth();
+	void	GeometryCollapse(int maxIter);
 };
 

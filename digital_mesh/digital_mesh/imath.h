@@ -32,11 +32,13 @@ typedef std::vector<ushort>	ushort_vector;
 typedef std::vector<uint>	uint_vector;
 typedef std::vector< std::vector<int> >	int_vector2d;
 
+#pragma warning( push, 0 )
 #include "math/OgreVector2.h"
 #include "math/OgreVector3.h"
 #include "math/OgreVector4.h"
 #include "math/OgreMatrix3.h"
 #include "math/OgreMatrix4.h"
+#pragma warning( pop )
 
 typedef std::vector<Ogre::Vector3> Vec3s;
 typedef std::vector<Ogre::Vector4> Vec4s;

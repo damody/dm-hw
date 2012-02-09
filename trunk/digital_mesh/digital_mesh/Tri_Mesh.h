@@ -12,8 +12,8 @@
 
 struct BasicTraits : public OpenMesh::DefaultTraits
 {
-	typedef OpenMesh::Vec3d Point;
-	typedef OpenMesh::Vec3d Normal;
+	typedef OpenMesh::Vec3f Point;
+	typedef OpenMesh::Vec3f Normal;
 	// add normal property to vertices and faces
 	VertexAttributes(OpenMesh::Attributes::Normal);
 	FaceAttributes  (OpenMesh::Attributes::Normal);

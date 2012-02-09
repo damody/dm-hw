@@ -71,9 +71,9 @@ public:
 				if ( pixelSize!=_draggerSize )
 				{
 					float pixelScale = pixelSize>0.0f ? _draggerSize/pixelSize : 1.0f;
-					osg::Vec3d scaleFactor(pixelScale, pixelScale, pixelScale);
+					osg::Vec3f scaleFactor(pixelScale, pixelScale, pixelScale);
 
-					osg::Vec3 trans = _dragger->getMatrix().getTrans();
+					osg::Vec3f trans = _dragger->getMatrix().getTrans();
 					_dragger->setMatrix( osg::Matrix::scale(scaleFactor) * osg::Matrix::translate(trans) );
 				}
 			}

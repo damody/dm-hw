@@ -22,15 +22,18 @@ typedef unsigned int	uint;
 typedef __int64		int64;
 typedef unsigned __int64	uint64;
 
-typedef std::vector<double>	double_vector;
-typedef std::vector<double_vector>	double_vector2d;
-typedef std::vector<float>	float_vector;
-typedef std::vector<int>	int_vector;
 typedef std::vector<bool>	bool_vector;
 typedef std::vector<uchar>	uchar_vector;
 typedef std::vector<ushort>	ushort_vector;
 typedef std::vector<uint>	uint_vector;
-typedef std::vector< std::vector<int> >	int_vector2d;
+typedef std::vector<double>	double_vector;
+typedef std::vector<double_vector>	double_vector2d;
+typedef std::vector<float>	float_vector;
+typedef std::vector<float_vector>	float_vector2d;
+typedef std::vector<int>	int_vector;
+typedef std::vector<std::vector<int> >	int_vector2d;
+typedef std::vector<int64>	int64_vector;
+typedef std::vector<std::vector<int64> > int64_vector2d;
 
 #pragma warning( push, 0 )
 #include "math/OgreVector2.h"

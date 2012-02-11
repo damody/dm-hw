@@ -200,14 +200,14 @@ void osgImplementation::Render( void* ptr )
 		osg::Vec3 eye, center, up;
 		osg::Vec4 r;
 		viewer->getCamera()->getViewMatrixAsLookAt(eye, center, up);
-		up = center-eye;
-		r[0]=eye[0];
-		r[1]=eye[1];
-		r[2]=eye[2];
+		osg::Vec3 pos = eye*2-center;
+		r[0]=pos[0];
+		r[1]=pos[1];
+		r[2]=pos[2];
 		r[3]=1;
 		osg->mModelLight->setPosition(r);
 		osg->mModelLight->setDirection(center-eye); 
-		osg->mModelLight->setSpotCutoff(25.f); 
+		osg->mModelLight->setSpotCutoff(125.f); 
 	}
 	_endthread();
 }
@@ -796,7 +796,7 @@ bool osgImplementation::GetLastTraceNodeByIndex(int index, osg::Vec3f& res)
 {
 	if (!mMesh) return false;
 	assert(index >= 0 && index < mAllRayTraceNode.size());
-	if (index >= 0 && index < mAllRayTraceNode.size())
+	if (index >= 0 && index < (int)mAllRayTraceNode.size())
 	{
 		res = mAllRayTraceNode[index];
 		return true;
@@ -819,7 +819,7 @@ void osgImplementation::AddSkeletonNode( const osg::Vec3f& p )
 void osgImplementation::SelectSkeletonNode( const osg::Vec3f& p, const osg::Vec3f& q )
 {
 	float dis;
-	for (int i=0;i < mSkeletonNodes.size();++i)
+	for (size_t i=0;i < mSkeletonNodes.size();++i)
 	{
 		dis = SqDistPointSegment(p, q, mSkeletonNodes[i]);
 		if (dis < 0.01)
@@ -839,7 +839,7 @@ void osgImplementation::ImplicitSmooth()
 	Skeletonizer::Options mesh_opt;
 	mesh_opt.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
 	Skeletonizer mesh_skeletonizer(*mMesh, mesh_opt);
-	mesh_skeletonizer.GeometryCollapse(8);
+	mesh_skeletonizer.GeometryCollapse(7);
 	//mesh_skeletonizer.ImplicitSmooth();
 	Show(mStatus);
 }

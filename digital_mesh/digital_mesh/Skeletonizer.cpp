@@ -13,7 +13,7 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 :m_Mesh(mesh)
 {
 	Initialize();
-	int n  = m_Mesh.n_vertices();
+	uint n  = m_Mesh.n_vertices();
 	int fn = m_Mesh.n_faces();
 	m_lapWeight.resize(n);
 	m_posWeight.resize(n);
@@ -27,7 +27,7 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 	{
 		m_originalFaceArea[f_count++] = m_Mesh.ComputeFaceArea(f_it.handle());
 	}
-	for (size_t i = 0; i < n; ++i)
+	for (uint i = 0; i < n; ++i)
 	{
 		m_lapWeight[i] = m_Options.laplacianConstraintWeight;
 		m_posWeight[i] = m_Options.positionalConstraintWeight;

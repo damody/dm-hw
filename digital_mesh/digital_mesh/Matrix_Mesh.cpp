@@ -132,11 +132,11 @@ double Matrix_Mesh::GetVolume()
 	int	f_count = 0;
 	for (f_it = faces_begin(); f_it != faces_end(); ++f_it, ++f_count) 
 	{
-		osg::Vec3d pos[3];
+		osg::Vec3f pos[3];
 		int i=0;
 		for (FVIter fv_it = fv_iter(f_it); fv_it ; ++fv_it )
 		{
-			osg::Vec3d tmp;
+			osg::Vec3f tmp;
 			const Point& p = point(fv_it.handle());
 			for (int j=0;j<3;++j)
 			{

@@ -10,27 +10,27 @@
 #include "log_define.h"
 
 Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
-:m_Mesh(mesh)
+:mMesh(mesh)
 {
 	Initialize();
-	uint n  = m_Mesh.n_vertices();
-	int fn = m_Mesh.n_faces();
-	m_lapWeight.resize(n);
-	m_posWeight.resize(n);
+	uint n  = mMesh.n_vertices();
+	int fn = mMesh.n_faces();
+	mLapWeight.resize(n);
+	mPosWeight.resize(n);
 	//opt = opt;
 	//if (opt.AddNoise) AddNoise();
-	m_originalVolume = m_Mesh.GetVolume();
-	m_originalVertexPos = m_Mesh.GetVectors();
-	this->m_originalFaceArea.resize(fn);
+	m_originalVolume = mMesh.GetVolume();
+	mMesh.GetVertexs(&mOriginalVertexPos);
+	this->mOriginalFaceArea.resize(fn);
 	int f_count = 0;
-	for (BasicMesh::FaceIter f_it = m_Mesh.faces_begin(); f_it != m_Mesh.faces_end(); ++f_it) 
+	for (BasicMesh::FaceIter f_it = mMesh.faces_begin(); f_it != mMesh.faces_end(); ++f_it) 
 	{
-		m_originalFaceArea[f_count++] = m_Mesh.ComputeFaceArea(f_it.handle());
+		mOriginalFaceArea[f_count++] = mMesh.ComputeFaceArea(f_it.handle());
 	}
 	for (uint i = 0; i < n; ++i)
 	{
-		m_lapWeight[i] = m_Options.laplacianConstraintWeight;
-		m_posWeight[i] = m_Options.positionalConstraintWeight;
+		mLapWeight[i] = m_Options.laplacianConstraintWeight;
+		mPosWeight[i] = m_Options.positionalConstraintWeight;
 	}
 	LOG_TRACE << "Skeletonizer Initialize ok";
 	boost::timer timer;
@@ -40,35 +40,35 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 	LOG_TRACE << "SparseMatrix BuildMatrixA " << tmp_A.GetRowSize() << ", " << tmp_A.GetColSize() 
 		<< " nnz:" << tmp_A.NumOfElements() << " elapsed: " << timer.elapsed();
 	timer.restart();
-	m_ccsA = CCSMatrix(tmp_A);
+	mCCSA = CCSMatrix(tmp_A);
 	LOG_TRACE << "Convert to CCSMatrix finish!";
-	m_ccsATA = CCSMatrixATA(m_ccsA);
-	LOG_TRACE << "SparseMatrix MultiplyATA " << m_ccsATA.GetRowSize() << ", " << m_ccsATA.GetColSize() 
-		<< " nnz:" << m_ccsATA.GetNumNonZero() << " elapsed: " << timer.elapsed();
+	mCCSATA = CCSMatrixATA(mCCSA);
+	LOG_TRACE << "SparseMatrix MultiplyATA " << mCCSATA.GetRowSize() << ", " << mCCSATA.GetColSize() 
+		<< " nnz:" << mCCSATA.GetNumNonZero() << " elapsed: " << timer.elapsed();
 	
 
 	if(m_Options.useSymbolicSolver)
 	{
 		LOG_TRACE << "Start Build SymbolicSolver!";
-		m_SymbolicSolver = SymbolicFactorization(m_ccsATA);
+		mSymbolicSolver = SymbolicFactorization(mCCSATA);
 		LOG_TRACE << "Build SymbolicSolver finish!";
-		int ret = NumericFactorization(m_SymbolicSolver, m_ccsATA);
+		int ret = NumericFactorization(mSymbolicSolver, mCCSATA);
 		LOG_TRACE << "Build NumericFactor result = " << ret;
 	}
 	else
 	{
 		LOG_TRACE << "Start Build Solver!";
-		m_Solver = Factorization(m_ccsATA);
-		if (m_Solver == 0)
+		mSolver = Factorization(mCCSATA);
+		if (mSolver == 0)
 			LOG_FATAL << "Build Solver FATAL!";
 		else
 			LOG_TRACE << "Build Solver finish!";
 		for (int k = 0;k<20;++k)
-			LOG_TRACE << "m_Solver->matrix->values " << k << ", " << m_Solver->matrix->values.d[k];
+			LOG_TRACE << "m_Solver->matrix->values " << k << ", " << mSolver->matrix->values.d[k];
 	}
 
 	osg::Vec3f vmax, vmin;
-	double* bound = m_Mesh.GetBound();
+	double* bound = mMesh.GetBound();
 	vmin[0] = bound[0];
 	vmin[1] = bound[2];
 	vmin[2] = bound[4];
@@ -80,30 +80,30 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 
 void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 {
-	int n = m_Mesh.n_vertices();
-	int fn = m_Mesh.n_faces();
+	int n = mMesh.n_vertices();
+	int fn = mMesh.n_faces();
 	LOG_TRACE  << "n:" << n << " fn: "<< fn;
 	A = SparseMatrix(3*n, n);
 	std::vector <double> areaRatio(fn) ;
 	std::vector <bool >  collapsed(n) ;
-	if (m_oldAreaRatio.empty())
+	if (mOldAreaRatio.empty())
 	{
-		m_oldAreaRatio.resize(fn);
+		mOldAreaRatio.resize(fn);
 		for(int i = 0; i < fn; i++)
-			m_oldAreaRatio[i]= 0.4;
+			mOldAreaRatio[i]= 0.4;
 	}
 	Tri_Mesh::FIter		f_it;
 	Tri_Mesh::FVIter	fv_it;
 	Vec3 face[3], c;
 	int i=0;
-	for (f_it = m_Mesh.faces_begin(); f_it != m_Mesh.faces_end(); ++f_it, ++i)  {
+	for (f_it = mMesh.faces_begin(); f_it != mMesh.faces_end(); ++f_it, ++i)  {
 		//取mesh的面
 		int j=0;
 		int c[3];
-		for (fv_it = m_Mesh.fv_iter( f_it ); fv_it; ++fv_it, ++j) {
+		for (fv_it = mMesh.fv_iter( f_it ); fv_it; ++fv_it, ++j) {
 			//fviter找每個面 的handle
 
-			const Tri_Mesh::Point& dp = m_Mesh.point(fv_it.handle());
+			const Tri_Mesh::Point& dp = mMesh.point(fv_it.handle());
 			face[j][0] = dp[0];
 			face[j][1] = dp[1];
 			face[j][2] = dp[2];
@@ -112,7 +112,7 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 		const Vec3& v1 = face[0];
 		const Vec3& v2 = face[1];
 		const Vec3& v3 = face[2];
-		areaRatio[i] = m_Mesh.ComputeFaceArea(f_it.handle()) / m_originalFaceArea[i];
+		areaRatio[i] = mMesh.ComputeFaceArea(f_it.handle()) / mOriginalFaceArea[i];
 		if (i<100)LOG_TRACE << "areaRatio[" << i << "]: " << areaRatio[i];
 		if (areaRatio[i] < m_Options.areaRatioThreshold)
 		{
@@ -139,14 +139,14 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 	{
 		double totRatio = 0;
 		double oldTotRatio = 0;
-		for (int_vector::iterator iit=m_Mesh.m_adjVF[i].begin();iit!=m_Mesh.m_adjVF[i].end();++iit)
+		for (int_vector::iterator iit=mMesh.mAdjVF[i].begin();iit!=mMesh.mAdjVF[i].end();++iit)
 		{
 			totRatio += areaRatio[*iit];
-			oldTotRatio += m_oldAreaRatio[*iit];
+			oldTotRatio += mOldAreaRatio[*iit];
 		}
-		totRatio /= m_Mesh.m_adjVF[i].size();
+		totRatio /= mMesh.mAdjVF[i].size();
 		//if (i<100)LOG_TRACE << "totRatio[" << i << "]: " << totRatio;
-		oldTotRatio /= m_Mesh.m_adjVF[i].size();
+		oldTotRatio /= mMesh.mAdjVF[i].size();
 		double tot = 0;
 		cells& ce = A.GetRow(i);
 		for (cells::const_iterator it = ce.begin();it != ce.end();++it)
@@ -157,19 +157,19 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 		if (tot > 10000) 
 		{
 			collapsed[i] = true;
-			m_Mesh.m_Flags[i] = 1;
+			mMesh.m_Flags[i] = 1;
 			for (cells::iterator it = ce.begin();it != ce.end();++it)
 			{
 				(*it)->value /= (tot / 10000);
 			}
 		}
 		for (cells::const_iterator it1 = ce.begin();it1 != ce.end();++it1)
-			(*it1)->value *= m_lapWeight[i];
-		m_lapWeight[i] *= m_Options.laplacianConstraintScale;
-		if (m_lapWeight[i] > 2048) m_lapWeight[i] = 2048;
+			(*it1)->value *= mLapWeight[i];
+		mLapWeight[i] *= m_Options.laplacianConstraintScale;
+		if (mLapWeight[i] > 2048) mLapWeight[i] = 2048;
 		double d = (1.0 / sqrt(totRatio)) * m_Options.positionalConstraintWeight;
-		if (!(_isnan(d))) m_posWeight[i] = d;
-		if (m_posWeight[i] > 10000) m_posWeight[i] = 10000;
+		if (!(_isnan(d))) mPosWeight[i] = d;
+		if (mPosWeight[i] > 10000) mPosWeight[i] = 10000;
 		//if (i<100)LOG_TRACE << "m_posWeight[" << i << "]: " << m_posWeight[i];
 		count++;
 		bool ok = true;
@@ -189,15 +189,15 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 				if ((*it)->i == (*it)->j)
 					(*it)->value = -1;
 				else
-					(*it)->value = 1.0 / m_Mesh.m_adjVV[i].size();
+					(*it)->value = 1.0 / mMesh.mAdjVV[i].size();
 			}
 		}
 	}
 	LOG_TRACE << "weight ok";
 	for (int i = 0; i < fn; i++)
-		m_oldAreaRatio[i] = areaRatio[i];
+		mOldAreaRatio[i] = areaRatio[i];
 	for (int i = 0; i < n; i++)
-		A.AddElement(i + n, i, m_posWeight[i]);
+		A.AddElement(i + n, i, mPosWeight[i]);
 	for (int i = 0; i < n; i++)
 		A.AddElement(i + n + n, i, m_Options.originalPositionalConstraintWeight);
 	A.SortElement();
@@ -207,30 +207,30 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 
 MMatrix Skeletonizer::BuildMatrixA()
 {
-	int n = m_Mesh.n_vertices();
-	int fn =m_Mesh.n_faces();
+	int n = mMesh.n_vertices();
+	int fn =mMesh.n_faces();
 	LOG_TRACE  << "n:" << n << " fn: "<< fn;
 	MMatrix A( 3* n , n);
 	std::vector <double> areaRatio(fn) ;
 	std::vector <bool >  collapsed(n) ;
-	if ( m_oldAreaRatio.empty())
+	if ( mOldAreaRatio.empty())
 	{
-		m_oldAreaRatio.resize(fn);
+		mOldAreaRatio.resize(fn);
 		for(int i = 0; i < fn; i++)
-		m_oldAreaRatio[i]= 0.4;
+		mOldAreaRatio[i]= 0.4;
 	}
 	Tri_Mesh::FIter		 f_it;
 	Tri_Mesh::FVIter	fv_it;
 	osg::Vec3f face[3], c;
 	int i=0;
-	for (f_it = m_Mesh.faces_begin(); f_it != m_Mesh.faces_end(); ++f_it)  {
+	for (f_it = mMesh.faces_begin(); f_it != mMesh.faces_end(); ++f_it)  {
 		//取mesh的面
 		int j=0;
 		int c[3];
-		for (fv_it = m_Mesh.fv_iter( f_it ); fv_it; ++fv_it, ++j) {
+		for (fv_it = mMesh.fv_iter( f_it ); fv_it; ++fv_it, ++j) {
 			//fviter找每個面 的handle
 
-			const Tri_Mesh::Point& dp = m_Mesh.point(fv_it.handle());
+			const Tri_Mesh::Point& dp = mMesh.point(fv_it.handle());
 			face[j][0] = dp[0];
 			face[j][1] = dp[1];
 			face[j][2] = dp[2];
@@ -240,7 +240,7 @@ MMatrix Skeletonizer::BuildMatrixA()
 		Vec3 v2(face[1].ptr());
 		Vec3 v3(face[2].ptr());
 		
-		areaRatio[i] = m_Mesh.ComputeFaceArea(f_it.handle()) / m_originalFaceArea[i];
+		areaRatio[i] = mMesh.ComputeFaceArea(f_it.handle()) / mOriginalFaceArea[i];
 		if (areaRatio[i] < m_Options.areaRatioThreshold)
 		{
 		}
@@ -269,13 +269,13 @@ MMatrix Skeletonizer::BuildMatrixA()
 	{
 		double totRatio = 0;
 		double oldTotRatio = 0;
-		for (int_vector::iterator it=m_Mesh.m_adjVF[i].begin();it!=m_Mesh.m_adjVF[i].end();++it)
+		for (int_vector::iterator it=mMesh.mAdjVF[i].begin();it!=mMesh.mAdjVF[i].end();++it)
 		{
 			totRatio += areaRatio[*it];
-			oldTotRatio += m_oldAreaRatio[*it];
+			oldTotRatio += mOldAreaRatio[*it];
 		}
-		totRatio /= m_Mesh.m_adjVF[i].size();
-		oldTotRatio /= m_Mesh.m_adjVF[i].size();
+		totRatio /= mMesh.mAdjVF[i].size();
+		oldTotRatio /= mMesh.mAdjVF[i].size();
 
 		double tot = 0;
 		for (unsigned w=0;w<rows[i].size();++w)
@@ -285,19 +285,19 @@ MMatrix Skeletonizer::BuildMatrixA()
 		if (tot > 10000) 
 		{
 			collapsed[i] = true;
-			m_Mesh.m_Flags[i] = 1;
+			mMesh.m_Flags[i] = 1;
 			for (size_t w=0;w<rows[i].size();++w)
 			{
 				A(rows[i][w], i) /= (tot / 10000);
 			}
 		}
 		for (unsigned w=0;w<rows[i].size();++w)
-			A(rows[i][w], i) *= m_lapWeight[i];
-		m_lapWeight[i] *= m_Options.laplacianConstraintScale;
-		if (m_lapWeight[i] > 2048) m_lapWeight[i] = 2048;
+			A(rows[i][w], i) *= mLapWeight[i];
+		mLapWeight[i] *= m_Options.laplacianConstraintScale;
+		if (mLapWeight[i] > 2048) mLapWeight[i] = 2048;
 		double d = (1.0 / sqrt(totRatio)) * m_Options.positionalConstraintWeight;
-		if (!(_isnan(d))) m_posWeight[i] = d;
-		if (m_posWeight[i] > 10000) m_posWeight[i] = 10000;
+		if (!(_isnan(d))) mPosWeight[i] = d;
+		if (mPosWeight[i] > 10000) mPosWeight[i] = 10000;
 		count++;
 		bool ok = true;
 		for (unsigned w=0;w<rows[i].size();++w)
@@ -314,15 +314,15 @@ MMatrix Skeletonizer::BuildMatrixA()
 				if (i == rows[i][w])
 					A(rows[i][w], i) = -1;
 				else
-					A(rows[i][w], i) = 1.0 / m_Mesh.m_adjVV[i].size();
+					A(rows[i][w], i) = 1.0 / mMesh.mAdjVV[i].size();
 			}
 		}
 	}
 	LOG_TRACE << "weight ok";
 	for (int i = 0; i < fn; i++)
-		m_oldAreaRatio[i] = areaRatio[i];
+		mOldAreaRatio[i] = areaRatio[i];
 	for (int i = 0; i < n; i++)
-		A(i + n, i) = m_posWeight[i];
+		A(i + n, i) = mPosWeight[i];
 	for (int i = 0; i < n; i++)
 		A(i + n + n, i) = m_Options.originalPositionalConstraintWeight;
 	LOG_TRACE << "Matrix A's nnz: " << A.nnz();
@@ -331,8 +331,8 @@ MMatrix Skeletonizer::BuildMatrixA()
 
 Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 {
-	int n = m_Mesh.n_vertices();
-	int fn = m_Mesh.n_faces();
+	int n = mMesh.n_vertices();
+	int fn = mMesh.n_faces();
 	MVector LSsol;
 	MMatrix LSMat(3*n , n);
 	std::vector <double> areaRatio(fn) ;
@@ -340,11 +340,11 @@ Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 	Tri_Mesh::FVIter	fv_it;
 	osg::Vec3f face[3], c;
 	int i=0;
-	for (f_it = m_Mesh.faces_begin(); f_it != m_Mesh.faces_end(); ++f_it)  {
+	for (f_it = mMesh.faces_begin(); f_it != mMesh.faces_end(); ++f_it)  {
 		int j=0;
 		int c[3];
-		for (fv_it = m_Mesh.fv_iter( f_it ); fv_it; ++fv_it, ++j) {
-			const Tri_Mesh::Point& dp = m_Mesh.point(fv_it.handle());
+		for (fv_it = mMesh.fv_iter( f_it ); fv_it; ++fv_it, ++j) {
+			const Tri_Mesh::Point& dp = mMesh.point(fv_it.handle());
 			face[j][0] = dp[0];
 			face[j][1] = dp[1];
 			face[j][2] = dp[2];
@@ -354,7 +354,7 @@ Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 		Vec3 v2(face[1].ptr());
 		Vec3 v3(face[2].ptr());
 
-		areaRatio[i] = m_Mesh.ComputeFaceArea(f_it.handle()) / m_originalFaceArea[i];
+		areaRatio[i] = mMesh.ComputeFaceArea(f_it.handle()) / mOriginalFaceArea[i];
 		if (areaRatio[i] < m_Options.areaRatioThreshold)
 		{
 		}
@@ -396,67 +396,68 @@ Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 void Skeletonizer::ImplicitSmooth()
 {
 	LOG_TRACE << "Start ImplicitSmooth";
-	const int n = m_Mesh.n_vertices();
+	const int n = mMesh.n_vertices();
 	double_vector x(n);
 	double_vector b(3*n);
 	double_vector ATb(n);
 	for (int i = 0; i < 3; i++)
 	{
-		double_vector VertexPos = m_Mesh.GetVectors();
-		assert(m_originalVertexPos.size() == 3*n);
+		double_vector VertexPos;
+		mMesh.GetVertexs(&VertexPos);
+		assert(mOriginalVertexPos.size() == 3*n);
 		int j=0, k=0;
 		double tsum = 0;
 		for (;j < n; ++j, k+=3) 
 		{
 			b[j] = 0;
-			b[j + n] = VertexPos[k+i] * m_posWeight[j];
+			b[j + n] = VertexPos[k+i] * mPosWeight[j];
 			tsum += b[j + n];
-			b[j + n + n] = m_originalVertexPos[k+i] * m_Options.originalPositionalConstraintWeight;
+			b[j + n + n] = mOriginalVertexPos[k+i] * m_Options.originalPositionalConstraintWeight;
 		}
 
-		m_ccsA.PreMultiply(&b[0], &ATb[0]);
+		mCCSA.PreMultiply(&b[0], &ATb[0]);
 		
 		double* _x = &x[0];
 		double* _ATb = &ATb[0];
 		int ret;
 		if (m_Options.useSymbolicSolver)
-			ret = NumericSolve(m_SymbolicSolver, _x, _ATb);
+			ret = NumericSolve(mSymbolicSolver, _x, _ATb);
 		else
-			ret = Solve(m_Solver, _x, _ATb);
+			ret = Solve(mSolver, _x, _ATb);
 		tsum = 0;
 		LOG_TRACE << "Numeric solver: " << (ret == 0);
  		j=0;k=0;
 		for (;j < n; ++j, k+=3)
 		{
-			m_originalVertexPos[k+i] = x[j];
+			mOriginalVertexPos[k+i] = x[j];
 		}
  		k=0;
-		LOG_DEBUG << i << " TotalFaceArea: " << m_Mesh.TotalFaceArea();
-		for (BasicMesh::VertexIter v_it=m_Mesh.vertices_begin();
-			v_it!=m_Mesh.vertices_end(); ++v_it, k+=3)
+		LOG_DEBUG << i << " TotalFaceArea: " << mMesh.TotalFaceArea();
+		for (BasicMesh::VertexIter v_it=mMesh.vertices_begin();
+			v_it!=mMesh.vertices_end(); ++v_it, k+=3)
 		{
-			Tri_Mesh::Point& p = m_Mesh.point(v_it);
-			p[i] = m_originalVertexPos[k+i];
+			Tri_Mesh::Point& p = mMesh.point(v_it);
+			p[i] = mOriginalVertexPos[k+i];
 		}
-		LOG_DEBUG << i << " TotalFaceArea: " << m_Mesh.TotalFaceArea();
+		LOG_DEBUG << i << " TotalFaceArea: " << mMesh.TotalFaceArea();
 	}
 	iter++;
 	SparseMatrix A;
 	BuildSMatrixA(A);
-	m_ccsA = CCSMatrix(A);
-	m_ccsATA = CCSMatrixATA(m_ccsA);
+	mCCSA = CCSMatrix(A);
+	mCCSATA = CCSMatrixATA(mCCSA);
 
 	if(m_Options.useSymbolicSolver)
 	{
-		FreeNumericFactor(m_SymbolicSolver);
-		int ret = NumericFactorization(m_SymbolicSolver, m_ccsATA);
+		FreeNumericFactor(mSymbolicSolver);
+		int ret = NumericFactorization(mSymbolicSolver, mCCSATA);
 		LOG_TRACE << "NumericFactorization: " << (ret == 0);
 	}
 	else
 	{
-		if (m_Solver != NULL) FreeSolver(m_Solver);
-		m_Solver = Factorization(m_ccsATA);
-		if (m_Solver == NULL) 
+		if (mSolver != NULL) FreeSolver(mSolver);
+		mSolver = Factorization(mCCSATA);
+		if (mSolver == NULL) 
 		{
 			LOG_FATAL << "m_Solver = Factorization(m_ccsATA);";
 		}
@@ -474,7 +475,7 @@ void Skeletonizer::Initialize()
 	// options for geometry collapsing
 	m_Options.maxIterations				= 30;
 	//m_Options.laplacianConstraintWeight		= 1.0;
-	m_Options.laplacianConstraintWeight = 1.0 / (10 * sqrt(m_Mesh.AverageFaceArea()));
+	m_Options.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh.AverageFaceArea()));
 	m_Options.positionalConstraintWeight		= 1.0;
 	m_Options.originalPositionalConstraintWeight	= 0.0;
 	m_Options.laplacianConstraintScale		= 2.0;
@@ -609,14 +610,14 @@ SparseMatrix Skeletonizer::Multiply1T( SparseMatrix& A1, SparseMatrix& A2 )
 
 void Skeletonizer::GeometryCollapse( int maxIter )
 {
-// 	if (m_collapsedVertexPos.empty())
-// 		return ;
+	LOG_TRACE << "[GeometryCollapse]";
+	//if (m_collapsedVertexPos.empty()) return ;
 	iter = 0;
 	double volume;
 	do
 	{
 		ImplicitSmooth();
-		volume = m_Mesh.GetVolume();
+		volume = mMesh.GetVolume();
 	}
 	while (volume / m_originalVolume > m_Options.volumneRatioThreashold && iter < maxIter);
 }

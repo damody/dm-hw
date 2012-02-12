@@ -64,12 +64,12 @@ namespace Ogre {
         Plane ();
         Plane (const Plane& rhs);
         /** Construct a plane through a normal, and a distance to move the plane along the normal.*/
-        Plane (const Vector3& rkNormal, float fConstant);
+        Plane (const Vector3d& rkNormal, float fConstant);
 		/** Construct a plane using the 4 constants directly **/
 		Plane (float a, float b, float c, float d);
-        Plane (const Vector3& rkNormal, const Vector3& rkPoint);
-        Plane (const Vector3& rkPoint0, const Vector3& rkPoint1,
-            const Vector3& rkPoint2);
+        Plane (const Vector3d& rkNormal, const Vector3d& rkPoint);
+        Plane (const Vector3d& rkPoint0, const Vector3d& rkPoint1,
+            const Vector3d& rkPoint2);
 
         /** The "positive side" of the plane is the half space to which the
             plane normal points. The "negative side" is the other half
@@ -83,7 +83,7 @@ namespace Ogre {
             BOTH_SIDE
         };
 
-        Side getSide (const Vector3& rkPoint) const;
+        Side getSide (const Vector3d& rkPoint) const;
 
         /**
         returns the side where the aligneBox is. the flag BOTH_SIDE indicates an intersecting box.
@@ -100,7 +100,7 @@ namespace Ogre {
             NEGATIVE_SIDE if the box complete lies on the "negative side" of the plane,
             and BOTH_SIDE if the box intersects the plane.
         */
-        Side getSide (const Vector3& centre, const Vector3& halfSize) const;
+        Side getSide (const Vector3d& centre, const Vector3d& halfSize) const;
 
         /** This is a pseudodistance. The sign of the return value is
             positive if the point is on the positive side of the plane,
@@ -110,14 +110,14 @@ namespace Ogre {
             The absolute value of the return value is the true distance only
             when the plane normal is a unit length vector.
         */
-        float getDistance (const Vector3& rkPoint) const;
+        float getDistance (const Vector3d& rkPoint) const;
 
         /** Redefine this plane based on 3 points. */
-        void redefine(const Vector3& rkPoint0, const Vector3& rkPoint1,
-            const Vector3& rkPoint2);
+        void redefine(const Vector3d& rkPoint0, const Vector3d& rkPoint1,
+            const Vector3d& rkPoint2);
 
 		/** Redefine this plane based on a normal and a point. */
-		void redefine(const Vector3& rkNormal, const Vector3& rkPoint);
+		void redefine(const Vector3d& rkNormal, const Vector3d& rkPoint);
 
 		/** Project a vector onto the plane. 
 		@remarks This gives you the element of the input vector that is perpendicular 
@@ -126,7 +126,7 @@ namespace Ogre {
 			from the original vector, since parallel + perpendicular = original.
 		@param v The input vector
 		*/
-		Vector3 projectVector(const Vector3& v) const;
+		Vector3d projectVector(const Vector3d& v) const;
 
         /** Normalises the plane.
             @remarks
@@ -139,7 +139,7 @@ namespace Ogre {
         */
         float normalise(void);
 
-		Vector3 normal;
+		Vector3d normal;
         float d;
 
         /// Comparison operator

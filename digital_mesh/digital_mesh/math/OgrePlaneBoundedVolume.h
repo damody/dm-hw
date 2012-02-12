@@ -66,9 +66,9 @@ namespace Ogre {
             if (box.isInfinite()) return true;
 
             // Get centre of the box
-            Vector3 centre = box.getCenter();
+            Vector3d centre = box.getCenter();
             // Get the half-size of the box
-            Vector3 halfSize = box.getHalfSize();
+            Vector3d halfSize = box.getHalfSize();
             
             PlaneList::const_iterator i, iend;
             iend = planes.end();

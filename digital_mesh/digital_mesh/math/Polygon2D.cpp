@@ -14,8 +14,8 @@
 
 void Polygon2D::BuildEdges()
 {
-	Ogre::Vector2* p1;
-	Ogre::Vector2* p2;
+	Ogre::Vector2d* p1;
+	Ogre::Vector2d* p2;
 	m_edges.clear();
 	
 	for (size_t i = 0; i < m_points.size(); i++) 
@@ -36,7 +36,7 @@ bool Polygon2D::IsCollision( const Polygon2D& rhs )
 	size_t edgeCountA = m_edges.size();
 	size_t edgeCountB = rhs.m_edges.size();
 	float minIntervalDistance = (float)INT_MAX;
-	Ogre::Vector2 edge;
+	Ogre::Vector2d edge;
 
 	// Loop through all the edges of both polygons
 	for (size_t edgeIndex = 0; edgeIndex < edgeCountA + edgeCountB; edgeIndex++) {
@@ -49,7 +49,7 @@ bool Polygon2D::IsCollision( const Polygon2D& rhs )
 		// ===== 1. Find if the polygons are currently intersecting =====
 
 		// Find the axis perpendicular to the current edge
-		Ogre::Vector2 axis(-edge.y, edge.x);
+		Ogre::Vector2d axis(-edge.y, edge.x);
 		axis.normalise();
 
 		// Find the projection of the polygon on the current axis
@@ -64,7 +64,7 @@ bool Polygon2D::IsCollision( const Polygon2D& rhs )
 	return true;
 }
 
-void Polygon2D::ProjectPolygon( const Ogre::Vector2& axis, const Polygon2D& polygon, float* min, float* max )
+void Polygon2D::ProjectPolygon( const Ogre::Vector2d& axis, const Polygon2D& polygon, float* min, float* max )
 {
 	// To project a point on an axis use the dot product
 	float d = axis.dotProduct(polygon.m_points[0]);
@@ -94,10 +94,10 @@ void Polygon2D::CheckBuildEdges()
 void Polygon2D::AddPoint( float x, float y )
 {
 	m_needBuildEdges = true;
-	m_points.push_back(Ogre::Vector2(x, y));
+	m_points.push_back(Ogre::Vector2d(x, y));
 }
 
-void Polygon2D::AddPoint( const Ogre::Vector2& p )
+void Polygon2D::AddPoint( const Ogre::Vector2d& p )
 {
 	m_needBuildEdges = true;
 	m_points.push_back(p);
@@ -113,7 +113,7 @@ void Polygon2D::Offset( float x, float y )
 	}
 }
 
-void Polygon2D::Offset( const Ogre::Vector2& v )
+void Polygon2D::Offset( const Ogre::Vector2d& v )
 {
 	for (Vector2s::iterator it = m_points.begin();
 		it != m_points.end();++it)
@@ -122,7 +122,7 @@ void Polygon2D::Offset( const Ogre::Vector2& v )
 	}
 }
 
-void Polygon2D::Offset( const Ogre::Vector3& v )
+void Polygon2D::Offset( const Ogre::Vector3d& v )
 {
 	for (Vector2s::iterator it = m_points.begin();
 		it != m_points.end();++it)
@@ -137,12 +137,12 @@ void Polygon2D::SetAngle( float angle )
 	for (Vector2s::iterator it = m_points.begin();
 		it != m_points.end();++it)
 	{
-		*it = GetRotation(*it, angle-m_angle, Ogre::Vector2::ZERO);
+		*it = GetRotation(*it, angle-m_angle, Ogre::Vector2d::ZERO);
 	}
 	m_angle = angle;
 }
 
-void Polygon2D::Rotation( float angle, const Ogre::Vector2& middle /*= Ogre::Vector2::ZERO*/ )
+void Polygon2D::Rotation( float angle, const Ogre::Vector2d& middle /*= Ogre::Vector2::ZERO*/ )
 {
 	m_angle = angle;
 	for (Vector2s::iterator it = m_points.begin();

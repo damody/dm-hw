@@ -59,10 +59,10 @@ namespace Ogre {
 		};
 	protected:
 
-		Vector3 mMinimum;
-		Vector3 mMaximum;
+		Vector3d mMinimum;
+		Vector3d mMaximum;
 		Extent mExtent;
-		mutable Vector3* mpCorners;
+		mutable Vector3d* mpCorners;
 
 	public:
 		/*
@@ -85,21 +85,21 @@ namespace Ogre {
 			NEAR_LEFT_TOP = 5,
 			NEAR_RIGHT_TOP = 4
 		} CornerEnum;
-		inline AxisAlignedBox() : mMinimum(Vector3::ZERO), mMaximum(Vector3::UNIT_SCALE), mpCorners(0)
+		inline AxisAlignedBox() : mMinimum(Vector3d::ZERO), mMaximum(Vector3d::UNIT_SCALE), mpCorners(0)
 		{
 			// Default to a null box 
 			setMinimum( -0.5, -0.5, -0.5 );
 			setMaximum( 0.5, 0.5, 0.5 );
 			mExtent = EXTENT_NULL;
 		}
-		inline AxisAlignedBox(Extent e) : mMinimum(Vector3::ZERO), mMaximum(Vector3::UNIT_SCALE), mpCorners(0)
+		inline AxisAlignedBox(Extent e) : mMinimum(Vector3d::ZERO), mMaximum(Vector3d::UNIT_SCALE), mpCorners(0)
 		{
 			setMinimum( -0.5, -0.5, -0.5 );
 			setMaximum( 0.5, 0.5, 0.5 );
 			mExtent = e;
 		}
 
-		inline AxisAlignedBox(const AxisAlignedBox & rkBox) : mMinimum(Vector3::ZERO), mMaximum(Vector3::UNIT_SCALE), mpCorners(0)
+		inline AxisAlignedBox(const AxisAlignedBox & rkBox) : mMinimum(Vector3d::ZERO), mMaximum(Vector3d::UNIT_SCALE), mpCorners(0)
 
 		{
 			if (rkBox.isNull())
@@ -110,14 +110,14 @@ namespace Ogre {
 				setExtents( rkBox.mMinimum, rkBox.mMaximum );
 		}
 
-		inline AxisAlignedBox( const Vector3& min, const Vector3& max ) : mMinimum(Vector3::ZERO), mMaximum(Vector3::UNIT_SCALE), mpCorners(0)
+		inline AxisAlignedBox( const Vector3d& min, const Vector3d& max ) : mMinimum(Vector3d::ZERO), mMaximum(Vector3d::UNIT_SCALE), mpCorners(0)
 		{
 			setExtents( min, max );
 		}
 
 		inline AxisAlignedBox(
 			float mx, float my, float mz,
-			float Mx, float My, float Mz ) : mMinimum(Vector3::ZERO), mMaximum(Vector3::UNIT_SCALE), mpCorners(0)
+			float Mx, float My, float Mz ) : mMinimum(Vector3d::ZERO), mMaximum(Vector3d::UNIT_SCALE), mpCorners(0)
 		{
 			setExtents( mx, my, mz, Mx, My, Mz );
 		}
@@ -145,7 +145,7 @@ namespace Ogre {
 
 		/** Gets the minimum corner of the box.
 		*/
-		inline const Vector3& getMinimum(void) const
+		inline const Vector3d& getMinimum(void) const
 		{ 
 			return mMinimum; 
 		}
@@ -153,14 +153,14 @@ namespace Ogre {
 		/** Gets a modifiable version of the minimum
 		corner of the box.
 		*/
-		inline Vector3& getMinimum(void)
+		inline Vector3d& getMinimum(void)
 		{ 
 			return mMinimum; 
 		}
 
 		/** Gets the maximum corner of the box.
 		*/
-		inline const Vector3& getMaximum(void) const
+		inline const Vector3d& getMaximum(void) const
 		{ 
 			return mMaximum;
 		}
@@ -168,7 +168,7 @@ namespace Ogre {
 		/** Gets a modifiable version of the maximum
 		corner of the box.
 		*/
-		inline Vector3& getMaximum(void)
+		inline Vector3d& getMaximum(void)
 		{ 
 			return mMaximum;
 		}
@@ -176,7 +176,7 @@ namespace Ogre {
 
 		/** Sets the minimum corner of the box.
 		*/
-		inline void setMinimum( const Vector3& vec )
+		inline void setMinimum( const Vector3d& vec )
 		{
 			mExtent = EXTENT_FINITE;
 			mMinimum = vec;
@@ -210,7 +210,7 @@ namespace Ogre {
 
 		/** Sets the maximum corner of the box.
 		*/
-		inline void setMaximum( const Vector3& vec )
+		inline void setMaximum( const Vector3d& vec )
 		{
 			mExtent = EXTENT_FINITE;
 			mMaximum = vec;
@@ -244,7 +244,7 @@ namespace Ogre {
 
 		/** Sets both minimum and maximum extents at once.
 		*/
-		inline void setExtents( const Vector3& min, const Vector3& max )
+		inline void setExtents( const Vector3d& min, const Vector3d& max )
 		{
             assert( (min.x <= max.x && min.y <= max.y && min.z <= max.z) &&
                 "The minimum corner of the box must be less than or equal to maximum corner" );
@@ -297,7 +297,7 @@ namespace Ogre {
 		</pre>
 		@remarks as this implementation uses a static member, make sure to use your own copy !
 		*/
-		inline const Vector3* getAllCorners(void) const
+		inline const Vector3d* getAllCorners(void) const
 		{
 			assert( (mExtent == EXTENT_FINITE) && "Can't get corners of a null or infinite AAB" );
 
@@ -308,7 +308,7 @@ namespace Ogre {
 			//   around face (looking onto the face)
 			// Only for optimization/compatibility.
 			if (!mpCorners)
-				mpCorners = new Vector3[8];
+				mpCorners = new Vector3d[8];
 
 			mpCorners[0] = mMinimum;
 			mpCorners[1].x = mMinimum.x; mpCorners[1].y = mMaximum.y; mpCorners[1].z = mMinimum.z;
@@ -325,28 +325,28 @@ namespace Ogre {
 
 		/** gets the position of one of the corners
 		*/
-		Vector3 getCorner(CornerEnum cornerToGet) const
+		Vector3d getCorner(CornerEnum cornerToGet) const
 		{
 			switch(cornerToGet)
 			{
 			case FAR_LEFT_BOTTOM:
 				return mMinimum;
 			case FAR_LEFT_TOP:
-				return Vector3(mMinimum.x, mMaximum.y, mMinimum.z);
+				return Vector3d(mMinimum.x, mMaximum.y, mMinimum.z);
 			case FAR_RIGHT_TOP:
-				return Vector3(mMaximum.x, mMaximum.y, mMinimum.z);
+				return Vector3d(mMaximum.x, mMaximum.y, mMinimum.z);
 			case FAR_RIGHT_BOTTOM:
-				return Vector3(mMaximum.x, mMinimum.y, mMinimum.z);
+				return Vector3d(mMaximum.x, mMinimum.y, mMinimum.z);
 			case NEAR_RIGHT_BOTTOM:
-				return Vector3(mMaximum.x, mMinimum.y, mMaximum.z);
+				return Vector3d(mMaximum.x, mMinimum.y, mMaximum.z);
 			case NEAR_LEFT_BOTTOM:
-				return Vector3(mMinimum.x, mMinimum.y, mMaximum.z);
+				return Vector3d(mMinimum.x, mMinimum.y, mMaximum.z);
 			case NEAR_LEFT_TOP:
-				return Vector3(mMinimum.x, mMaximum.y, mMaximum.z);
+				return Vector3d(mMinimum.x, mMaximum.y, mMaximum.z);
 			case NEAR_RIGHT_TOP:
 				return mMaximum;
 			default:
-				return Vector3();
+				return Vector3d();
 			}
 		}
 
@@ -395,8 +395,8 @@ namespace Ogre {
 			// Otherwise merge
 			else
 			{
-				Vector3 min = mMinimum;
-				Vector3 max = mMaximum;
+				Vector3d min = mMinimum;
+				Vector3d max = mMaximum;
 				max.makeCeil(rhs.mMaximum);
 				min.makeFloor(rhs.mMinimum);
 
@@ -407,7 +407,7 @@ namespace Ogre {
 
 		/** Extends the box to encompass the specified point (if needed).
 		*/
-		inline void merge( const Vector3& point )
+		inline void merge( const Vector3d& point )
 		{
 			switch (mExtent)
 			{
@@ -442,7 +442,7 @@ namespace Ogre {
 			if( mExtent != EXTENT_FINITE )
 				return;
 
-			Vector3 oldMin, oldMax, currentCorner;
+			Vector3d oldMin, oldMax, currentCorner;
 
 			// Getting the old values so that we can use the existing merge method.
 			oldMin = mMinimum;
@@ -511,11 +511,11 @@ namespace Ogre {
 			if ( mExtent != EXTENT_FINITE )
 				return;
 
-			Vector3 centre = getCenter();
-			Vector3 halfSize = getHalfSize();
+			Vector3d centre = getCenter();
+			Vector3d halfSize = getHalfSize();
 
-			Vector3 newCentre = m.transformAffine(centre);
-			Vector3 newHalfSize(
+			Vector3d newCentre = m.transformAffine(centre);
+			Vector3d newHalfSize(
 				Math::Abs(m[0][0]) * halfSize.x + Math::Abs(m[0][1]) * halfSize.y + Math::Abs(m[0][2]) * halfSize.z, 
 				Math::Abs(m[1][0]) * halfSize.x + Math::Abs(m[1][1]) * halfSize.y + Math::Abs(m[1][2]) * halfSize.z,
 				Math::Abs(m[2][0]) * halfSize.x + Math::Abs(m[2][1]) * halfSize.y + Math::Abs(m[2][2]) * halfSize.z);
@@ -605,8 +605,8 @@ namespace Ogre {
 				return *this;
 			}
 
-			Vector3 intMin = mMinimum;
-            Vector3 intMax = mMaximum;
+			Vector3d intMin = mMinimum;
+            Vector3d intMax = mMaximum;
 
             intMin.makeCeil(b2.getMinimum());
             intMax.makeFloor(b2.getMaximum());
@@ -632,7 +632,7 @@ namespace Ogre {
 
 			case EXTENT_FINITE:
 				{
-					Vector3 diff = mMaximum - mMinimum;
+					Vector3d diff = mMaximum - mMinimum;
 					return diff.x * diff.y * diff.z;
 				}
 
@@ -646,15 +646,15 @@ namespace Ogre {
 		}
 
 		/** Scales the AABB by the vector given. */
-		inline void scale(const Vector3& s)
+		inline void scale(const Vector3d& s)
 		{
 			// Do nothing if current null or infinite
 			if (mExtent != EXTENT_FINITE)
 				return;
 
 			// NB assumes centered on origin
-			Vector3 min = mMinimum * s;
-			Vector3 max = mMaximum * s;
+			Vector3d min = mMinimum * s;
+			Vector3d max = mMaximum * s;
 			setExtents(min, max);
 		}
 
@@ -669,7 +669,7 @@ namespace Ogre {
 			return Math::intersects(p, *this);
 		}
 		/** Tests whether the vector point is within this box. */
-		bool intersects(const Vector3& v) const
+		bool intersects(const Vector3d& v) const
 		{
 			switch (mExtent)
 			{
@@ -690,63 +690,63 @@ namespace Ogre {
 			}
 		}
 		/// Gets the centre of the box
-		Vector3 getCenter(void) const
+		Vector3d getCenter(void) const
 		{
 			assert( (mExtent == EXTENT_FINITE) && "Can't get center of a null or infinite AAB" );
 
-			return Vector3(
+			return Vector3d(
 				(mMaximum.x + mMinimum.x) * 0.5f,
 				(mMaximum.y + mMinimum.y) * 0.5f,
 				(mMaximum.z + mMinimum.z) * 0.5f);
 		}
 		/// Gets the size of the box
-		Vector3 getSize(void) const
+		Vector3d getSize(void) const
 		{
 			switch (mExtent)
 			{
 			case EXTENT_NULL:
-				return Vector3::ZERO;
+				return Vector3d::ZERO;
 
 			case EXTENT_FINITE:
 				return mMaximum - mMinimum;
 
 			case EXTENT_INFINITE:
-				return Vector3(
+				return Vector3d(
 					Math::POS_INFINITY,
 					Math::POS_INFINITY,
 					Math::POS_INFINITY);
 
 			default: // shut up compiler
 				assert( false && "Never reached" );
-				return Vector3::ZERO;
+				return Vector3d::ZERO;
 			}
 		}
 		/// Gets the half-size of the box
-		Vector3 getHalfSize(void) const
+		Vector3d getHalfSize(void) const
 		{
 			switch (mExtent)
 			{
 			case EXTENT_NULL:
-				return Vector3::ZERO;
+				return Vector3d::ZERO;
 
 			case EXTENT_FINITE:
 				return (mMaximum - mMinimum) * 0.5;
 
 			case EXTENT_INFINITE:
-				return Vector3(
+				return Vector3d(
 					Math::POS_INFINITY,
 					Math::POS_INFINITY,
 					Math::POS_INFINITY);
 
 			default: // shut up compiler
 				assert( false && "Never reached" );
-				return Vector3::ZERO;
+				return Vector3d::ZERO;
 			}
 		}
 
         /** Tests whether the given point contained by this box.
         */
-        bool contains(const Vector3& v) const
+        bool contains(const Vector3d& v) const
         {
             if (isNull())
                 return false;

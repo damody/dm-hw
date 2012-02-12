@@ -198,7 +198,7 @@ namespace Ogre
               0,   0,   0,   1);
     }
     //-----------------------------------------------------------------------
-    void Matrix4::makeTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation)
+    void Matrix4::makeTransform(const Vector3d& position, const Vector3d& scale, const Quaternion& orientation)
     {
         // Ordering:
         //    1. Scale
@@ -217,11 +217,11 @@ namespace Ogre
         m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
     }
     //-----------------------------------------------------------------------
-    void Matrix4::makeInverseTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation)
+    void Matrix4::makeInverseTransform(const Vector3d& position, const Vector3d& scale, const Quaternion& orientation)
     {
         // Invert the parameters
-        Vector3 invTranslate = -position;
-        Vector3 invScale(1 / scale.x, 1 / scale.y, 1 / scale.z);
+        Vector3d invTranslate = -position;
+        Vector3d invScale(1 / scale.x, 1 / scale.y, 1 / scale.z);
         Quaternion invRot = orientation.Inverse();
 
         // Because we're inverting, order is translation, rotation, scale
@@ -242,7 +242,7 @@ namespace Ogre
         m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
     }
     //-----------------------------------------------------------------------
-	void Matrix4::decomposition(Vector3& position, Vector3& scale, Quaternion& orientation) const
+	void Matrix4::decomposition(Vector3d& position, Vector3d& scale, Quaternion& orientation) const
 	{
 		assert(isAffine());
 
@@ -250,11 +250,11 @@ namespace Ogre
 		extract3x3Matrix(m3x3);
 
 		Matrix3 matQ;
-		Vector3 vecU;
+		Vector3d vecU;
 		m3x3.QDUDecomposition( matQ, scale, vecU ); 
 
 		orientation = Quaternion( matQ );
-		position = Vector3( m[0][3], m[1][3], m[2][3] );
+		position = Vector3d( m[0][3], m[1][3], m[2][3] );
 	}
 
 }

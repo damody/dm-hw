@@ -52,8 +52,8 @@ namespace Ogre {
     {
     public:
         inline Quaternion (
-            float fW = 1.0,
-            float fX = 0.0, float fY = 0.0, float fZ = 0.0)
+            double fW = 1.0,
+            double fX = 0.0, double fY = 0.0, double fZ = 0.0)
 		{
 			w = fW;
 			x = fX;
@@ -66,24 +66,24 @@ namespace Ogre {
             this->FromRotationMatrix(rot);
         }
         /// Construct a quaternion from an angle/axis
-        inline Quaternion(const Radian& rfAngle, const Vector3& rkAxis)
+        inline Quaternion(const Radian& rfAngle, const Vector3d& rkAxis)
         {
             this->FromAngleAxis(rfAngle, rkAxis);
         }
         /// Construct a quaternion from 3 orthonormal local axes
-        inline Quaternion(const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis)
+        inline Quaternion(const Vector3d& xaxis, const Vector3d& yaxis, const Vector3d& zaxis)
         {
             this->FromAxes(xaxis, yaxis, zaxis);
         }
         /// Construct a quaternion from 3 orthonormal local axes
-        inline Quaternion(const Vector3* akAxis)
+        inline Quaternion(const Vector3d* akAxis)
         {
             this->FromAxes(akAxis);
         }
 		/// Construct a quaternion from 4 manual w/x/y/z values
-		inline Quaternion(float* valptr)
+		inline Quaternion(double* valptr)
 		{
-			memcpy(&w, valptr, sizeof(float)*4);
+			memcpy(&w, valptr, sizeof(double)*4);
 		}
 
 		/** Exchange the contents of this quaternion with another. 
@@ -97,7 +97,7 @@ namespace Ogre {
 		}
 
 		/// Array accessor operator
-		inline float operator [] ( const size_t i ) const
+		inline double operator [] ( const size_t i ) const
 		{
 			assert( i < 4 );
 
@@ -105,7 +105,7 @@ namespace Ogre {
 		}
 
 		/// Array accessor operator
-		inline float& operator [] ( const size_t i )
+		inline double& operator [] ( const size_t i )
 		{
 			assert( i < 4 );
 
@@ -113,36 +113,36 @@ namespace Ogre {
 		}
 
 		/// Pointer accessor for direct copying
-		inline float* ptr()
+		inline double* ptr()
 		{
 			return &w;
 		}
 
 		/// Pointer accessor for direct copying
-		inline const float* ptr() const
+		inline const double* ptr() const
 		{
 			return &w;
 		}
 
 		void FromRotationMatrix (const Matrix3& kRot);
         void ToRotationMatrix (Matrix3& kRot) const;
-        void FromAngleAxis (const Radian& rfAngle, const Vector3& rkAxis);
-        void ToAngleAxis (Radian& rfAngle, Vector3& rkAxis) const;
-        inline void ToAngleAxis (Degree& dAngle, Vector3& rkAxis) const {
+        void FromAngleAxis (const Radian& rfAngle, const Vector3d& rkAxis);
+        void ToAngleAxis (Radian& rfAngle, Vector3d& rkAxis) const;
+        inline void ToAngleAxis (Degree& dAngle, Vector3d& rkAxis) const {
             Radian rAngle;
             ToAngleAxis ( rAngle, rkAxis );
             dAngle = rAngle;
         }
-        void FromAxes (const Vector3* akAxis);
-        void FromAxes (const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
-        void ToAxes (Vector3* akAxis) const;
-        void ToAxes (Vector3& xAxis, Vector3& yAxis, Vector3& zAxis) const;
+        void FromAxes (const Vector3d* akAxis);
+        void FromAxes (const Vector3d& xAxis, const Vector3d& yAxis, const Vector3d& zAxis);
+        void ToAxes (Vector3d* akAxis) const;
+        void ToAxes (Vector3d& xAxis, Vector3d& yAxis, Vector3d& zAxis) const;
         /// Get the local x-axis
-        Vector3 xAxis(void) const;
+        Vector3d xAxis(void) const;
         /// Get the local y-axis
-        Vector3 yAxis(void) const;
+        Vector3d yAxis(void) const;
         /// Get the local z-axis
-        Vector3 zAxis(void) const;
+        Vector3d zAxis(void) const;
 
         inline Quaternion& operator= (const Quaternion& rkQ)
 		{
@@ -155,8 +155,8 @@ namespace Ogre {
         Quaternion operator+ (const Quaternion& rkQ) const;
         Quaternion operator- (const Quaternion& rkQ) const;
         Quaternion operator* (const Quaternion& rkQ) const;
-        Quaternion operator* (float fScalar) const;
-        friend Quaternion operator* (float fScalar,
+        Quaternion operator* (double fScalar) const;
+        friend Quaternion operator* (double fScalar,
             const Quaternion& rkQ);
         Quaternion operator- () const;
         inline bool operator== (const Quaternion& rhs) const
@@ -169,17 +169,17 @@ namespace Ogre {
 			return !operator==(rhs);
 		}
         // functions of a quaternion
-        float Dot (const Quaternion& rkQ) const;  // dot product
-        float Norm () const;  // squared-length
+        double Dot (const Quaternion& rkQ) const;  // dot product
+        double Norm () const;  // squared-length
         /// Normalises this quaternion, and returns the previous length
-        float normalise(void); 
+        double normalise(void); 
         Quaternion Inverse () const;  // apply to non-zero quaternion
         Quaternion UnitInverse () const;  // apply to unit-length quaternion
         Quaternion Exp () const;
         Quaternion Log () const;
 
         // rotation of a vector by a quaternion
-        Vector3 operator* (const Vector3& rkVector) const;
+        Vector3d operator* (const Vector3d& rkVector) const;
 
    		/** Calculate the local roll element of this quaternion.
 		@param reprojectAxis By default the method returns the 'intuitive' result
@@ -212,10 +212,10 @@ namespace Ogre {
 		bool equals(const Quaternion& rhs, const Radian& tolerance) const;
 		
 	    // spherical linear interpolation
-        static Quaternion Slerp (float fT, const Quaternion& rkP,
+        static Quaternion Slerp (double fT, const Quaternion& rkP,
             const Quaternion& rkQ, bool shortestPath = false);
 
-        static Quaternion SlerpExtraSpins (float fT,
+        static Quaternion SlerpExtraSpins (double fT,
             const Quaternion& rkP, const Quaternion& rkQ,
             int iExtraSpins);
 
@@ -225,22 +225,22 @@ namespace Ogre {
             Quaternion& rka, Quaternion& rkB);
 
         // spherical quadratic interpolation
-        static Quaternion Squad (float fT, const Quaternion& rkP,
+        static Quaternion Squad (double fT, const Quaternion& rkP,
             const Quaternion& rkA, const Quaternion& rkB,
             const Quaternion& rkQ, bool shortestPath = false);
 
         // normalised linear interpolation - faster but less accurate (non-constant rotation velocity)
-        static Quaternion nlerp(float fT, const Quaternion& rkP, 
+        static Quaternion nlerp(double fT, const Quaternion& rkP, 
             const Quaternion& rkQ, bool shortestPath = false);
 
         // cutoff for sine near zero
-        static const float ms_fEpsilon;
+        static const double ms_fEpsilon;
 
         // special values
         static const Quaternion ZERO;
         static const Quaternion IDENTITY;
 
-		float w, x, y, z;
+		double w, x, y, z;
 
 		/// Check whether this quaternion contains valid values
 		inline bool isNaN() const

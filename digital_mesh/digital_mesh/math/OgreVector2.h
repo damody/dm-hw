@@ -46,59 +46,59 @@ namespace Ogre
             scaling factors can be represented by a vector, depending on how
             you interpret the values.
     */
-    class Vector2
+    class Vector2d
     {
     public:
-        float x, y;
+        double x, y;
 
     public:
-	    inline Vector2():x(0), y(0)
+	    inline Vector2d():x(0), y(0)
         {
         }
 
-        inline Vector2(const float fX, const float fY )
+        inline Vector2d(const double fX, const double fY )
             : x( fX ), y( fY )
         {
         }
 
-        inline explicit Vector2( const float scaler )
+        inline explicit Vector2d( const double scaler )
             : x( scaler), y( scaler )
         {
         }
 
-        inline explicit Vector2( const float afCoordinate[2] )
+        inline explicit Vector2d( const double afCoordinate[2] )
             : x( afCoordinate[0] ),
               y( afCoordinate[1] )
         {
         }
 
-        inline explicit Vector2( const int afCoordinate[2] )
+        inline explicit Vector2d( const int afCoordinate[2] )
         {
-            x = (float)afCoordinate[0];
-            y = (float)afCoordinate[1];
+            x = (double)afCoordinate[0];
+            y = (double)afCoordinate[1];
         }
 
-        inline explicit Vector2( float* const r )
+        inline explicit Vector2d( double* const r )
             : x( r[0] ), y( r[1] )
         {
         }
 
 		/** Exchange the contents of this vector with another. 
 		*/
-		inline void swap(Vector2& other)
+		inline void swap(Vector2d& other)
 		{
 			std::swap(x, other.x);
 			std::swap(y, other.y);
 		}
 
-		inline float operator [] ( const size_t i ) const
+		inline double operator [] ( const size_t i ) const
         {
             assert( i < 2 );
 
             return *(&x+i);
         }
 
-		inline float& operator [] ( const size_t i )
+		inline double& operator [] ( const size_t i )
         {
             assert( i < 2 );
 
@@ -106,12 +106,12 @@ namespace Ogre
         }
 
 		/// Pointer accessor for direct copying
-		inline float* ptr()
+		inline double* ptr()
 		{
 			return &x;
 		}
 		/// Pointer accessor for direct copying
-		inline const float* ptr() const
+		inline const double* ptr() const
 		{
 			return &x;
 		}
@@ -120,7 +120,7 @@ namespace Ogre
             @param
                 rkVector The other vector
         */
-        inline Vector2& operator = ( const Vector2& rkVector )
+        inline Vector2d& operator = ( const Vector2d& rkVector )
         {
             x = rkVector.x;
             y = rkVector.y;
@@ -128,7 +128,7 @@ namespace Ogre
             return *this;
         }
 
-		inline Vector2& operator = ( const float fScalar)
+		inline Vector2d& operator = ( const double fScalar)
 		{
 			x = fScalar;
 			y = fScalar;
@@ -136,117 +136,117 @@ namespace Ogre
 			return *this;
 		}
 
-        inline bool operator == ( const Vector2& rkVector ) const
+        inline bool operator == ( const Vector2d& rkVector ) const
         {
             return ( x == rkVector.x && y == rkVector.y );
         }
 
-        inline bool operator != ( const Vector2& rkVector ) const
+        inline bool operator != ( const Vector2d& rkVector ) const
         {
             return ( x != rkVector.x || y != rkVector.y  );
         }
 
         // arithmetic operations
-        inline Vector2 operator + ( const Vector2& rkVector ) const
+        inline Vector2d operator + ( const Vector2d& rkVector ) const
         {
-            return Vector2(
+            return Vector2d(
                 x + rkVector.x,
                 y + rkVector.y);
         }
 
-        inline Vector2 operator - ( const Vector2& rkVector ) const
+        inline Vector2d operator - ( const Vector2d& rkVector ) const
         {
-            return Vector2(
+            return Vector2d(
                 x - rkVector.x,
                 y - rkVector.y);
         }
 
-        inline Vector2 operator * ( const float fScalar ) const
+        inline Vector2d operator * ( const double fScalar ) const
         {
-            return Vector2(
+            return Vector2d(
                 x * fScalar,
                 y * fScalar);
         }
 
-        inline Vector2 operator * ( const Vector2& rhs) const
+        inline Vector2d operator * ( const Vector2d& rhs) const
         {
-            return Vector2(
+            return Vector2d(
                 x * rhs.x,
                 y * rhs.y);
         }
 
-        inline Vector2 operator / ( const float fScalar ) const
+        inline Vector2d operator / ( const double fScalar ) const
         {
             assert( fScalar != 0.0 );
 
-            float fInv = 1.0f / fScalar;
+            double fInv = 1.0f / fScalar;
 
-            return Vector2(
+            return Vector2d(
                 x * fInv,
                 y * fInv);
         }
 
-        inline Vector2 operator / ( const Vector2& rhs) const
+        inline Vector2d operator / ( const Vector2d& rhs) const
         {
-            return Vector2(
+            return Vector2d(
                 x / rhs.x,
                 y / rhs.y);
         }
 
-        inline const Vector2& operator + () const
+        inline const Vector2d& operator + () const
         {
             return *this;
         }
 
-        inline Vector2 operator - () const
+        inline Vector2d operator - () const
         {
-            return Vector2(-x, -y);
+            return Vector2d(-x, -y);
         }
 
         // overloaded operators to help Vector2
-        inline friend Vector2 operator * ( const float fScalar, const Vector2& rkVector )
+        inline friend Vector2d operator * ( const double fScalar, const Vector2d& rkVector )
         {
-            return Vector2(
+            return Vector2d(
                 fScalar * rkVector.x,
                 fScalar * rkVector.y);
         }
 
-        inline friend Vector2 operator / ( const float fScalar, const Vector2& rkVector )
+        inline friend Vector2d operator / ( const double fScalar, const Vector2d& rkVector )
         {
-            return Vector2(
+            return Vector2d(
                 fScalar / rkVector.x,
                 fScalar / rkVector.y);
         }
 
-        inline friend Vector2 operator + (const Vector2& lhs, const float rhs)
+        inline friend Vector2d operator + (const Vector2d& lhs, const double rhs)
         {
-            return Vector2(
+            return Vector2d(
                 lhs.x + rhs,
                 lhs.y + rhs);
         }
 
-        inline friend Vector2 operator + (const float lhs, const Vector2& rhs)
+        inline friend Vector2d operator + (const double lhs, const Vector2d& rhs)
         {
-            return Vector2(
+            return Vector2d(
                 lhs + rhs.x,
                 lhs + rhs.y);
         }
 
-        inline friend Vector2 operator - (const Vector2& lhs, const float rhs)
+        inline friend Vector2d operator - (const Vector2d& lhs, const double rhs)
         {
-            return Vector2(
+            return Vector2d(
                 lhs.x - rhs,
                 lhs.y - rhs);
         }
 
-        inline friend Vector2 operator - (const float lhs, const Vector2& rhs)
+        inline friend Vector2d operator - (const double lhs, const Vector2d& rhs)
         {
-            return Vector2(
+            return Vector2d(
                 lhs - rhs.x,
                 lhs - rhs.y);
         }
         // arithmetic updates
-        inline Vector2& operator += ( const Vector2& rkVector )
+        inline Vector2d& operator += ( const Vector2d& rkVector )
         {
             x += rkVector.x;
             y += rkVector.y;
@@ -254,7 +254,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector2& operator += ( const float fScaler )
+        inline Vector2d& operator += ( const double fScaler )
         {
             x += fScaler;
             y += fScaler;
@@ -262,7 +262,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector2& operator -= ( const Vector2& rkVector )
+        inline Vector2d& operator -= ( const Vector2d& rkVector )
         {
             x -= rkVector.x;
             y -= rkVector.y;
@@ -270,7 +270,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector2& operator -= ( const float fScaler )
+        inline Vector2d& operator -= ( const double fScaler )
         {
             x -= fScaler;
             y -= fScaler;
@@ -278,7 +278,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector2& operator *= ( const float fScalar )
+        inline Vector2d& operator *= ( const double fScalar )
         {
             x *= fScalar;
             y *= fScalar;
@@ -286,7 +286,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector2& operator *= ( const Vector2& rkVector )
+        inline Vector2d& operator *= ( const Vector2d& rkVector )
         {
             x *= rkVector.x;
             y *= rkVector.y;
@@ -294,11 +294,11 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector2& operator /= ( const float fScalar )
+        inline Vector2d& operator /= ( const double fScalar )
         {
             assert( fScalar != 0.0 );
 
-            float fInv = 1.0f / fScalar;
+            double fInv = 1.0f / fScalar;
 
             x *= fInv;
             y *= fInv;
@@ -306,7 +306,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector2& operator /= ( const Vector2& rkVector )
+        inline Vector2d& operator /= ( const Vector2d& rkVector )
         {
             x /= rkVector.x;
             y /= rkVector.y;
@@ -321,7 +321,7 @@ namespace Ogre
                 length (e.g. for just comparing lengths) use squaredLength()
                 instead.
         */
-        inline float length () const
+        inline double length () const
         {
             return Math::Sqrt( x * x + y * y );
         }
@@ -336,7 +336,7 @@ namespace Ogre
                 want to find the longest / shortest vector without incurring
                 the square root.
         */
-        inline float squaredLength () const
+        inline double squaredLength () const
         {
             return x * x + y * y;
         }
@@ -347,7 +347,7 @@ namespace Ogre
                 distance (e.g. for just comparing distances) use squaredDistance()
                 instead.
         */
-        inline float distance(const Vector2& rhs) const
+        inline double distance(const Vector2d& rhs) const
         {
             return (*this - rhs).length();
         }
@@ -362,7 +362,7 @@ namespace Ogre
                 Use this if you want to find the longest / shortest distance
                 without incurring the square root.
         */
-        inline float squaredDistance(const Vector2& rhs) const
+        inline double squaredDistance(const Vector2d& rhs) const
         {
             return (*this - rhs).squaredLength();
         }
@@ -379,9 +379,9 @@ namespace Ogre
                 vec Vector with which to calculate the dot product (together
                 with this one).
             @returns
-                A float representing the dot product value.
+                A double representing the dot product value.
         */
-        inline float dotProduct(const Vector2& vec) const
+        inline double dotProduct(const Vector2d& vec) const
         {
             return x * vec.x + y * vec.y;
         }
@@ -395,14 +395,14 @@ namespace Ogre
                 will be no changes made to their components.
             @returns The previous length of the vector.
         */
-        inline float normalise()
+        inline double normalise()
         {
-            float fLength = Math::Sqrt( x * x + y * y);
+            double fLength = Math::Sqrt( x * x + y * y);
 
             // Will also work for zero-sized vectors, but will change nothing
             if ( fLength > 1e-08 )
             {
-                float fInvLength = 1.0f / fLength;
+                double fInvLength = 1.0f / fLength;
                 x *= fInvLength;
                 y *= fInvLength;
             }
@@ -415,9 +415,9 @@ namespace Ogre
         /** Returns a vector at a point half way between this and the passed
             in vector.
         */
-        inline Vector2 midPoint( const Vector2& vec ) const
+        inline Vector2d midPoint( const Vector2d& vec ) const
         {
-            return Vector2(
+            return Vector2d(
                 ( x + vec.x ) * 0.5f,
                 ( y + vec.y ) * 0.5f );
         }
@@ -425,7 +425,7 @@ namespace Ogre
         /** Returns true if the vector's scalar components are all greater
             that the ones of the vector it is compared against.
         */
-        inline bool operator < ( const Vector2& rhs ) const
+        inline bool operator < ( const Vector2d& rhs ) const
         {
             if( x < rhs.x && y < rhs.y )
                 return true;
@@ -435,7 +435,7 @@ namespace Ogre
         /** Returns true if the vector's scalar components are all smaller
             that the ones of the vector it is compared against.
         */
-        inline bool operator > ( const Vector2& rhs ) const
+        inline bool operator > ( const Vector2d& rhs ) const
         {
             if( x > rhs.x && y > rhs.y )
                 return true;
@@ -449,7 +449,7 @@ namespace Ogre
                 value of x, y and z from both vectors. Lowest is taken just
                 numerically, not magnitude, so -1 < 0.
         */
-        inline void makeFloor( const Vector2& cmp )
+        inline void makeFloor( const Vector2d& cmp )
         {
             if( cmp.x < x ) x = cmp.x;
             if( cmp.y < y ) y = cmp.y;
@@ -462,7 +462,7 @@ namespace Ogre
                 value of x, y and z from both vectors. Highest is taken just
                 numerically, not magnitude, so 1 > -3.
         */
-        inline void makeCeil( const Vector2& cmp )
+        inline void makeCeil( const Vector2d& cmp )
         {
             if( cmp.x > x ) x = cmp.x;
             if( cmp.y > y ) y = cmp.y;
@@ -475,14 +475,14 @@ namespace Ogre
                 method will guarantee to generate one of them. If you need more
                 control you should use the Quaternion class.
         */
-        inline Vector2 perpendicular(void) const
+        inline Vector2d perpendicular(void) const
         {
-            return Vector2 (-y, x);
+            return Vector2d (-y, x);
         }
         /** Calculates the 2 dimensional cross-product of 2 vectors, which results
-			in a single floating point value which is 2 times the area of the triangle.
+			in a single doubleing point value which is 2 times the area of the triangle.
         */
-        inline float crossProduct( const Vector2& rkVector ) const
+        inline double crossProduct( const Vector2d& rkVector ) const
         {
             return x * rkVector.y - y * rkVector.x;
         }
@@ -505,30 +505,30 @@ namespace Ogre
                 vector will not be normalised, normalise it if you wish
                 afterwards.
         */
-        inline Vector2 randomDeviant(
-            float angle) const
+        inline Vector2d randomDeviant(
+            double angle) const
         {
 
             angle *=  Math::UnitRandom() * Math::TWO_PI;
-            float cosa = cos(angle);
-            float sina = sin(angle);
-            return  Vector2(cosa * x - sina * y,
+            double cosa = cos(angle);
+            double sina = sin(angle);
+            return  Vector2d(cosa * x - sina * y,
                             sina * x + cosa * y);
         }
 
         /** Returns true if this vector is zero length. */
         inline bool isZeroLength(void) const
         {
-            float sqlen = (x * x) + (y * y);
+            double sqlen = (x * x) + (y * y);
             return (sqlen < (1e-06 * 1e-06));
 
         }
 
         /** As normalise, except that this vector is unaffected and the
             normalised vector is returned as a copy. */
-        inline Vector2 normalisedCopy(void) const
+        inline Vector2d normalisedCopy(void) const
         {
-            Vector2 ret = *this;
+            Vector2d ret = *this;
             ret.normalise();
             return ret;
         }
@@ -536,9 +536,9 @@ namespace Ogre
         /** Calculates a reflection vector to the plane with the given normal .
         @remarks NB assumes 'this' is pointing AWAY FROM the plane, invert if it is not.
         */
-        inline Vector2 reflect(const Vector2& normal) const
+        inline Vector2d reflect(const Vector2d& normal) const
         {
-            return Vector2( *this - ( 2 * this->dotProduct(normal) * normal ) );
+            return Vector2d( *this - ( 2 * this->dotProduct(normal) * normal ) );
         }
 		/// Check whether this vector contains valid values
 		inline bool isNaN() const
@@ -547,17 +547,17 @@ namespace Ogre
 		}
 
         // special points
-        static const Vector2 ZERO;
-        static const Vector2 UNIT_X;
-        static const Vector2 UNIT_Y;
-        static const Vector2 NEGATIVE_UNIT_X;
-        static const Vector2 NEGATIVE_UNIT_Y;
-        static const Vector2 UNIT_SCALE;
+        static const Vector2d ZERO;
+        static const Vector2d UNIT_X;
+        static const Vector2d UNIT_Y;
+        static const Vector2d NEGATIVE_UNIT_X;
+        static const Vector2d NEGATIVE_UNIT_Y;
+        static const Vector2d UNIT_SCALE;
 
         /** Function for writing to a stream.
         */
         inline friend std::ostream& operator <<
-            ( std::ostream& o, const Vector2& v )
+            ( std::ostream& o, const Vector2d& v )
         {
             o << "Vector2(" << v.x << ", " << v.y <<  ")";
             return o;

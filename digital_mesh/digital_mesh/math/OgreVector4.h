@@ -41,22 +41,22 @@ namespace Ogre
 	*/
 	/** 4-dimensional homogeneous vector.
     */
-    class Vector4
+    class Vector4d
     {
     public:
-        float x, y, z, w;
+        double x, y, z, w;
 
     public:
-	    inline Vector4():x(0), y(0), z(0), w(0)
+	    inline Vector4d():x(0), y(0), z(0), w(0)
         {
         }
 
-        inline Vector4( const float fX, const float fY, const float fZ, const float fW )
+        inline Vector4d( const double fX, const double fY, const double fZ, const double fW )
             : x( fX ), y( fY ), z( fZ ), w( fW)
         {
         }
 
-        inline explicit Vector4( const float afCoordinate[4] )
+        inline explicit Vector4d( const double afCoordinate[4] )
             : x( afCoordinate[0] ),
               y( afCoordinate[1] ),
               z( afCoordinate[2] ),
@@ -64,20 +64,20 @@ namespace Ogre
         {
         }
 
-        inline explicit Vector4( const int afCoordinate[4] )
+        inline explicit Vector4d( const int afCoordinate[4] )
         {
-            x = (float)afCoordinate[0];
-            y = (float)afCoordinate[1];
-            z = (float)afCoordinate[2];
-            w = (float)afCoordinate[3];
+            x = (double)afCoordinate[0];
+            y = (double)afCoordinate[1];
+            z = (double)afCoordinate[2];
+            w = (double)afCoordinate[3];
         }
 
-        inline explicit Vector4( float* const r )
+        inline explicit Vector4d( double* const r )
             : x( r[0] ), y( r[1] ), z( r[2] ), w( r[3] )
         {
         }
 
-        inline explicit Vector4( const float scaler )
+        inline explicit Vector4d( const double scaler )
             : x( scaler )
             , y( scaler )
             , z( scaler )
@@ -85,14 +85,14 @@ namespace Ogre
         {
         }
 
-        inline explicit Vector4(const Vector3& rhs)
+        inline explicit Vector4d(const Vector3d& rhs)
             : x(rhs.x), y(rhs.y), z(rhs.z), w(1.0f)
         {
         }
 
 		/** Exchange the contents of this vector with another. 
 		*/
-		inline void swap(Vector4& other)
+		inline void swap(Vector4d& other)
 		{
 			std::swap(x, other.x);
 			std::swap(y, other.y);
@@ -100,14 +100,14 @@ namespace Ogre
 			std::swap(w, other.w);
 		}
 	
-		inline float operator [] ( const size_t i ) const
+		inline double operator [] ( const size_t i ) const
         {
             assert( i < 4 );
 
             return *(&x+i);
         }
 
-		inline float& operator [] ( const size_t i )
+		inline double& operator [] ( const size_t i )
         {
             assert( i < 4 );
 
@@ -115,12 +115,12 @@ namespace Ogre
         }
 
 		/// Pointer accessor for direct copying
-		inline float* ptr()
+		inline double* ptr()
 		{
 			return &x;
 		}
 		/// Pointer accessor for direct copying
-		inline const float* ptr() const
+		inline const double* ptr() const
 		{
 			return &x;
 		}
@@ -129,7 +129,7 @@ namespace Ogre
             @param
                 rkVector The other vector
         */
-        inline Vector4& operator = ( const Vector4& rkVector )
+        inline Vector4d& operator = ( const Vector4d& rkVector )
         {
             x = rkVector.x;
             y = rkVector.y;
@@ -139,7 +139,7 @@ namespace Ogre
             return *this;
         }
 
-		inline Vector4& operator = ( const float fScalar)
+		inline Vector4d& operator = ( const double fScalar)
 		{
 			x = fScalar;
 			y = fScalar;
@@ -148,7 +148,7 @@ namespace Ogre
 			return *this;
 		}
 
-        inline bool operator == ( const Vector4& rkVector ) const
+        inline bool operator == ( const Vector4d& rkVector ) const
         {
             return ( x == rkVector.x &&
                 y == rkVector.y &&
@@ -156,7 +156,7 @@ namespace Ogre
                 w == rkVector.w );
         }
 
-        inline bool operator != ( const Vector4& rkVector ) const
+        inline bool operator != ( const Vector4d& rkVector ) const
         {
             return ( x != rkVector.x ||
                 y != rkVector.y ||
@@ -164,7 +164,7 @@ namespace Ogre
                 w != rkVector.w );
         }
 
-        inline Vector4& operator = (const Vector3& rhs)
+        inline Vector4d& operator = (const Vector3d& rhs)
         {
             x = rhs.x;
             y = rhs.y;
@@ -174,122 +174,122 @@ namespace Ogre
         }
 
         // arithmetic operations
-        inline Vector4 operator + ( const Vector4& rkVector ) const
+        inline Vector4d operator + ( const Vector4d& rkVector ) const
         {
-            return Vector4(
+            return Vector4d(
                 x + rkVector.x,
                 y + rkVector.y,
                 z + rkVector.z,
                 w + rkVector.w);
         }
 
-        inline Vector4 operator - ( const Vector4& rkVector ) const
+        inline Vector4d operator - ( const Vector4d& rkVector ) const
         {
-            return Vector4(
+            return Vector4d(
                 x - rkVector.x,
                 y - rkVector.y,
                 z - rkVector.z,
                 w - rkVector.w);
         }
 
-        inline Vector4 operator * ( const float fScalar ) const
+        inline Vector4d operator * ( const double fScalar ) const
         {
-            return Vector4(
+            return Vector4d(
                 x * fScalar,
                 y * fScalar,
                 z * fScalar,
                 w * fScalar);
         }
 
-        inline Vector4 operator * ( const Vector4& rhs) const
+        inline Vector4d operator * ( const Vector4d& rhs) const
         {
-            return Vector4(
+            return Vector4d(
                 rhs.x * x,
                 rhs.y * y,
                 rhs.z * z,
                 rhs.w * w);
         }
 
-        inline Vector4 operator / ( const float fScalar ) const
+        inline Vector4d operator / ( const double fScalar ) const
         {
             assert( fScalar != 0.0 );
 
-            float fInv = 1.0f / fScalar;
+            double fInv = 1.0f / fScalar;
 
-            return Vector4(
+            return Vector4d(
                 x * fInv,
                 y * fInv,
                 z * fInv,
                 w * fInv);
         }
 
-        inline Vector4 operator / ( const Vector4& rhs) const
+        inline Vector4d operator / ( const Vector4d& rhs) const
         {
-            return Vector4(
+            return Vector4d(
                 x / rhs.x,
                 y / rhs.y,
                 z / rhs.z,
                 w / rhs.w);
         }
 
-        inline const Vector4& operator + () const
+        inline const Vector4d& operator + () const
         {
             return *this;
         }
 
-        inline Vector4 operator - () const
+        inline Vector4d operator - () const
         {
-            return Vector4(-x, -y, -z, -w);
+            return Vector4d(-x, -y, -z, -w);
         }
 
-        inline friend Vector4 operator * ( const float fScalar, const Vector4& rkVector )
+        inline friend Vector4d operator * ( const double fScalar, const Vector4d& rkVector )
         {
-            return Vector4(
+            return Vector4d(
                 fScalar * rkVector.x,
                 fScalar * rkVector.y,
                 fScalar * rkVector.z,
                 fScalar * rkVector.w);
         }
 
-        inline friend Vector4 operator / ( const float fScalar, const Vector4& rkVector )
+        inline friend Vector4d operator / ( const double fScalar, const Vector4d& rkVector )
         {
-            return Vector4(
+            return Vector4d(
                 fScalar / rkVector.x,
                 fScalar / rkVector.y,
                 fScalar / rkVector.z,
                 fScalar / rkVector.w);
         }
 
-        inline friend Vector4 operator + (const Vector4& lhs, const float rhs)
+        inline friend Vector4d operator + (const Vector4d& lhs, const double rhs)
         {
-            return Vector4(
+            return Vector4d(
                 lhs.x + rhs,
                 lhs.y + rhs,
                 lhs.z + rhs,
                 lhs.w + rhs);
         }
 
-        inline friend Vector4 operator + (const float lhs, const Vector4& rhs)
+        inline friend Vector4d operator + (const double lhs, const Vector4d& rhs)
         {
-            return Vector4(
+            return Vector4d(
                 lhs + rhs.x,
                 lhs + rhs.y,
                 lhs + rhs.z,
                 lhs + rhs.w);
         }
 
-        inline friend Vector4 operator - (const Vector4& lhs, float rhs)
+        inline friend Vector4d operator - (const Vector4d& lhs, double rhs)
         {
-            return Vector4(
+            return Vector4d(
                 lhs.x - rhs,
                 lhs.y - rhs,
                 lhs.z - rhs,
                 lhs.w - rhs);
         }
 
-        inline friend Vector4 operator - (const float lhs, const Vector4& rhs)
+        inline friend Vector4d operator - (const double lhs, const Vector4d& rhs)
         {
-            return Vector4(
+            return Vector4d(
                 lhs - rhs.x,
                 lhs - rhs.y,
                 lhs - rhs.z,
@@ -297,7 +297,7 @@ namespace Ogre
         }
 
         // arithmetic updates
-        inline Vector4& operator += ( const Vector4& rkVector )
+        inline Vector4d& operator += ( const Vector4d& rkVector )
         {
             x += rkVector.x;
             y += rkVector.y;
@@ -307,7 +307,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector4& operator -= ( const Vector4& rkVector )
+        inline Vector4d& operator -= ( const Vector4d& rkVector )
         {
             x -= rkVector.x;
             y -= rkVector.y;
@@ -317,7 +317,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector4& operator *= ( const float fScalar )
+        inline Vector4d& operator *= ( const double fScalar )
         {
             x *= fScalar;
             y *= fScalar;
@@ -326,7 +326,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector4& operator += ( const float fScalar )
+        inline Vector4d& operator += ( const double fScalar )
         {
             x += fScalar;
             y += fScalar;
@@ -335,7 +335,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector4& operator -= ( const float fScalar )
+        inline Vector4d& operator -= ( const double fScalar )
         {
             x -= fScalar;
             y -= fScalar;
@@ -344,7 +344,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector4& operator *= ( const Vector4& rkVector )
+        inline Vector4d& operator *= ( const Vector4d& rkVector )
         {
             x *= rkVector.x;
             y *= rkVector.y;
@@ -354,11 +354,11 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector4& operator /= ( const float fScalar )
+        inline Vector4d& operator /= ( const double fScalar )
         {
             assert( fScalar != 0.0 );
 
-            float fInv = 1.0f / fScalar;
+            double fInv = 1.0f / fScalar;
 
             x *= fInv;
             y *= fInv;
@@ -368,7 +368,7 @@ namespace Ogre
             return *this;
         }
 
-        inline Vector4& operator /= ( const Vector4& rkVector )
+        inline Vector4d& operator /= ( const Vector4d& rkVector )
         {
             x /= rkVector.x;
             y /= rkVector.y;
@@ -383,9 +383,9 @@ namespace Ogre
                 vec Vector with which to calculate the dot product (together
                 with this one).
             @returns
-                A float representing the dot product value.
+                A double representing the dot product value.
         */
-        inline float dotProduct(const Vector4& vec) const
+        inline double dotProduct(const Vector4d& vec) const
         {
             return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
         }
@@ -397,13 +397,13 @@ namespace Ogre
         /** Function for writing to a stream.
         */
         inline friend std::ostream& operator <<
-            ( std::ostream& o, const Vector4& v )
+            ( std::ostream& o, const Vector4d& v )
         {
             o << "Vector4(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
             return o;
         }
         // special
-        static const Vector4 ZERO;
+        static const Vector4d ZERO;
     };
 	/** @} */
 	/** @} */

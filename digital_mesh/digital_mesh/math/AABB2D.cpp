@@ -1,6 +1,6 @@
 #include "AABB2D.h"
 
-void AABB2D::AddPoint( const Ogre::Vector2& p )
+void AABB2D::AddPoint( const Ogre::Vector2d& p )
 {
 	if (p.x > m_max.x)
 		m_max.x = p.x;

@@ -1,7 +1,7 @@
 /*
 -----------------------------------------------------------------------------
 This source file is part of OGRE
-    (Object-oriented Graphics Rendering Engine)
+(Object-oriented Graphics Rendering Engine)
 For the latest info, see http://www.ogre3d.org/
 
 Copyright (c) 2000-2009 Torus Knot Software Ltd
@@ -30,13 +30,12 @@ THE SOFTWARE.
 
 namespace Ogre
 {
-    const Vector3 Vector3::ZERO( 0, 0, 0 );
-
-    const Vector3 Vector3::UNIT_X( 1, 0, 0 );
-    const Vector3 Vector3::UNIT_Y( 0, 1, 0 );
-    const Vector3 Vector3::UNIT_Z( 0, 0, 1 );
-    const Vector3 Vector3::NEGATIVE_UNIT_X( -1,  0,  0 );
-    const Vector3 Vector3::NEGATIVE_UNIT_Y(  0, -1,  0 );
-    const Vector3 Vector3::NEGATIVE_UNIT_Z(  0,  0, -1 );
-    const Vector3 Vector3::UNIT_SCALE(1, 1, 1);
+	const Vector3d Vector3d::ZERO( 0, 0, 0 );
+	const Vector3d Vector3d::UNIT_X( 1, 0, 0 );
+	const Vector3d Vector3d::UNIT_Y( 0, 1, 0 );
+	const Vector3d Vector3d::UNIT_Z( 0, 0, 1 );
+	const Vector3d Vector3d::NEGATIVE_UNIT_X( -1,  0,  0 );
+	const Vector3d Vector3d::NEGATIVE_UNIT_Y(  0, -1,  0 );
+	const Vector3d Vector3d::NEGATIVE_UNIT_Z(  0,  0, -1 );
+	const Vector3d Vector3d::UNIT_SCALE(1, 1, 1);
 }

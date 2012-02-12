@@ -49,15 +49,15 @@ namespace Ogre {
     {
     protected:
         float mRadius;
-        Vector3 mCenter;
+        Vector3d mCenter;
     public:
         /** Standard constructor - creates a unit sphere around the origin.*/
-        Sphere() : mRadius(1.0), mCenter(Vector3::ZERO) {}
+        Sphere() : mRadius(1.0), mCenter(Vector3d::ZERO) {}
         /** Constructor allowing arbitrary spheres. 
             @param center The center point of the sphere.
             @param radius The radius of the sphere.
         */
-        Sphere(const Vector3& center, float radius)
+        Sphere(const Vector3d& center, float radius)
             : mRadius(radius), mCenter(center) {}
 
         /** Returns the radius of the sphere. */
@@ -67,10 +67,10 @@ namespace Ogre {
         void setRadius(float radius) { mRadius = radius; }
 
         /** Returns the center point of the sphere. */
-        const Vector3& getCenter(void) const { return mCenter; }
+        const Vector3d& getCenter(void) const { return mCenter; }
 
         /** Sets the center point of the sphere. */
-        void setCenter(const Vector3& center) { mCenter = center; }
+        void setCenter(const Vector3d& center) { mCenter = center; }
 
 		/** Returns whether or not this sphere intersects another sphere. */
 		bool intersects(const Sphere& s) const
@@ -89,7 +89,7 @@ namespace Ogre {
 			return Math::intersects(*this, plane);
 		}
 		/** Returns whether or not this sphere intersects a point. */
-		bool intersects(const Vector3& v) const
+		bool intersects(const Vector3d& v) const
 		{
             return ((v - mCenter).squaredLength() <= Math::Sqr(mRadius));
 		}

@@ -48,7 +48,7 @@ public:
 private:
 	class VertexRecord
 	{
-		Ogre::Vector3 pos;
+		Ogre::Vector3d pos;
 		double radius;
 		int_vector adjV ;
 		int_vector adjF ;

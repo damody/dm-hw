@@ -18,7 +18,7 @@
 #include "algo\sgmath.h"
 #include <vector>
 
-typedef std::vector<Ogre::Vector2> Vector2s;
+typedef std::vector<Ogre::Vector2d> Vector2s;
 class Polygon2D 
 {
 public:
@@ -34,16 +34,16 @@ public:
 		return m_points;
 	}
 	void AddPoint(float x, float y);
-	void AddPoint(const Ogre::Vector2& p);
+	void AddPoint(const Ogre::Vector2d& p);
 	void Offset(float x, float y);
-	void Offset(const Ogre::Vector2& v);
-	void Offset(const Ogre::Vector3& v);
+	void Offset(const Ogre::Vector2d& v);
+	void Offset(const Ogre::Vector3d& v);
 	void SetAngle(float angle);
 	float GetAngle()
 	{
 		return m_angle;
 	}
-	void Rotation(float angle, const Ogre::Vector2& middle = Ogre::Vector2::ZERO);
+	void Rotation(float angle, const Ogre::Vector2d& middle = Ogre::Vector2d::ZERO);
 	bool IsCollision(const Polygon2D& rhs);
 	void CheckBuildEdges();
 	void Clear();
@@ -60,7 +60,7 @@ private:
 		}
 	}
 	// Calculate the projection of a polygon on an axis and returns it as a [min, max] interval
-	void ProjectPolygon(const Ogre::Vector2& axis, const Polygon2D& polygon, float* min, float* max);
+	void ProjectPolygon(const Ogre::Vector2d& axis, const Polygon2D& polygon, float* min, float* max);
 private:
 	float	m_angle;
 	Vector2s m_points, m_edges;

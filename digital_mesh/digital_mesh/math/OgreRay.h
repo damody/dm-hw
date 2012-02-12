@@ -44,30 +44,30 @@ namespace Ogre {
     class Ray
     {
     protected:
-        Vector3 mOrigin;
-        Vector3 mDirection;
+        Vector3d mOrigin;
+        Vector3d mDirection;
     public:
-        Ray():mOrigin(Vector3::ZERO), mDirection(Vector3::UNIT_Z) {}
-        Ray(const Vector3& origin, const Vector3& direction)
+        Ray():mOrigin(Vector3d::ZERO), mDirection(Vector3d::UNIT_Z) {}
+        Ray(const Vector3d& origin, const Vector3d& direction)
             :mOrigin(origin), mDirection(direction) {}
 
         /** Sets the origin of the ray. */
-        void setOrigin(const Vector3& origin) {mOrigin = origin;} 
+        void setOrigin(const Vector3d& origin) {mOrigin = origin;} 
         /** Gets the origin of the ray. */
-        const Vector3& getOrigin(void) const {return mOrigin;} 
+        const Vector3d& getOrigin(void) const {return mOrigin;} 
 
         /** Sets the direction of the ray. */
-        void setDirection(const Vector3& dir) {mDirection = dir;} 
+        void setDirection(const Vector3d& dir) {mDirection = dir;} 
         /** Gets the direction of the ray. */
-        const Vector3& getDirection(void) const {return mDirection;} 
+        const Vector3d& getDirection(void) const {return mDirection;} 
 
 		/** Gets the position of a point t units along the ray. */
-		Vector3 getPoint(float t) const { 
-			return Vector3(mOrigin + (mDirection * t));
+		Vector3d getPoint(float t) const { 
+			return Vector3d(mOrigin + (mDirection * t));
 		}
 		
 		/** Gets the position of a point t units along the ray. */
-		Vector3 operator*(float t) const { 
+		Vector3d operator*(float t) const { 
 			return getPoint(t);
 		}
 

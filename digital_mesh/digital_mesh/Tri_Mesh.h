@@ -19,6 +19,7 @@ struct BasicTraits : public OpenMesh::DefaultTraits
 	FaceAttributes  (OpenMesh::Attributes::Normal);
 };
 typedef OpenMesh::TriMesh_ArrayKernelT<BasicTraits> BasicMesh;
+typedef std::vector<BasicMesh::VertexHandle> VertexHandles;
 
 typedef osg::Vec3Array sLines;
 typedef osg::Vec3Array sFaces;
@@ -30,10 +31,10 @@ struct QMatrix
 {
 	QMatrix(){}
 	QMatrix(const BasicMesh::VHandle& _handle, const osg::Matrixf& _mat)
-		:handle(_handle), mat(_mat)
+		:mHandle(_handle), mMat(_mat)
 	{}
-	BasicMesh::VHandle	handle;
-	osg::Matrixf		mat;
+	BasicMesh::VHandle	mHandle;
+	osg::Matrixf		mMat;
 };
 typedef std::vector<QMatrix> QMatrixs;
 struct QEdge
@@ -81,54 +82,53 @@ public:
 	}
 	virtual bool ReadFile(std::string _fileName);//讀取mesh資料;
 	virtual bool SaveFile(std::string _fileName);//儲存mesh資料;`
-	virtual bool SelectPoint(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
-	virtual bool SelectVertex(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
-	virtual bool SelectEdge(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
-	virtual bool SelectFace(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
+	bool	SelectPoint(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
+	bool	SelectVertex(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out);
+	bool	SelectEdge(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2);
+	bool	SelectFace(const osg::Vec3f& p, const osg::Vec3f& q, osg::Vec3f& out1, osg::Vec3f& out2, osg::Vec3f& out3);
 
-	virtual bool SelectVertexRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
-	virtual bool SelectVertexRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
-	virtual bool SelectVertexRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
-	typedef std::vector<VertexHandle> VertexHandles;
-	virtual bool SelectVertexRingVertex( VertexHandle f_it, VertexHandles& out );
+	bool	SelectVertexRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	bool	SelectVertexRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	bool	SelectVertexRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
+	bool	SelectVertexRingVertex( VertexHandle f_it, VertexHandles& out );
 
-	virtual bool SelectEdgeRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
-	virtual bool SelectEdgeRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
-	virtual bool SelectEdgeRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
-	virtual bool SelectEdgeRingVertex(BasicMesh::EHandle eh, sPoints& out);
+	bool	SelectEdgeRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	bool	SelectEdgeRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	bool	SelectEdgeRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
+	bool	SelectEdgeRingVertex(BasicMesh::EHandle eh, sPoints& out);
 
-	virtual bool SelectFaceRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
-	virtual bool SelectFaceRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
-	virtual bool SelectDontMoveFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
-	virtual bool SelectFaceRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
+	bool	SelectFaceRingVertex(const osg::Vec3f& p, const osg::Vec3f& q, sPoints& out);
+	bool	SelectFaceRingEdge(const osg::Vec3f& p, const osg::Vec3f& q, sLines& out);
+	bool	SelectDontMoveFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
+	bool	SelectFaceRingFace(const osg::Vec3f& p, const osg::Vec3f& q, sFaces& out);
 
-	virtual bool GetVertexHandle(const osg::Vec3f& p, const osg::Vec3f& q, VertexHandle& iter);
-	virtual bool GetEdgeHandle( const osg::Vec3f& p, const osg::Vec3f& q, EdgeHandle& iter );
-	virtual bool GetFaceHandle( const osg::Vec3f& p, const osg::Vec3f& q, FaceHandle& iter );
+	bool	GetVertexHandle(const osg::Vec3f& p, const osg::Vec3f& q, VertexHandle& iter);
+	bool	GetEdgeHandle( const osg::Vec3f& p, const osg::Vec3f& q, EdgeHandle& iter );
+	bool	GetFaceHandle( const osg::Vec3f& p, const osg::Vec3f& q, FaceHandle& iter );
 
+	bool	GetAllRayTracePoints(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& positive, Vec3fs& negative);
+	bool	GetAllRayTraceNode(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& nodes);
+	
 	double	ComputeFaceArea(FaceHandle& iter);
 	double	AverageFaceArea();
 	double	TotalFaceArea();
-
-	virtual bool GetAllRayTracePoints(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& positive, Vec3fs& negative);
-	virtual bool GetAllRayTraceNode(const osg::Vec3f& p, const osg::Vec3f& q, Vec3fs& nodes);
 	
-	bool IsConvexQuad(osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c, osg::Vec3f& d);
-	bool IsConvexPolygon(sPoints& pts);
-	void MeshSimplification( int level, bool convex_check );
+	bool	IsConvexQuad(osg::Vec3f& a, osg::Vec3f& b, osg::Vec3f& c, osg::Vec3f& d);
+	bool	IsConvexPolygon(sPoints& pts);
+	void	MeshSimplification( int level, bool convex_check );
 	// mesh control
-	VHandle AddVertex(Point _p);
-	VIter GetVIterFormIndex(int idx);
-	int FindVertex(float x, float y, float z);
-	int FindVertex(Point _p);
+	VHandle	AddVertex(Point _p);
+	VIter	GetVIterFormIndex(int idx);
+	int	FindVertex(float x, float y, float z);
+	int	FindVertex(Point _p);
 	//在model上增加新的面
-	FHandle AddFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
+	FHandle	AddFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
 	//在model上刪除面
-	void DeleteFace(FHandle _f);
-	void DeleteFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
-	bool GetEdgeHandleFromPoints(const osg::Vec3f& p, const osg::Vec3f& q, BasicMesh::HalfedgeHandle& iter );
-	void DeleteEdge(HalfedgeHandle _e0);
+	void	DeleteFace(FHandle _f);
+	void	DeleteFace(VHandle _v0, VHandle _v1, VHandle _v2, VHandle _v3);
+	bool	GetEdgeHandleFromPoints(const osg::Vec3f& p, const osg::Vec3f& q, BasicMesh::HalfedgeHandle& iter );
+	void	DeleteEdge(HalfedgeHandle _e0);
 	//檢查兩頂點是否相鄰
-	bool IsVertexVertex( VHandle _vj, VHandle _vi);
+	bool	IsVertexVertex( VHandle _vj, VHandle _vi);
 };
 

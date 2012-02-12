@@ -931,10 +931,11 @@ bool Tri_Mesh::GetAllRayTraceNode( const osg::Vec3f& p, const osg::Vec3f& q, Vec
 	if (false == ret) return false;
 	nodes.clear();
 	assert(positive.size() == negative.size());
-	for (int i=0;i<positive.size();++i)
+	for (size_t i=0;i<positive.size();++i)
 	{
 		nodes.push_back((positive[i] + negative[i])*0.5);
 	}
+	return true;
 }
 
 

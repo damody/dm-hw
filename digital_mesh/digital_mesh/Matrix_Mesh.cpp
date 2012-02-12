@@ -69,21 +69,21 @@ TAUCS_CCS_Matrix_Double Matrix_Mesh::BuildAdjacentMatrixFF()
 		{
 			c[idxc++] = fv_it.handle().idx();
 		}
-		for (size_t j=0;j < m_adjVF[c[0]].size();++j)
+		for (size_t j=0;j < mAdjVF[c[0]].size();++j)
 		{
 			if (j != f_count && IsContainVertex(f_it, c[1]))
 			{
 				if (m(f_count, j)==0) m(f_count, j) = 1.0;
 			}
 		}
-		for (size_t j=0;j < m_adjVF[c[1]].size();++j)
+		for (size_t j=0;j < mAdjVF[c[1]].size();++j)
 		{
 			if (j != f_count && IsContainVertex(f_it, c[2]))
 			{
 				if (m(f_count, j)==0) m(f_count, j) = 1.0;
 			}
 		}
-		for (size_t j=0;j < m_adjVF[c[2]].size();++j)
+		for (size_t j=0;j < mAdjVF[c[2]].size();++j)
 		{
 			if (j != f_count && IsContainVertex(f_it, c[0]))
 			{
@@ -104,23 +104,24 @@ bool Matrix_Mesh::ReadFile( std::string _fileName )
 #ifndef _DEBUG
 		timer.restart();
 		TAUCS_CCS_Matrix_Double adjVV = BuildAdjacentMatrixVV();
-		m_adjVV = adjVV.GetRowIndex();
+		mAdjVV = adjVV.GetRowIndex();
 		TAUCS_CCS_Matrix_Double adjVF = BuildAdjacentMatrixFV();
-		m_adjVF = adjVF.GetColIndex();
+		mAdjVF = adjVF.GetColIndex();
 		TAUCS_CCS_Matrix_Double adjFF = BuildAdjacentMatrixFF();
-		m_adjFF = adjFF.GetRowIndex();
+		mAdjFF = adjFF.GetRowIndex();
 		LOG_TRACE	<< "TAUCS_CCS_Matrix_Double use time: " << timer.elapsed();
 #endif
 		timer.restart();
-		m_SMVV = BuildAdjacentSMatrixVV();
-		m_adjVV = m_SMVV.GetRowIndex();
-		m_SMVF = BuildAdjacentSMatrixVV();
-		m_adjVF = m_SMVF.GetColIndex();
-		m_SMFF = BuildAdjacentSMatrixVV();
-		m_adjFF = m_SMFF.GetRowIndex();
+		mSMVV = BuildAdjacentSMatrixVV();
+		mAdjVV = mSMVV.GetRowIndex();
+		mSMVF = BuildAdjacentSMatrixVV();
+		mAdjVF = mSMVF.GetColIndex();
+		mSMFF = BuildAdjacentSMatrixVV();
+		mAdjFF = mSMFF.GetRowIndex();
 		LOG_TRACE	<< "SparseMatrix use time: " << timer.elapsed();
 		m_Flags.resize(n_vertices());
 		m_isBoundary.resize(n_vertices());
+		GetVertexs(&mVertexs);
 	}
 	return res;
 }
@@ -212,17 +213,17 @@ SparseMatrix Matrix_Mesh::BuildAdjacentSMatrixFF()
 		{
 			c[idxc++] = fv_it.handle().idx();
 		}
-		for (size_t j=0;j < m_adjVF[c[0]].size();++j)
+		for (size_t j=0;j < mAdjVF[c[0]].size();++j)
 		{
 			if (j != f_count && IsContainVertex(f_it, c[1]))
 				m.AddElementIfNotExist(f_count, j, 1.0);
 		}
-		for (size_t j=0;j < m_adjVF[c[1]].size();++j)
+		for (size_t j=0;j < mAdjVF[c[1]].size();++j)
 		{
 			if (j != f_count && IsContainVertex(f_it, c[2]))
 				m.AddElementIfNotExist(f_count, j, 1.0);
 		}
-		for (size_t j=0;j < m_adjVF[c[2]].size();++j)
+		for (size_t j=0;j < mAdjVF[c[2]].size();++j)
 		{
 			if (j != f_count && IsContainVertex(f_it, c[0]))
 				m.AddElementIfNotExist(f_count, j, 1.0);
@@ -251,24 +252,101 @@ double* Matrix_Mesh::GetBound()
 	return m_bound;
 }
 
-double_vector Matrix_Mesh::GetVectors()
+void Matrix_Mesh::GetVertexs( double_vector* vertexs, int_vector* indexs /*= NULL*/ ) const
 {
-	double_vector res;
-	for (VertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
+	if (NULL != vertexs && NULL != indexs) // avoid twice loop
 	{
-		const Point&  p = point(v_it);
-		for (int j=0;j<3;++j)
+		vertexs->clear();
+		indexs->clear();
+		for (ConstVertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
 		{
-			res.push_back(p[j]);
+			const Point&  p = point(v_it);
+			indexs->push_back(v_it.handle().idx());
+			for (int j=0;j<3;++j)
+			{
+				vertexs->push_back(p[j]);
+			}
 		}
 	}
-	return res;
+	else
+	{
+		if (vertexs)
+		{
+			vertexs->clear();
+			for (ConstVertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
+			{
+				const Point&  p = point(v_it);
+				for (int j=0;j<3;++j)
+				{
+					vertexs->push_back(p[j]);
+				}
+			}
+		}
+		if (indexs)
+		{
+			indexs->clear();
+			for (ConstVertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
+			{
+				indexs->push_back(v_it.handle().idx());
+			}
+		}
+	}
 }
 
-Vec3s Matrix_Mesh::GetVec3s()
+void Matrix_Mesh::GetFaceVertexs(double_vector* vertexs, int_vector *indexs) 
+{
+	if (NULL != vertexs && NULL != indexs) // avoid twice loop
+	{
+		vertexs->clear();
+		indexs->clear();
+		for (FaceIter iter=faces_begin(); iter!=faces_end(); ++iter) 
+		{
+			for(FVIter fv_it = fv_iter(iter); fv_it ; ++fv_it )
+			{
+				const Point& p = point(fv_it.handle());
+				indexs->push_back(fv_it.handle().idx());
+				for (int j=0;j<3;++j)
+				{
+					vertexs->push_back(p[j]);
+				}
+			}
+		}
+	}
+	else
+	{
+		vertexs->clear();
+		if (vertexs)
+		{
+			for (FaceIter iter=faces_begin(); iter!=faces_end(); ++iter) 
+			{
+				for(FVIter fv_it = fv_iter(iter); fv_it ; ++fv_it )
+				{
+					const Point& p = point(fv_it.handle());
+					for (int j=0;j<3;++j)
+					{
+						vertexs->push_back(p[j]);
+					}
+				}
+			}
+		}
+		indexs->clear();
+		if (indexs)
+		{
+			for (FaceIter iter=faces_begin(); iter!=faces_end(); ++iter) 
+			{
+				for(FVIter fv_it = fv_iter(iter); fv_it ; ++fv_it )
+				{
+					indexs->push_back(fv_it.handle().idx());
+				}
+			}
+		}
+	}
+}
+
+Vec3s Matrix_Mesh::GetVec3s() const
 {
 	Vec3s res;
-	for (VertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
+	for (ConstVertexIter v_it=vertices_begin(); v_it!=vertices_end(); ++v_it) 
 	{
 		Vec3 tmp;
 		const Point&  p = point(v_it);

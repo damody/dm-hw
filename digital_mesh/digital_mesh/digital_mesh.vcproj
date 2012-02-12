@@ -392,6 +392,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\VertexRecord.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="¼ÐÀYÀÉ"
@@ -464,6 +468,10 @@
 			</File>
 			<File
 				RelativePath=".\Tri_Mesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VertexRecord.h"
 				>
 			</File>
 		</Filter>

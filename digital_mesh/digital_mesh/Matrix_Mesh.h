@@ -20,16 +20,21 @@ public:
 	double m_bound[6];
 	// xmin xmax ymin ymax zmin zmax
 	double* GetBound();
-	double_vector GetVectors();
-	Vec3s GetVec3s();
+	const double_vector& Vertexs()
+	{return mVertexs;}
+	void GetVertexs(double_vector* vertexs, int_vector* indexs = NULL) const;
+	void GetFaceVertexs(double_vector* vertexs, int_vector *indexs = NULL);
+	Vec3s GetVec3s() const;
 	bool IsContainVertex(FaceHandle fh, int v_idx);
 	typedef std::vector<char> chars;
 	typedef std::vector<bool> bools;
 	bools	m_isBoundary;
 	chars	m_Flags;
+public:
+	int_vector2d mAdjVV, mAdjVF, mAdjFF;
+	SparseMatrix mSMVV, mSMVF, mSMFF;
 private:
-	int_vector2d m_adjVV, m_adjVF, m_adjFF;
-	SparseMatrix m_SMVV, m_SMVF, m_SMFF;
+	double_vector mVertexs;
 	friend class Skeletonizer;
 };
 

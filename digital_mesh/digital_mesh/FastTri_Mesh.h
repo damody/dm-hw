@@ -3,8 +3,6 @@
 #include <memory>
 #include <vector>
 
-typedef std::vector<BasicMesh::VertexHandle> VertexHandles;
-
 class FastTri_Mesh : public Tri_Mesh
 {
 public:

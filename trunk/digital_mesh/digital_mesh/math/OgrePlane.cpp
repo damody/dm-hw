@@ -33,7 +33,7 @@ namespace Ogre {
 	//-----------------------------------------------------------------------
 	Plane::Plane ()
 	{
-		normal = Vector3::ZERO;
+		normal = Vector3d::ZERO;
 		d = 0.0;
 	}
 	//-----------------------------------------------------------------------
@@ -43,7 +43,7 @@ namespace Ogre {
 		d = rhs.d;
 	}
 	//-----------------------------------------------------------------------
-	Plane::Plane (const Vector3& rkNormal, float fConstant)
+	Plane::Plane (const Vector3d& rkNormal, float fConstant)
 	{
 		normal = rkNormal;
 		d = -fConstant;
@@ -54,23 +54,23 @@ namespace Ogre {
 	{
 	}
 	//-----------------------------------------------------------------------
-	Plane::Plane (const Vector3& rkNormal, const Vector3& rkPoint)
+	Plane::Plane (const Vector3d& rkNormal, const Vector3d& rkPoint)
 	{
 		redefine(rkNormal, rkPoint);
 	}
 	//-----------------------------------------------------------------------
-	Plane::Plane (const Vector3& rkPoint0, const Vector3& rkPoint1,
-		const Vector3& rkPoint2)
+	Plane::Plane (const Vector3d& rkPoint0, const Vector3d& rkPoint1,
+		const Vector3d& rkPoint2)
 	{
 		redefine(rkPoint0, rkPoint1, rkPoint2);
 	}
 	//-----------------------------------------------------------------------
-	float Plane::getDistance (const Vector3& rkPoint) const
+	float Plane::getDistance (const Vector3d& rkPoint) const
 	{
 		return normal.dotProduct(rkPoint) + d;
 	}
 	//-----------------------------------------------------------------------
-	Plane::Side Plane::getSide (const Vector3& rkPoint) const
+	Plane::Side Plane::getSide (const Vector3d& rkPoint) const
 	{
 		float fDistance = getDistance(rkPoint);
 
@@ -95,7 +95,7 @@ namespace Ogre {
         return getSide(box.getCenter(), box.getHalfSize());
 	}
     //-----------------------------------------------------------------------
-    Plane::Side Plane::getSide (const Vector3& centre, const Vector3& halfSize) const
+    Plane::Side Plane::getSide (const Vector3d& centre, const Vector3d& halfSize) const
     {
         // Calculate the distance between box centre and the plane
         float dist = getDistance(centre);
@@ -113,23 +113,23 @@ namespace Ogre {
         return Plane::BOTH_SIDE;
     }
 	//-----------------------------------------------------------------------
-	void Plane::redefine(const Vector3& rkPoint0, const Vector3& rkPoint1,
-		const Vector3& rkPoint2)
+	void Plane::redefine(const Vector3d& rkPoint0, const Vector3d& rkPoint1,
+		const Vector3d& rkPoint2)
 	{
-		Vector3 kEdge1 = rkPoint1 - rkPoint0;
-		Vector3 kEdge2 = rkPoint2 - rkPoint0;
+		Vector3d kEdge1 = rkPoint1 - rkPoint0;
+		Vector3d kEdge2 = rkPoint2 - rkPoint0;
 		normal = kEdge1.crossProduct(kEdge2);
 		normal.normalise();
 		d = -normal.dotProduct(rkPoint0);
 	}
 	//-----------------------------------------------------------------------
-	void Plane::redefine(const Vector3& rkNormal, const Vector3& rkPoint)
+	void Plane::redefine(const Vector3d& rkNormal, const Vector3d& rkPoint)
 	{
 		normal = rkNormal;
 		d = -rkNormal.dotProduct(rkPoint);
 	}
 	//-----------------------------------------------------------------------
-	Vector3 Plane::projectVector(const Vector3& p) const
+	Vector3d Plane::projectVector(const Vector3d& p) const
 	{
 		// We know plane normal is unit length, so use simple method
 		Matrix3 xform;

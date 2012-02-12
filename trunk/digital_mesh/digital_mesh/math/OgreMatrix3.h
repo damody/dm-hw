@@ -118,9 +118,9 @@ namespace Ogre
 		{
 			return (Real*)m[0];
 		}*/
-        Vector3 GetColumn (size_t iCol) const;
-        void SetColumn(size_t iCol, const Vector3& vec);
-        void FromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
+        Vector3d GetColumn (size_t iCol) const;
+        void SetColumn(size_t iCol, const Vector3d& vec);
+        void FromAxes(const Vector3d& xAxis, const Vector3d& yAxis, const Vector3d& zAxis);
 
         // assignment and comparison
         inline Matrix3& operator= (const Matrix3& rkMatrix)
@@ -141,10 +141,10 @@ namespace Ogre
         Matrix3 operator- () const;
 
         // matrix * vector [3x3 * 3x1 = 3x1]
-        Vector3 operator* (const Vector3& rkVector) const;
+        Vector3d operator* (const Vector3d& rkVector) const;
 
         // vector * matrix [1x3 * 3x3 = 1x3]
-        friend Vector3 operator* (const Vector3& rkVector,
+        friend Vector3d operator* (const Vector3d& rkVector,
             const Matrix3& rkMatrix);
 
         // matrix * scalar
@@ -160,28 +160,28 @@ namespace Ogre
         float Determinant () const;
 
         // singular value decomposition
-        void SingularValueDecomposition (Matrix3& rkL, Vector3& rkS,
+        void SingularValueDecomposition (Matrix3& rkL, Vector3d& rkS,
             Matrix3& rkR) const;
         void SingularValueComposition (const Matrix3& rkL,
-            const Vector3& rkS, const Matrix3& rkR);
+            const Vector3d& rkS, const Matrix3& rkR);
 
         // Gram-Schmidt orthonormalization (applied to columns of rotation matrix)
         void Orthonormalize ();
 
         // orthogonal Q, diagonal D, upper triangular U stored as (u01,u02,u12)
-        void QDUDecomposition (Matrix3& rkQ, Vector3& rkD,
-            Vector3& rkU) const;
+        void QDUDecomposition (Matrix3& rkQ, Vector3d& rkD,
+            Vector3d& rkU) const;
 
         float SpectralNorm () const;
 
         // matrix must be orthonormal
-        void ToAxisAngle (Vector3& rkAxis, Radian& rfAngle) const;
-		inline void ToAxisAngle (Vector3& rkAxis, Degree& rfAngle) const {
+        void ToAxisAngle (Vector3d& rkAxis, Radian& rfAngle) const;
+		inline void ToAxisAngle (Vector3d& rkAxis, Degree& rfAngle) const {
 			Radian r;
 			ToAxisAngle ( rkAxis, r );
 			rfAngle = r;
 		}
-        void FromAxisAngle (const Vector3& rkAxis, const Radian& fRadians);
+        void FromAxisAngle (const Vector3d& rkAxis, const Radian& fRadians);
 
         // The matrix must be orthonormal.  The decomposition is yaw*pitch*roll
         // where yaw is rotation about the Up vector, pitch is rotation about the
@@ -206,9 +206,9 @@ namespace Ogre
         void FromEulerAnglesZYX (const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
         // eigensolver, matrix must be symmetric
         void EigenSolveSymmetric (float afEigenvalue[3],
-            Vector3 akEigenvector[3]) const;
+            Vector3d akEigenvector[3]) const;
 
-        static void TensorProduct (const Vector3& rkU, const Vector3& rkV,
+        static void TensorProduct (const Vector3d& rkU, const Vector3d& rkV,
             Matrix3& rkProduct);
 
 		/** Determines if this matrix involves a scaling. */

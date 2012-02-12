@@ -229,11 +229,11 @@ namespace Ogre
     }
 
     //-----------------------------------------------------------------------
-	bool Math::pointInTri2D(const Vector2& p, const Vector2& a, 
-		const Vector2& b, const Vector2& c)
+	bool Math::pointInTri2D(const Vector2d& p, const Vector2d& a, 
+		const Vector2d& b, const Vector2d& c)
     {
 		// Winding must be consistent from all edges for point to be inside
-		Vector2 v1, v2;
+		Vector2d v1, v2;
 		float dot[3];
 		bool zeroDot[3];
 
@@ -277,11 +277,11 @@ namespace Ogre
 		return true;
     }
 	//-----------------------------------------------------------------------
-	bool Math::pointInTri3D(const Vector3& p, const Vector3& a, 
-		const Vector3& b, const Vector3& c, const Vector3& normal)
+	bool Math::pointInTri3D(const Vector3d& p, const Vector3d& a, 
+		const Vector3d& b, const Vector3d& c, const Vector3d& normal)
 	{
         // Winding must be consistent from all edges for point to be inside
-		Vector3 v1, v2;
+		Vector3d v1, v2;
 		float dot[3];
 		bool zeroDot[3];
 
@@ -449,9 +449,9 @@ namespace Ogre
     std::pair<bool, float> Math::intersects(const Ray& ray, const Sphere& sphere, 
         bool discardInside)
     {
-        const Vector3& raydir = ray.getDirection();
+        const Vector3d& raydir = ray.getDirection();
         // Adjust ray origin relative to sphere center
-        const Vector3& rayorig = ray.getOrigin() - sphere.getCenter();
+        const Vector3d& rayorig = ray.getOrigin() - sphere.getCenter();
         float radius = sphere.getRadius();
 
         // Check origin inside first
@@ -496,11 +496,11 @@ namespace Ogre
 		float lowt = 0.0f;
 		float t;
 		bool hit = false;
-		Vector3 hitpoint;
-		const Vector3& min = box.getMinimum();
-		const Vector3& max = box.getMaximum();
-		const Vector3& rayorig = ray.getOrigin();
-		const Vector3& raydir = ray.getDirection();
+		Vector3d hitpoint;
+		const Vector3d& min = box.getMinimum();
+		const Vector3d& max = box.getMaximum();
+		const Vector3d& rayorig = ray.getOrigin();
+		const Vector3d& raydir = ray.getDirection();
 
 		// Check origin inside first
 		if ( rayorig > min && rayorig < max )
@@ -629,12 +629,12 @@ namespace Ogre
             return true;
         }
 
-        const Vector3& min = box.getMinimum();
-        const Vector3& max = box.getMaximum();
-        const Vector3& rayorig = ray.getOrigin();
-        const Vector3& raydir = ray.getDirection();
+        const Vector3d& min = box.getMinimum();
+        const Vector3d& max = box.getMaximum();
+        const Vector3d& rayorig = ray.getOrigin();
+        const Vector3d& raydir = ray.getDirection();
 
-        Vector3 absDir;
+        Vector3d absDir;
         absDir[0] = Math::Abs(raydir[0]);
         absDir[1] = Math::Abs(raydir[1]);
         absDir[2] = Math::Abs(raydir[2]);
@@ -704,8 +704,8 @@ namespace Ogre
         return true;
     }
     //-----------------------------------------------------------------------
-    std::pair<bool, float> Math::intersects(const Ray& ray, const Vector3& a,
-        const Vector3& b, const Vector3& c, const Vector3& normal,
+    std::pair<bool, float> Math::intersects(const Ray& ray, const Vector3d& a,
+        const Vector3d& b, const Vector3d& c, const Vector3d& normal,
         bool positiveSide, bool negativeSide)
     {
         //
@@ -797,11 +797,11 @@ namespace Ogre
         return std::pair<bool, float>(true, t);
     }
     //-----------------------------------------------------------------------
-    std::pair<bool, float> Math::intersects(const Ray& ray, const Vector3& a,
-        const Vector3& b, const Vector3& c,
+    std::pair<bool, float> Math::intersects(const Ray& ray, const Vector3d& a,
+        const Vector3d& b, const Vector3d& c,
         bool positiveSide, bool negativeSide)
     {
-        Vector3 normal = calculateBasicFaceNormalWithoutNormalize(a, b, c);
+        Vector3d normal = calculateBasicFaceNormalWithoutNormalize(a, b, c);
         return intersects(ray, a, b, c, normal, positiveSide, negativeSide);
     }
     //-----------------------------------------------------------------------
@@ -811,10 +811,10 @@ namespace Ogre
         if (box.isInfinite()) return true;
 
         // Use splitting planes
-        const Vector3& center = sphere.getCenter();
+        const Vector3d& center = sphere.getCenter();
         float radius = sphere.getRadius();
-        const Vector3& min = box.getMinimum();
-        const Vector3& max = box.getMaximum();
+        const Vector3d& min = box.getMinimum();
+        const Vector3d& max = box.getMaximum();
 
 		// Arvo's algorithm
 		float s, d = 0;
@@ -847,26 +847,26 @@ namespace Ogre
             <= sphere.getRadius() );
     }
     //-----------------------------------------------------------------------
-    Vector3 Math::calculateTangentSpaceVector(
-        const Vector3& position1, const Vector3& position2, const Vector3& position3,
+    Vector3d Math::calculateTangentSpaceVector(
+        const Vector3d& position1, const Vector3d& position2, const Vector3d& position3,
         float u1, float v1, float u2, float v2, float u3, float v3)
     {
 	    //side0 is the vector along one side of the triangle of vertices passed in, 
 	    //and side1 is the vector along another side. Taking the cross product of these returns the normal.
-	    Vector3 side0 = position1 - position2;
-	    Vector3 side1 = position3 - position1;
+	    Vector3d side0 = position1 - position2;
+	    Vector3d side1 = position3 - position1;
 	    //Calculate face normal
-	    Vector3 normal = side1.crossProduct(side0);
+	    Vector3d normal = side1.crossProduct(side0);
 	    normal.normalise();
 	    //Now we use a formula to calculate the tangent. 
 	    float deltaV0 = v1 - v2;
 	    float deltaV1 = v3 - v1;
-	    Vector3 tangent = deltaV1 * side0 - deltaV0 * side1;
+	    Vector3d tangent = deltaV1 * side0 - deltaV0 * side1;
 	    tangent.normalise();
 	    //Calculate binormal
 	    float deltaU0 = u1 - u2;
 	    float deltaU1 = u3 - u1;
-	    Vector3 binormal = deltaU1 * side0 - deltaU0 * side1;
+	    Vector3d binormal = deltaU1 * side0 - deltaU0 * side1;
 	    binormal.normalise();
 	    //Now, we take the cross product of the tangents to get a vector which 
 	    //should point in the same direction as our normal calculated above. 
@@ -874,7 +874,7 @@ namespace Ogre
 	    //then we need to reverse the s and t tangents. 
 	    //This is because the triangle has been mirrored when going from tangent space to object space.
 	    //reverse tangents if necessary
-	    Vector3 tangentCross = tangent.crossProduct(binormal);
+	    Vector3d tangentCross = tangent.crossProduct(binormal);
 	    if (tangentCross.dotProduct(normal) < 0.0f)
 	    {
 		    tangent = -tangent;
@@ -894,30 +894,30 @@ namespace Ogre
             0,                                  0,                                  0,                                  1);
     }
     //-----------------------------------------------------------------------
-    Vector4 Math::calculateFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector4d Math::calculateFaceNormal(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3)
     {
-        Vector3 normal = calculateBasicFaceNormal(v1, v2, v3);
+        Vector3d normal = calculateBasicFaceNormal(v1, v2, v3);
         // Now set up the w (distance of tri from origin
-        return Vector4(normal.x, normal.y, normal.z, -(normal.dotProduct(v1)));
+        return Vector4d(normal.x, normal.y, normal.z, -(normal.dotProduct(v1)));
     }
     //-----------------------------------------------------------------------
-    Vector3 Math::calculateBasicFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector3d Math::calculateBasicFaceNormal(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3)
     {
-        Vector3 normal = (v2 - v1).crossProduct(v3 - v1);
+        Vector3d normal = (v2 - v1).crossProduct(v3 - v1);
         normal.normalise();
         return normal;
     }
     //-----------------------------------------------------------------------
-    Vector4 Math::calculateFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector4d Math::calculateFaceNormalWithoutNormalize(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3)
     {
-        Vector3 normal = calculateBasicFaceNormalWithoutNormalize(v1, v2, v3);
+        Vector3d normal = calculateBasicFaceNormalWithoutNormalize(v1, v2, v3);
         // Now set up the w (distance of tri from origin)
-        return Vector4(normal.x, normal.y, normal.z, -(normal.dotProduct(v1)));
+        return Vector4d(normal.x, normal.y, normal.z, -(normal.dotProduct(v1)));
     }
     //-----------------------------------------------------------------------
-    Vector3 Math::calculateBasicFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector3d Math::calculateBasicFaceNormalWithoutNormalize(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3)
     {
-        Vector3 normal = (v2 - v1).crossProduct(v3 - v1);
+        Vector3d normal = (v2 - v1).crossProduct(v3 - v1);
         return normal;
     }
 	//-----------------------------------------------------------------------
@@ -931,7 +931,7 @@ namespace Ogre
 
 	}
 	//---------------------------------------------------------------------
-	Matrix4 Math::makeViewMatrix(const Vector3& position, const Quaternion& orientation, 
+	Matrix4 Math::makeViewMatrix(const Vector3d& position, const Quaternion& orientation, 
 		const Matrix4* reflectMatrix)
 	{
 		Matrix4 viewMatrix;
@@ -951,7 +951,7 @@ namespace Ogre
 
 		// Make the translation relative to new axes
 		Matrix3 rotT = rot.Transpose();
-		Vector3 trans = -rotT * position;
+		Vector3d trans = -rotT * position;
 
 		// Make final matrix
 		viewMatrix = Matrix4::IDENTITY;
@@ -972,10 +972,10 @@ namespace Ogre
 	//---------------------------------------------------------------------
 	float Math::boundingRadiusFromAABB(const AxisAlignedBox& aabb)
 	{
-		Vector3 max = aabb.getMaximum();
-		Vector3 min = aabb.getMinimum();
+		Vector3d max = aabb.getMaximum();
+		Vector3d min = aabb.getMinimum();
 
-		Vector3 magnitude = max;
+		Vector3d magnitude = max;
 		magnitude.makeCeil(-max);
 		magnitude.makeCeil(min);
 		magnitude.makeCeil(-min);

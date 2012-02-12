@@ -3,7 +3,7 @@
 #include "imath.h"
 #include "Matrix_Mesh.h"
 
-/*
+
 class VertexRecord
 {
 public:
@@ -98,6 +98,5 @@ public:
 		}
 	}
 #endregion
-
-};
 */
+};

@@ -41,14 +41,14 @@ namespace Ogre
     const unsigned int Matrix3::ms_iSvdMaxIterations = 32;
 
     //-----------------------------------------------------------------------
-    Vector3 Matrix3::GetColumn (size_t iCol) const
+    Vector3d Matrix3::GetColumn (size_t iCol) const
     {
         assert( 0 <= iCol && iCol < 3 );
-        return Vector3(m[0][iCol],m[1][iCol],
+        return Vector3d(m[0][iCol],m[1][iCol],
             m[2][iCol]);
     }
     //-----------------------------------------------------------------------
-    void Matrix3::SetColumn(size_t iCol, const Vector3& vec)
+    void Matrix3::SetColumn(size_t iCol, const Vector3d& vec)
     {
         assert( 0 <= iCol && iCol < 3 );
         m[0][iCol] = vec.x;
@@ -57,7 +57,7 @@ namespace Ogre
 
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis)
+    void Matrix3::FromAxes(const Vector3d& xAxis, const Vector3d& yAxis, const Vector3d& zAxis)
     {
         SetColumn(0,xAxis);
         SetColumn(1,yAxis);
@@ -124,9 +124,9 @@ namespace Ogre
         return kProd;
     }
     //-----------------------------------------------------------------------
-    Vector3 Matrix3::operator* (const Vector3& rkPoint) const
+    Vector3d Matrix3::operator* (const Vector3d& rkPoint) const
     {
-        Vector3 kProd;
+        Vector3d kProd;
         for (size_t iRow = 0; iRow < 3; iRow++)
         {
             kProd[iRow] =
@@ -137,9 +137,9 @@ namespace Ogre
         return kProd;
     }
     //-----------------------------------------------------------------------
-    Vector3 operator* (const Vector3& rkPoint, const Matrix3& rkMatrix)
+    Vector3d operator* (const Vector3d& rkPoint, const Matrix3& rkMatrix)
     {
-        Vector3 kProd;
+        Vector3d kProd;
         for (size_t iRow = 0; iRow < 3; iRow++)
         {
             kProd[iRow] =
@@ -480,7 +480,7 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::SingularValueDecomposition (Matrix3& kL, Vector3& kS,
+    void Matrix3::SingularValueDecomposition (Matrix3& kL, Vector3d& kS,
         Matrix3& kR) const
     {
         // temas: currently unused
@@ -604,7 +604,7 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     void Matrix3::SingularValueComposition (const Matrix3& kL,
-        const Vector3& kS, const Matrix3& kR)
+        const Vector3d& kS, const Matrix3& kR)
     {
         size_t iRow, iCol;
         Matrix3 kTmp;
@@ -692,7 +692,7 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     void Matrix3::QDUDecomposition (Matrix3& kQ,
-        Vector3& kD, Vector3& kU) const
+        Vector3d& kD, Vector3d& kU) const
     {
         // Factor M = QR = QDU where Q is orthogonal, D is diagonal,
         // and U is upper triangular with ones on its diagonal.  Algorithm uses
@@ -880,7 +880,7 @@ namespace Ogre
         return fNorm;
     }
     //-----------------------------------------------------------------------
-    void Matrix3::ToAxisAngle (Vector3& rkAxis, Radian& rfRadians) const
+    void Matrix3::ToAxisAngle (Vector3d& rkAxis, Radian& rfRadians) const
     {
         // Let (x,y,z) be the unit-length axis and let A be an angle of rotation.
         // The rotation matrix is R = I + sin(A)*P + (1-cos(A))*P^2 where
@@ -977,7 +977,7 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromAxisAngle (const Vector3& rkAxis, const Radian& fRadians)
+    void Matrix3::FromAxisAngle (const Vector3d& rkAxis, const Radian& fRadians)
     {
         float fCos = Math::Cos(fRadians);
         float fSin = Math::Sin(fRadians);
@@ -1473,7 +1473,7 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     void Matrix3::EigenSolveSymmetric (float afEigenvalue[3],
-        Vector3 akEigenvector[3]) const
+        Vector3d akEigenvector[3]) const
     {
         Matrix3 kMatrix = *this;
         float afSubDiag[3];
@@ -1488,7 +1488,7 @@ namespace Ogre
         }
 
         // make eigenvectors form a right--handed system
-        Vector3 kCross = akEigenvector[1].crossProduct(akEigenvector[2]);
+        Vector3d kCross = akEigenvector[1].crossProduct(akEigenvector[2]);
         float fDet = akEigenvector[0].dotProduct(kCross);
         if ( fDet < 0.0 )
         {
@@ -1498,7 +1498,7 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::TensorProduct (const Vector3& rkU, const Vector3& rkV,
+    void Matrix3::TensorProduct (const Vector3d& rkU, const Vector3d& rkV,
         Matrix3& rkProduct)
     {
         for (size_t iRow = 0; iRow < 3; iRow++)

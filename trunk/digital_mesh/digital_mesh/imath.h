@@ -43,11 +43,11 @@ typedef std::vector<std::vector<int64> > int64_vector2d;
 #include "math/OgreMatrix4.h"
 #pragma warning( pop )
 
-typedef std::vector<Ogre::Vector3> Vec3s;
-typedef std::vector<Ogre::Vector4> Vec4s;
-typedef Ogre::Vector2 Vec2;
-typedef Ogre::Vector3 Vec3;
-typedef Ogre::Vector4 Vec4;
+typedef std::vector<Ogre::Vector3d> Vec3s;
+typedef std::vector<Ogre::Vector4d> Vec4s;
+typedef Ogre::Vector2d Vec2;
+typedef Ogre::Vector3d Vec3;
+typedef Ogre::Vector4d Vec4;
 typedef Ogre::Matrix3 Matrix3;
 typedef Ogre::Matrix4 Matrix4;
 typedef Ogre::Quaternion Quaternion;

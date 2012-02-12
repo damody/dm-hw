@@ -35,9 +35,9 @@ THE SOFTWARE.
 
 namespace Ogre
 {
-	class Vector2;
-	class Vector3;
-	class Vector4;
+	class Vector2d;
+	class Vector3d;
+	class Vector4d;
 	class Matrix3;
 	class Matrix4;
 	class Ray;
@@ -426,8 +426,8 @@ namespace Ogre
                 If the point is outside the triangle, <b>false</b> is
                 returned.
         */
-        static bool pointInTri2D(const Vector2& p, const Vector2& a, 
-			const Vector2& b, const Vector2& c);
+        static bool pointInTri2D(const Vector2d& p, const Vector2d& a, 
+			const Vector2d& b, const Vector2d& c);
 
        /** Checks whether a given 3D point is inside a triangle.
        @remarks
@@ -453,8 +453,8 @@ namespace Ogre
             If the point is outside the triangle, <b>false</b> is
             returned.
         */
-        static bool pointInTri3D(const Vector3& p, const Vector3& a, 
-			const Vector3& b, const Vector3& c, const Vector3& normal);
+        static bool pointInTri3D(const Vector3d& p, const Vector3d& a, 
+			const Vector3d& b, const Vector3d& c, const Vector3d& normal);
         /** Ray / plane intersection, returns boolean result and distance. */
         static std::pair<bool, float> intersects(const Ray& ray, const Plane& plane);
 
@@ -514,8 +514,8 @@ namespace Ogre
             If the ray isn't intersects the triangle, a pair of <b>false</b> and
             <b>0</b> returned.
         */
-        static std::pair<bool, float> intersects(const Ray& ray, const Vector3& a,
-            const Vector3& b, const Vector3& c, const Vector3& normal,
+        static std::pair<bool, float> intersects(const Ray& ray, const Vector3d& a,
+            const Vector3d& b, const Vector3d& c, const Vector3d& normal,
             bool positiveSide = true, bool negativeSide = true);
 
         /** Ray / triangle intersection, returns boolean result and distance.
@@ -538,8 +538,8 @@ namespace Ogre
             If the ray isn't intersects the triangle, a pair of <b>false</b> and
             <b>0</b> returned.
         */
-        static std::pair<bool, float> intersects(const Ray& ray, const Vector3& a,
-            const Vector3& b, const Vector3& c,
+        static std::pair<bool, float> intersects(const Ray& ray, const Vector3d& a,
+            const Vector3d& b, const Vector3d& c,
             bool positiveSide = true, bool negativeSide = true);
 
         /** Sphere / box intersection test. */
@@ -576,20 +576,20 @@ namespace Ogre
             float tolerance = std::numeric_limits<float>::epsilon());
 
         /** Calculates the tangent space vector for a given set of positions / texture coords. */
-        static Vector3 calculateTangentSpaceVector(
-            const Vector3& position1, const Vector3& position2, const Vector3& position3,
+        static Vector3d calculateTangentSpaceVector(
+            const Vector3d& position1, const Vector3d& position2, const Vector3d& position3,
             float u1, float v1, float u2, float v2, float u3, float v3);
 
         /** Build a reflection matrix for the passed in plane. */
         static Matrix4 buildReflectionMatrix(const Plane& p);
         /** Calculate a face normal, including the w component which is the offset from the origin. */
-        static Vector4 calculateFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+        static Vector4d calculateFaceNormal(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3);
         /** Calculate a face normal, no w-information. */
-        static Vector3 calculateBasicFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+        static Vector3d calculateBasicFaceNormal(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3);
         /** Calculate a face normal without normalize, including the w component which is the offset from the origin. */
-        static Vector4 calculateFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+        static Vector4d calculateFaceNormalWithoutNormalize(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3);
         /** Calculate a face normal without normalize, no w-information. */
-        static Vector3 calculateBasicFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+        static Vector3d calculateBasicFaceNormalWithoutNormalize(const Vector3d& v1, const Vector3d& v2, const Vector3d& v3);
 
 		/** Generates a value based on the Gaussian (normal) distribution function
 			with the given offset and scale parameters.
@@ -604,7 +604,7 @@ namespace Ogre
 			return __max(__min(val, maxval), minval);
 		}
 
-		static Matrix4 makeViewMatrix(const Vector3& position, const Quaternion& orientation, 
+		static Matrix4 makeViewMatrix(const Vector3d& position, const Quaternion& orientation, 
 			const Matrix4* reflectMatrix = 0);
 
 		/** Get a bounding radius value from a bounding box. */

@@ -11,9 +11,9 @@ public:
 		for (size_t i = 1; i < poly.const_Points().size(); i++) 
 			AddPoint(poly.const_Points()[i]);
 	}
-	void AddPoint(const Ogre::Vector2& p);
+	void AddPoint(const Ogre::Vector2d& p);
 	AABB2D(){}
-	AABB2D(const Ogre::Vector2& orgin)
+	AABB2D(const Ogre::Vector2d& orgin)
 		:m_min(orgin), m_max(orgin)
 	{}
 	void Big(float val)
@@ -23,5 +23,5 @@ public:
 		m_max.x += val;
 		m_max.y += val;
 	}
-	Ogre::Vector2 m_min, m_max;
+	Ogre::Vector2d m_min, m_max;
 };

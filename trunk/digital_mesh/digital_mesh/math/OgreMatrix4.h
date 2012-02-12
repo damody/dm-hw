@@ -210,9 +210,9 @@ namespace Ogre
                 and then all the tree elements of the resulting 3-D vector are
                 divided by the resulting <i>w</i>.
         */
-        inline Vector3 operator * ( const Vector3 &v ) const
+        inline Vector3d operator * ( const Vector3d &v ) const
         {
-            Vector3 r;
+            Vector3d r;
 
             float fInvW = 1.0f / ( m[3][0] * v.x + m[3][1] * v.y + m[3][2] * v.z + m[3][3] );
 
@@ -222,9 +222,9 @@ namespace Ogre
 
             return r;
         }
-        inline Vector4 operator * (const Vector4& v) const
+        inline Vector4d operator * (const Vector4d& v) const
         {
-            return Vector4(
+            return Vector4d(
                 m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3] * v.w, 
                 m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3] * v.w,
                 m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3] * v.w,
@@ -235,7 +235,7 @@ namespace Ogre
         {
             Plane ret;
 			Matrix4 invTrans = inverse().transpose();
-			Vector4 v4( p.normal.x, p.normal.y, p.normal.z, p.d );
+			Vector4d v4( p.normal.x, p.normal.y, p.normal.z, p.d );
 			v4 = invTrans * v4;
 			ret.normal.x = v4.x; 
 			ret.normal.y = v4.y; 
@@ -353,7 +353,7 @@ namespace Ogre
         */
         /** Sets the translation transformation part of the matrix.
         */
-        inline void setTrans( const Vector3& v )
+        inline void setTrans( const Vector3d& v )
         {
             m[0][3] = v.x;
             m[1][3] = v.y;
@@ -362,15 +362,15 @@ namespace Ogre
 
         /** Extracts the translation transformation part of the matrix.
          */
-        inline Vector3 getTrans() const
+        inline Vector3d getTrans() const
         {
-          return Vector3(m[0][3], m[1][3], m[2][3]);
+          return Vector3d(m[0][3], m[1][3], m[2][3]);
         }
         
 
         /** Builds a translation matrix
         */
-        inline void makeTrans( const Vector3& v )
+        inline void makeTrans( const Vector3d& v )
         {
             m[0][0] = 1.0; m[0][1] = 0.0; m[0][2] = 0.0; m[0][3] = v.x;
             m[1][0] = 0.0; m[1][1] = 1.0; m[1][2] = 0.0; m[1][3] = v.y;
@@ -388,7 +388,7 @@ namespace Ogre
 
         /** Gets a translation matrix.
         */
-        inline static Matrix4 getTrans( const Vector3& v )
+        inline static Matrix4 getTrans( const Vector3d& v )
         {
             Matrix4 r;
 
@@ -421,7 +421,7 @@ namespace Ogre
         */
         /** Sets the scale part of the matrix.
         */
-        inline void setScale( const Vector3& v )
+        inline void setScale( const Vector3d& v )
         {
             m[0][0] = v.x;
             m[1][1] = v.y;
@@ -430,7 +430,7 @@ namespace Ogre
 
         /** Gets a scale matrix.
         */
-        inline static Matrix4 getScale( const Vector3& v )
+        inline static Matrix4 getScale( const Vector3d& v )
         {
             Matrix4 r;
             r.m[0][0] = v.x; r.m[0][1] = 0.0; r.m[0][2] = 0.0; r.m[0][3] = 0.0;
@@ -547,18 +547,18 @@ namespace Ogre
             of orientation axes, scale does not affect size of translation, rotation and scaling are always
             centered on the origin.
         */
-        void makeTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation);
+        void makeTransform(const Vector3d& position, const Vector3d& scale, const Quaternion& orientation);
 
         /** Building an inverse Matrix4 from orientation / scale / position.
         @remarks
             As makeTransform except it build the inverse given the same data as makeTransform, so
             performing -translation, -rotate, 1/scale in that order.
         */
-        void makeInverseTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation);
+        void makeInverseTransform(const Vector3d& position, const Vector3d& scale, const Quaternion& orientation);
 
         /** Decompose a Matrix4 to orientation / scale / position.
         */
-        void decomposition(Vector3& position, Vector3& scale, Quaternion& orientation) const;
+        void decomposition(Vector3d& position, Vector3d& scale, Quaternion& orientation) const;
 
         /** Check whether or not the matrix is affine matrix.
             @remarks
@@ -610,11 +610,11 @@ namespace Ogre
             @note
                 The matrix must be an affine matrix. @see Matrix4::isAffine.
         */
-        inline Vector3 transformAffine(const Vector3& v) const
+        inline Vector3d transformAffine(const Vector3d& v) const
         {
             assert(isAffine());
 
-            return Vector3(
+            return Vector3d(
                     m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3], 
                     m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3],
                     m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3]);
@@ -624,11 +624,11 @@ namespace Ogre
             @note
                 The matrix must be an affine matrix. @see Matrix4::isAffine.
         */
-        inline Vector4 transformAffine(const Vector4& v) const
+        inline Vector4d transformAffine(const Vector4d& v) const
         {
             assert(isAffine());
 
-            return Vector4(
+            return Vector4d(
                 m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3] * v.w, 
                 m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3] * v.w,
                 m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3] * v.w,
@@ -640,9 +640,9 @@ namespace Ogre
        OgreMatrix4.h and OgreVector4.h have to try to include and inline each 
        other, which frankly doesn't work ;)
    */
-    inline Vector4 operator * (const Vector4& v, const Matrix4& mat)
+    inline Vector4d operator * (const Vector4d& v, const Matrix4& mat)
     {
-        return Vector4(
+        return Vector4d(
             v.x*mat[0][0] + v.y*mat[1][0] + v.z*mat[2][0] + v.w*mat[3][0],
             v.x*mat[0][1] + v.y*mat[1][1] + v.z*mat[2][1] + v.w*mat[3][1],
             v.x*mat[0][2] + v.y*mat[1][2] + v.z*mat[2][2] + v.w*mat[3][2],

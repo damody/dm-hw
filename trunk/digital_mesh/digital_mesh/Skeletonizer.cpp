@@ -67,7 +67,7 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 			LOG_TRACE << "m_Solver->matrix->values " << k << ", " << mSolver->matrix->values.d[k];
 	}
 
-	osg::Vec3f vmax, vmin;
+	osg::Vec3d vmax, vmin;
 	double* bound = mMesh.GetBound();
 	vmin[0] = bound[0];
 	vmin[1] = bound[2];
@@ -221,7 +221,7 @@ MMatrix Skeletonizer::BuildMatrixA()
 	}
 	Tri_Mesh::FIter		 f_it;
 	Tri_Mesh::FVIter	fv_it;
-	osg::Vec3f face[3], c;
+	osg::Vec3d face[3], c;
 	int i=0;
 	for (f_it = mMesh.faces_begin(); f_it != mMesh.faces_end(); ++f_it)  {
 		//¨úmeshªº­±
@@ -338,7 +338,7 @@ Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 	std::vector <double> areaRatio(fn) ;
 	Tri_Mesh::FIter		f_it;
 	Tri_Mesh::FVIter	fv_it;
-	osg::Vec3f face[3], c;
+	osg::Vec3d face[3], c;
 	int i=0;
 	for (f_it = mMesh.faces_begin(); f_it != mMesh.faces_end(); ++f_it)  {
 		int j=0;

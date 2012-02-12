@@ -8,7 +8,7 @@ public:
 	Centroid(){}
 	Centroid(const Polygon2D& poly)
 	{
-		m_centroid = Ogre::Vector2::ZERO;
+		m_centroid = Ogre::Vector2d::ZERO;
 		int psize = (int)poly.const_Points().size();
 		for (int i = 0; i < psize; i++) 
 			m_centroid += poly.const_Points()[i];
@@ -21,7 +21,7 @@ public:
 				m_radius = tmp;
 		}
 	}
-	Ogre::Vector2 m_centroid;
+	Ogre::Vector2d m_centroid;
 	float	m_radius;
 };
 

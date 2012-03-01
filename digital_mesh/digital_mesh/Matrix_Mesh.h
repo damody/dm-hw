@@ -28,8 +28,8 @@ public:
 	bool IsContainVertex(FaceHandle fh, int v_idx);
 	typedef std::vector<char> chars;
 	typedef std::vector<bool> bools;
-	bools	m_isBoundary;
-	chars	m_Flags;
+	bools	mIsBoundary;
+	chars	mFlags;
 public:
 	int_vector2d mAdjVV, mAdjVF, mAdjFF;
 	SparseMatrix mSMVV, mSMVF, mSMFF;

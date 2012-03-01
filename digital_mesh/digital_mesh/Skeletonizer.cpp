@@ -1,10 +1,11 @@
-
-#include "Skeletonizer.h"
 #include <cstdlib>
 #include <vector>
 #include <cassert>
 #include <iomanip>
+#include <queue>
 #include <boost/timer.hpp>
+
+#include "Skeletonizer.h"
 #include "imath.h"
 #include "Tri_Mesh.h"
 #include "log_define.h"
@@ -19,7 +20,7 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 	mPosWeight.resize(n);
 	//opt = opt;
 	//if (opt.AddNoise) AddNoise();
-	m_originalVolume = mMesh.GetVolume();
+	mOriginalVolume = mMesh.GetVolume();
 	mMesh.GetVertexs(&mOriginalVertexPos);
 	this->mOriginalFaceArea.resize(fn);
 	int f_count = 0;
@@ -75,7 +76,7 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 	vmax[0] = bound[1];
 	vmax[1] = bound[3];
 	vmax[2] = bound[5];
-	m_Mesh_Diag_Len = (vmax-vmin).length();
+	mMeshDiagLen = (vmax-vmin).length();
 }
 
 void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
@@ -157,7 +158,7 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 		if (tot > 10000) 
 		{
 			collapsed[i] = true;
-			mMesh.m_Flags[i] = 1;
+			mMesh.mFlags[i] = 1;
 			for (cells::iterator it = ce.begin();it != ce.end();++it)
 			{
 				(*it)->value /= (tot / 10000);
@@ -285,7 +286,7 @@ MMatrix Skeletonizer::BuildMatrixA()
 		if (tot > 10000) 
 		{
 			collapsed[i] = true;
-			mMesh.m_Flags[i] = 1;
+			mMesh.mFlags[i] = 1;
 			for (size_t w=0;w<rows[i].size();++w)
 			{
 				A(rows[i][w], i) /= (tot / 10000);
@@ -499,7 +500,7 @@ void Skeletonizer::Initialize()
 
 	void * solver					= NULL;
 	void * symbolicSolver				= NULL;
-	m_originalVolume;
+	mOriginalVolume;
 	iter						= 0;
 	displayBoneGeometry				= true ;
 	displayBoneSkeletonJoint			= true ;
@@ -619,7 +620,535 @@ void Skeletonizer::GeometryCollapse( int maxIter )
 		ImplicitSmooth();
 		volume = mMesh.GetVolume();
 	}
-	while (volume / m_originalVolume > m_Options.volumneRatioThreashold && iter < maxIter);
+	while (volume / mOriginalVolume > m_Options.volumneRatioThreashold && iter < maxIter);
+}
+
+void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
+{
+	Vec3& p1 = rec1.mPos;
+	if (rec1.mAdjV.size() > 1 && rec1.mAdjF.size() > 0) // Do not allow collapse at the end of skeleton
+	{
+		double totLength = 0;
+		for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
+		{
+			VertexRecord& rec2 = mVecRecords[*it];
+			totLength += (p1 - rec2.mPos).length();
+		}
+		totLength /= rec1.mAdjV.size();
+
+		for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
+		{
+			bool found = false;
+			for (int_vector::iterator it_idx = rec1.mAdjF.begin();it_idx != rec1.mAdjF.end();++it_idx)
+			{
+				int t = (*it_idx) * 3;
+				int c1 = mFaceIndex[t];
+				int c2 = mFaceIndex[t + 1];
+				int c3 = mFaceIndex[t + 2];
+				if (c1 == *it || c2 == *it || c3 == *it)
+				{
+					found = true;
+				}
+			}
+			if (!found) continue;
+			VertexRecord& rec2 = mVecRecords[*it];
+			Vec3& p2 = rec2.mPos;
+			if (rec2.mAdjF.size() == 0) continue;
+
+			double err = 0;
+			if (m_Options.useSamplingEnergy)
+			{
+				err = (p1 - p2).length() * totLength;
+			}
+
+			if (m_Options.useShapeEnergy)
+			{
+				Vec4 v1(p2);
+				Vec4 v2((p1 + p2) / 2.0);
+				Mat4 m = (rec1.mMatrix + rec2.mMatrix);
+				double e1 = v1.dotProduct(m * v1) * m_Options.shapeEnergyWeight;
+				double e2 = v2.dotProduct(m * v2) * m_Options.shapeEnergyWeight;
+				if (e1 < e2)
+					err += e1;
+				else
+				{
+					err += e2;
+					rec1.mCenter = true;
+				}
+			}
+
+			if (err < rec1.mMinError)
+			{
+				rec1.mMinError = err;
+				rec1.mMinIndex = *it;
+			}
+		}
+
+	}
+}
+
+void Skeletonizer::AssignColorIndex()
+{
+	if (mSimplifiedVertexRec.empty()) return;
+	const int COLOR_NUM = 3;
+	bool used[COLOR_NUM]; // total 3 colors
+	VertexRecord_queue q;
+
+	for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+		it->mColorIndex = -1;
+	for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		VertexRecord* rec = &(*it);
+		if (rec->mColorIndex != -1) continue;
+
+		q.push(rec);
+
+		while (q.size() > 0)
+		{
+			VertexRecord* rec1 = q.front();
+			q.pop();
+			for (int i = 0; i < COLOR_NUM; i++)
+				used[i] = false;
+			for (int_vector::iterator it = rec1->mAdjV.begin();it != rec1->mAdjV.end();++it)
+			{
+				int adj = *it;
+				VertexRecord* rec2 = &mVecRecords[adj];
+				if (rec2->mColorIndex != -1)
+					used[mVecRecords[adj].mColorIndex] = true;
+				else
+					q.push(rec2);
+			}
+			for (int i = 0; i < COLOR_NUM; i++)
+				if (!used[i])
+					rec1->mColorIndex = i;
+		}
+	}
+
+	for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		VertexRecord& rec = (*it);
+		mMesh.mFlags[rec.mVecIndex] = (char)(rec.mColorIndex + 1);
+		for (int_vector::iterator it = rec.mCollapseFrom.begin();
+			it != rec.mCollapseFrom.end(); ++it)
+		{
+			mMesh.mFlags[*it] = (char)(rec.mColorIndex + 1);
+		}	
+	}
+}
+
+void Skeletonizer::Simplification()
+{
+	LOG_TRACE << "[Mesh Simplification]";
+	int n = mMesh.n_vertices();
+	double_vector vertexs;
+	mMesh.GetVertexs(&vertexs, &mFaceIndex);
+	for (int i = 0; i < n; i++)
+		mVecRecords.push_back(new VertexRecord(mMesh, i));
+	// init weights
+	for (int i = 0; i < n; i++)
+	{
+		VertexRecord& rec1 = mVecRecords[i];
+		Vec3 p1 = rec1.mPos;
+
+		if (m_Options.useShapeEnergy)
+		{
+			for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
+			{
+				Vec3& p2 = mVecRecords[*it].mPos;
+				Vec3 u = (p2 - p1).normalisedCopy();
+				Vec3 w = u.crossProduct(p1);
+				Mat4 m;
+				m[0][1] = -u.z; m[0][2] =  u.y; m[0][3] = -w.x;
+				m[1][0] =  u.z; m[1][2] = -u.x; m[1][3] = -w.y;
+				m[2][0] = -u.y; m[2][1] =  u.x; m[2][3] = -w.z;
+				rec1.mMatrix = rec1.mMatrix + m.transpose() * m;
+			}
+		}
+		UpdateVertexRecords(rec1);
+	}
+
+	// put record into priority queue
+	PQueue queue;
+	for (int i = 0; i < n; i++)
+		queue.Insert(&mVecRecords[i]);
+
+	int facesLeft = mMesh.n_faces();
+	int vertexLeft = mMesh.n_vertices();
+	int edgeLeft = 0;
+	for (int i = 0; i < n; i++)
+	{
+		edgeLeft += mVecRecords[i].mAdjV.size();
+	}
+	edgeLeft /= 2;
+	while (facesLeft > 0 && vertexLeft > m_Options.targetVertexCount && !queue.Empty())
+	{
+		VertexRecord& rec1 = *((VertexRecord*)queue.Top());
+		queue.Pop();
+		VertexRecord& rec2 = mVecRecords[rec1.mMinIndex];
+		rec2.mMatrix = (rec1.mMatrix + rec2.mMatrix);
+		if (rec1.mCenter)
+			rec2.mPos = (rec1.mPos + rec2.mPos) / 2.0;
+		rec2.mCollapseFrom.push_back(rec1.mVecIndex);
+		for (int_vector::iterator it = rec1.mCollapseFrom.begin();it != rec1.mCollapseFrom.end();++it)
+		{
+			rec2.mCollapseFrom.push_back(*it);
+		}
+		rec1.mCollapseFrom.clear();
+		int r1 = rec1.mVecIndex;
+		int r2 = rec2.mVecIndex;
+		int count = 0;
+
+		for (int_vector::iterator it = rec1.mAdjF.begin();it != rec1.mAdjF.end();++it)
+		{
+			int index = *it;
+			int t = index * 3;
+			int c1 = mFaceIndex[t];
+			int c2 = mFaceIndex[t + 1];
+			int c3 = mFaceIndex[t + 2];
+
+			if ((c1 == r2 || c2 == r2 || c3 == r2) ||
+				(c1 == c2 || c2 == c3 || c3 == c1))
+			{
+				// remove adj faces
+				for (int_vector::iterator it2 = rec1.mAdjV.begin();it2 != rec1.mAdjV.end();++it2)
+				{
+					int index2 = *it2;
+					mVecRecords[index2].mAdjF.erase(mVecRecords[index2].mAdjF.begin()+index);
+				}
+				// decrease face count
+				facesLeft--;
+				count++;
+			}
+			else
+			{
+				// update face index
+				if (c1 == r1) mFaceIndex[t] = r2;
+				if (c2 == r1) mFaceIndex[t + 1] = r2;
+				if (c3 == r1) mFaceIndex[t + 2] = r2;
+
+				// add adj faces
+				rec2.mAdjF.push_back(index);
+			}
+		}
+
+		// fix adj vertices
+		for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
+		{
+			int index = *it;
+			VertexRecord& recAdj = mVecRecords[index];
+			int_vector::iterator res = std::find(recAdj.mAdjV.begin(), recAdj.mAdjV.end(), r1);
+			if (res != recAdj.mAdjV.end())
+			{
+				recAdj.mAdjV.erase(res);
+				edgeLeft--;
+			}
+			if (index != r2)
+			{
+				recAdj.mAdjV.push_back(r2);
+				rec2.mAdjV.push_back(index);
+			}
+		}
+
+		// update records
+		for (int_vector::iterator it = rec2.mAdjV.begin();it != rec2.mAdjV.end();++it)
+		{
+			int index = *it;
+			UpdateVertexRecords(mVecRecords[index]);
+			queue.Update(mVecRecords[index]);
+		}
+		UpdateVertexRecords(rec2);
+		queue.Update(rec2);
+
+		for (int_vector::iterator it = rec2.mAdjF.begin();it != rec2.mAdjF.end();++it)
+		{
+			int index = *it;
+			int t = index * 3;
+			int c1 = mFaceIndex[t];
+			int c2 = mFaceIndex[t + 1];
+			int c3 = mFaceIndex[t + 2];
+			if (c1 == c2 || c2 == c3 || c3 == c1)
+			{
+				int_vector::iterator res = std::find(rec2.mAdjF.begin(), rec2.mAdjF.end(), index);
+				if (res != rec2.mAdjF.end())
+				{
+					rec2.mAdjF.erase(res);
+				}
+				for (int_vector::iterator it = rec2.mAdjV.begin();it != rec2.mAdjV.end();++it)
+				{
+					int index2 = *it;
+					int_vector& adjF = mVecRecords[index2].mAdjF;
+					int_vector::iterator res = std::find(adjF.begin(), adjF.end(), index);
+					if (res != adjF.end())
+					{
+						adjF.erase(res);
+					}
+					// decrease face count
+					facesLeft--;
+				}
+			}
+		}
+		if (count == 0) LOG_DEBUG << "Simplification count == 0";
+		// decrease vertex count
+		vertexLeft--;
+	}
+
+	// copy remaining vertices to resulting list
+	while (!queue.Empty())
+	{
+		VertexRecord* rec = (VertexRecord*)queue.Top();
+		queue.Pop();
+		mSimplifiedVertexRec.push_back(rec);
+	}
+	MergeJoint2();
+	AssignColorIndex();
+	LOG_TRACE << "Nodes:" << mSimplifiedVertexRec.size();
+}
+
+void Skeletonizer::MergeJoint2()
+{
+	int vn = mMesh.n_vertices();
+	int_vector segmentIndex(vn);
+	//#region init segment index
+	for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		VertexRecord& rec = *it;
+		rec.mCollapseFrom.push_back(rec.mVecIndex);
+		for (int_vector::iterator it2 = rec.mCollapseFrom.begin();
+			it2 != rec.mCollapseFrom.end(); ++it2)
+		{
+			segmentIndex[*it2] = rec.mVecIndex;
+		}
+	}
+	//#endregion
+	bool updated = false;
+
+	do
+	{
+		for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+			it != mSimplifiedVertexRec.end(); ++it)
+		{
+			VertexRecord& rec = *it;
+			if (rec.mCollapseFrom.empty()) continue;
+			if (rec.mAdjV.size() <= 2) continue;
+
+			Vec3 p = rec.mPos;
+			updated = false;
+			//#region compute radius
+			double radius = 0;
+			for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+				collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+			{
+				int index = *collapseFrom_it;
+				Vec3 q(&mOriginalVertexPos[index * 3]);
+				radius += (p - q).length();
+			}
+			radius /= rec.mCollapseFrom.size();
+			//#endregion
+
+			//#region compute sd
+			double sd = 0;
+			for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+				collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+			{
+				int index = *collapseFrom_it;
+				Vec3 q(&mOriginalVertexPos[index * 3]);
+				double diff = (p - q).length() - radius;
+				sd += diff * diff;
+			}
+			sd /= rec.mCollapseFrom.size();
+			sd = sqrt(sd);
+			sd /= radius;
+			//#endregion
+
+			Vec3 minCenter;
+			double minSD = DBL_MAX;
+			double minRadius = DBL_MAX;
+			int minAdj = -1;
+			for (int_vector::iterator adjV_it = rec.mAdjV.begin();
+				adjV_it != rec.mAdjV.end(); ++adjV_it)
+			{
+				int adj = *adjV_it;
+				VertexRecord& rec2 = mVecRecords[adj];
+				if (rec2.mAdjV.size() == 1) continue;
+				Vec3 newCenter;
+				double newRadius = 0;
+				double newSD = 0;
+				//#region compute new center
+				Vec3 dis;
+				double totLen = 0;
+				int_vector marked;
+
+				for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+					collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					int i = *collapseFrom_it;
+					int_vector& adjVVi = mMesh.mAdjVV[i];
+					for (int_vector::iterator it4 = adjVVi.begin();
+						it4 != adjVVi.end(); ++it4)
+					{
+						int j = *it4;
+						if (segmentIndex[j] != rec.mVecIndex && segmentIndex[j] != adj)
+							marked.push_back(i);
+					}
+				}
+				for (int_vector::iterator marked_it = marked.begin();
+					marked_it != marked.end(); ++marked_it)
+				{
+					int i = *marked_it;
+					Vec3 p1(&mOriginalVertexPos[i * 3]);
+					double len = 0;
+					int_vector& adjVVi = mMesh.mAdjVV[i];
+					for (int_vector::iterator it4 = adjVVi.begin();
+						it4 != adjVVi.end(); ++it4)
+					{
+						int j = *it4;
+						int_vector::iterator res = std::find(marked.begin(), marked.end(), j);
+						if (res != marked.end())
+						{
+							Vec3 u(&mOriginalVertexPos[j * 3]);
+							len += (p1 - u).length();
+						}
+					}
+					dis += p1 * len;
+					totLen += len;
+				}
+
+				marked.clear();
+				for (int_vector::iterator collapseFrom_it = rec2.mCollapseFrom.begin();
+					collapseFrom_it != rec2.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					int i = *collapseFrom_it;
+					int_vector& adjVV = mMesh.mAdjVV[i];
+					for (int_vector::iterator adjVV_it = adjVV.begin();
+						adjVV_it != adjVV.end(); ++adjVV_it)
+					{
+						int j =  *adjVV_it;
+						if (segmentIndex[j] != rec2.mVecIndex && segmentIndex[j] != rec.mVecIndex)
+							marked.push_back(i);
+					}
+				}
+				for (int_vector::iterator marked_it = marked.begin();
+					marked_it != marked.end(); ++marked_it)
+				{
+					int i = *marked_it;
+					Vec3 p1(&mOriginalVertexPos[i * 3]);
+					double len = 0;
+					int_vector& adjVV = mMesh.mAdjVV[i];
+					for (int_vector::iterator adjVV_it = adjVV.begin();
+						adjVV_it != adjVV.end(); ++adjVV_it)
+					{
+						int j =  *adjVV_it;
+						int_vector::iterator res = std::find(marked.begin(), marked.end(), j);
+						if (res != marked.end())
+						{
+							Vec3 u(&mOriginalVertexPos[j * 3]);
+							len += (p1 - u).length();
+						}
+					}
+					dis += p1 * len;
+					totLen += len;
+				}
+				newCenter = dis / totLen;
+				//#endregion
+
+				//#region compute new radius
+				for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+					collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					int index = *collapseFrom_it;
+					Vec3 q(&mOriginalVertexPos[index * 3]);
+					newRadius += (newCenter - q).length();
+				}
+				for (int_vector::iterator collapseFrom_it = rec2.mCollapseFrom.begin();
+					collapseFrom_it != rec2.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					int index = *collapseFrom_it;
+					Vec3 q(&mOriginalVertexPos[index * 3]);
+					newRadius += (newCenter - q).length();
+				}
+				newRadius /= (rec.mCollapseFrom.size() + rec2.mCollapseFrom.size());
+				//#endregion
+
+				//#region compute sd
+				for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+					collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					Vec3 q(&mOriginalVertexPos[*collapseFrom_it * 3]);
+					double diff = (newCenter - q).length() - newRadius;
+					newSD += diff * diff;
+				}
+				for (int_vector::iterator collapseFrom_it = rec2.mCollapseFrom.begin();
+					collapseFrom_it != rec2.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					Vec3 q(&mOriginalVertexPos[*collapseFrom_it * 3]);
+					double diff = (newCenter - q).length() - newRadius;
+					newSD += diff * diff;
+				}
+				newSD /= (rec.mCollapseFrom.size() + rec2.mCollapseFrom.size());
+				newSD = sqrt(newSD);
+				newSD /= newRadius;
+				//#endregion
+
+				if (newSD < minSD)
+				{
+					minSD = newSD;
+					minRadius = newRadius;
+					minCenter = newCenter;
+					minAdj = adj;
+				}
+			}
+
+
+			//#region merge node if new SD is smaller
+			if (minAdj != -1 && minSD < m_Options.postSimplifyErrorRatio * sd)
+			{
+				LOG_TRACE << (rec.mVecIndex + "=>" + minAdj);
+				int r1 = rec.mVecIndex;
+				VertexRecord rec2 = mVecRecords[minAdj];
+				rec2.mPos = minCenter;
+				rec2.mCollapseFrom.push_back(rec.mVecIndex);
+				for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+					collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					rec2.mCollapseFrom.push_back(*collapseFrom_it);
+				}
+				rec.mCollapseFrom.clear();
+				updated = true;
+
+				for (int_vector::iterator adjV_it = rec.mAdjV.begin();
+					adjV_it != rec.mAdjV.end(); ++adjV_it)
+				{
+					int index = *adjV_it;
+					VertexRecord recAdj = mVecRecords[index];
+					int_vector::iterator res = std::find(recAdj.mAdjV.begin(), recAdj.mAdjV.end(), r1);
+					if (res != recAdj.mAdjV.end())
+					{
+						recAdj.mAdjV.erase(res);
+					}
+					if (index != minAdj)
+					{
+						recAdj.mAdjV.push_back(minAdj);
+						rec2.mAdjV.push_back(index);
+					}
+				}
+			}
+			//#endregion
+		}
+	} while (updated);
+
+	VertexRecord_sptrs updatedVertexRec;
+	for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		VertexRecord& rec = *it;
+		if (!rec.mCollapseFrom.empty())
+			updatedVertexRec.push_back(&rec);
+	}
+	mSimplifiedVertexRec = updatedVertexRec;
 }
 
 

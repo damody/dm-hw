@@ -48,8 +48,8 @@ typedef std::vector<Ogre::Vector4d> Vec4s;
 typedef Ogre::Vector2d Vec2;
 typedef Ogre::Vector3d Vec3;
 typedef Ogre::Vector4d Vec4;
-typedef Ogre::Matrix3 Matrix3;
-typedef Ogre::Matrix4 Matrix4;
+typedef Ogre::Matrix3 Mat3;
+typedef Ogre::Matrix4 Mat4;
 typedef Ogre::Quaternion Quaternion;
 
 #pragma warning( push, 0 )

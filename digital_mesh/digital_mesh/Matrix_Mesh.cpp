@@ -1,6 +1,7 @@
 #include "Matrix_Mesh.h"
 #include "log_define.h"
 #include <boost/timer.hpp>
+#include <math.h>
 
 Matrix_Mesh::Matrix_Mesh(void):Tri_Mesh()
 {
@@ -119,8 +120,8 @@ bool Matrix_Mesh::ReadFile( std::string _fileName )
 		mSMFF = BuildAdjacentSMatrixVV();
 		mAdjFF = mSMFF.GetRowIndex();
 		LOG_TRACE	<< "SparseMatrix use time: " << timer.elapsed();
-		m_Flags.resize(n_vertices());
-		m_isBoundary.resize(n_vertices());
+		mFlags.resize(n_vertices());
+		mIsBoundary.resize(n_vertices());
 		GetVertexs(&mVertexs);
 	}
 	return res;

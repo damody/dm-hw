@@ -1,5 +1,5 @@
 
-#include "osgImplementation.h"
+
 #include <process.h>
 #include <osg/Geometry>
 #include <osg/Material>
@@ -29,6 +29,8 @@
 #include <osgManipulator/ScaleAxisDragger>
 #include <osgManipulator/RotateCylinderDragger>
 #include <osgManipulator/RotateSphereDragger>
+
+#include "osgImplementation.h"
 #include "Skeletonizer.h"
 
 // The DraggerContainer node is used to fix the dragger's size on the screen
@@ -413,7 +415,7 @@ void osgImplementation::SetFaceTransparency( int percent )
 {
 	mFaceTransparency = percent*0.01f;
 	//mModelMaterial->setDiffuse( osg::Material::FRONT, osg::Vec4( 1.0f,1.0f,0.0f, mFaceTransparency) ); 
-	mModelMaterial->setAlpha(osg::Material::Face::FRONT, mFaceTransparency);
+	mModelMaterial->setAlpha(osg::Material::FRONT, mFaceTransparency);
 	// 	osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
 	// 	shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
 	//	mDrawFaces->setColorArray(shared_colors);
@@ -840,6 +842,7 @@ void osgImplementation::ImplicitSmooth()
 	mesh_opt.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
 	Skeletonizer mesh_skeletonizer(*mMesh, mesh_opt);
 	mesh_skeletonizer.GeometryCollapse(7);
+	mesh_skeletonizer.Simplification();
 	//mesh_skeletonizer.ImplicitSmooth();
 	Show(mStatus);
 }

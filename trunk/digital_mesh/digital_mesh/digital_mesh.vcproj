@@ -341,6 +341,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\PQueue.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Skeletonizer.cpp"
 				>
 			</File>
@@ -436,6 +440,10 @@
 			</File>
 			<File
 				RelativePath=".\osgImplementation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PQueue.h"
 				>
 			</File>
 			<File

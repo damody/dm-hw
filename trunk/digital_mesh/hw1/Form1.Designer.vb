@@ -27,6 +27,7 @@ Partial Class Form1
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ImplicitSmoothToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChooseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChoosePointToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChooseVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -64,7 +65,6 @@ Partial Class Form1
         Me.Label_Face_Transparency = New System.Windows.Forms.Label
         Me.ContextMenuStrip_RClick = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ImplicitSmoothToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox_DrawOSG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,6 +99,12 @@ Partial Class Form1
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
         Me.SaveToolStripMenuItem.Text = "Save"
+        '
+        'ImplicitSmoothToolStripMenuItem
+        '
+        Me.ImplicitSmoothToolStripMenuItem.Name = "ImplicitSmoothToolStripMenuItem"
+        Me.ImplicitSmoothToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.ImplicitSmoothToolStripMenuItem.Text = "ImplicitSmooth"
         '
         'ChooseToolStripMenuItem
         '
@@ -288,7 +294,7 @@ Partial Class Form1
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(353, 0)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(70, 22)
         Me.Button1.TabIndex = 4
@@ -298,7 +304,7 @@ Partial Class Form1
         'Button2
         '
         Me.Button2.Location = New System.Drawing.Point(428, 0)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(2)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(70, 22)
         Me.Button2.TabIndex = 5
@@ -319,7 +325,7 @@ Partial Class Form1
         '
         Me.CheckBox_Convex.AutoSize = True
         Me.CheckBox_Convex.Location = New System.Drawing.Point(502, 4)
-        Me.CheckBox_Convex.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.CheckBox_Convex.Margin = New System.Windows.Forms.Padding(2)
         Me.CheckBox_Convex.Name = "CheckBox_Convex"
         Me.CheckBox_Convex.Size = New System.Drawing.Size(94, 16)
         Me.CheckBox_Convex.TabIndex = 7
@@ -356,12 +362,6 @@ Partial Class Form1
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(97, 22)
         Me.ToolStripMenuItem2.Text = "123"
-        '
-        'ImplicitSmoothToolStripMenuItem
-        '
-        Me.ImplicitSmoothToolStripMenuItem.Name = "ImplicitSmoothToolStripMenuItem"
-        Me.ImplicitSmoothToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
-        Me.ImplicitSmoothToolStripMenuItem.Text = "ImplicitSmooth"
         '
         'Form1
         '

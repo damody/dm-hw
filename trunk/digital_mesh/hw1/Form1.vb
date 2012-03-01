@@ -313,4 +313,5 @@ Public Class Form1
     Private Sub ImplicitSmoothToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImplicitSmoothToolStripMenuItem.Click
         osg.ImplicitSmooth()
     End Sub
+
 End Class

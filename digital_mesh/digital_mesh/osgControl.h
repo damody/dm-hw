@@ -89,6 +89,7 @@ public:
 	STDMETHOD(SelectSkeletonNode)(LONG x, LONG y);
 	STDMETHOD(ResetCamera)(void);
 	STDMETHOD(ImplicitSmooth)(void);
+	STDMETHOD(ShowSmoothSkeleton)(void);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(osgControl), CosgControl)

@@ -827,7 +827,6 @@ void osgImplementation::SelectSkeletonNode( const osg::Vec3f& p, const osg::Vec3
 		if (dis < 0.01)
 			mLastSkeletonNode = mSkeletonNodes[i];
 	}
-	
 }
 
 void osgImplementation::ResetCamera()
@@ -845,4 +844,9 @@ void osgImplementation::ImplicitSmooth()
 	mesh_skeletonizer.Simplification();
 	//mesh_skeletonizer.ImplicitSmooth();
 	Show(mStatus);
+}
+
+void osgImplementation::ShowSmoothSkeleton()
+{
+	
 }

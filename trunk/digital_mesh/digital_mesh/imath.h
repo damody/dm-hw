@@ -43,14 +43,39 @@ typedef std::vector<std::vector<int64> > int64_vector2d;
 #include "math/OgreMatrix4.h"
 #pragma warning( pop )
 
-typedef std::vector<Ogre::Vector3d> Vec3s;
-typedef std::vector<Ogre::Vector4d> Vec4s;
+template <class VEC>
+struct VLine
+{
+	union
+	{
+		struct
+		{
+			VEC begin, end;
+		};
+		struct
+		{
+			VEC from, to;
+		};
+	};
+	VEC v[2];
+};
+
 typedef Ogre::Vector2d Vec2;
 typedef Ogre::Vector3d Vec3;
 typedef Ogre::Vector4d Vec4;
 typedef Ogre::Matrix3 Mat3;
 typedef Ogre::Matrix4 Mat4;
 typedef Ogre::Quaternion Quaternion;
+typedef VLine<Vec2> Vec2Line;
+typedef VLine<Vec3> Vec3Line;
+typedef VLine<Vec4> Vec4Line;
+typedef std::vector<Vec2Line> Vec2Lines;
+typedef std::vector<Vec3Line> Vec3Lines;
+typedef std::vector<Vec4Line> Vec4Lines;
+typedef std::vector<Vec2> Vec2s;
+typedef std::vector<Vec3> Vec3s;
+typedef std::vector<Vec4> Vec4s;
+
 
 #pragma warning( push, 0 )
 #include <boost/numeric/ublas/matrix.hpp>

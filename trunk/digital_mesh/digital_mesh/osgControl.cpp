@@ -315,3 +315,10 @@ STDMETHODIMP CosgControl::ImplicitSmooth(void)
 	s_osg->SetModel(s_Tri_Mesh);
 	return S_OK;
 }
+
+STDMETHODIMP CosgControl::ShowSmoothSkeleton(void)
+{
+	// TODO: 在這裡加入您的實作程式碼
+
+	return S_OK;
+}

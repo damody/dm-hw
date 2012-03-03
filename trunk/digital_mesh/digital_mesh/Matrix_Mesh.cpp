@@ -368,3 +368,4 @@ bool Matrix_Mesh::IsContainVertex( FaceHandle fh, int v_idx )
 	}
 	return false;
 }
+

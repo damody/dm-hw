@@ -148,5 +148,16 @@ public:
 // 			}
 // 		}
 	}
+	Vec3s GetSkeletonNodes() const
+	{
+		Vec3s res;
+		for (VertexRecord_sptrs::const_iterator it = mSimplifiedVertexRec.begin();
+			it != mSimplifiedVertexRec.end(); ++it)
+		{
+			const VertexRecord& rec = *it;
+			res.push_back(rec.mPos);
+		}
+		return res;
+	}
 };
 

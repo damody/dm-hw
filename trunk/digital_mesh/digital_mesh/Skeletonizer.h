@@ -2,14 +2,17 @@
 
 #include <vector>
 #include <list> 
-#include "Matrix_Mesh.h"
-#include "TAUCS_CCS_Matrix.h"
-#include "imath.h"
-#include "SparseMatrix.h"
+#include "AdditionalFunction.h"
 #include "CCSMatrix.h"
-#include "VertexRecord.h"
-#include "taucs\my_solver.h"
+#include "Matrix_Mesh.h"
 #include "PQueue.h"
+#include "SparseMatrix.h"
+#include "TAUCS_CCS_Matrix.h"
+#include "Tri_Mesh.h"
+#include "VertexRecord.h"
+#include "imath.h"
+#include "log_define.h"
+#include "taucs\my_solver.h"
 
 class Skeletonizer
 {
@@ -121,5 +124,29 @@ public:
 	void	Simplification();
 	void	AssignColorIndex();
  	void	MergeJoint2();
+	void	EmbeddingImproving();
+	void	BuildSkeletonGraph()
+	{
+		//Program.PrintText("build graph \n");
+
+		if (mSimplifiedVertexRec.empty()) return;
+
+// 		if (skeletonGraph == null) skeletonGraph = new AdjacencyGraph<int, Edge<int>>(false);
+// 		skeletonGraph.Clear();
+// 		foreach (VertexRecord rec in simplifiedVertexRec)
+// 		{
+// 			skeletonGraph.push_backVertex(rec.mVecIndex);
+// 		}
+// 		foreach (VertexRecord rec in simplifiedVertexRec)
+// 		{
+// 			foreach (int adj in rec.mAdjV)
+// 			{
+// 				VertexRecord rec2 = vRec[adj];
+// 				Edge<int> edge = new Edge<int>(rec.mVecIndex, rec2.vIndex);
+// 				if (skeletonGraph.ContainsEdge(rec.mVecIndex, rec2.vIndex) == false && skeletonGraph.ContainsEdge(rec2.vIndex, rec.mVecIndex) == false)
+// 					skeletonGraph.push_backEdge(edge);
+// 			}
+// 		}
+	}
 };
 

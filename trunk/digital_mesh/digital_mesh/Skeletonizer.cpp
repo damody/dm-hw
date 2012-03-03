@@ -6,9 +6,6 @@
 #include <boost/timer.hpp>
 
 #include "Skeletonizer.h"
-#include "imath.h"
-#include "Tri_Mesh.h"
-#include "log_define.h"
 
 Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 :mMesh(mesh)
@@ -902,8 +899,12 @@ void Skeletonizer::Simplification()
 		queue.Pop();
 		mSimplifiedVertexRec.push_back(rec);
 	}
-	MergeJoint2();
 	AssignColorIndex();
+	MergeJoint2();
+	
+
+	
+	BuildSkeletonGraph();
 	LOG_TRACE << "Nodes:" << mSimplifiedVertexRec.size();
 }
 
@@ -1149,6 +1150,138 @@ void Skeletonizer::MergeJoint2()
 			updatedVertexRec.push_back(&rec);
 	}
 	mSimplifiedVertexRec = updatedVertexRec;
+}
+
+void Skeletonizer::EmbeddingImproving()
+{
+	const int vn = mMesh.n_vertices();
+	int_vector segmentIndex(vn);
+	bool_vector marked(vn, false);
+
+	// init local variables
+	for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		VertexRecord& rec = *it;
+		rec.mCollapseFrom.push_back(rec.mVecIndex);
+		for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+			collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+		{
+			segmentIndex[*collapseFrom_it] = rec.mVecIndex;
+		}
+	}
+
+	// for each skeletal node
+	for (VertexRecord_sptrs::iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		VertexRecord& rec = *it;
+		Vec3 totDis;
+		rec.mPos = Vec3(&mOriginalVertexPos[rec.mVecIndex * 3]);
+		if (rec.mAdjV.size() == 2)
+		{
+			// for each adjacent node
+			for (int_vector::iterator adjV_it = rec.mAdjV.begin();
+				adjV_it != rec.mAdjV.end(); ++adjV_it)
+			{
+				int adj = *adjV_it;
+				Vec3 dis;
+				Vec3 q;
+				int_vector boundaryVertices;
+				double totLen = 0;
+				for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+					collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+				{
+					const int i = *collapseFrom_it;
+					int_vector& adjVVi = mMesh.mAdjVV[i];
+					for (int_vector::iterator it4 = adjVVi.begin();
+						it4 != adjVVi.end(); ++it4)
+					{
+						int j = *it4;
+						if (segmentIndex[j] == adj)
+						{
+							marked[i] = true;
+							boundaryVertices.push_back(i);
+							break;
+						}
+					}
+				}
+				for (int_vector::iterator boundaryVert_it = boundaryVertices.begin();
+					boundaryVert_it != boundaryVertices.end(); ++boundaryVert_it)
+				{
+					const int i = *boundaryVert_it;
+					Vec3 p1 = Vec3(&mOriginalVertexPos[i * 3]);
+					BasicMesh::Point p = mMesh.point(mMesh.vertex_handle(i));
+					Vec3 p2 = PointToVec3(p);
+					double len = 0;
+					int_vector& adjVVi = mMesh.mAdjVV[i];
+					for (int_vector::iterator it4 = adjVVi.begin();
+						it4 != adjVVi.end(); ++it4)
+					{
+						int j = *it4;
+						if (marked[j])
+						{
+							Vec3 u = Vec3(&mOriginalVertexPos[j * 3]);
+							len = (p1 - u).length();
+						}
+					}
+					q += p2 * len;
+					dis += (p1 - p2) * len;
+					totLen += len;
+				}
+				marked = bool_vector(vn, false);
+
+				Vec3 center = (q + dis) / totLen;
+				if (totLen > 0) totDis += center;
+			}
+			//rec.mPos += totDis / rec.mAdjV.size();
+			rec.mPos = totDis / rec.mAdjV.size();
+		}
+		else
+		{
+			Vec3 dis;
+			double totLen = 0;
+			for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+				collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+			{
+				int i = *collapseFrom_it;
+				int_vector& adjVVi = mMesh.mAdjVV[i];
+				for (int_vector::iterator it4 = adjVVi.begin();
+					it4 != adjVVi.end(); ++it4)
+				{
+					int j = *it4;
+					if (segmentIndex[j] != rec.mVecIndex)
+					{ marked[i] = true; }
+				}
+			}
+			for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
+				collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
+			{
+				int i = *collapseFrom_it;
+				if (!marked[i]) continue;
+
+				Vec3 p1 = Vec3(&mOriginalVertexPos[i * 3]);
+				BasicMesh::Point p = mMesh.point(mMesh.vertex_handle(i));
+				Vec3 p2 = PointToVec3(p);
+				double len = 0;
+				int_vector& adjVVi = mMesh.mAdjVV[i];
+				for (int_vector::iterator it4 = adjVVi.begin();
+					it4 != adjVVi.end(); ++it4)
+				{
+					int j = *it4;
+					if (marked[j])
+					{
+						Vec3 u = Vec3(&mOriginalVertexPos[j * 3]);
+						len += (p1 - u).length();
+					}
+				}
+				//dis += (p - p2);
+				dis += (p1 - rec.mPos) * len;
+				totLen += len;
+			}
+			if (totLen > 0) rec.mPos += dis / totLen;
+		}
+	}
 }
 
 

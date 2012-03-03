@@ -130,4 +130,3 @@ MMatrix_row MultiplyATA( const MMatrix_row& A );
 MMatrix_col MultiplyATA( const MMatrix_col& A );
 template <class MATRIX_TYPE> 
 void Sparse_Multiply(MATRIX_TYPE& out, const MMatrix_row& A, const MMatrix_col& B);
-

@@ -315,9 +315,9 @@ void Matrix_Mesh::GetFaceVertexs(double_vector* vertexs, int_vector *indexs)
 	}
 	else
 	{
-		vertexs->clear();
 		if (vertexs)
 		{
+			vertexs->clear();
 			for (FaceIter iter=faces_begin(); iter!=faces_end(); ++iter) 
 			{
 				for(FVIter fv_it = fv_iter(iter); fv_it ; ++fv_it )
@@ -330,9 +330,9 @@ void Matrix_Mesh::GetFaceVertexs(double_vector* vertexs, int_vector *indexs)
 				}
 			}
 		}
-		indexs->clear();
 		if (indexs)
 		{
+			indexs->clear();
 			for (FaceIter iter=faces_begin(); iter!=faces_end(); ++iter) 
 			{
 				for(FVIter fv_it = fv_iter(iter); fv_it ; ++fv_it )

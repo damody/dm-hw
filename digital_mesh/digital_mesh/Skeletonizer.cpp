@@ -27,8 +27,8 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 	}
 	for (uint i = 0; i < n; ++i)
 	{
-		mLapWeight[i] = m_Options.laplacianConstraintWeight;
-		mPosWeight[i] = m_Options.positionalConstraintWeight;
+		mLapWeight[i] = mOptions.laplacianConstraintWeight;
+		mPosWeight[i] = mOptions.positionalConstraintWeight;
 	}
 	LOG_TRACE << "Skeletonizer Initialize ok";
 	boost::timer timer;
@@ -45,7 +45,7 @@ Skeletonizer::Skeletonizer(Matrix_Mesh& mesh, Options& )
 		<< " nnz:" << mCCSATA.GetNumNonZero() << " elapsed: " << timer.elapsed();
 	
 
-	if(m_Options.useSymbolicSolver)
+	if(mOptions.useSymbolicSolver)
 	{
 		LOG_TRACE << "Start Build SymbolicSolver!";
 		mSymbolicSolver = SymbolicFactorization(mCCSATA);
@@ -111,8 +111,8 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 		const Vec3& v2 = face[1];
 		const Vec3& v3 = face[2];
 		areaRatio[i] = mMesh.ComputeFaceArea(f_it.handle()) / mOriginalFaceArea[i];
-		if (i<100)LOG_TRACE << "areaRatio[" << i << "]: " << areaRatio[i];
-		if (areaRatio[i] < m_Options.areaRatioThreshold)
+		//if (i<100)LOG_TRACE << "areaRatio[" << i << "]: " << areaRatio[i];
+		if (areaRatio[i] < mOptions.areaRatioThreshold)
 		{
 		}
 		double cot1 = (v2 - v1).dotProduct(v3 - v1) / (v2 - v1).crossProduct(v3 - v1).length();
@@ -163,9 +163,9 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 		}
 		for (cells::const_iterator it1 = ce.begin();it1 != ce.end();++it1)
 			(*it1)->value *= mLapWeight[i];
-		mLapWeight[i] *= m_Options.laplacianConstraintScale;
+		mLapWeight[i] *= mOptions.laplacianConstraintScale;
 		if (mLapWeight[i] > 2048) mLapWeight[i] = 2048;
-		double d = (1.0 / sqrt(totRatio)) * m_Options.positionalConstraintWeight;
+		double d = (1.0 / sqrt(totRatio)) * mOptions.positionalConstraintWeight;
 		if (!(_isnan(d))) mPosWeight[i] = d;
 		if (mPosWeight[i] > 10000) mPosWeight[i] = 10000;
 		//if (i<100)LOG_TRACE << "m_posWeight[" << i << "]: " << m_posWeight[i];
@@ -197,7 +197,7 @@ void Skeletonizer::BuildSMatrixA( SparseMatrix& A )
 	for (int i = 0; i < n; i++)
 		A.AddElement(i + n, i, mPosWeight[i]);
 	for (int i = 0; i < n; i++)
-		A.AddElement(i + n + n, i, m_Options.originalPositionalConstraintWeight);
+		A.AddElement(i + n + n, i, mOptions.originalPositionalConstraintWeight);
 	A.SortElement();
 	LOG_TRACE << "SparseMatrix A's nnz: " << A.NumOfElements();
 	//return A;
@@ -239,7 +239,7 @@ MMatrix Skeletonizer::BuildMatrixA()
 		Vec3 v3(face[2].ptr());
 		
 		areaRatio[i] = mMesh.ComputeFaceArea(f_it.handle()) / mOriginalFaceArea[i];
-		if (areaRatio[i] < m_Options.areaRatioThreshold)
+		if (areaRatio[i] < mOptions.areaRatioThreshold)
 		{
 		}
 
@@ -291,9 +291,9 @@ MMatrix Skeletonizer::BuildMatrixA()
 		}
 		for (unsigned w=0;w<rows[i].size();++w)
 			A(rows[i][w], i) *= mLapWeight[i];
-		mLapWeight[i] *= m_Options.laplacianConstraintScale;
+		mLapWeight[i] *= mOptions.laplacianConstraintScale;
 		if (mLapWeight[i] > 2048) mLapWeight[i] = 2048;
-		double d = (1.0 / sqrt(totRatio)) * m_Options.positionalConstraintWeight;
+		double d = (1.0 / sqrt(totRatio)) * mOptions.positionalConstraintWeight;
 		if (!(_isnan(d))) mPosWeight[i] = d;
 		if (mPosWeight[i] > 10000) mPosWeight[i] = 10000;
 		count++;
@@ -322,7 +322,7 @@ MMatrix Skeletonizer::BuildMatrixA()
 	for (int i = 0; i < n; i++)
 		A(i + n, i) = mPosWeight[i];
 	for (int i = 0; i < n; i++)
-		A(i + n + n, i) = m_Options.originalPositionalConstraintWeight;
+		A(i + n + n, i) = mOptions.originalPositionalConstraintWeight;
 	LOG_TRACE << "Matrix A's nnz: " << A.nnz();
 	return A;
 }
@@ -353,7 +353,7 @@ Vector Skeletonizer::Least_Square(Matrix_Mesh& m_mesh)
 		Vec3 v3(face[2].ptr());
 
 		areaRatio[i] = mMesh.ComputeFaceArea(f_it.handle()) / mOriginalFaceArea[i];
-		if (areaRatio[i] < m_Options.areaRatioThreshold)
+		if (areaRatio[i] < mOptions.areaRatioThreshold)
 		{
 		}
 
@@ -410,7 +410,7 @@ void Skeletonizer::ImplicitSmooth()
 			b[j] = 0;
 			b[j + n] = VertexPos[k+i] * mPosWeight[j];
 			tsum += b[j + n];
-			b[j + n + n] = mOriginalVertexPos[k+i] * m_Options.originalPositionalConstraintWeight;
+			b[j + n + n] = mOriginalVertexPos[k+i] * mOptions.originalPositionalConstraintWeight;
 		}
 
 		mCCSA.PreMultiply(&b[0], &ATb[0]);
@@ -418,7 +418,7 @@ void Skeletonizer::ImplicitSmooth()
 		double* _x = &x[0];
 		double* _ATb = &ATb[0];
 		int ret;
-		if (m_Options.useSymbolicSolver)
+		if (mOptions.useSymbolicSolver)
 			ret = NumericSolve(mSymbolicSolver, _x, _ATb);
 		else
 			ret = Solve(mSolver, _x, _ATb);
@@ -445,15 +445,17 @@ void Skeletonizer::ImplicitSmooth()
 	mCCSA = CCSMatrix(A);
 	mCCSATA = CCSMatrixATA(mCCSA);
 
-	if(m_Options.useSymbolicSolver)
+	if(mOptions.useSymbolicSolver)
 	{
-		FreeNumericFactor(mSymbolicSolver);
+		if (mSymbolicSolver)
+			FreeNumericFactor(mSymbolicSolver);
 		int ret = NumericFactorization(mSymbolicSolver, mCCSATA);
 		LOG_TRACE << "NumericFactorization: " << (ret == 0);
 	}
 	else
 	{
-		if (mSolver != NULL) FreeSolver(mSolver);
+		if (mSolver)
+			FreeSolver(mSolver);
 		mSolver = Factorization(mCCSATA);
 		if (mSolver == NULL) 
 		{
@@ -468,32 +470,32 @@ void Skeletonizer::ImplicitSmooth()
 
 void Skeletonizer::Initialize()
 {
-	m_Options.noiseRatio				= 0.02;
+	mOptions.noiseRatio				= 0.02;
 
 	// options for geometry collapsing
-	m_Options.maxIterations				= 30;
+	mOptions.maxIterations				= 30;
 	//m_Options.laplacianConstraintWeight		= 1.0;
-	m_Options.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh.AverageFaceArea()));
-	m_Options.positionalConstraintWeight		= 1.0;
-	m_Options.originalPositionalConstraintWeight	= 0.0;
-	m_Options.laplacianConstraintScale		= 2.0;
-	m_Options.positionalConstraintScale		= 1.5;
-	m_Options.areaRatioThreshold			= 0.001;
-	m_Options.useSymbolicSolver			= false ;
-	m_Options.useIterativeSolver			= false ;
-	m_Options.volumneRatioThreashold		= 0.001 ;
+	mOptions.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh.AverageFaceArea()));
+	mOptions.positionalConstraintWeight		= 1.0;
+	mOptions.originalPositionalConstraintWeight	= 0.0;
+	mOptions.laplacianConstraintScale		= 2.0;
+	mOptions.positionalConstraintScale		= 1.5;
+	mOptions.areaRatioThreshold			= 0.001;
+	mOptions.useSymbolicSolver			= false ;
+	mOptions.useIterativeSolver			= false ;
+	mOptions.volumneRatioThreashold		= 0.001 ;
 	// options for simplification
-	m_Options.applySimplification			= true;
-	m_Options.useShapeEnergy			= true;
-	m_Options.useSamplingEnergy			= true;
-	m_Options.shapeEnergyWeight			= 0.1;
-	m_Options.targetVertexCount			= 10;
+	mOptions.applySimplification			= true;
+	mOptions.useShapeEnergy			= true;
+	mOptions.useSamplingEnergy			= true;
+	mOptions.shapeEnergyWeight			= 0.1;
+	mOptions.targetVertexCount			= 10;
 	// options for embedding
-	m_Options.applyEmbedding			= true;
-	m_Options.numOfImprovement			= 100;
-	m_Options.postSimplify				= true;
-	m_Options.postSimplifyErrorRatio		= 0.9;
-	m_Options.useBoundaryVerticesOnly		= true;
+	mOptions.applyEmbedding			= true;
+	mOptions.numOfImprovement			= 100;
+	mOptions.postSimplify				= true;
+	mOptions.postSimplifyErrorRatio		= 0.9;
+	mOptions.useBoundaryVerticesOnly		= true;
 
 	void * solver					= NULL;
 	void * symbolicSolver				= NULL;
@@ -617,7 +619,7 @@ void Skeletonizer::GeometryCollapse( int maxIter )
 		ImplicitSmooth();
 		volume = mMesh.GetVolume();
 	}
-	while (volume / mOriginalVolume > m_Options.volumneRatioThreashold && iter < maxIter);
+	while (volume / mOriginalVolume > mOptions.volumneRatioThreashold && iter < maxIter);
 }
 
 void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
@@ -632,39 +634,44 @@ void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
 			totLength += (p1 - rec2.mPos).length();
 		}
 		totLength /= rec1.mAdjV.size();
-
+		
 		for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
 		{
+			const int j = *it;
 			bool found = false;
+			LOG_TRACE << "i " << rec1.mVecIndex << " j " << j;
 			for (int_vector::iterator it_idx = rec1.mAdjF.begin();it_idx != rec1.mAdjF.end();++it_idx)
 			{
 				int t = (*it_idx) * 3;
 				int c1 = mFaceIndex[t];
 				int c2 = mFaceIndex[t + 1];
 				int c3 = mFaceIndex[t + 2];
-				if (c1 == *it || c2 == *it || c3 == *it)
+				if (c1 == j || c2 == j || c3 == j)
 				{
 					found = true;
+					if (rec1.mVecIndex<10) LOG_TRACE << "c1 " << c1 << " c2 " << c2 << " c3 " << c3;
+					break;
 				}
 			}
 			if (!found) continue;
-			VertexRecord& rec2 = mVecRecords[*it];
+
+			VertexRecord& rec2 = mVecRecords[j];
 			Vec3& p2 = rec2.mPos;
 			if (rec2.mAdjF.size() == 0) continue;
 
 			double err = 0;
-			if (m_Options.useSamplingEnergy)
+			if (mOptions.useSamplingEnergy)
 			{
 				err = (p1 - p2).length() * totLength;
 			}
 
-			if (m_Options.useShapeEnergy)
+			if (mOptions.useShapeEnergy)
 			{
 				Vec4 v1(p2);
 				Vec4 v2((p1 + p2) / 2.0);
 				Mat4 m = (rec1.mMatrix + rec2.mMatrix);
-				double e1 = v1.dotProduct(m * v1) * m_Options.shapeEnergyWeight;
-				double e2 = v2.dotProduct(m * v2) * m_Options.shapeEnergyWeight;
+				double e1 = v1.dotProduct(m * v1) * mOptions.shapeEnergyWeight;
+				double e2 = v2.dotProduct(m * v2) * mOptions.shapeEnergyWeight;
 				if (e1 < e2)
 					err += e1;
 				else
@@ -677,10 +684,9 @@ void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
 			if (err < rec1.mMinError)
 			{
 				rec1.mMinError = err;
-				rec1.mMinIndex = *it;
+				rec1.mMinIndex = j;
 			}
 		}
-
 	}
 }
 
@@ -740,8 +746,7 @@ void Skeletonizer::Simplification()
 {
 	LOG_TRACE << "[Mesh Simplification]";
 	int n = mMesh.n_vertices();
-	double_vector vertexs;
-	mMesh.GetVertexs(&vertexs, &mFaceIndex);
+	mMesh.GetFaceVertexs(0, &mFaceIndex);
 	for (int i = 0; i < n; i++)
 		mVecRecords.push_back(new VertexRecord(mMesh, i));
 	// init weights
@@ -750,7 +755,7 @@ void Skeletonizer::Simplification()
 		VertexRecord& rec1 = mVecRecords[i];
 		Vec3 p1 = rec1.mPos;
 
-		if (m_Options.useShapeEnergy)
+		if (mOptions.useShapeEnergy)
 		{
 			for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
 			{
@@ -765,6 +770,7 @@ void Skeletonizer::Simplification()
 			}
 		}
 		UpdateVertexRecords(rec1);
+		if (i<100)LOG_TRACE << i << "\tidx: " << rec1.mMinIndex << " err: " << rec1.mMinError;
 	}
 
 	// put record into priority queue
@@ -780,7 +786,7 @@ void Skeletonizer::Simplification()
 		edgeLeft += mVecRecords[i].mAdjV.size();
 	}
 	edgeLeft /= 2;
-	while (facesLeft > 0 && vertexLeft > m_Options.targetVertexCount && !queue.Empty())
+	while (facesLeft > 0 && vertexLeft > mOptions.targetVertexCount && !queue.Empty())
 	{
 		VertexRecord& rec1 = *((VertexRecord*)queue.Top());
 		queue.Pop();
@@ -813,7 +819,11 @@ void Skeletonizer::Simplification()
 				for (int_vector::iterator it2 = rec1.mAdjV.begin();it2 != rec1.mAdjV.end();++it2)
 				{
 					int index2 = *it2;
-					mVecRecords[index2].mAdjF.erase(mVecRecords[index2].mAdjF.begin()+index);
+					int_vector::iterator res = find(mVecRecords[index2].mAdjF.begin(), mVecRecords[index2].mAdjF.end(), index);
+					if (res != mVecRecords[index2].mAdjF.end())
+					{
+						mVecRecords[index2].mAdjF.erase(res);
+					}
 				}
 				// decrease face count
 				facesLeft--;
@@ -1105,7 +1115,7 @@ void Skeletonizer::MergeJoint2()
 
 
 			//#region merge node if new SD is smaller
-			if (minAdj != -1 && minSD < m_Options.postSimplifyErrorRatio * sd)
+			if (minAdj != -1 && minSD < mOptions.postSimplifyErrorRatio * sd)
 			{
 				LOG_TRACE << (rec.mVecIndex + "=>" + minAdj);
 				int r1 = rec.mVecIndex;
@@ -1282,6 +1292,35 @@ void Skeletonizer::EmbeddingImproving()
 			if (totLen > 0) rec.mPos += dis / totLen;
 		}
 	}
+}
+
+Vec3s Skeletonizer::GetSkeletonNodes() const
+{
+	Vec3s res;
+	for (VertexRecord_sptrs::const_iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		const VertexRecord& rec = *it;
+		res.push_back(rec.mPos);
+	}
+	return res;
+}
+
+Vec3Lines Skeletonizer::GetSkeletonLines() const
+{
+	Vec3Lines res;
+	for (VertexRecord_sptrs::const_iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		const VertexRecord& rec = *it;
+		for (int_vector::const_iterator it = rec.mAdjV.begin();
+			it != rec.mAdjV.end(); ++it) 
+		{
+			const VertexRecord& rec2 = mVecRecords[*it];
+			res.push_back(Vec3Line(rec.mPos, rec2.mPos));
+		}
+	}
+	return res;
 }
 
 

@@ -49,43 +49,15 @@ public:
 		double postSimplifyErrorRatio ;
 		bool useBoundaryVerticesOnly ;
 	};
-
 private:
-	Options		m_Options;
+	Options		mOptions;
 	Matrix_Mesh&	mMesh;
-	void Initialize();
-	MMatrix BuildMatrixA();
-	void BuildSMatrixA(SparseMatrix& A);
-	CCSMatrix CCSMatrixATA(const CCSMatrix& A);
-	SparseMatrix Multiply1T(SparseMatrix& A1, SparseMatrix& A2);
-	Solver_tag* Factorization(CCSMatrix& C)
-	{
-		int	*ri = &(C.RowIndex()[0]),
-			*ci = &(C.ColIndex()[0]);
-		double	*val = &(C.Values()[0]);
-		return CreaterCholeskySolver(C.GetColSize(), C.GetNumNonZero(), ri, ci, val);
-	}
-	SymbolicSolver_tag* SymbolicFactorization(CCSMatrix& C)
-	{
-		int	*ri = &(C.RowIndex()[0]),
-			*ci = &(C.ColIndex()[0]);
-		double	*val = &(C.Values()[0]);
-		return CreaterSymbolicSolver(C.GetColSize(), C.GetNumNonZero(), ri, ci, val);
-	}
-	int NumericFactorization(SymbolicSolver_tag* symoblicSolver, CCSMatrix& C)
-	{
-		int	*ri = &(C.RowIndex()[0]),
-			*ci = &(C.ColIndex()[0]);
-		double	*val = &(C.Values()[0]);
-		return NumericFactor(symoblicSolver, C.GetColSize(), C.GetNumNonZero(), ri, ci, val);
-	}
-private:
-	double_vector mOriginalVertexPos;
-	double_vector mCollapsedVertexPos;
-	double_vector mLapWeight;
-	double_vector mPosWeight;
-	double_vector mOriginalFaceArea;
-	double_vector mOldAreaRatio;
+	double_vector	mOriginalVertexPos;
+	double_vector	mCollapsedVertexPos;
+	double_vector	mLapWeight;
+	double_vector	mPosWeight;
+	double_vector	mOriginalFaceArea;
+	double_vector	mOldAreaRatio;
 	VertexRecord_sptrs mVecRecords;
 	VertexRecord_sptrs mSimplifiedVertexRec;
 	void* solver ;
@@ -113,7 +85,6 @@ private:
 	CCSMatrix	mCCSA;
 	CCSMatrix	mCCSATA;
 	int_vector	mFaceIndex;
-	
 public:
 	Skeletonizer(Matrix_Mesh& mesh, Options& opt);
 	bool	ReadFile(std::string _fileName);
@@ -148,16 +119,34 @@ public:
 // 			}
 // 		}
 	}
-	Vec3s GetSkeletonNodes() const
+	Vec3s GetSkeletonNodes() const;
+	Vec3Lines GetSkeletonLines() const;
+private:
+	void Initialize();
+	MMatrix BuildMatrixA();
+	void BuildSMatrixA(SparseMatrix& A);
+	CCSMatrix CCSMatrixATA(const CCSMatrix& A);
+	SparseMatrix Multiply1T(SparseMatrix& A1, SparseMatrix& A2);
+	Solver_tag* Factorization(CCSMatrix& C)
 	{
-		Vec3s res;
-		for (VertexRecord_sptrs::const_iterator it = mSimplifiedVertexRec.begin();
-			it != mSimplifiedVertexRec.end(); ++it)
-		{
-			const VertexRecord& rec = *it;
-			res.push_back(rec.mPos);
-		}
-		return res;
+		int	*ri = &(C.RowIndex()[0]),
+			*ci = &(C.ColIndex()[0]);
+		double	*val = &(C.Values()[0]);
+		return CreaterCholeskySolver(C.GetColSize(), C.GetNumNonZero(), ri, ci, val);
+	}
+	SymbolicSolver_tag* SymbolicFactorization(CCSMatrix& C)
+	{
+		int	*ri = &(C.RowIndex()[0]),
+			*ci = &(C.ColIndex()[0]);
+		double	*val = &(C.Values()[0]);
+		return CreaterSymbolicSolver(C.GetColSize(), C.GetNumNonZero(), ri, ci, val);
+	}
+	int NumericFactorization(SymbolicSolver_tag* symoblicSolver, CCSMatrix& C)
+	{
+		int	*ri = &(C.RowIndex()[0]),
+			*ci = &(C.ColIndex()[0]);
+		double	*val = &(C.Values()[0]);
+		return NumericFactor(symoblicSolver, C.GetColSize(), C.GetNumNonZero(), ri, ci, val);
 	}
 };
 

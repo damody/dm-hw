@@ -11,14 +11,12 @@
 #include <osgUtil/Optimizer>
 #include <string>
 #include <vector>
-
-#include <windows.h>
-#include <iostream>
-#include <fstream>
-#include <stdio.h>
-#include <fcntl.h>
-#include <io.h>
 #include <osg/Material>
+
+#include "shared_ptr.h"
+#include "Skeletonizer.h"
+
+SHARE_PTR(Skeletonizer)
 
 class osgImplementation
 {
@@ -41,6 +39,7 @@ private:
 	osgViewer::Viewer* mViewer;
 	osg::ref_ptr<osg::Group> mRoot;
 	osg::ref_ptr<osg::Geode> mModel;
+	osg::ref_ptr<osg::Geode> mSkeleton;
 	osg::ref_ptr<osg::Geode> mShape;
 	osg::ref_ptr<osgGA::TrackballManipulator> mTrackball;
 	osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> mKeyswitchManipulator;
@@ -52,6 +51,7 @@ private:
 	osg::ref_ptr<sColors>	mLinesColors;
 	osg::ref_ptr<sFaces>	mFaces;
 	osg::ref_ptr<sColors>	mFacesColors;
+	osg::ref_ptr<osg::LightSource> mLightSource;
 	osg::ref_ptr<osg::Light>    mModelLight;
 	osg::ref_ptr<osg::Material> mModelMaterial;
 	osg::ref_ptr<osg::Geometry> mDrawPoints;
@@ -78,6 +78,8 @@ private:
 	bool	mHasLastSkeletonNode;
 	osg::Vec3f	mLastSkeletonNode;
 	Vec3fs	mSkeletonNodes;
+	Skeletonizer_sptr mMeshSkeletonizer;
+	Skeletonizer::Options mMeshOptions;
 public:
 	static void Render(void* ptr);
 	void MeshSimplification(int reduce_num, bool convex_check);
@@ -138,19 +140,18 @@ public:
 	void Done(bool value) { mDone = value; }
 	bool Done(void) { return mDone; }
 		
-	osgViewer::Viewer* getViewer() { return mViewer; }
+	osgViewer::Viewer* GetViewer() { return mViewer; }
 	void GetRay(float x, float y, osg::Vec3f& vPickRayOrig, osg::Vec3f& vPickRayDir);
-	void InitOSG()
-	{
-		// Init different parts of OSG
-		//RedirectIOToConsole();
-		InitManipulators();
-		InitSceneGraph();
-		InitCameraConfig();
-	}
-	void PreFrameUpdate();
+	void InitOSG();
 	void InitCameraConfig();
 	void InitSceneGraph(void);
 	void InitManipulators(void);
 	void ImplicitSmooth();
+	void PreFrameUpdate();
+private:
+	void InternalSimplification();
+	void InternalUpdateMesh();
+	void InternalClearVertexes();
+	void InternalClearEdges();
+	void InternalClearFaces();
 };

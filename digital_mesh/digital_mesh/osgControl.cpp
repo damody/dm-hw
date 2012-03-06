@@ -63,19 +63,19 @@ STDMETHODIMP CosgControl::InitOSG(LONG windowHandle)
 
 STDMETHODIMP CosgControl::MouseDown(LONG x, LONG y, CHAR button)
 {
-	s_osg->getViewer()->getEventQueue()->mouseButtonPress(x, y, button);
+	s_osg->GetViewer()->getEventQueue()->mouseButtonPress(x, y, button);
 	return S_OK;
 }
 
 STDMETHODIMP CosgControl::MouseMove(LONG x, LONG y)
 {
-	s_osg->getViewer()->getEventQueue()->mouseMotion(x, y);
+	s_osg->GetViewer()->getEventQueue()->mouseMotion(x, y);
 	return S_OK;
 }
 
 STDMETHODIMP CosgControl::MouseUp(LONG x, LONG y, CHAR button)
 {
-	s_osg->getViewer()->getEventQueue()->mouseButtonRelease(x, y, button);
+	s_osg->GetViewer()->getEventQueue()->mouseButtonRelease(x, y, button);
 	return S_OK;
 }
 
@@ -318,7 +318,6 @@ STDMETHODIMP CosgControl::ImplicitSmooth(void)
 
 STDMETHODIMP CosgControl::ShowSmoothSkeleton(void)
 {
-	// TODO: 在這裡加入您的實作程式碼
-
+	s_osg->ShowSmoothSkeleton();
 	return S_OK;
 }

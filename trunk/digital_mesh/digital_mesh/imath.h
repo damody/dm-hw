@@ -58,6 +58,11 @@ struct VLine
 		};
 	};
 	VEC v[2];
+
+	VLine(){}
+	VLine(const VEC& v1, const VEC& v2)
+		:begin(v1), end(v2)
+	{}
 };
 
 typedef Ogre::Vector2d Vec2;

@@ -1,7 +1,8 @@
 
-
 #include <process.h>
 #include <osg/Geometry>
+#include <osg/Shape>
+#include <osg/ShapeDrawable>
 #include <osg/Material>
 #include <osg/Point>
 #include <osg/LineWidth>
@@ -32,6 +33,7 @@
 
 #include "osgImplementation.h"
 #include "Skeletonizer.h"
+
 
 // The DraggerContainer node is used to fix the dragger's size on the screen
 class DraggerContainer : public osg::Group
@@ -159,6 +161,15 @@ osg::Node* addDraggerToScene(osg::Node* scene, const std::string& name, bool fix
 	return root;
 }
 
+void osgImplementation::InitOSG()
+{
+	// Init different parts of OSG
+	//RedirectIOToConsole();
+	InitManipulators();
+	InitSceneGraph();
+	InitCameraConfig();
+}
+
 // Initialization all variable
 osgImplementation::osgImplementation( HWND hWnd )
 :mhWnd(hWnd), mStatus(0), mMesh(0), mNeedUpdate(0), 
@@ -191,14 +202,13 @@ osgImplementation::~osgImplementation(void)
 void osgImplementation::Render( void* ptr )
 {
 	osgImplementation* osg = (osgImplementation*)ptr;
-	osgViewer::Viewer* viewer = osg->getViewer();
+	osgViewer::Viewer* viewer = osg->GetViewer();
 	
 	while(!viewer->done())
 	{
 		osg->PreFrameUpdate();
- 		viewer->frame();
-		Sleep(10);
-
+ 		//viewer->frame();
+		//Sleep(10);
 		osg::Vec3 eye, center, up;
 		osg::Vec4 r;
 		viewer->getCamera()->getViewMatrixAsLookAt(eye, center, up);
@@ -216,6 +226,7 @@ void osgImplementation::Render( void* ptr )
 
 void osgImplementation::SetModel( Matrix_Mesh* mesh )
 {
+	if (mesh->n_faces() < 1) return ;
 	mMesh = mesh;
 	//init point
 	BasicMesh::VertexIter v_it;
@@ -379,12 +390,16 @@ void osgImplementation::InitSceneGraph( void )
 	mRoot  = new osg::Group;
 	mModel = new osg::Geode;
 	mShape = new osg::Geode;
-	mRoot->addChild(mShape.get());
+	mSkeleton = new osg::Geode;
 	
+	mRoot->addChild(mSkeleton.get());
+
 	mShape->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	mShape->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
 	mShape->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-	mShape->getOrCreateStateSet()->setRenderBinDetails( -1, "RenderBin");
+	mShape->getOrCreateStateSet()->setRenderBinDetails( 0, "RenderBin");
+
+	mRoot->addChild(mShape.get());
  
  	mModel->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
 	osg::CullFace* cf = new osg::CullFace(osg::CullFace::FRONT); 
@@ -404,11 +419,11 @@ void osgImplementation::InitSceneGraph( void )
 	mModelLight->setSpecular( osg::Vec4( .9f, .9f, .9f, 1.f )); 
 	// Add the Light to a LightSource. Add the LightSource and 
 	//   MatrixTransform to the scene graph. 
-	osg::ref_ptr<osg::LightSource> ls = new osg::LightSource; 
-	mRoot->addChild( ls );
-	ls->setLight( mModelLight.get() ); 
+	osg::ref_ptr<osg::LightSource> mLightSource = new osg::LightSource; 
+	mLightSource->setLight( mModelLight.get() );
+	//mRoot->addChild( mLightSource );
 	//mRoot->addChild(addDraggerToScene(mModel,"RotateSphereDragger", false));
-	mRoot->addChild(mModel);
+	mRoot->addChild(mModel.get());
 }
 
 void osgImplementation::SetFaceTransparency( int percent )
@@ -449,6 +464,7 @@ void osgImplementation::InitCameraConfig()
 	RECT rect;
 	// Create the viewer for this window
 	mViewer = new osgViewer::Viewer();
+	mViewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
 	// add the thread model handler
 	mViewer->addEventHandler(new osgViewer::ThreadingHandler);
 	// add the window size toggle handler
@@ -497,7 +513,6 @@ void osgImplementation::InitCameraConfig()
 	mViewer->setSceneData(mRoot.get());
 	// Realize the Viewer
 	mViewer->realize();
-	mViewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
 }
 
 void osgImplementation::PreFrameUpdate()
@@ -505,160 +520,23 @@ void osgImplementation::PreFrameUpdate()
 	// Due any preframe updates in this routine
 	if (mNeedSimple>0)
 	{
-		mNeedUpdate = true;
-		static int i=0;
-		mMesh->MeshSimplification(mNeedSimple, mNeedSimpleConvex);
-		SetModel(mMesh);
-		mNeedSimple = 0;
+		InternalSimplification();
 	}
 	if (mNeedClearFaces)
 	{
-		mNeedClearFaces = false;
-		mNeedUpdate = true;
-		mDrawSFaces->removePrimitiveSet(0,999);
-		mFaces->clear();
-		mFacesColors->clear();
-		mMesh->mDontMove.clear();
+		InternalClearFaces();
 	}
 	if (mNeedClearEdges)
 	{
-		mNeedClearEdges = false;
-		mNeedUpdate = true;
-		mDrawLines->removePrimitiveSet(0,999);
-		mLines->clear();
-		mLinesColors->clear();
+		InternalClearEdges();
 	}
 	if (mNeedClearVertexes)
 	{
-		mNeedClearVertexes = false;
-		mNeedUpdate = true;
-		mDrawSVertices->removePrimitiveSet(0,999);
-		mVertices->clear();
-		mVerticesColors->clear();
+		InternalClearVertexes();
 	}
 	if (mNeedUpdate && mMesh)
 	{
-		mNeedUpdate = false;
-		if (!mVertices->empty())
-		{// add all points
-			if (mVertices->size() == 1)
-			{
-				mVertices->push_back(osg::Vec3f(0,0,0));
-				mVerticesColors->push_back(osg::Vec4f(0,0,0,0));
-			}
-			mDrawSVertices->setVertexArray(mVertices);
-			mDrawSVertices->setColorArray(mVerticesColors);
-			mDrawSVertices->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
-			mDrawSVertices->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawSVertices->removePrimitiveSet(0,999);
-			mDrawSVertices->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mVertices->size()));
-			mDrawSVertices->getOrCreateStateSet()->setAttribute( new osg::Point( 5.0f ), osg::StateAttribute::ON );
-			if (!mShape->containsDrawable(mDrawSVertices))
-				mShape->addDrawable(mDrawSVertices);
-		}
-		else
-			mShape->removeDrawable(mDrawSVertices);
-		if (!mLines->empty())
-		{// add all lines
-			mDrawLines->setVertexArray(mLines);
-			mDrawLines->setColorArray(mLinesColors);
-			mDrawLines->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
-			mDrawLines->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawLines->removePrimitiveSet(0,999);
-			mDrawLines->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, mLines->size()));
-			mDrawLines->getOrCreateStateSet()->setAttribute( new osg::LineWidth(3.0f), osg::StateAttribute::ON );
-			if (!mShape->containsDrawable(mDrawLines))
-				mShape->addDrawable(mDrawLines);
-		}
-		else
-			mShape->removeDrawable(mDrawLines);
-		if (!mFaces->empty())
-		{// add all faces
-			mDrawSFaces->setVertexArray(mFaces);
-			mDrawSFaces->setColorArray(mFacesColors);
-			mDrawSFaces->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
-			mDrawSFaces->setNormalBinding(osg::Geometry::BIND_OFF);
-			mDrawSFaces->removePrimitiveSet(0,999);
-			mDrawSFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, mFaces->size()));
-			if (!mShape->containsDrawable(mDrawSFaces))
-				mShape->addDrawable(mDrawSFaces);
-		}
-		else
-			mShape->removeDrawable(mDrawSFaces);
-		
-		if (mStatus & VERTEX)
-		{
-			// pass the created vertex array to the points geometry object.
-			mDrawVertexs->setVertexArray(mPointVertices);
-			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(1.0f,0.0f,0.0f,1.0f));
-			// use the shared color array.
-			mDrawVertexs->setColorArray(shared_colors);
-			mDrawVertexs->setColorBinding(osg::Geometry::BIND_OVERALL);
-			// use the normal array.
-			mDrawVertexs->setNormalArray(mPointNormals);
-			mDrawVertexs->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
-			// This time we simply use primitive, and hardwire the number of coords to use 
-			// since we know up front,
-			mDrawVertexs->removePrimitiveSet(0,999);
-			mDrawVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mPointVertices->size()));
-			// add the points geometry to the geode.
-			mDrawVertexs->getOrCreateStateSet()->setAttribute( new osg::Point( 2.0f ), osg::StateAttribute::ON );
-			if (!mModel->containsDrawable(mDrawVertexs))
-				mModel->addDrawable(mDrawVertexs);
-		}
-		else
-		{
-			mModel->removeDrawable(mDrawVertexs);
-		}
-		if (mStatus & EDGE)
-		{
-			// pass the created vertex array to the points geometry object.			
-			mDrawEdges->setVertexArray(mEdgeVertices);
-			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(0.0f,1.0f,0.0f,1.0f));
-			// use the shared color array.
-			mDrawEdges->setColorArray(shared_colors);
-			mDrawEdges->setColorBinding(osg::Geometry::BIND_OVERALL);
-			// use the normal array.
-			mDrawEdges->setNormalArray(mEdgeNormals);
-			mDrawEdges->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
-			// This time we simply use primitive, and hardwire the number of coords to use 
-			// since we know up front,
-			mDrawEdges->removePrimitiveSet(0,999);
-			mDrawEdges->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, mEdgeVertices->size()));
-			// add the points geometry to the geode.
-			if (!mModel->containsDrawable(mDrawEdges))
-				mModel->addDrawable(mDrawEdges);
-		}
-		else
-		{
-			mModel->removeDrawable(mDrawEdges);
-		}
-		if (mStatus & FACE)
-		{
-			// pass the created vertex array to the points geometry object.
-			mDrawFaces->setVertexArray(mFaceVertices);
-			osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
-			shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
-			// use the shared color array.
-			mDrawFaces->setColorArray(shared_colors);
-			mDrawFaces->setColorBinding(osg::Geometry::BIND_OVERALL);
-			// use the normal array.
-			mDrawFaces->setNormalArray(mFaceNormals);
-			mDrawFaces->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
-			// This time we simply use primitive, and hardwire the number of coords to use 
-			// since we know up front,
-			mDrawFaces->removePrimitiveSet(0,999);
-			mDrawFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, mFaceVertices->size()));
-			// add the points geometry to the geode.
-			if (!mModel->containsDrawable(mDrawFaces))
-				mModel->addDrawable(mDrawFaces);
-		}
-		else
-		{
-			mModel->removeDrawable(mDrawFaces);
-		}
+		InternalUpdateMesh();
 	}
 }
 
@@ -837,16 +715,186 @@ void osgImplementation::ResetCamera()
 void osgImplementation::ImplicitSmooth()
 {
 	if (!mMesh) return ;
-	Skeletonizer::Options mesh_opt;
-	mesh_opt.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
-	Skeletonizer mesh_skeletonizer(*mMesh, mesh_opt);
-	mesh_skeletonizer.GeometryCollapse(7);
-	mesh_skeletonizer.Simplification();
-	//mesh_skeletonizer.ImplicitSmooth();
+	mMeshOptions.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
+	mMeshSkeletonizer = Skeletonizer_sptr(new Skeletonizer(*mMesh, mMeshOptions));
+	mMeshSkeletonizer->GeometryCollapse(7);
+	mMeshSkeletonizer->Simplification();
+// 	mMeshSkeletonizer->EmbeddingImproving();
+// 	mMeshSkeletonizer->MergeJoint2();
+// 	mMeshSkeletonizer->AssignColorIndex();
 	Show(mStatus);
 }
 
 void osgImplementation::ShowSmoothSkeleton()
 {
-	
+	Vec3s nodes = mMeshSkeletonizer->GetSkeletonNodes();
+	for (Vec3s::iterator it = nodes.begin();it != nodes.end(); ++it)
+	{
+		osg::ref_ptr<osg::Sphere> sphere = 
+			new osg::Sphere(osg::Vec3(it->x, it->y, it->z), 3.0f);
+		osg::ref_ptr<osg::ShapeDrawable> sdraw = new osg::ShapeDrawable(sphere);
+		mSkeleton->addDrawable(sdraw);
+	}
+}
+
+void osgImplementation::InternalSimplification()
+{
+	mNeedUpdate = true;
+	static int i=0;
+	mMesh->MeshSimplification(mNeedSimple, mNeedSimpleConvex);
+	SetModel(mMesh);
+	mNeedSimple = 0;
+}
+
+void osgImplementation::InternalClearFaces()
+{
+	mNeedClearFaces = false;
+	mNeedUpdate = true;
+	mDrawSFaces->removePrimitiveSet(0,999);
+	mFaces->clear();
+	mFacesColors->clear();
+	mMesh->mDontMove.clear();
+}
+
+void osgImplementation::InternalClearEdges()
+{
+	mNeedClearEdges = false;
+	mNeedUpdate = true;
+	mDrawLines->removePrimitiveSet(0,999);
+	mLines->clear();
+	mLinesColors->clear();
+}
+
+void osgImplementation::InternalClearVertexes()
+{
+	mNeedClearVertexes = false;
+	mNeedUpdate = true;
+	mDrawSVertices->removePrimitiveSet(0,999);
+	mVertices->clear();
+	mVerticesColors->clear();
+}
+
+void osgImplementation::InternalUpdateMesh()
+{
+	mNeedUpdate = false;
+	if (!mVertices->empty())
+	{// add all points
+		if (mVertices->size() == 1)
+		{
+			mVertices->push_back(osg::Vec3f(0,0,0));
+			mVerticesColors->push_back(osg::Vec4f(0,0,0,0));
+		}
+		mDrawSVertices->setVertexArray(mVertices);
+		mDrawSVertices->setColorArray(mVerticesColors);
+		mDrawSVertices->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+		mDrawSVertices->setNormalBinding(osg::Geometry::BIND_OFF);
+		mDrawSVertices->removePrimitiveSet(0,mDrawSVertices->getNumPrimitiveSets());
+		mDrawSVertices->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mVertices->size()));
+		mDrawSVertices->getOrCreateStateSet()->setAttribute( new osg::Point( 5.0f ), osg::StateAttribute::ON );
+		if (!mShape->containsDrawable(mDrawSVertices))
+			mShape->addDrawable(mDrawSVertices);
+	}
+	else
+		mShape->removeDrawable(mDrawSVertices);
+	if (!mLines->empty())
+	{// add all lines
+		mDrawLines->setVertexArray(mLines);
+		mDrawLines->setColorArray(mLinesColors);
+		mDrawLines->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+		mDrawLines->setNormalBinding(osg::Geometry::BIND_OFF);
+		mDrawLines->removePrimitiveSet(0,mDrawLines->getNumPrimitiveSets());
+		mDrawLines->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, mLines->size()));
+		mDrawLines->getOrCreateStateSet()->setAttribute( new osg::LineWidth(3.0f), osg::StateAttribute::ON );
+		if (!mShape->containsDrawable(mDrawLines))
+			mShape->addDrawable(mDrawLines);
+	}
+	else
+		mShape->removeDrawable(mDrawLines);
+	if (!mFaces->empty())
+	{// add all faces
+		mDrawSFaces->setVertexArray(mFaces);
+		mDrawSFaces->setColorArray(mFacesColors);
+		mDrawSFaces->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+		mDrawSFaces->setNormalBinding(osg::Geometry::BIND_OFF);
+		mDrawSFaces->removePrimitiveSet(0,mDrawSFaces->getNumPrimitiveSets());
+		mDrawSFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, mFaces->size()));
+		if (!mShape->containsDrawable(mDrawSFaces))
+			mShape->addDrawable(mDrawSFaces);
+	}
+	else
+		mShape->removeDrawable(mDrawSFaces);
+
+	if (mStatus & VERTEX)
+	{
+		// pass the created vertex array to the points geometry object.
+		mDrawVertexs->setVertexArray(mPointVertices);
+		osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
+		shared_colors->push_back(osg::Vec4(1.0f,0.0f,0.0f,1.0f));
+		// use the shared color array.
+		mDrawVertexs->setColorArray(shared_colors);
+		mDrawVertexs->setColorBinding(osg::Geometry::BIND_OVERALL);
+		// use the normal array.
+		mDrawVertexs->setNormalArray(mPointNormals);
+		mDrawVertexs->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
+		// This time we simply use primitive, and hardwire the number of coords to use 
+		// since we know up front,
+		mDrawVertexs->removePrimitiveSet(0,mDrawVertexs->getNumPrimitiveSets());
+		mDrawVertexs->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, mPointVertices->size()));
+		// add the points geometry to the geode.
+		mDrawVertexs->getOrCreateStateSet()->setAttribute( new osg::Point( 2.0f ), osg::StateAttribute::ON );
+		if (!mModel->containsDrawable(mDrawVertexs))
+			mModel->addDrawable(mDrawVertexs);
+	}
+	else
+	{
+		mModel->removeDrawable(mDrawVertexs);
+	}
+	if (mStatus & EDGE)
+	{
+		// pass the created vertex array to the points geometry object.			
+		mDrawEdges->setVertexArray(mEdgeVertices);
+		osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
+		shared_colors->push_back(osg::Vec4(0.0f,1.0f,0.0f,1.0f));
+		// use the shared color array.
+		mDrawEdges->setColorArray(shared_colors);
+		mDrawEdges->setColorBinding(osg::Geometry::BIND_OVERALL);
+		// use the normal array.
+		mDrawEdges->setNormalArray(mEdgeNormals);
+		mDrawEdges->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
+		// This time we simply use primitive, and hardwire the number of coords to use 
+		// since we know up front,
+		mDrawEdges->removePrimitiveSet(0,mDrawEdges->getNumPrimitiveSets());
+		mDrawEdges->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, mEdgeVertices->size()));
+		// add the points geometry to the geode.
+		if (!mModel->containsDrawable(mDrawEdges))
+			mModel->addDrawable(mDrawEdges);
+	}
+	else
+	{
+		mModel->removeDrawable(mDrawEdges);
+	}
+	if (mStatus & FACE)
+	{
+		// pass the created vertex array to the points geometry object.
+		mDrawFaces->setVertexArray(mFaceVertices);
+		osg::ref_ptr<osg::Vec4Array> shared_colors = new osg::Vec4Array;
+		shared_colors->push_back(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
+		// use the shared color array.
+		mDrawFaces->setColorArray(shared_colors);
+		mDrawFaces->setColorBinding(osg::Geometry::BIND_OVERALL);
+		// use the normal array.
+		mDrawFaces->setNormalArray(mFaceNormals);
+		mDrawFaces->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
+		// This time we simply use primitive, and hardwire the number of coords to use 
+		// since we know up front,
+		mDrawFaces->removePrimitiveSet(0,mDrawFaces->getNumPrimitiveSets());
+		mDrawFaces->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, mFaceVertices->size()));
+		// add the points geometry to the geode.
+		if (!mModel->containsDrawable(mDrawFaces))
+			mModel->addDrawable(mDrawFaces);
+	}
+	else
+	{
+		mModel->removeDrawable(mDrawFaces);
+	}
 }

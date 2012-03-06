@@ -87,6 +87,7 @@ namespace Ogre
         */
         inline Matrix4()
         {
+		memset(_m, 0, sizeof(_m));
         }
 
         inline Matrix4(

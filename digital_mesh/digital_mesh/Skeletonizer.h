@@ -58,8 +58,8 @@ private:
 	double_vector	mPosWeight;
 	double_vector	mOriginalFaceArea;
 	double_vector	mOldAreaRatio;
-	VertexRecord_sptrs mVecRecords;
-	VertexRecord_sptrs mSimplifiedVertexRec;
+	VertexRecord_rawptrs mVecRecords;
+	VertexRecord_rawptrs mSimplifiedVertexRec;
 	void* solver ;
 	//SymbolicSolver	m_SymbolicSolver;
 	SymbolicSolver_tag*	mSymbolicSolver;
@@ -96,30 +96,8 @@ public:
 	void	AssignColorIndex();
  	void	MergeJoint2();
 	void	EmbeddingImproving();
-	void	BuildSkeletonGraph()
-	{
-		//Program.PrintText("build graph \n");
-
-		if (mSimplifiedVertexRec.empty()) return;
-
-// 		if (skeletonGraph == null) skeletonGraph = new AdjacencyGraph<int, Edge<int>>(false);
-// 		skeletonGraph.Clear();
-// 		foreach (VertexRecord rec in simplifiedVertexRec)
-// 		{
-// 			skeletonGraph.push_backVertex(rec.mVecIndex);
-// 		}
-// 		foreach (VertexRecord rec in simplifiedVertexRec)
-// 		{
-// 			foreach (int adj in rec.mAdjV)
-// 			{
-// 				VertexRecord rec2 = vRec[adj];
-// 				Edge<int> edge = new Edge<int>(rec.mVecIndex, rec2.vIndex);
-// 				if (skeletonGraph.ContainsEdge(rec.mVecIndex, rec2.vIndex) == false && skeletonGraph.ContainsEdge(rec2.vIndex, rec.mVecIndex) == false)
-// 					skeletonGraph.push_backEdge(edge);
-// 			}
-// 		}
-	}
-	Vec3s GetSkeletonNodes() const;
+	void	BuildSkeletonGraph();
+	Vec3s	GetSkeletonNodes() const;
 	Vec3Lines GetSkeletonLines() const;
 private:
 	void Initialize();

@@ -11,10 +11,10 @@ public:
 	virtual ~Matrix_Mesh(void);
 	virtual bool ReadFile(std::string _fileName);//Åª¨úmesh¸ê®Æ;
 	TAUCS_CCS_Matrix_Double BuildAdjacentMatrixVV();
-	TAUCS_CCS_Matrix_Double BuildAdjacentMatrixFV();
+	TAUCS_CCS_Matrix_Double BuildAdjacentMatrixVF();
 	TAUCS_CCS_Matrix_Double BuildAdjacentMatrixFF();
 	SparseMatrix BuildAdjacentSMatrixVV();
-	SparseMatrix BuildAdjacentSMatrixFV();
+	SparseMatrix BuildAdjacentSMatrixVF();
 	SparseMatrix BuildAdjacentSMatrixFF();
 	double GetVolume();
 	double m_bound[6];

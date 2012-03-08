@@ -33,6 +33,7 @@
 
 #include "osgImplementation.h"
 #include "Skeletonizer.h"
+#include "AdditionalFunction.h"
 
 
 // The DraggerContainer node is used to fix the dragger's size on the screen
@@ -207,8 +208,8 @@ void osgImplementation::Render( void* ptr )
 	while(!viewer->done())
 	{
 		osg->PreFrameUpdate();
- 		//viewer->frame();
-		//Sleep(10);
+ 		viewer->frame();
+		Sleep(10);
 		osg::Vec3 eye, center, up;
 		osg::Vec4 r;
 		viewer->getCamera()->getViewMatrixAsLookAt(eye, center, up);
@@ -717,11 +718,11 @@ void osgImplementation::ImplicitSmooth()
 	if (!mMesh) return ;
 	mMeshOptions.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
 	mMeshSkeletonizer = Skeletonizer_sptr(new Skeletonizer(*mMesh, mMeshOptions));
-	mMeshSkeletonizer->GeometryCollapse(7);
+	mMeshSkeletonizer->GeometryCollapse(30);
 	mMeshSkeletonizer->Simplification();
-// 	mMeshSkeletonizer->EmbeddingImproving();
-// 	mMeshSkeletonizer->MergeJoint2();
-// 	mMeshSkeletonizer->AssignColorIndex();
+ 	mMeshSkeletonizer->EmbeddingImproving();
+ 	//mMeshSkeletonizer->MergeJoint2();
+ 	mMeshSkeletonizer->AssignColorIndex();
 	Show(mStatus);
 }
 
@@ -731,10 +732,19 @@ void osgImplementation::ShowSmoothSkeleton()
 	for (Vec3s::iterator it = nodes.begin();it != nodes.end(); ++it)
 	{
 		osg::ref_ptr<osg::Sphere> sphere = 
-			new osg::Sphere(osg::Vec3(it->x, it->y, it->z), 3.0f);
+			new osg::Sphere(osg::Vec3(it->x, it->y, it->z), 0.02f);
 		osg::ref_ptr<osg::ShapeDrawable> sdraw = new osg::ShapeDrawable(sphere);
 		mSkeleton->addDrawable(sdraw);
 	}
+	Vec3Lines lines;// = mMeshSkeletonizer->GetSkeletonLines();
+	LOG_TRACE << "lines.size: " << lines.size();
+	for (Vec3Lines::iterator it = lines.begin();it != lines.end(); ++it)
+	{
+		mSkeleton->addDrawable(
+			AddCylinderBetweenPoints(OgreVec3ToOsgVec3(it->begin), OgreVec3ToOsgVec3(it->end), 1.0f)
+			);
+	}
+	
 }
 
 void osgImplementation::InternalSimplification()
@@ -897,4 +907,30 @@ void osgImplementation::InternalUpdateMesh()
 	{
 		mModel->removeDrawable(mDrawFaces);
 	}
+}
+
+ShapeDrawable_sptr osgImplementation::AddCylinderBetweenPoints( osg::Vec3 StartPoint, osg::Vec3 EndPoint, float radius )
+{
+	osg::Vec3   center; 
+	float      height; 
+	osg::ref_ptr<osg::Cylinder> cylinder; 
+	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable; 
+
+	height = (StartPoint- EndPoint).length(); 
+	center = osg::Vec3( (StartPoint.x() + EndPoint.x()) / 2,  (StartPoint.y() + EndPoint.y()) / 2,  (StartPoint.z() + EndPoint.z()) / 2); 
+
+	osg::Vec3   z = osg::Vec3(0,0,1); 
+	osg::Vec3 p = (StartPoint - EndPoint); 
+	// Get CROSS product (the axis of rotation) 
+	osg::Vec3   t = z ^  p; 
+	// Get angle. length is magnitude of the vector 
+	double angle = acos( (z * p) / p.length()); 
+	//   Create a cylinder between the two points with the given radius 
+	cylinder = new osg::Cylinder(center,radius,height); 
+	cylinder->setRotation(osg::Quat(angle, osg::Vec3(t.x(), t.y(), t.z()))); 
+	//   A geode to hold our cylinder 
+	cylinderDrawable = new osg::ShapeDrawable(cylinder );
+	// use the shared color array.
+	cylinderDrawable->setColor(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
+	return cylinderDrawable;
 }

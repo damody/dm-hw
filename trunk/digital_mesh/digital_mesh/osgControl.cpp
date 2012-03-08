@@ -17,6 +17,7 @@ STDMETHODIMP CosgControl::LoadObjMesh(BSTR filepath, LONG* status)
 	if(s_Tri_Mesh->ReadFile(path))
 	{
 		s_osg->SetModel(s_Tri_Mesh);
+		s_osg->ResetCamera();
 		*status = RETURN_OK;
 	}
 	*status = RETURN_FAIL;

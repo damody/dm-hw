@@ -12,11 +12,15 @@
 #include <string>
 #include <vector>
 #include <osg/Material>
+#include <osg/ShapeDrawable>
 
 #include "shared_ptr.h"
 #include "Skeletonizer.h"
 
+
 SHARE_PTR(Skeletonizer)
+
+typedef osg::ref_ptr<osg::ShapeDrawable> ShapeDrawable_sptr;
 
 class osgImplementation
 {
@@ -149,6 +153,7 @@ public:
 	void ImplicitSmooth();
 	void PreFrameUpdate();
 private:
+	ShapeDrawable_sptr AddCylinderBetweenPoints(osg::Vec3 StartPoint, osg::Vec3 EndPoint, float radius); 
 	void InternalSimplification();
 	void InternalUpdateMesh();
 	void InternalClearVertexes();

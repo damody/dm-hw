@@ -36,7 +36,7 @@ TAUCS_CCS_Matrix_Double Matrix_Mesh::BuildAdjacentMatrixVV()
 	return TAUCS_CCS_Matrix_Double(m);
 }
 
-TAUCS_CCS_Matrix_Double Matrix_Mesh::BuildAdjacentMatrixFV()
+TAUCS_CCS_Matrix_Double Matrix_Mesh::BuildAdjacentMatrixVF()
 {
 	MMatrix m(n_faces(), n_vertices());
 	FIter	f_it;
@@ -106,7 +106,7 @@ bool Matrix_Mesh::ReadFile( std::string _fileName )
 		timer.restart();
 		TAUCS_CCS_Matrix_Double adjVV = BuildAdjacentMatrixVV();
 		mAdjVV = adjVV.GetRowIndex();
-		TAUCS_CCS_Matrix_Double adjVF = BuildAdjacentMatrixFV();
+		TAUCS_CCS_Matrix_Double adjVF = BuildAdjacentMatrixVF();
 		mAdjVF = adjVF.GetColIndex();
 		TAUCS_CCS_Matrix_Double adjFF = BuildAdjacentMatrixFF();
 		mAdjFF = adjFF.GetRowIndex();
@@ -115,9 +115,9 @@ bool Matrix_Mesh::ReadFile( std::string _fileName )
 		timer.restart();
 		mSMVV = BuildAdjacentSMatrixVV();
 		mAdjVV = mSMVV.GetRowIndex();
-		mSMVF = BuildAdjacentSMatrixVV();
+		mSMVF = BuildAdjacentSMatrixVF();
 		mAdjVF = mSMVF.GetColIndex();
-		mSMFF = BuildAdjacentSMatrixVV();
+		mSMFF = BuildAdjacentSMatrixFF();
 		mAdjFF = mSMFF.GetRowIndex();
 		LOG_TRACE	<< "SparseMatrix use time: " << timer.elapsed();
 		mFlags.resize(n_vertices());
@@ -181,7 +181,7 @@ SparseMatrix Matrix_Mesh::BuildAdjacentSMatrixVV()
 	return m;
 }
 
-SparseMatrix Matrix_Mesh::BuildAdjacentSMatrixFV()
+SparseMatrix Matrix_Mesh::BuildAdjacentSMatrixVF()
 {
 	SparseMatrix m(n_faces(), n_vertices());
 	FIter	f_it;

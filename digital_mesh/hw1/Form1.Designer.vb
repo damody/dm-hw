@@ -65,6 +65,7 @@ Partial Class Form1
         Me.Label_Face_Transparency = New System.Windows.Forms.Label
         Me.ContextMenuStrip_RClick = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowSkeletonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox_DrawOSG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,7 +183,7 @@ Partial Class Form1
         '
         'ShowToolStripMenuItem
         '
-        Me.ShowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowVertexToolStripMenuItem, Me.ShowEdgeToolStripMenuItem, Me.ShowFaceToolStripMenuItem})
+        Me.ShowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowVertexToolStripMenuItem, Me.ShowEdgeToolStripMenuItem, Me.ShowFaceToolStripMenuItem, Me.ShowSkeletonToolStripMenuItem})
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
         Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(66, 20)
         Me.ShowToolStripMenuItem.Text = "Show(&S)"
@@ -190,13 +191,13 @@ Partial Class Form1
         'ShowVertexToolStripMenuItem
         '
         Me.ShowVertexToolStripMenuItem.Name = "ShowVertexToolStripMenuItem"
-        Me.ShowVertexToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.ShowVertexToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.ShowVertexToolStripMenuItem.Text = "Vertex(&V)"
         '
         'ShowEdgeToolStripMenuItem
         '
         Me.ShowEdgeToolStripMenuItem.Name = "ShowEdgeToolStripMenuItem"
-        Me.ShowEdgeToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.ShowEdgeToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.ShowEdgeToolStripMenuItem.Text = "Edge(&E)"
         '
         'ShowFaceToolStripMenuItem
@@ -204,7 +205,7 @@ Partial Class Form1
         Me.ShowFaceToolStripMenuItem.Checked = True
         Me.ShowFaceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowFaceToolStripMenuItem.Name = "ShowFaceToolStripMenuItem"
-        Me.ShowFaceToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.ShowFaceToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.ShowFaceToolStripMenuItem.Text = "Face(&F)"
         '
         'CameraToolStripMenuItem
@@ -217,19 +218,19 @@ Partial Class Form1
         'VertexesToolStripMenuItem
         '
         Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
-        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.VertexesToolStripMenuItem.Text = "Vertexes"
         '
         'EdgesToolStripMenuItem
         '
         Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
-        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EdgesToolStripMenuItem.Text = "Edges"
         '
         'FacesToolStripMenuItem
         '
         Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
-        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.FacesToolStripMenuItem.Text = "Faces"
         '
         'ViewerToolStripMenuItem
@@ -363,6 +364,12 @@ Partial Class Form1
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(97, 22)
         Me.ToolStripMenuItem2.Text = "123"
         '
+        'ShowSkeletonToolStripMenuItem
+        '
+        Me.ShowSkeletonToolStripMenuItem.Name = "ShowSkeletonToolStripMenuItem"
+        Me.ShowSkeletonToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ShowSkeletonToolStripMenuItem.Text = "ShowSkeleton"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -435,5 +442,6 @@ Partial Class Form1
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ImplicitSmoothToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowSkeletonToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

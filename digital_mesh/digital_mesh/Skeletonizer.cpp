@@ -481,18 +481,18 @@ void Skeletonizer::Initialize()
 	mOptions.areaRatioThreshold			= 0.001;
 	mOptions.useSymbolicSolver			= false ;
 	mOptions.useIterativeSolver			= false ;
-	mOptions.volumneRatioThreashold		= 0.001 ;
+	mOptions.volumneRatioThreashold			= 0.001 ;
 	// options for simplification
 	mOptions.applySimplification			= true;
-	mOptions.useShapeEnergy			= true;
+	mOptions.useShapeEnergy				= true;
 	mOptions.useSamplingEnergy			= true;
 	mOptions.shapeEnergyWeight			= 0.1;
-	mOptions.targetVertexCount			= 500;
+	mOptions.targetVertexCount			= 10;
 	// options for embedding
-	mOptions.applyEmbedding			= true;
-	mOptions.numOfImprovement			= 10;
+	mOptions.applyEmbedding				= true;
+	mOptions.numOfImprovement			= 100;
 	mOptions.postSimplify				= true;
-	mOptions.postSimplifyErrorRatio		= 0.9;
+	mOptions.postSimplifyErrorRatio			= 0.9;
 	mOptions.useBoundaryVerticesOnly		= true;
 
 	void * solver					= NULL;
@@ -622,14 +622,14 @@ void Skeletonizer::GeometryCollapse( int maxIter )
 
 void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
 {
-	Vec3& p1 = rec1.mPos;
+	Vec3& p1 = rec1.Pos();
 	if (rec1.mAdjV.size() > 1 && rec1.mAdjF.size() > 0) // Do not allow collapse at the end of skeleton
 	{
-		double totLength = 0;
+		double totLength = 0.0;
 		for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
 		{
 			VertexRecord& rec2 = *mVecRecords[*it];
-			totLength += (p1 - rec2.mPos).length();
+			totLength += (p1 - rec2.Pos()).length();
 		}
 		totLength /= rec1.mAdjV.size();
 		
@@ -654,10 +654,10 @@ void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
 			if (!found) continue;
 
 			VertexRecord& rec2 = *mVecRecords[j];
-			Vec3& p2 = rec2.mPos;
+			Vec3& p2 = rec2.Pos();
 			if (rec2.mAdjF.size() == 0) continue;
 
-			double err = 0;
+			double err = 0.0;
 			if (mOptions.useSamplingEnergy)
 			{
 				err = (p1 - p2).length() * totLength;
@@ -690,8 +690,7 @@ void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
 
 void Skeletonizer::AssignColorIndex()
 {
-	LOG_TRACE << "[AssignColorIndex]" ;
-	return;
+	LOG_TRACE << "[AssignColorIndex]";
 	if (mSimplifiedVertexRec.empty()) return;
 	const int COLOR_NUM = 3;
 	bool used[COLOR_NUM]; // total 3 colors
@@ -702,32 +701,44 @@ void Skeletonizer::AssignColorIndex()
 	{
 		(*it)->mColorIndex = -1;
 	}
+	int count = 0;
 	for (VertexRecord_rawptrs::iterator it = mSimplifiedVertexRec.begin();
 		it != mSimplifiedVertexRec.end(); ++it)
 	{
+		count++;
 		VertexRecord* rec = *it;
 		if (rec->mColorIndex != -1) 
 			continue;
 		q.push(rec);
+		int qq = 0;
 		while (!q.empty())
 		{
+			qq++;
 			VertexRecord* rec1 = q.front();
 			q.pop();
 			for (int i = 0; i < COLOR_NUM; i++)
 				used[i] = false;
-			for (int_vector::iterator it = rec1->mAdjV.begin();it != rec1->mAdjV.end();++it)
+			for (int_vector::iterator it2 = rec1->mAdjV.begin();it2 != rec1->mAdjV.end();++it2)
 			{
-				int adj = *it;
+				int adj = *it2;
+				//LOG_TRACE << count << " qq " << qq << " adj " << adj ;
 				VertexRecord* rec2 = mVecRecords[adj];
 				if (rec2->mColorIndex != -1)
+				{
 					used[mVecRecords[adj]->mColorIndex] = true;
-				else
-					q.push(rec2);
+					//LOG_TRACE << "used[mVecRecords[adj]->mColorIndex] " << mVecRecords[adj]->mColorIndex << " " << adj;
+				}
+ 				else
+ 					q.push(rec2);
 			}
 			for (int i = 0; i < COLOR_NUM; i++)
+			{
 				if (!used[i])
+				{
 					rec1->mColorIndex = i;
-			LOG_TRACE << "q.size() " << q.size();
+					//LOG_TRACE << "rec1->mColorIndex = " << i;
+				}
+			}
 		}
 	}
 
@@ -747,6 +758,7 @@ void Skeletonizer::AssignColorIndex()
 void Skeletonizer::Simplification()
 {
 	LOG_TRACE << "[Mesh Simplification]";
+	mMesh.UpdateVertexs();
 	int n = mMesh.n_vertices();
 	mMesh.GetFaceVertexs(0, &mFaceIndex);
 	for (int i = 0; i < n; i++)
@@ -755,13 +767,13 @@ void Skeletonizer::Simplification()
 	for (int i = 0; i < n; i++)
 	{
 		VertexRecord& rec1 = *mVecRecords[i];
-		Vec3 p1 = rec1.mPos;
+		Vec3 p1 = rec1.Pos();
 
 		if (mOptions.useShapeEnergy)
 		{
 			for (int_vector::iterator it = rec1.mAdjV.begin();it != rec1.mAdjV.end();++it)
 			{
-				Vec3& p2 = mVecRecords[*it]->mPos;
+				Vec3 p2 = mVecRecords[*it]->Pos();
 				Vec3 u = (p2 - p1).normalisedCopy();
 				Vec3 w = u.crossProduct(p1);
 				Mat4 m;
@@ -777,24 +789,37 @@ void Skeletonizer::Simplification()
 	// put record into priority queue
 	PQueue queue;
 	for (int i = 0; i < n; i++)
+	{
+		//LOG_TRACE << "mVecRecords[i]: " << mVecRecords[i]->mVecIndex << " mVecRecords[i]: " << mVecRecords[i]->mMinIndex << " size " << queue.mDatas.size();
 		queue.Insert(mVecRecords[i]);
-
+		VertexRecord* rec1 = ((VertexRecord*)queue.DeleteMin());
+		//LOG_TRACE << "rec1.mVecIndex: " << rec1->mVecIndex << " rec1.mMinIndex: " << rec1->mMinIndex << " size " << queue.mDatas.size();
+		queue.Insert(rec1);
+// 		for (int j = 0;j<queue.mDatas.size();j++)
+// 		{
+// 			LOG_TRACE << ((VertexRecord*)queue.mDatas[j])->mMinIndex;
+// 		}
+	}
 	int facesLeft = mMesh.n_faces();
 	int vertexLeft = mMesh.n_vertices();
+	LOG_TRACE << "facesLeft: " << facesLeft;
+	LOG_TRACE << "vertexLeft: " << vertexLeft;
 	int edgeLeft = 0;
 	for (int i = 0; i < n; i++)
 	{
 		edgeLeft += (*mVecRecords[i]).mAdjV.size();
 	}
+	LOG_TRACE << "edgeLeft: " << edgeLeft;
 	edgeLeft /= 2;
 	while (facesLeft > 0 && vertexLeft > mOptions.targetVertexCount && !queue.Empty())
+	//for (int test=0;test<3000;test++)
 	{
-		VertexRecord& rec1 = *((VertexRecord*)queue.Top());
-		queue.Pop();
+		VertexRecord& rec1 = *((VertexRecord*)queue.DeleteMin());
+		LOG_TRACE << "rec1.mVecIndex: " << rec1.mVecIndex << "rec1.mMinIndex: " << rec1.mMinIndex;
 		VertexRecord& rec2 = *mVecRecords[rec1.mMinIndex];
 		rec2.mMatrix = (rec1.mMatrix + rec2.mMatrix);
 		if (rec1.mCenter)
-			rec2.mPos = (rec1.mPos + rec2.mPos) / 2.0;
+			rec2.Pos() = (rec1.Pos() + rec2.Pos()) / 2.0;
 		rec2.mCollapseFrom.push_back(rec1.mVecIndex);
 		for (int_vector::iterator it = rec1.mCollapseFrom.begin();it != rec1.mCollapseFrom.end();++it)
 		{
@@ -908,11 +933,15 @@ void Skeletonizer::Simplification()
 	// copy remaining vertices to resulting list
 	while (!queue.Empty())
 	{
-		VertexRecord* rec = (VertexRecord*)queue.Top();
-		queue.Pop();
+		VertexRecord* rec = (VertexRecord*)queue.DeleteMin();
 		mSimplifiedVertexRec.push_back(rec);
 	}
-
+	for (int i = 0; i < n; i++)
+	{
+		mVecRecords[i]->mAdjF.clear();
+		if (mVecRecords[i]->mCollapseFrom.empty())
+			mVecRecords[i]->mAdjV.clear();
+	}
 	AssignColorIndex();
 
 	LOG_TRACE << "Nodes:" << mSimplifiedVertexRec.size();
@@ -946,7 +975,7 @@ void Skeletonizer::MergeJoint2()
 			if (rec.mCollapseFrom.empty()) continue;
 			if (rec.mAdjV.size() <= 2) continue;
 
-			Vec3 p = rec.mPos;
+			Vec3 p = rec.Pos();
 			updated = false;
 			//#region compute radius
 			double radius = 0;
@@ -1121,7 +1150,7 @@ void Skeletonizer::MergeJoint2()
 				LOG_TRACE << (rec.mVecIndex + "=>" + minAdj);
 				int r1 = rec.mVecIndex;
 				VertexRecord& rec2 = *mVecRecords[minAdj];
-				rec2.mPos = minCenter;
+				rec2.Pos() = minCenter;
 				rec2.mCollapseFrom.push_back(rec.mVecIndex);
 				for (int_vector::iterator collapseFrom_it = rec.mCollapseFrom.begin();
 					collapseFrom_it != rec.mCollapseFrom.end(); ++collapseFrom_it)
@@ -1188,7 +1217,7 @@ void Skeletonizer::EmbeddingImproving()
 	{
 		VertexRecord& rec = **it;
 		Vec3 totDis;
-		rec.mPos = Vec3(&mOriginalVertexPos[rec.mVecIndex * 3]);
+		rec.SetPos(Vec3(&mOriginalVertexPos[rec.mVecIndex * 3]));
 		if (rec.mAdjV.size() == 2)
 		{
 			// for each adjacent node
@@ -1246,7 +1275,7 @@ void Skeletonizer::EmbeddingImproving()
 				if (totLen > 0) totDis += center;
 			}
 			//rec.mPos += totDis / rec.mAdjV.size();
-			rec.mPos = totDis / rec.mAdjV.size();
+			rec.SetPos(totDis / rec.mAdjV.size());
 		}
 		else
 		{
@@ -1287,10 +1316,10 @@ void Skeletonizer::EmbeddingImproving()
 					}
 				}
 				//dis += (p - p2);
-				dis += (p1 - rec.mPos) * len;
+				dis += (p1 - rec.Pos()) * len;
 				totLen += len;
 			}
-			if (totLen > 0) rec.mPos += dis / totLen;
+			if (totLen > 0) rec.AddPos(dis / totLen);
 		}
 	}
 }
@@ -1301,7 +1330,9 @@ Vec3s Skeletonizer::GetSkeletonNodes() const
 	for (VertexRecord_rawptrs::const_iterator it = mSimplifiedVertexRec.begin();
 		it != mSimplifiedVertexRec.end(); ++it)
 	{
-		res.push_back((*it)->mPos);
+		const VertexRecord* rec = *it;
+		if (rec->mColorIndex>0)
+			res.push_back((*it)->Pos());
 	}
 	return res;
 }
@@ -1317,7 +1348,7 @@ Vec3Lines Skeletonizer::GetSkeletonLines() const
 			it != rec.mAdjV.end(); ++it) 
 		{
 			const VertexRecord& rec2 = *mVecRecords[*it];
-			res.push_back(Vec3Line(rec.mPos, rec2.mPos));
+			res.push_back(Vec3Line(rec.Pos(), rec2.Pos()));
 		}
 	}
 	return res;
@@ -1331,15 +1362,15 @@ void Skeletonizer::BuildSkeletonGraph()
 
 	// 		if (skeletonGraph == null) skeletonGraph = new AdjacencyGraph<int, Edge<int>>(false);
 	// 		skeletonGraph.Clear();
-	// 		foreach (VertexRecord rec in simplifiedVertexRec)
+	// 		foreach (VertexRecord& rec in simplifiedVertexRec)
 	// 		{
 	// 			skeletonGraph.push_backVertex(rec.mVecIndex);
 	// 		}
-	// 		foreach (VertexRecord rec in simplifiedVertexRec)
+	// 		foreach (VertexRecord& rec in simplifiedVertexRec)
 	// 		{
 	// 			foreach (int adj in rec.mAdjV)
 	// 			{
-	// 				VertexRecord rec2 = vRec[adj];
+	// 				VertexRecord& rec2 = vRec[adj];
 	// 				Edge<int> edge = new Edge<int>(rec.mVecIndex, rec2.vIndex);
 	// 				if (skeletonGraph.ContainsEdge(rec.mVecIndex, rec2.vIndex) == false && skeletonGraph.ContainsEdge(rec2.vIndex, rec.mVecIndex) == false)
 	// 					skeletonGraph.push_backEdge(edge);

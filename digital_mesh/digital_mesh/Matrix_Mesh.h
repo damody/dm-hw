@@ -20,6 +20,7 @@ public:
 	double m_bound[6];
 	// xmin xmax ymin ymax zmin zmax
 	double* GetBound();
+	void UpdateVertexs() {GetVertexs(&mVertexs);}
 	const double_vector& Vertexs()
 	{return mVertexs;}
 	void GetVertexs(double_vector* vertexs, int_vector* indexs = NULL) const;

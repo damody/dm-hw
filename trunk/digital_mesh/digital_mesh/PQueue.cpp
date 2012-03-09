@@ -1,20 +1,44 @@
 #include "PQueue.h"
-
-
-
+#include "log_define.h"
+#include "VertexRecord.h"
 
 void PQueue::Insert( PQueueCell* obj )
 {
-	int hole = mDatas.size();
-	mDatas.push_back(obj);
-	while (hole>0 && obj->CompareTo(mDatas[(hole-1)/2])<0)
+	if (mDatas.size() >= 1005 && mDatas.size() <= 1008)
 	{
-		mDatas[hole] = mDatas[(hole-1)/2];
-		mDatas[hole]->PQIndex = hole;
-		hole = (hole-1) / 2;
+		int hole = mDatas.size();
+		LOG_TRACE << "mDatas.size(): " << mDatas.size();
+		mDatas.push_back(obj);
+		LOG_TRACE << "obj->PQIndex: \t" << obj->PQIndex;
+		LOG_TRACE << "obj->mMinIndex:\t" << ((VertexRecord*)obj)->mMinIndex;
+		LOG_TRACE << "obj->mMinError:\t" << ((VertexRecord*)obj)->mMinError;
+		LOG_TRACE << "obj->mVecIndex:\t" << ((VertexRecord*)obj)->mVecIndex;
+		while (hole>0 && obj->CompareTo(mDatas[(hole-1)/2])<0)
+		{
+			LOG_TRACE << "hole " << hole << " (hole-1)/2 " << (hole-1)/2;
+			LOG_TRACE << "mDatas[(hole-1)/2]->mMinIndex:\t" << ((VertexRecord*)mDatas[(hole-1)/2])->mMinIndex;
+			LOG_TRACE << "mDatas[(hole-1)/2]->mMinError:\t" << ((VertexRecord*)mDatas[(hole-1)/2])->mMinError;
+			LOG_TRACE << "mDatas[(hole-1)/2]->mVecIndex:\t" << ((VertexRecord*)mDatas[(hole-1)/2])->mVecIndex;
+			mDatas[hole] = mDatas[(hole-1)/2];
+			mDatas[hole]->PQIndex = hole;
+			hole = (hole-1) / 2;
+		}
+		mDatas[hole] = obj;
+		obj->PQIndex = hole;
 	}
-	mDatas[hole] = obj;
-	obj->PQIndex = hole;
+	else
+	{
+		int hole = mDatas.size();
+		mDatas.push_back(obj);
+		while (hole>0 && obj->CompareTo(mDatas[(hole-1)/2])<0)
+		{
+			mDatas[hole] = mDatas[(hole-1)/2];
+			mDatas[hole]->PQIndex = hole;
+			hole = (hole-1) / 2;
+		}
+		mDatas[hole] = obj;
+		obj->PQIndex = hole;
+	}
 }
 
 void PQueue::Pop()

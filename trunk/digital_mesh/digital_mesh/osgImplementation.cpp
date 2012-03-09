@@ -720,8 +720,8 @@ void osgImplementation::ImplicitSmooth()
 	mMeshSkeletonizer = Skeletonizer_sptr(new Skeletonizer(*mMesh, mMeshOptions));
 	mMeshSkeletonizer->GeometryCollapse(30);
 	mMeshSkeletonizer->Simplification();
- 	mMeshSkeletonizer->EmbeddingImproving();
- 	//mMeshSkeletonizer->MergeJoint2();
+	mMeshSkeletonizer->EmbeddingImproving();
+ 	mMeshSkeletonizer->MergeJoint2();
  	mMeshSkeletonizer->AssignColorIndex();
 	Show(mStatus);
 }
@@ -732,7 +732,7 @@ void osgImplementation::ShowSmoothSkeleton()
 	for (Vec3s::iterator it = nodes.begin();it != nodes.end(); ++it)
 	{
 		osg::ref_ptr<osg::Sphere> sphere = 
-			new osg::Sphere(osg::Vec3(it->x, it->y, it->z), 0.02f);
+			new osg::Sphere(osg::Vec3(it->x, it->y, it->z), 0.01f);
 		osg::ref_ptr<osg::ShapeDrawable> sdraw = new osg::ShapeDrawable(sphere);
 		mSkeleton->addDrawable(sdraw);
 	}

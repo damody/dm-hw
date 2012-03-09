@@ -314,4 +314,7 @@ Public Class Form1
         osg.ImplicitSmooth()
     End Sub
 
+    Private Sub ShowSkeletonToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowSkeletonToolStripMenuItem.Click
+        osg.ShowSmoothSkeleton()
+    End Sub
 End Class

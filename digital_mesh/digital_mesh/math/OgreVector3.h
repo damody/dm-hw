@@ -350,7 +350,7 @@ namespace Ogre
         */
         inline double length () const
         {
-            return Math::Sqrt( x * x + y * y + z * z );
+            return sqrt( x * x + y * y + z * z );
         }
 
         /** Returns the square of the length(magnitude) of the vector.

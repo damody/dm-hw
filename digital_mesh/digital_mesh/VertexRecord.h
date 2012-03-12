@@ -14,28 +14,30 @@ public:
 		NONE, ATTRACT_POINT, SADDLE_POINT, REGULAR_POINT, END_POINT, ATTRACT_INVALID, REGULAR_INVALID
 	};
 
-	double	mRadius;
+	Matrix_Mesh*	mMesh;
+	
+	EnumJointType	mJointType;
+	int_vector	mFaceArray;
 	int_vector	mAdjV;
 	int_vector	mAdjF;
 	int_vector	mCollapseFrom;
 	int	mVecIndex;
 	int	mMinIndex;
 	int	mPQIndex;
+	int	mColorIndex;
 	Mat4	mMatrix;
 	double	mMinError;
-	int	mColorIndex;
-	bool	mCenter;
+	double	mRadius;
 	double	mError;
-	EnumJointType	mJointType;
-	int_vector	mFaceArray;
 	double	mFacesArea;            
 	double	mMCNFlowError;
-	double	mMCNflowErrorNormalize; 
+	double	mMCNflowErrorNormalize;
+	bool	mCenter;
 	bool	mHierarchyFlag;            
 	bool	mFilterd;
 	bool	mBoneFlag;
 	bool	mJointFlag;
-	Matrix_Mesh*	mMesh;
+	
 
 	VertexRecord( Matrix_Mesh& mesh, int i );
 	~VertexRecord(){}

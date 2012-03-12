@@ -623,6 +623,8 @@ void Skeletonizer::GeometryCollapse( int maxIter )
 void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
 {
 	Vec3& p1 = rec1.Pos();
+	rec1.mMinError = DBL_MAX;
+	rec1.mMinIndex = -1;
 	if (rec1.mAdjV.size() > 1 && rec1.mAdjF.size() > 0) // Do not allow collapse at the end of skeleton
 	{
 		double totLength = 0.0;
@@ -691,6 +693,7 @@ void Skeletonizer::UpdateVertexRecords( VertexRecord& rec1 )
 void Skeletonizer::AssignColorIndex()
 {
 	LOG_TRACE << "[AssignColorIndex]";
+	return ;
 	if (mSimplifiedVertexRec.empty()) return;
 	const int COLOR_NUM = 3;
 	bool used[COLOR_NUM]; // total 3 colors
@@ -726,7 +729,7 @@ void Skeletonizer::AssignColorIndex()
 				if (rec2->mColorIndex != -1)
 				{
 					used[mVecRecords[adj]->mColorIndex] = true;
-					//LOG_TRACE << "used[mVecRecords[adj]->mColorIndex] " << mVecRecords[adj]->mColorIndex << " " << adj;
+					LOG_TRACE << "used[mVecRecords[adj]->mColorIndex] " << mVecRecords[adj]->mColorIndex << " " << adj;
 				}
  				else
  					q.push(rec2);
@@ -815,7 +818,7 @@ void Skeletonizer::Simplification()
 	//for (int test=0;test<3000;test++)
 	{
 		VertexRecord& rec1 = *((VertexRecord*)queue.DeleteMin());
-		LOG_TRACE << "rec1.mVecIndex: " << rec1.mVecIndex << "rec1.mMinIndex: " << rec1.mMinIndex;
+		//LOG_TRACE << "rec1.mVecIndex: " << rec1.mVecIndex << "rec1.mMinIndex: " << rec1.mMinIndex;
 		VertexRecord& rec2 = *mVecRecords[rec1.mMinIndex];
 		rec2.mMatrix = (rec1.mMatrix + rec2.mMatrix);
 		if (rec1.mCenter)
@@ -1330,9 +1333,7 @@ Vec3s Skeletonizer::GetSkeletonNodes() const
 	for (VertexRecord_rawptrs::const_iterator it = mSimplifiedVertexRec.begin();
 		it != mSimplifiedVertexRec.end(); ++it)
 	{
-		const VertexRecord* rec = *it;
-		if (rec->mColorIndex>0)
-			res.push_back((*it)->Pos());
+		res.push_back((*it)->Pos());
 	}
 	return res;
 }
@@ -1343,12 +1344,11 @@ Vec3Lines Skeletonizer::GetSkeletonLines() const
 	for (VertexRecord_rawptrs::const_iterator it = mSimplifiedVertexRec.begin();
 		it != mSimplifiedVertexRec.end(); ++it)
 	{
-		const VertexRecord& rec = **it;
-		for (int_vector::const_iterator it = rec.mAdjV.begin();
-			it != rec.mAdjV.end(); ++it) 
+		for (int_vector::const_iterator it2 = (*it)->mAdjV.begin();
+			it2 != (*it)->mAdjV.end(); ++it2) 
 		{
-			const VertexRecord& rec2 = *mVecRecords[*it];
-			res.push_back(Vec3Line(rec.Pos(), rec2.Pos()));
+			const VertexRecord* rec2 = mVecRecords[*it2];
+			res.push_back(Vec3Line((*it)->Pos(), rec2->Pos()));
 		}
 	}
 	return res;

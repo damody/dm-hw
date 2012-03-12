@@ -720,15 +720,16 @@ void osgImplementation::ImplicitSmooth()
 	mMeshSkeletonizer = Skeletonizer_sptr(new Skeletonizer(*mMesh, mMeshOptions));
 	mMeshSkeletonizer->GeometryCollapse(30);
 	mMeshSkeletonizer->Simplification();
-	mMeshSkeletonizer->EmbeddingImproving();
- 	mMeshSkeletonizer->MergeJoint2();
- 	mMeshSkeletonizer->AssignColorIndex();
+	//mMeshSkeletonizer->EmbeddingImproving();
+ 	//mMeshSkeletonizer->MergeJoint2();
+ 	//mMeshSkeletonizer->AssignColorIndex();
 	Show(mStatus);
 }
 
 void osgImplementation::ShowSmoothSkeleton()
 {
 	Vec3s nodes = mMeshSkeletonizer->GetSkeletonNodes();
+	LOG_TRACE << "nodes.size: " << nodes.size();
 	for (Vec3s::iterator it = nodes.begin();it != nodes.end(); ++it)
 	{
 		osg::ref_ptr<osg::Sphere> sphere = 
@@ -736,12 +737,12 @@ void osgImplementation::ShowSmoothSkeleton()
 		osg::ref_ptr<osg::ShapeDrawable> sdraw = new osg::ShapeDrawable(sphere);
 		mSkeleton->addDrawable(sdraw);
 	}
-	Vec3Lines lines;// = mMeshSkeletonizer->GetSkeletonLines();
+	Vec3Lines lines = mMeshSkeletonizer->GetSkeletonLines();
 	LOG_TRACE << "lines.size: " << lines.size();
 	for (Vec3Lines::iterator it = lines.begin();it != lines.end(); ++it)
 	{
 		mSkeleton->addDrawable(
-			AddCylinderBetweenPoints(OgreVec3ToOsgVec3(it->begin), OgreVec3ToOsgVec3(it->end), 1.0f)
+			AddCylinderBetweenPoints(OgreVec3ToOsgVec3(it->begin), OgreVec3ToOsgVec3(it->end), 0.001f)
 			);
 	}
 	
@@ -928,8 +929,11 @@ ShapeDrawable_sptr osgImplementation::AddCylinderBetweenPoints( osg::Vec3 StartP
 	//   Create a cylinder between the two points with the given radius 
 	cylinder = new osg::Cylinder(center,radius,height); 
 	cylinder->setRotation(osg::Quat(angle, osg::Vec3(t.x(), t.y(), t.z()))); 
+	LOG_TRACE << "StartPoint " << StartPoint.x() << " " << StartPoint.y() << " " << StartPoint.z();
+	LOG_TRACE << "EndPoint " << EndPoint.x() << " " << EndPoint.y() << " " << EndPoint.z();
+	LOG_TRACE << "Rotation " << t.x() << " " << t.y() << " " << t.z();
 	//   A geode to hold our cylinder 
-	cylinderDrawable = new osg::ShapeDrawable(cylinder );
+	cylinderDrawable = new osg::ShapeDrawable(cylinder);
 	// use the shared color array.
 	cylinderDrawable->setColor(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
 	return cylinderDrawable;

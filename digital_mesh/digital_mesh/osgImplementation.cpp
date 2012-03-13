@@ -393,13 +393,15 @@ void osgImplementation::InitSceneGraph( void )
 	mShape = new osg::Geode;
 	mSkeleton = new osg::Geode;
 	
+	mSkeleton->getOrCreateStateSet()->setRenderBinDetails( 1, "RenderBin");
+
 	mRoot->addChild(mSkeleton.get());
 
 	mShape->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	mShape->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
 	mShape->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
 	mShape->getOrCreateStateSet()->setRenderBinDetails( 0, "RenderBin");
-
+	
 	mRoot->addChild(mShape.get());
  
  	mModel->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
@@ -424,6 +426,7 @@ void osgImplementation::InitSceneGraph( void )
 	mLightSource->setLight( mModelLight.get() );
 	//mRoot->addChild( mLightSource );
 	//mRoot->addChild(addDraggerToScene(mModel,"RotateSphereDragger", false));
+	mModel->getOrCreateStateSet()->setRenderBinDetails( 2, "RenderBin");
 	mRoot->addChild(mModel.get());
 }
 
@@ -715,7 +718,7 @@ void osgImplementation::ResetCamera()
 
 void osgImplementation::ImplicitSmooth()
 {
-	if (!mMesh) return ;
+	if (!mMesh) return;
 	mMeshOptions.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
 	mMeshSkeletonizer = Skeletonizer_sptr(new Skeletonizer(*mMesh, mMeshOptions));
 	mMeshSkeletonizer->GeometryCollapse(30);
@@ -728,6 +731,7 @@ void osgImplementation::ImplicitSmooth()
 
 void osgImplementation::ShowSmoothSkeleton()
 {
+	mRoot->removeChild(mSkeleton.get());
 	Vec3s nodes = mMeshSkeletonizer->GetSkeletonNodes();
 	LOG_TRACE << "nodes.size: " << nodes.size();
 	for (Vec3s::iterator it = nodes.begin();it != nodes.end(); ++it)
@@ -742,10 +746,10 @@ void osgImplementation::ShowSmoothSkeleton()
 	for (Vec3Lines::iterator it = lines.begin();it != lines.end(); ++it)
 	{
 		mSkeleton->addDrawable(
-			AddCylinderBetweenPoints(OgreVec3ToOsgVec3(it->begin), OgreVec3ToOsgVec3(it->end), 0.001f)
-			);
+			AddCylinderBetweenPoints(
+				OgreVec3ToOsgVec3(it->begin), OgreVec3ToOsgVec3(it->end), 0.005f));
 	}
-	
+	mRoot->addChild(mSkeleton.get());
 }
 
 void osgImplementation::InternalSimplification()
@@ -915,12 +919,12 @@ ShapeDrawable_sptr osgImplementation::AddCylinderBetweenPoints( osg::Vec3 StartP
 	osg::Vec3   center; 
 	float      height; 
 	osg::ref_ptr<osg::Cylinder> cylinder; 
-	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable; 
+	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable;
 
-	height = (StartPoint- EndPoint).length(); 
-	center = osg::Vec3( (StartPoint.x() + EndPoint.x()) / 2,  (StartPoint.y() + EndPoint.y()) / 2,  (StartPoint.z() + EndPoint.z()) / 2); 
+	height = (StartPoint- EndPoint).length();
+	center = osg::Vec3( (StartPoint.x() + EndPoint.x()) * 0.5,  (StartPoint.y() + EndPoint.y()) * 0.5,  (StartPoint.z() + EndPoint.z()) * 0.5); 
 
-	osg::Vec3   z = osg::Vec3(0,0,1); 
+	osg::Vec3 z = osg::Vec3(0,0,1); 
 	osg::Vec3 p = (StartPoint - EndPoint); 
 	// Get CROSS product (the axis of rotation) 
 	osg::Vec3   t = z ^  p; 
@@ -935,6 +939,6 @@ ShapeDrawable_sptr osgImplementation::AddCylinderBetweenPoints( osg::Vec3 StartP
 	//   A geode to hold our cylinder 
 	cylinderDrawable = new osg::ShapeDrawable(cylinder);
 	// use the shared color array.
-	cylinderDrawable->setColor(osg::Vec4(1.0f,1.0f,0.0f,mFaceTransparency));
+	cylinderDrawable->setColor(osg::Vec4(0.2f,0.9f,0.2f, 1.0f));
 	return cylinderDrawable;
 }

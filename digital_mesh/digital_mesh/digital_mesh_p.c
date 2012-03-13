@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Tue Feb 07 07:46:26 2012
+/* at Mon Mar 05 21:48:19 2012
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -50,7 +50,7 @@
 #include "digital_mesh_i.h"
 
 #define TYPE_FORMAT_STRING_SIZE   43                                
-#define PROC_FORMAT_STRING_SIZE   1429                              
+#define PROC_FORMAT_STRING_SIZE   1489                              
 #define EXPR_FORMAT_STRING_SIZE   1                                 
 #define TRANSMIT_AS_TABLE_SIZE    0            
 #define WIRE_MARSHAL_TABLE_SIZE   1            
@@ -1366,6 +1366,54 @@ static const digital_mesh_MIDL_PROC_FORMAT_STRING digital_mesh__MIDL_ProcFormatS
 /* 1426 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
+	/* Procedure ImplicitSmooth */
+
+/* 1428 */	0x33,		/* FC_AUTO_HANDLE */
+			0x6c,		/* Old Flags:  object, Oi2 */
+/* 1430 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 1434 */	NdrFcShort( 0x2c ),	/* 44 */
+/* 1436 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
+/* 1438 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1440 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 1442 */	0x44,		/* Oi2 Flags:  has return, has ext, */
+			0x1,		/* 1 */
+/* 1444 */	0x8,		/* 8 */
+			0x1,		/* Ext Flags:  new corr desc, */
+/* 1446 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1448 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1450 */	NdrFcShort( 0x0 ),	/* 0 */
+
+	/* Return value */
+
+/* 1452 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 1454 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */
+/* 1456 */	0x8,		/* FC_LONG */
+			0x0,		/* 0 */
+
+	/* Procedure ShowSmoothSkeleton */
+
+/* 1458 */	0x33,		/* FC_AUTO_HANDLE */
+			0x6c,		/* Old Flags:  object, Oi2 */
+/* 1460 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 1464 */	NdrFcShort( 0x2d ),	/* 45 */
+/* 1466 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
+/* 1468 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1470 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 1472 */	0x44,		/* Oi2 Flags:  has return, has ext, */
+			0x1,		/* 1 */
+/* 1474 */	0x8,		/* 8 */
+			0x1,		/* Ext Flags:  new corr desc, */
+/* 1476 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1478 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 1480 */	NdrFcShort( 0x0 ),	/* 0 */
+
+	/* Return value */
+
+/* 1482 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 1484 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */
+/* 1486 */	0x8,		/* FC_LONG */
+			0x0,		/* 0 */
+
 			0x0
         }
     };
@@ -1480,7 +1528,9 @@ static const unsigned short IosgControl_FormatStringOffsetTable[] =
     1284,
     1320,
     1356,
-    1398
+    1398,
+    1428,
+    1458
     };
 
 static const MIDL_STUBLESS_PROXY_INFO IosgControl_ProxyInfo =
@@ -1504,7 +1554,7 @@ static const MIDL_SERVER_INFO IosgControl_ServerInfo =
     0,
     0,
     0};
-CINTERFACE_PROXY_VTABLE(44) _IosgControlProxyVtbl = 
+CINTERFACE_PROXY_VTABLE(46) _IosgControlProxyVtbl = 
 {
     &IosgControl_ProxyInfo,
     &IID_IosgControl,
@@ -1551,7 +1601,9 @@ CINTERFACE_PROXY_VTABLE(44) _IosgControlProxyVtbl =
     (void *) (INT_PTR) -1 /* IosgControl::SetFaceTransparency */ ,
     (void *) (INT_PTR) -1 /* IosgControl::AddLastTraceNodeByIndex */ ,
     (void *) (INT_PTR) -1 /* IosgControl::SelectSkeletonNode */ ,
-    (void *) (INT_PTR) -1 /* IosgControl::ResetCamera */
+    (void *) (INT_PTR) -1 /* IosgControl::ResetCamera */ ,
+    (void *) (INT_PTR) -1 /* IosgControl::ImplicitSmooth */ ,
+    (void *) (INT_PTR) -1 /* IosgControl::ShowSmoothSkeleton */
 };
 
 
@@ -1597,6 +1649,8 @@ static const PRPC_STUB_FUNCTION IosgControl_table[] =
     NdrStubCall2,
     NdrStubCall2,
     NdrStubCall2,
+    NdrStubCall2,
+    NdrStubCall2,
     NdrStubCall2
 };
 
@@ -1604,7 +1658,7 @@ CInterfaceStubVtbl _IosgControlStubVtbl =
 {
     &IID_IosgControl,
     &IosgControl_ServerInfo,
-    44,
+    46,
     &IosgControl_table[-3],
     CStdStubBuffer_DELEGATING_METHODS
 };

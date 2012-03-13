@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Tue Feb 07 07:46:26 2012
+/* at Mon Mar 05 21:48:19 2012
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -213,6 +213,10 @@ EXTERN_C const IID IID_IosgControl;
             /* [in] */ LONG y) = 0;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ResetCamera( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ImplicitSmooth( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ShowSmoothSkeleton( void) = 0;
         
     };
     
@@ -427,6 +431,12 @@ EXTERN_C const IID IID_IosgControl;
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ResetCamera )( 
             IosgControl * This);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ImplicitSmooth )( 
+            IosgControl * This);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ShowSmoothSkeleton )( 
+            IosgControl * This);
+        
         END_INTERFACE
     } IosgControlVtbl;
 
@@ -573,6 +583,12 @@ EXTERN_C const IID IID_IosgControl;
 
 #define IosgControl_ResetCamera(This)	\
     ( (This)->lpVtbl -> ResetCamera(This) ) 
+
+#define IosgControl_ImplicitSmooth(This)	\
+    ( (This)->lpVtbl -> ImplicitSmooth(This) ) 
+
+#define IosgControl_ShowSmoothSkeleton(This)	\
+    ( (This)->lpVtbl -> ShowSmoothSkeleton(This) ) 
 
 #endif /* COBJMACROS */
 

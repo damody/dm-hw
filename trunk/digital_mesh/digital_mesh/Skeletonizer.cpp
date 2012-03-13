@@ -793,15 +793,7 @@ void Skeletonizer::Simplification()
 	PQueue queue;
 	for (int i = 0; i < n; i++)
 	{
-		//LOG_TRACE << "mVecRecords[i]: " << mVecRecords[i]->mVecIndex << " mVecRecords[i]: " << mVecRecords[i]->mMinIndex << " size " << queue.mDatas.size();
 		queue.Insert(mVecRecords[i]);
-		VertexRecord* rec1 = ((VertexRecord*)queue.DeleteMin());
-		//LOG_TRACE << "rec1.mVecIndex: " << rec1->mVecIndex << " rec1.mMinIndex: " << rec1->mMinIndex << " size " << queue.mDatas.size();
-		queue.Insert(rec1);
-// 		for (int j = 0;j<queue.mDatas.size();j++)
-// 		{
-// 			LOG_TRACE << ((VertexRecord*)queue.mDatas[j])->mMinIndex;
-// 		}
 	}
 	int facesLeft = mMesh.n_faces();
 	int vertexLeft = mMesh.n_vertices();
@@ -815,10 +807,8 @@ void Skeletonizer::Simplification()
 	LOG_TRACE << "edgeLeft: " << edgeLeft;
 	edgeLeft /= 2;
 	while (facesLeft > 0 && vertexLeft > mOptions.targetVertexCount && !queue.Empty())
-	//for (int test=0;test<3000;test++)
 	{
 		VertexRecord& rec1 = *((VertexRecord*)queue.DeleteMin());
-		//LOG_TRACE << "rec1.mVecIndex: " << rec1.mVecIndex << "rec1.mMinIndex: " << rec1.mMinIndex;
 		VertexRecord& rec2 = *mVecRecords[rec1.mMinIndex];
 		rec2.mMatrix = (rec1.mMatrix + rec2.mMatrix);
 		if (rec1.mCenter)

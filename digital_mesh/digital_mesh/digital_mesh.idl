@@ -55,6 +55,7 @@ interface IosgControl : IDispatch{
 	[id(37), helpstring("方法 ResetCamera")] HRESULT ResetCamera(void);
 	[id(38), helpstring("方法 ImplicitSmooth")] HRESULT ImplicitSmooth(void);
 	[id(39), helpstring("方法 ShowSmoothSkeleton")] HRESULT ShowSmoothSkeleton(void);
+	[id(40), helpstring("方法 ExportSkeleton")] HRESULT ExportSkeleton([in] BSTR path);
 };
 [
 	uuid(A236B4E3-2D2B-4504-A7D4-A9210684BEFE),

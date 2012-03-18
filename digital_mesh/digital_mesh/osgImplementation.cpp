@@ -721,10 +721,14 @@ void osgImplementation::ImplicitSmooth()
 	if (!mMesh) return;
 	mMeshOptions.laplacianConstraintWeight = 1.0 / (10 * sqrt(mMesh->AverageFaceArea()));
 	mMeshSkeletonizer = Skeletonizer_sptr(new Skeletonizer(*mMesh, mMeshOptions));
+	boost::timer timer;
+	timer.restart();
 	mMeshSkeletonizer->GeometryCollapse(30);
+	timer.restart();
 	mMeshSkeletonizer->Simplification();
-	//mMeshSkeletonizer->EmbeddingImproving();
- 	//mMeshSkeletonizer->MergeJoint2();
+	timer.restart();
+	mMeshSkeletonizer->EmbeddingImproving();
+ 	mMeshSkeletonizer->MergeJoint2();
  	//mMeshSkeletonizer->AssignColorIndex();
 	Show(mStatus);
 }
@@ -941,4 +945,9 @@ ShapeDrawable_sptr osgImplementation::AddCylinderBetweenPoints( osg::Vec3 StartP
 	// use the shared color array.
 	cylinderDrawable->setColor(osg::Vec4(0.2f,0.9f,0.2f, 1.0f));
 	return cylinderDrawable;
+}
+
+Tri_Mesh* osgImplementation::ExportSkeleton()
+{
+	return mMeshSkeletonizer->GetSkeletonMesh();
 }

@@ -126,6 +126,7 @@ public:
 	bool GetLastTraceNodeByIndex(int index, osg::Vec3f& res);
 	void SelectSkeletonNode(const osg::Vec3f& p, const osg::Vec3f& q);
 	void ShowSmoothSkeleton();
+	Tri_Mesh* ExportSkeleton();
 
 	void Show(int status);
 	int  GetShowStatus() {return mStatus;}

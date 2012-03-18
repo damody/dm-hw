@@ -99,6 +99,7 @@ public:
 	void	BuildSkeletonGraph();
 	Vec3s	GetSkeletonNodes() const;
 	Vec3Lines GetSkeletonLines() const;
+	Tri_Mesh* GetSkeletonMesh();
 private:
 	void Initialize();
 	MMatrix BuildMatrixA();

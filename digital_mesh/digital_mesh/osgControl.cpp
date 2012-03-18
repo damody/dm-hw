@@ -322,3 +322,12 @@ STDMETHODIMP CosgControl::ShowSmoothSkeleton(void)
 	s_osg->ShowSmoothSkeleton();
 	return S_OK;
 }
+
+STDMETHODIMP CosgControl::ExportSkeleton(BSTR filepath)
+{
+	std::string path = ConvStr::GetStr(filepath);
+	Tri_Mesh* mesh = s_osg->ExportSkeleton();
+	mesh->SaveFile(path);
+	delete mesh;
+	return S_OK;
+}

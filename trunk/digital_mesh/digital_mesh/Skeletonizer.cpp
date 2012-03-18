@@ -609,13 +609,15 @@ SparseMatrix Skeletonizer::Multiply1T( SparseMatrix& A1, SparseMatrix& A2 )
 void Skeletonizer::GeometryCollapse( int maxIter )
 {
 	LOG_TRACE << "[GeometryCollapse]";
-	//if (m_collapsedVertexPos.empty()) return ;
 	iter = 0;
 	double volume;
+	boost::timer timer;
 	do
 	{
+		timer.restart();
 		ImplicitSmooth();
 		volume = mMesh.GetVolume();
+		LOG_DEBUG << "mMesh ImplicitSmooth elapsed time: " << timer.elapsed();
 	}
 	while (volume / mOriginalVolume > mOptions.volumneRatioThreashold && iter < maxIter);
 }
@@ -1366,6 +1368,45 @@ void Skeletonizer::BuildSkeletonGraph()
 	// 					skeletonGraph.push_backEdge(edge);
 	// 			}
 	// 		}
+}
+
+Tri_Mesh* Skeletonizer::GetSkeletonMesh()
+{
+	Tri_Mesh* mesh = new Tri_Mesh;
+	LOG_TRACE << "mSimplifiedVertexRec.size: " << mSimplifiedVertexRec.size();
+	for (VertexRecord_rawptrs::const_iterator it = mSimplifiedVertexRec.begin();
+		it != mSimplifiedVertexRec.end(); ++it)
+	{
+		const VertexRecord* rec1 = *it;
+		BasicMesh::Point p;
+		p[0] = rec1->Pos()[0];
+		p[1] = rec1->Pos()[1];
+		p[2] = rec1->Pos()[2];
+		mesh->new_vertex(p);
+	}
+	
+	VertexRecord_rawptrs::const_iterator vrit = mSimplifiedVertexRec.begin();
+	for (BasicMesh::VertexIter vit = mesh->vertices_begin();vit != mesh->vertices_end();++vit, ++vrit)
+	{
+		for (int_vector::const_iterator ringit = (*vrit)->mAdjV.begin();
+			ringit != (*vrit)->mAdjV.end(); ++ringit) 
+		{
+			const VertexRecord* rec2 = mVecRecords[*ringit];
+			BasicMesh::Point p;
+			p[0] = rec2->Pos()[0];
+			p[1] = rec2->Pos()[1];
+			p[2] = rec2->Pos()[2];
+			for (BasicMesh::VertexIter vit2 = mesh->vertices_begin();vit2 != mesh->vertices_end();++vit2)
+			{
+				BasicMesh::Point test = mesh->point(vit2);
+				if (test == p)
+				{
+					mesh->new_edge(vit, vit2);
+				}
+			}
+		}
+	}
+	return mesh;
 }
 
 

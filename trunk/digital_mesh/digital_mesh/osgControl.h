@@ -90,6 +90,7 @@ public:
 	STDMETHOD(ResetCamera)(void);
 	STDMETHOD(ImplicitSmooth)(void);
 	STDMETHOD(ShowSmoothSkeleton)(void);
+	STDMETHOD(ExportSkeleton)(BSTR path);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(osgControl), CosgControl)

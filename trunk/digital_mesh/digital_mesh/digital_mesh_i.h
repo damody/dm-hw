@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Mon Mar 05 21:48:19 2012
+/* at Tue Mar 20 09:51:44 2012
  */
 /* Compiler settings for .\digital_mesh.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -217,6 +217,9 @@ EXTERN_C const IID IID_IosgControl;
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ImplicitSmooth( void) = 0;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ShowSmoothSkeleton( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ExportSkeleton( 
+            /* [in] */ BSTR path) = 0;
         
     };
     
@@ -437,6 +440,10 @@ EXTERN_C const IID IID_IosgControl;
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ShowSmoothSkeleton )( 
             IosgControl * This);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ExportSkeleton )( 
+            IosgControl * This,
+            /* [in] */ BSTR path);
+        
         END_INTERFACE
     } IosgControlVtbl;
 
@@ -589,6 +596,9 @@ EXTERN_C const IID IID_IosgControl;
 
 #define IosgControl_ShowSmoothSkeleton(This)	\
     ( (This)->lpVtbl -> ShowSmoothSkeleton(This) ) 
+
+#define IosgControl_ExportSkeleton(This,path)	\
+    ( (This)->lpVtbl -> ExportSkeleton(This,path) ) 
 
 #endif /* COBJMACROS */
 

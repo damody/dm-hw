@@ -317,4 +317,14 @@ Public Class Form1
     Private Sub ShowSkeletonToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowSkeletonToolStripMenuItem.Click
         osg.ShowSmoothSkeleton()
     End Sub
+
+    Private Sub SaveSkeletonToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveSkeletonToolStripMenuItem.Click
+        SaveSkeletonFileDialog.ShowDialog()
+    End Sub
+
+    Private Sub SaveSkeletonFileDialog_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles SaveSkeletonFileDialog.FileOk
+        If SaveMeshFileDialog.ValidateNames Then
+            osg.ExportSkeleton(SaveMeshFileDialog.FileName)
+        End If
+    End Sub
 End Class

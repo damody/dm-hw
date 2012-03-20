@@ -31,9 +31,12 @@
 #include <osgManipulator/RotateCylinderDragger>
 #include <osgManipulator/RotateSphereDragger>
 
+#include <boost/timer.hpp>
+
 #include "osgImplementation.h"
 #include "Skeletonizer.h"
 #include "AdditionalFunction.h"
+
 
 
 // The DraggerContainer node is used to fix the dragger's size on the screen
@@ -723,12 +726,12 @@ void osgImplementation::ImplicitSmooth()
 	mMeshSkeletonizer = Skeletonizer_sptr(new Skeletonizer(*mMesh, mMeshOptions));
 	boost::timer timer;
 	timer.restart();
-	mMeshSkeletonizer->GeometryCollapse(30);
+	mMeshSkeletonizer->GeometryCollapse(3);
 	timer.restart();
 	mMeshSkeletonizer->Simplification();
 	timer.restart();
 	mMeshSkeletonizer->EmbeddingImproving();
- 	mMeshSkeletonizer->MergeJoint2();
+ 	//mMeshSkeletonizer->MergeJoint2();
  	//mMeshSkeletonizer->AssignColorIndex();
 	Show(mStatus);
 }
@@ -737,6 +740,7 @@ void osgImplementation::ShowSmoothSkeleton()
 {
 	mRoot->removeChild(mSkeleton.get());
 	Vec3s nodes = mMeshSkeletonizer->GetSkeletonNodes();
+	mSkeleton->removeDrawables(9999);
 	LOG_TRACE << "nodes.size: " << nodes.size();
 	for (Vec3s::iterator it = nodes.begin();it != nodes.end(); ++it)
 	{

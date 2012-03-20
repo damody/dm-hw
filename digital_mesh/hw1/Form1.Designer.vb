@@ -44,6 +44,7 @@ Partial Class Form1
         Me.ShowVertexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowEdgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ShowFaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ShowSkeletonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CameraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.VertexesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EdgesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -65,7 +66,8 @@ Partial Class Form1
         Me.Label_Face_Transparency = New System.Windows.Forms.Label
         Me.ContextMenuStrip_RClick = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShowSkeletonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SaveSkeletonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SaveSkeletonFileDialog = New System.Windows.Forms.SaveFileDialog
         Me.MenuStrip1.SuspendLayout()
         CType(Me.PictureBox_DrawOSG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EdgeTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,7 +86,7 @@ Partial Class Form1
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.SaveToolStripMenuItem, Me.ImplicitSmoothToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.SaveToolStripMenuItem, Me.ImplicitSmoothToolStripMenuItem, Me.SaveSkeletonToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -208,6 +210,12 @@ Partial Class Form1
         Me.ShowFaceToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.ShowFaceToolStripMenuItem.Text = "Face(&F)"
         '
+        'ShowSkeletonToolStripMenuItem
+        '
+        Me.ShowSkeletonToolStripMenuItem.Name = "ShowSkeletonToolStripMenuItem"
+        Me.ShowSkeletonToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ShowSkeletonToolStripMenuItem.Text = "ShowSkeleton"
+        '
         'CameraToolStripMenuItem
         '
         Me.CameraToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VertexesToolStripMenuItem, Me.EdgesToolStripMenuItem, Me.FacesToolStripMenuItem})
@@ -218,19 +226,19 @@ Partial Class Form1
         'VertexesToolStripMenuItem
         '
         Me.VertexesToolStripMenuItem.Name = "VertexesToolStripMenuItem"
-        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.VertexesToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
         Me.VertexesToolStripMenuItem.Text = "Vertexes"
         '
         'EdgesToolStripMenuItem
         '
         Me.EdgesToolStripMenuItem.Name = "EdgesToolStripMenuItem"
-        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EdgesToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
         Me.EdgesToolStripMenuItem.Text = "Edges"
         '
         'FacesToolStripMenuItem
         '
         Me.FacesToolStripMenuItem.Name = "FacesToolStripMenuItem"
-        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FacesToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
         Me.FacesToolStripMenuItem.Text = "Faces"
         '
         'ViewerToolStripMenuItem
@@ -364,11 +372,15 @@ Partial Class Form1
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(97, 22)
         Me.ToolStripMenuItem2.Text = "123"
         '
-        'ShowSkeletonToolStripMenuItem
+        'SaveSkeletonToolStripMenuItem
         '
-        Me.ShowSkeletonToolStripMenuItem.Name = "ShowSkeletonToolStripMenuItem"
-        Me.ShowSkeletonToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
-        Me.ShowSkeletonToolStripMenuItem.Text = "ShowSkeleton"
+        Me.SaveSkeletonToolStripMenuItem.Name = "SaveSkeletonToolStripMenuItem"
+        Me.SaveSkeletonToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.SaveSkeletonToolStripMenuItem.Text = "SaveSkeleton"
+        '
+        'SaveSkeletonFileDialog
+        '
+        Me.SaveSkeletonFileDialog.Filter = "obj 模型|*.obj"
         '
         'Form1
         '
@@ -443,5 +455,7 @@ Partial Class Form1
     Friend WithEvents ResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ImplicitSmoothToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowSkeletonToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SaveSkeletonToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SaveSkeletonFileDialog As System.Windows.Forms.SaveFileDialog
 
 End Class
